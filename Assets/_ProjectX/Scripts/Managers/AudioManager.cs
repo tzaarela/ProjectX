@@ -6,10 +6,20 @@ namespace Managers
 {
 	public class AudioManager : NetworkBehaviour
 	{
+		private static bool hasBeenProvided;
+		
 		private void Awake()
 		{
-			ServiceLocator.ProvideAudioManager(this);
-			DontDestroyOnLoad(gameObject);
+			if (!hasBeenProvided)
+			{
+				ServiceLocator.ProvideAudioManager(this);
+				hasBeenProvided = true;
+				DontDestroyOnLoad(gameObject);
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
 		}
 
 		public void PlayClip(AudioType type, AudioSource source)

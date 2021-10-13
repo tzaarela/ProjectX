@@ -33,18 +33,12 @@ namespace Managers
 
 		public static void ProvideRoundManager(RoundManager round)
 		{
-			if (roundManager == null)
-			{
-				roundManager = round;
-			}
+			roundManager = round;
 		}
 		
 		public static void ProvideAudioManager(AudioManager audio)
 		{
-			if (audioManager == null)
-			{
-				audioManager = audio;
-			}
+			audioManager = audio;
 		}
 	}
 }

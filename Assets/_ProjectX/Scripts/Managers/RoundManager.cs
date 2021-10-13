@@ -4,10 +4,20 @@ namespace Managers
 {
 	public class RoundManager : NetworkBehaviour
 	{
+		private static bool hasBeenProvided;
+		
 		private void Awake()
 		{
-			ServiceLocator.ProvideRoundManager(this);
-			DontDestroyOnLoad(gameObject);
+			if (!hasBeenProvided)
+			{
+				ServiceLocator.ProvideRoundManager(this);
+				hasBeenProvided = true;
+				DontDestroyOnLoad(gameObject);
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
 		}
 	}
 }
