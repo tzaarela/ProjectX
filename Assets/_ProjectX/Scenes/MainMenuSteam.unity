@@ -178,6 +178,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3561817599053994394, guid: 37b9af7733b23f04c9adcaed6f1b5a24, type: 3}
+      propertyPath: offlineScene
+      value: Assets/_ProjectX/Scenes/MainMenuSteam.unity
+      objectReference: {fileID: 0}
     - target: {fileID: 4185182600987269392, guid: 37b9af7733b23f04c9adcaed6f1b5a24, type: 3}
       propertyPath: m_Name
       value: NetworkLobbyManagerSteamExt
