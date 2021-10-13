@@ -3,6 +3,8 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data.Enums;
+using Managers;
 using UnityEngine;
 
 namespace Player
@@ -38,24 +40,21 @@ namespace Player
 			rb.centerOfMass = centerOfMassOffset;
 		}
 
-		
-
-		private void FixedUpdate()
-		{
-			if (!isLocalPlayer)
-				return;
-
-			Move();
-		}
-
 		private void Update()
 		{
 			if (!isLocalPlayer)
 				return;
-
-
+			
 			if (inputs.isShooting)
 				Shoot();
+		}
+		
+		private void FixedUpdate()
+		{
+			if (!isLocalPlayer)
+				return;
+		
+			Move();
 		}
 
 		private void OnDrawGizmos()
@@ -76,7 +75,10 @@ namespace Player
 		{
 			GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 			NetworkServer.Spawn(bullet);
-			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
+			
+			// Switch to ObjectPool:
+			// GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
+			// bullet.GetComponent<Bullet>().Shoot(shootingDirection);
 		}
 
 		[Client]
@@ -95,7 +97,6 @@ namespace Player
 
 			foreach (AxleInfo axleInfo in axleInfos)
 			{
-
 				if (axleInfo.steering)
 				{
 
