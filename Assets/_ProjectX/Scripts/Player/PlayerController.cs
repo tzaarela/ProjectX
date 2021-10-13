@@ -22,7 +22,7 @@ namespace Player
 		private Rigidbody rb;
 		private float travelL = 0;
 		private float travelR = 0;
-		private float antiRoll = 5000.0f;
+		private float antiRoll = 8000;
 		public Vector3 centerOfMassOffset;
 
 		private void Start()
