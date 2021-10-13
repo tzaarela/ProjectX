@@ -10,6 +10,7 @@ namespace Managers
 		{
 			if (!hasBeenProvided)
 			{
+				print("RoundManager provided to ServiceLocator");
 				ServiceLocator.ProvideRoundManager(this);
 				hasBeenProvided = true;
 				DontDestroyOnLoad(gameObject);
