@@ -6,6 +6,7 @@ namespace Managers
 	{
 		private static RoundManager roundManager;
 		private static AudioManager audioManager;
+		private static HudManager hudManager;
 		private static ObjectPoolsManager objectPoolsManager;
 		
 		public static RoundManager RoundManager
@@ -32,15 +33,27 @@ namespace Managers
 			}
 		}
 		
-		public static AudioManager ObjectPools
+		public static HudManager HudManager
 		{
 			get
 			{
-				if( audioManager == null )
+				if( hudManager == null )
+				{
+					Debug.LogError("HudManager is null!");
+				}
+				return hudManager;
+			}
+		}
+		
+		public static ObjectPoolsManager ObjectPools
+		{
+			get
+			{
+				if( objectPoolsManager == null )
 				{
 					Debug.LogError("ObjectPoolsManager is null!");
 				}
-				return audioManager;
+				return objectPoolsManager;
 			}
 		}
 
@@ -52,6 +65,11 @@ namespace Managers
 		public static void ProvideAudioManager(AudioManager audio)
 		{
 			audioManager = audio;
+		}
+		
+		public static void ProvideHudManager(HudManager hud)
+		{
+			hudManager = hud;
 		}
 		
 		public static void ProvideObjectPoolsManager(ObjectPoolsManager objectPool)
