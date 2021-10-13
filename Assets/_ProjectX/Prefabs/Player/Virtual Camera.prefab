@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8585873794875931029}
   - component: {fileID: 5870251859927098626}
+  - component: {fileID: 4793371393620218358}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -161,3 +162,15 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 8996687323194155544}
+--- !u!114 &4793371393620218358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674065279126991283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82361e1f28eeee4b8cd9cd233407e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
