@@ -16,7 +16,7 @@ filters = {
 	settings = true
 }
 scopes = {
-	"last_search.AB59B443" = "playercon"
+	"last_search.AB59B443" = "main"
 }
 providers = {
 	asset = {

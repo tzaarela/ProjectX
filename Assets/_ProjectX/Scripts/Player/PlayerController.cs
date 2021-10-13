@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,14 @@ namespace Player
 {
 	public class PlayerController : NetworkBehaviour
 	{
+		[Header("Setup")]
+		[SerializeField] private GameObject bulletPrefab;
+
 		[Header("Settings")]
 		public float speed;
 
 		private InputManager inputs;
+		private Cinemachine.CinemachineVirtualCamera virtualCamera;
 
 		private void Start()
 		{
@@ -18,11 +23,8 @@ namespace Player
 				return;
 
 			inputs = GetComponent<InputManager>();
-		}
-
-		private void Move_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-		{
-			throw new System.NotImplementedException();
+			virtualCamera = GameObject.Find("VirtualCamera").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+			virtualCamera.Follow = transform;
 		}
 
 		private void Update()
@@ -30,11 +32,29 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-				Move();
+			Steer();
+
+			if(inputs.isShooting)
+				Shoot();
 		}
 
 		[Client]
-		private void Move()
+		private void Shoot()
+		{
+			Vector3 shootingDirection = transform.forward;
+			CmdShoot(shootingDirection);
+		}
+
+		[Command]
+		private void CmdShoot(Vector3 shootingDirection)
+		{
+			GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+			NetworkServer.Spawn(bullet);
+			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
+		}
+
+		[Client]
+		private void Steer()
 		{
 			Vector3 direction = new Vector3(inputs.movement.x, 0, inputs.movement.y);
 			CmdMove(direction);

@@ -98,7 +98,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  sendInterval: 0.05
+  sendInterval: 0.02
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  bulletPrefab: {fileID: 1088292643631628778, guid: 32a755de0bc351844804cc3860fe31ee, type: 3}
   speed: 10
 --- !u!114 &145973192295524686
 MonoBehaviour:
@@ -140,6 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {x: 0, y: 0}
+  isBoosting: 0
+  isBraking: 0
+  isShooting: 0
 --- !u!1 &5091036550542301550
 GameObject:
   m_ObjectHideFlags: 0
