@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using _Content.Scripts.Data.Containers.GlobalSignal;
+using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using UnityEngine;
 
-namespace Singletons
+namespace Managers
 {
     [DefaultExecutionOrder(-9)]
     public class GlobalMediator : MonoBehaviour, IReceiveGlobalSignal, ISendGlobalSignal

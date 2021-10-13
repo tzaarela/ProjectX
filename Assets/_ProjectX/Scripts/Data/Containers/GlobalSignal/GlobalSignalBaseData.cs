@@ -1,4 +1,4 @@
-namespace _Content.Scripts.Data.Containers.GlobalSignal
+namespace Data.Containers.GlobalSignal
 {
     public class GlobalSignalBaseData
     {
