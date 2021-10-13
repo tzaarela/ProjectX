@@ -1,7 +1,7 @@
 using Mirror;
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Data.Enums;
+using Managers;
 using UnityEngine;
 
 namespace Player
@@ -21,9 +21,9 @@ namespace Player
 		}
 
 		[Server]
-		public void Shoot(Vector3 direction)
+		public void Shoot(Vector3 dir)
 		{
-			this.direction = direction;
+			direction = dir;
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 			StartCoroutine(CoDestroyAfterTime());
 		}
@@ -32,6 +32,8 @@ namespace Player
 		{
 			yield return new WaitForSeconds(aliveTime);
 			NetworkServer.Destroy(gameObject);
+			
+			// ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}
 	}
 }

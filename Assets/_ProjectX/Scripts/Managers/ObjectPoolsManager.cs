@@ -50,7 +50,7 @@ namespace Managers
 			if (poolDictionary[poolType].Count > 0) {
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				objFromPool.SetActive(true);
-				// objFromPool.transform.parent = null;  
+				// objFromPool.transform.parent = null;  - NECESSARY?!?
 				return objFromPool;
 			}
 			
@@ -68,6 +68,7 @@ namespace Managers
 
 		public void ReturnToPool(ObjectPoolType poolType, GameObject obj)
 		{
+			obj.SetActive(false);
 			poolDictionary[poolType].Enqueue(obj);
 		}
 
