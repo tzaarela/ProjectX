@@ -69,7 +69,7 @@ namespace Player
 		[Command]
 		private void CmdMove(Vector3 direction)
 		{
-			transform.position += direction * speed;
+			transform.position += direction * speed * Time.fixedDeltaTime;
 		}
 	}
 }
