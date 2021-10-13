@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.65080994, g: 0.666729, b: 0.7075472, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.05
@@ -187,6 +187,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1566610412460490308, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
+      propertyPath: Interval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4185182600987269392, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
       propertyPath: m_Name
       value: NetworkLobbyManagerExt

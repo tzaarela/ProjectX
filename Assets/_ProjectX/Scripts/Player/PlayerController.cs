@@ -1,3 +1,4 @@
+using Cinemachine;
 using Mirror;
 using System;
 using System.Collections;
@@ -12,10 +13,14 @@ namespace Player
 		[SerializeField] private GameObject bulletPrefab;
 
 		[Header("Settings")]
-		public float speed;
+		public List<AxleInfo> axleInfos;
+		public float maxMotorTorque;
+		public float maxSteeringAngle;
 
 		private InputManager inputs;
-		private Cinemachine.CinemachineVirtualCamera virtualCamera;
+		private CinemachineVirtualCamera virtualCamera;
+		private Rigidbody rb;
+		public Vector3 centerOfMassOffset;
 
 		private void Start()
 		{
@@ -23,9 +28,12 @@ namespace Player
 				return;
 
 			inputs = GetComponent<InputManager>();
-			virtualCamera = GameObject.Find("VirtualCamera").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+			rb = GetComponent<Rigidbody>();
+			virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
 			virtualCamera.Follow = transform;
 		}
+
+		
 
 		private void FixedUpdate()
 		{
@@ -40,8 +48,17 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-			if(inputs.isShooting)
+
+			rb.centerOfMass = centerOfMassOffset;
+
+			if (inputs.isShooting)
 				Shoot();
+		}
+
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.red;
+			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
 		}
 
 		[Client]
@@ -69,7 +86,25 @@ namespace Player
 		[Command]
 		private void CmdMove(Vector3 direction)
 		{
-			transform.position += direction * speed * Time.fixedDeltaTime;
+			
+			float motor = maxMotorTorque * direction.z;
+			float steering = maxSteeringAngle * direction.x;
+
+			foreach (AxleInfo axleInfo in axleInfos)
+			{
+				if (axleInfo.steering)
+				{
+					axleInfo.leftWheel.steerAngle = steering;
+					axleInfo.rightWheel.steerAngle = steering;
+				}
+				if (axleInfo.motor)
+				{
+					axleInfo.leftWheel.motorTorque = motor;
+					axleInfo.rightWheel.motorTorque = motor;
+				}
+				//ApplyLocalPositionToVisuals(axleInfo.leftWheel);
+				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
+			}
 		}
 	}
 }
