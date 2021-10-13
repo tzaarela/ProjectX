@@ -27,12 +27,18 @@ namespace Player
 			virtualCamera.Follow = transform;
 		}
 
-		private void Update()
+		private void FixedUpdate()
 		{
 			if (!isLocalPlayer)
 				return;
 
-			Steer();
+			Move();
+		}
+
+		private void Update()
+		{
+			if (!isLocalPlayer)
+				return;
 
 			if(inputs.isShooting)
 				Shoot();
@@ -54,7 +60,7 @@ namespace Player
 		}
 
 		[Client]
-		private void Steer()
+		private void Move()
 		{
 			Vector3 direction = new Vector3(inputs.movement.x, 0, inputs.movement.y);
 			CmdMove(direction);
@@ -63,7 +69,7 @@ namespace Player
 		[Command]
 		private void CmdMove(Vector3 direction)
 		{
-			transform.position += direction * speed * Time.deltaTime;
+			transform.position += direction * speed;
 		}
 	}
 }

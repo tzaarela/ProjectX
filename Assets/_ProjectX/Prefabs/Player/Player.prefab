@@ -127,7 +127,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   bulletPrefab: {fileID: 1088292643631628778, guid: 32a755de0bc351844804cc3860fe31ee, type: 3}
-  speed: 10
+  speed: 2
 --- !u!114 &145973192295524686
 MonoBehaviour:
   m_ObjectHideFlags: 0
