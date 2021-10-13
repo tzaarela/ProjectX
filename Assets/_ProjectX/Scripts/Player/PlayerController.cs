@@ -20,6 +20,9 @@ namespace Player
 		private InputManager inputs;
 		private CinemachineVirtualCamera virtualCamera;
 		private Rigidbody rb;
+		private float travelL = 0;
+		private float travelR = 0;
+		private float antiRoll = 5000.0f;
 		public Vector3 centerOfMassOffset;
 
 		private void Start()
@@ -31,6 +34,8 @@ namespace Player
 			rb = GetComponent<Rigidbody>();
 			virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
 			virtualCamera.Follow = transform;
+
+			rb.centerOfMass = centerOfMassOffset;
 		}
 
 		
@@ -48,8 +53,6 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-
-			rb.centerOfMass = centerOfMassOffset;
 
 			if (inputs.isShooting)
 				Shoot();
@@ -92,16 +95,40 @@ namespace Player
 
 			foreach (AxleInfo axleInfo in axleInfos)
 			{
+
 				if (axleInfo.steering)
 				{
+
 					axleInfo.leftWheel.steerAngle = steering;
 					axleInfo.rightWheel.steerAngle = steering;
 				}
+
 				if (axleInfo.motor)
 				{
 					axleInfo.leftWheel.motorTorque = motor;
 					axleInfo.rightWheel.motorTorque = motor;
 				}
+
+
+				WheelHit hit;
+				var groundedL = axleInfo.leftWheel.GetGroundHit(out hit);
+				if (groundedL)
+					travelL = (-axleInfo.leftWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.leftWheel.radius) / axleInfo.leftWheel.suspensionDistance;
+
+				var groundedR = axleInfo.rightWheel.GetGroundHit(out hit);
+				if (groundedR)
+					travelR = (-axleInfo.rightWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.rightWheel.radius) / axleInfo.rightWheel.suspensionDistance;
+
+
+				var antiRollForce = (travelL - travelR) * antiRoll;
+
+				if (groundedL)
+					rb.AddForceAtPosition(axleInfo.leftWheel.transform.up * -antiRollForce,
+							axleInfo.leftWheel.transform.position);
+				if (groundedR)
+					rb.AddForceAtPosition(axleInfo.rightWheel.transform.up * antiRollForce,
+							axleInfo.rightWheel.transform.position);
+				
 				//ApplyLocalPositionToVisuals(axleInfo.leftWheel);
 				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
 			}
