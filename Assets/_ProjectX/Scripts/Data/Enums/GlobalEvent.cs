@@ -13,5 +13,8 @@ namespace Data.Enums
         DEBUG_OFF,
         SHOW_FPS,
         HIDE_FPS,
+        
+        // PLAYER
+        LOCAL_PLAYER,
     }
 }
