@@ -12,6 +12,7 @@ namespace Managers
 		{
 			if (!hasBeenProvided)
 			{
+				print("AudioManager provided to ServiceLocator");
 				ServiceLocator.ProvideAudioManager(this);
 				hasBeenProvided = true;
 				DontDestroyOnLoad(gameObject);
