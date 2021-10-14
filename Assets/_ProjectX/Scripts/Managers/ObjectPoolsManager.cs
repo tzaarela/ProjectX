@@ -95,6 +95,8 @@ namespace Managers
 		[ClientRpc]
 		private void RpcActivateObject(GameObject obj)
 		{
+			obj.transform.position = Vector3.zero;
+			obj.transform.rotation = Quaternion.identity;
 			obj.SetActive(true);
 		}
 
