@@ -77,12 +77,14 @@ namespace Player
 		[Command]
 		private void CmdShoot(Vector3 shootingDirection)
 		{
-			GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-			NetworkServer.Spawn(bullet);
+			// GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+			// NetworkServer.Spawn(bullet);
 			
 			// Switch to ObjectPool:
-			// GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
-			// bullet.GetComponent<Bullet>().Shoot(shootingDirection);
+			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
+			Vector3 bulletPosition = transform.position + new Vector3(0, 2, 0);
+			bullet.transform.position = bulletPosition;
+			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
 		}
 
 		[Client]
