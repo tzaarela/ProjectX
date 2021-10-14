@@ -12,6 +12,8 @@ namespace Player
              if (currentPowerup != PowerupType.NONE)
                  return;
 
+             Debug.Log("Picked up: " + newPowerUp, gameObject);
+             
              currentPowerup = newPowerUp;
          }
 

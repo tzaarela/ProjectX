@@ -10,7 +10,7 @@ public class PowerupPickup : MonoBehaviour
 
     private Rotator rotator;
 
-    private void Start()
+    private void Awake()
     {
         rotator = GetComponent<Rotator>();
     }

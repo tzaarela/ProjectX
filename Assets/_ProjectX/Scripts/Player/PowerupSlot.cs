@@ -15,7 +15,7 @@ namespace Player
 
 		public void Pickup(PowerupType newPowerUp)
 		{
-			if (currentPowerup == PowerupType.NONE)
+			if (currentPowerup != PowerupType.NONE)
 				return;
 
 			hasPowerup = true;
