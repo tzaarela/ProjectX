@@ -29,9 +29,13 @@ namespace Managers
 		[Server]
 		public void Start()
 		{
+			if (!isServer)
+				return;
+
 			Invoke("CreatePool", 5f);
 		}
 
+		[Server]
 		private void CreatePool()
 		{
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
@@ -44,6 +48,7 @@ namespace Managers
 				{
 					GameObject obj = Instantiate(pool.prefab);
 					NetworkServer.Spawn(obj);
+					obj.SetActive(false);
 					RpcDeactivateObject(obj);
 					objectPool.Enqueue(obj);
 				}
@@ -52,14 +57,14 @@ namespace Managers
 			}
 		}
 
-		
-		
+		[Server]
 		public GameObject SpawnFromPool(ObjectPoolType poolType)
 		{
 			if (poolDictionary[poolType].Count > 0)
 			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				//objFromPool.transform.parent = null;
+				objFromPool.SetActive(true);
 				RpcActivateObject(objFromPool);
 				return objFromPool;
 			}
@@ -81,6 +86,7 @@ namespace Managers
 		[Server]
 		public void ReturnToPool(ObjectPoolType poolType, GameObject obj)
 		{
+			obj.SetActive(false);
 			RpcDeactivateObject(obj);
 			poolDictionary[poolType].Enqueue(obj);
 		}
