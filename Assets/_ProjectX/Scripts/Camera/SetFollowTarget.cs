@@ -1,33 +1,36 @@
+using Cinemachine;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Managers;
 using UnityEngine;
-using Cinemachine;
 
-public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
+namespace Camera
 {
-    private CinemachineVirtualCamera virtualCamera;
-
-    private void Awake()
+    public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
     {
-        GlobalMediator.Instance.Subscribe(this);
+        private CinemachineVirtualCamera virtualCamera;
 
-        virtualCamera = GetComponent<CinemachineVirtualCamera>();
-    }
-    
-    public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
-    {
-        switch (eventState)
+        private void Awake()
         {
-            case GlobalEvent.SET_FOLLOW_TARGET:
+            GlobalMediator.Instance.Subscribe(this);
 
-                if (globalSignalData is GameObjectData data)
-                {
-                    virtualCamera.Follow = data.gameObject.transform;
-                }
+            virtualCamera = GetComponent<CinemachineVirtualCamera>();
+        }
+    
+        public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+        {
+            switch (eventState)
+            {
+                case GlobalEvent.SET_FOLLOW_TARGET:
+
+                    if (globalSignalData is GameObjectData data)
+                    {
+                        virtualCamera.Follow = data.gameObject.transform;
+                    }
                 
-                break;
+                    break;
+            }
         }
     }
 }
