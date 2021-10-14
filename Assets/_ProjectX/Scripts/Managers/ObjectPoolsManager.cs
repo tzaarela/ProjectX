@@ -62,6 +62,7 @@ namespace Managers
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				objFromPool.SetActive(objFromPool);
 				//objFromPool.transform.parent = null;
+				objFromPool.SetActive(true);
 				RpcActivateObject(objFromPool);
 				return objFromPool;
 			}
