@@ -29,6 +29,8 @@ namespace Player
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
+		private float fireCooldown = 0.2f;
+		private float nextFire = 0;
 
 		private void Start()
 		{
@@ -59,8 +61,10 @@ namespace Player
 			
 			if (inputs.isUsingPowerup)
 				UsePowerup();
+
+			
 		}
-		
+
 		private void FixedUpdate()
 		{
 			if (!isLocalPlayer)
@@ -92,10 +96,15 @@ namespace Player
 			//}
 
 			//Move to MachineGun Powerup class
+
+			if (nextFire > Time.time)
+				return;
+
 			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
 			Vector3 bulletPosition = transform.position + new Vector3(0, 2, 0);
 			bullet.transform.position = bulletPosition;
 			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
+			nextFire = fireCooldown + Time.time;
 		}
 
 		[Client]
