@@ -3,13 +3,15 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data.Containers.GlobalSignal;
 using Data.Enums;
+using Data.Interfaces;
 using Managers;
 using UnityEngine;
 
 namespace Player
 {
-	public class PlayerController : NetworkBehaviour
+	public class PlayerController : NetworkBehaviour, ISendGlobalSignal
 	{
 		[Header("Setup")]
 		[SerializeField] private GameObject bulletPrefab;
@@ -31,12 +33,14 @@ namespace Player
 		{
 			if (!isLocalPlayer)
 				return;
-
+			
 			inputs = GetComponent<InputManager>();
 			rb = GetComponent<Rigidbody>();
-			virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-			virtualCamera.Follow = transform;
-
+			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+			// virtualCamera.Follow = transform;
+			
+			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
+			
 			rb.centerOfMass = centerOfMassOffset;
 		}
 
@@ -133,6 +137,11 @@ namespace Player
 				//ApplyLocalPositionToVisuals(axleInfo.leftWheel);
 				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
 			}
+		}
+		
+		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
 		}
 	}
 }
