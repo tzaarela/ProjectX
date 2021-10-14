@@ -32,6 +32,8 @@ namespace Player
 		{
 			yield return new WaitForSeconds(aliveTime);
 			rb.velocity = Vector3.zero;
+			transform.position = Vector3.zero;
+			transform.rotation = Quaternion.identity;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}
 	}
