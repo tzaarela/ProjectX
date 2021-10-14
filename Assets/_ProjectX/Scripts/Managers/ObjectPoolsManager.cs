@@ -47,9 +47,9 @@ namespace Managers
 				for (int i = 0; i < pool.startSize; i++)
 				{
 					GameObject obj = Instantiate(pool.prefab);
-					NetworkServer.Spawn(obj);
 					obj.SetActive(false);
-					RpcDeactivateObject(obj);
+					NetworkServer.Spawn(obj);
+					//RpcDeactivateObject(obj);
 					objectPool.Enqueue(obj);
 				}
 
