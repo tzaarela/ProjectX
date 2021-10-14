@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace _Project.Scripts.UI
+namespace UI
 {
 	public class TimeController : MonoBehaviour
 	{
@@ -21,7 +21,8 @@ namespace _Project.Scripts.UI
 			{
 				timeRemaining -= Time.deltaTime;
 				timeText.text =  Mathf.CeilToInt(timeRemaining).ToString();
-			} else
+			}
+			else
 			{
 				timeText.text = "Out of time!";
 			}
