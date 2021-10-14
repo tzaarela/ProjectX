@@ -26,10 +26,9 @@ namespace Managers
 			ServiceLocator.ProvideObjectPoolsManager(this);
 		}
 		
-		public override void OnStartServer()
+		[Server]
+		public void Start()
 		{
-			base.OnStartServer();
-
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)
