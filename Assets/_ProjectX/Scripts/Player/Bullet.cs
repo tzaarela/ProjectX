@@ -8,7 +8,7 @@ namespace Player
 {
 	public class Bullet : NetworkBehaviour
 	{
-		public float shootingStrength = 10f;
+		public float shootingStrength = 100000f;
 		public float aliveTime = 3f;
 
 		private Rigidbody rb;
