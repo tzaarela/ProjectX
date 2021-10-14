@@ -25,6 +25,7 @@ namespace Player
 		private InputManager inputs;
 		private CinemachineVirtualCamera virtualCamera;
 		private Rigidbody rb;
+		private PowerupSlot powerupSlot;
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
@@ -36,6 +37,8 @@ namespace Player
 			
 			inputs = GetComponent<InputManager>();
 			rb = GetComponent<Rigidbody>();
+			powerupSlot = GetComponent<PowerupSlot>();
+
 			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
 			// virtualCamera.Follow = transform;
 			
@@ -77,10 +80,13 @@ namespace Player
 		[Command]
 		private void CmdUsePowerup(Vector3 shootingDirection)
 		{
-			// GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-			// NetworkServer.Spawn(bullet);
-			
-			// Switch to ObjectPool:
+			if (powerupSlot.hasPowerup)
+			{
+				//powerupSlot.Use(); ?
+				//powerupSlot.Power.Use(); ?
+			}
+
+			//Move to MachineGun Powerup class
 			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
 			Vector3 bulletPosition = transform.position + new Vector3(0, 2, 0);
 			bullet.transform.position = bulletPosition;

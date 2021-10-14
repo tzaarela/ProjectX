@@ -30,7 +30,7 @@ public class PowerupController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerPowerup>().Pickup(currentPowerupType);
+            other.GetComponent<PowerupSlot>().Pickup(currentPowerupType);
         }
     }
 }

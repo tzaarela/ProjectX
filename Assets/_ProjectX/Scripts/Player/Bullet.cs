@@ -31,7 +31,6 @@ namespace Player
 		private IEnumerator CoDestroyAfterTime()
 		{
 			yield return new WaitForSeconds(aliveTime);
-			// NetworkServer.Destroy(gameObject);
 			rb.velocity = Vector3.zero;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}

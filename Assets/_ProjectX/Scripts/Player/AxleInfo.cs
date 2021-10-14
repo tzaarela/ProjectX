@@ -7,13 +7,12 @@ using UnityEngine;
 
 namespace Player
 {
-    [Serializable]
-    public class AxleInfo
-    {
-        public WheelCollider leftWheel;
-        public WheelCollider rightWheel;
-        public bool motor;
-        public bool steering;
-    }
-
+	[Serializable]
+	public class AxleInfo
+	{
+		public WheelCollider leftWheel;
+		public WheelCollider rightWheel;
+		public bool motor;
+		public bool steering;
+	}
 }
