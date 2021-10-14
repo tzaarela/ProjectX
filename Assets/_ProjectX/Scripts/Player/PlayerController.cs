@@ -80,11 +80,11 @@ namespace Player
 		[Command]
 		private void CmdUsePowerup(Vector3 shootingDirection)
 		{
-			if (powerupSlot.hasPowerup)
-			{
-				//powerupSlot.Use(); ?
-				//powerupSlot.Power.Use(); ?
-			}
+			//if (powerupSlot.hasPowerup)
+			//{
+			//	//powerupSlot.Use(); ?
+			//	//powerupSlot.Power.Use(); ?
+			//}
 
 			//Move to MachineGun Powerup class
 			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
