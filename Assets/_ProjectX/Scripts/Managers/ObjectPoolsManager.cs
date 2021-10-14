@@ -29,6 +29,11 @@ namespace Managers
 		[Server]
 		public void Start()
 		{
+			Invoke("CreatePool", 5f);
+		}
+
+		private void CreatePool()
+		{
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)

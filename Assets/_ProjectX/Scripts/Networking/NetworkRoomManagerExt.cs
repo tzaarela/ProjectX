@@ -7,6 +7,9 @@ namespace Networking
 {
 	public class NetworkRoomManagerExt : NetworkRoomManager
 	{
-		
+		public override void OnServerSceneChanged(string sceneName)
+		{
+			base.OnServerSceneChanged(sceneName);
+		}
 	}
 }
