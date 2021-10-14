@@ -9,7 +9,7 @@ public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
 {
     private CinemachineVirtualCamera virtualCamera;
 
-    private void Start()
+    private void Awake()
     {
         GlobalMediator.Instance.Subscribe(this);
 
@@ -20,7 +20,7 @@ public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
     {
         switch (eventState)
         {
-            case GlobalEvent.LOCAL_PLAYER:
+            case GlobalEvent.SET_FOLLOW_TARGET:
 
                 if (globalSignalData is GameObjectData data)
                 {

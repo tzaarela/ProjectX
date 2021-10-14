@@ -14,7 +14,7 @@ namespace Data.Enums
         SHOW_FPS,
         HIDE_FPS,
         
-        // PLAYER
-        LOCAL_PLAYER,
+        // CINEMACHINE CAMERA
+        SET_FOLLOW_TARGET,
     }
 }

@@ -846,13 +846,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8619261463145350888, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
+      propertyPath: pools.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8619261463145350888, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
+      propertyPath: pools.Array.data[1].parent
+      value: 
+      objectReference: {fileID: 8619261463305054757}
+    - target: {fileID: 8619261463145350888, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
+      propertyPath: pools.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 1088292643631628778, guid: 32a755de0bc351844804cc3860fe31ee, type: 3}
+    - target: {fileID: 8619261463145350888, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
+      propertyPath: pools.Array.data[1].startSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8619261463145350889, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
       propertyPath: sceneId
       value: 469895254
       objectReference: {fileID: 0}
     - target: {fileID: 8619261463145350889, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
       propertyPath: serverOnly
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8619261463145350890, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
       propertyPath: m_RootOrder
@@ -904,3 +920,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
+--- !u!4 &8619261463305054757 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8619261463954436884, guid: 36762a3a94bc823488af00e013ba988a, type: 3}
+  m_PrefabInstance: {fileID: 8619261463305054756}
+  m_PrefabAsset: {fileID: 0}

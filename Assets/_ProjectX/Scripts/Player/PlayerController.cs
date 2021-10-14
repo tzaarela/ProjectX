@@ -3,13 +3,15 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data.Containers.GlobalSignal;
 using Data.Enums;
+using Data.Interfaces;
 using Managers;
 using UnityEngine;
 
 namespace Player
 {
-	public class PlayerController : NetworkBehaviour
+	public class PlayerController : NetworkBehaviour, ISendGlobalSignal
 	{
 		[Header("Setup")]
 		[SerializeField] private GameObject bulletPrefab;
@@ -31,12 +33,14 @@ namespace Player
 		{
 			if (!isLocalPlayer)
 				return;
-
+			
 			inputs = GetComponent<InputManager>();
 			rb = GetComponent<Rigidbody>();
-			virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-			virtualCamera.Follow = transform;
-
+			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+			// virtualCamera.Follow = transform;
+			
+			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
+			
 			rb.centerOfMass = centerOfMassOffset;
 		}
 
@@ -73,12 +77,14 @@ namespace Player
 		[Command]
 		private void CmdShoot(Vector3 shootingDirection)
 		{
-			GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-			NetworkServer.Spawn(bullet);
+			// GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+			// NetworkServer.Spawn(bullet);
 			
 			// Switch to ObjectPool:
-			// GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
-			// bullet.GetComponent<Bullet>().Shoot(shootingDirection);
+			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
+			Vector3 bulletPosition = transform.position + new Vector3(0, 2, 0);
+			bullet.transform.position = bulletPosition;
+			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
 		}
 
 		[Client]
@@ -145,6 +151,11 @@ namespace Player
 				rb.AddForceAtPosition(axleInfo.rightWheel.transform.up * antiRollForce,
 						axleInfo.rightWheel.transform.position);
 			}
+		}
+		
+		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
 		}
 	}
 }

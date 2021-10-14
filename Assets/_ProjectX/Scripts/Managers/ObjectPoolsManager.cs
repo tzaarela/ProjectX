@@ -25,9 +25,11 @@ namespace Managers
 			print("ObjectPoolsManager provided to ServiceLocator");
 			ServiceLocator.ProvideObjectPoolsManager(this);
 		}
-
-		private void Start()
+		
+		public override void OnStartServer()
 		{
+			base.OnStartServer();
+
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)
@@ -37,19 +39,29 @@ namespace Managers
 				for (int i = 0; i < pool.startSize; i++)
 				{
 					GameObject obj = Instantiate(pool.prefab, pool.parent);
+					NetworkServer.Spawn(obj);
 					obj.SetActive(false);
+					RpcDeactivateObject(obj);
 					objectPool.Enqueue(obj);
 				}
 
 				poolDictionary.Add(pool.poolType, objectPool);
 			}
 		}
+
+		[ClientRpc]
+		private void RpcDeactivateObject(GameObject obj)
+		{
+			obj.SetActive(false);
+		}
 		
 		public GameObject SpawnFromPool(ObjectPoolType poolType)
 		{
-			if (poolDictionary[poolType].Count > 0) {
+			if (poolDictionary[poolType].Count > 0)
+			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
-				objFromPool.SetActive(true);
+				objFromPool.SetActive(objFromPool);
+				RpcActivateObject(objFromPool);
 				// objFromPool.transform.parent = null;  - NECESSARY?!?
 				return objFromPool;
 			}
@@ -59,6 +71,7 @@ namespace Managers
 			{
 				print(poolType + "-Pool was empty - Instantiating!");
 				GameObject instObj = Instantiate(entry.prefab);
+				NetworkServer.Spawn(instObj);
 				return instObj;
 			}
 			
@@ -66,10 +79,18 @@ namespace Managers
 			return null;
 		}
 
+		[Server]
 		public void ReturnToPool(ObjectPoolType poolType, GameObject obj)
 		{
 			obj.SetActive(false);
+			RpcDeactivateObject(obj);
 			poolDictionary[poolType].Enqueue(obj);
+		}
+
+		[ClientRpc]
+		private void RpcActivateObject(GameObject obj)
+		{
+			obj.SetActive(true);
 		}
 
 		private void OnDestroy()
