@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Init : MonoBehaviour
+namespace Managers
 {
-	private void Awake()
+	public class Init : MonoBehaviour
 	{
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = 300;
+		private void Awake()
+		{
+			QualitySettings.vSyncCount = 0;
+			Application.targetFrameRate = 300;
+		}
 	}
 }

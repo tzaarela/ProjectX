@@ -18,6 +18,7 @@ namespace Player
 		public List<AxleInfo> axleInfos;
 		public float maxMotorTorque;
 		public float maxSteeringAngle;
+		public Vector3 centerOfMassOffset;
 
 		private InputManager inputs;
 		private CinemachineVirtualCamera virtualCamera;
@@ -25,7 +26,6 @@ namespace Player
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
-		public Vector3 centerOfMassOffset;
 
 		private void Start()
 		{
@@ -54,7 +54,7 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 		
-			Move();
+			Drive();
 		}
 
 		private void OnDrawGizmos()
@@ -82,14 +82,14 @@ namespace Player
 		}
 
 		[Client]
-		private void Move()
+		private void Drive()
 		{
 			Vector3 direction = new Vector3(inputs.movement.x, 0, inputs.movement.y);
-			CmdMove(direction);
+			CmdDrive(direction);
 		}
 
 		[Command]
-		private void CmdMove(Vector3 direction)
+		private void CmdDrive(Vector3 direction)
 		{
 			
 			float motor = maxMotorTorque * direction.z;
@@ -99,7 +99,6 @@ namespace Player
 			{
 				if (axleInfo.steering)
 				{
-
 					axleInfo.leftWheel.steerAngle = steering;
 					axleInfo.rightWheel.steerAngle = steering;
 				}
@@ -110,28 +109,41 @@ namespace Player
 					axleInfo.rightWheel.motorTorque = motor;
 				}
 
+				AutoStabilize(axleInfo);
 
-				WheelHit hit;
-				var groundedL = axleInfo.leftWheel.GetGroundHit(out hit);
-				if (groundedL)
-					travelL = (-axleInfo.leftWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.leftWheel.radius) / axleInfo.leftWheel.suspensionDistance;
-
-				var groundedR = axleInfo.rightWheel.GetGroundHit(out hit);
-				if (groundedR)
-					travelR = (-axleInfo.rightWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.rightWheel.radius) / axleInfo.rightWheel.suspensionDistance;
-
-
-				var antiRollForce = (travelL - travelR) * antiRoll;
-
-				if (groundedL)
-					rb.AddForceAtPosition(axleInfo.leftWheel.transform.up * -antiRollForce,
-							axleInfo.leftWheel.transform.position);
-				if (groundedR)
-					rb.AddForceAtPosition(axleInfo.rightWheel.transform.up * antiRollForce,
-							axleInfo.rightWheel.transform.position);
-				
 				//ApplyLocalPositionToVisuals(axleInfo.leftWheel);
 				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
+			}
+		}
+
+		private void AutoStabilize(AxleInfo axleInfo)
+		{
+			WheelHit hit;
+			
+			bool groundedL = axleInfo.leftWheel.GetGroundHit(out hit);
+			if (groundedL)
+			{
+				travelL = (-axleInfo.leftWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.leftWheel.radius) / axleInfo.leftWheel.suspensionDistance;
+			}
+
+			bool groundedR = axleInfo.rightWheel.GetGroundHit(out hit);
+			if (groundedR)
+			{
+				travelR = (-axleInfo.rightWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.rightWheel.radius) / axleInfo.rightWheel.suspensionDistance;
+			}
+
+			float antiRollForce = (travelL - travelR) * antiRoll;
+			
+			if (groundedL)
+			{
+				rb.AddForceAtPosition(axleInfo.leftWheel.transform.up * -antiRollForce,
+						axleInfo.leftWheel.transform.position);
+			}
+
+			if (groundedR)
+			{
+				rb.AddForceAtPosition(axleInfo.rightWheel.transform.up * antiRollForce,
+						axleInfo.rightWheel.transform.position);
 			}
 		}
 	}
