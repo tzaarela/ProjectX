@@ -9,12 +9,13 @@ namespace Player
 
          public void Pickup(PowerupType newPowerUp)
          {
-             if (currentPowerup == PowerupType.NONE)
+             if (currentPowerup != PowerupType.NONE)
                  return;
 
              currentPowerup = newPowerUp;
          }
 
+         
          private void Drop()
          {
              currentPowerup = PowerupType.NONE;
