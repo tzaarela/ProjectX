@@ -83,7 +83,6 @@ namespace Managers
 		[Server]
 		public void ReturnToPool(ObjectPoolType poolType, GameObject obj)
 		{
-			obj.SetActive(false);
 			RpcDeactivateObject(obj);
 			poolDictionary[poolType].Enqueue(obj);
 		}
