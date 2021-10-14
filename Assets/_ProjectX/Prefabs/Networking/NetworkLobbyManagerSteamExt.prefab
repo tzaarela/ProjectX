@@ -53,7 +53,7 @@ MonoBehaviour:
   offlineScene: Assets/_ProjectX/Scenes/MainMenu.unity
   onlineScene: Assets/_ProjectX/Scenes/Lobby.unity
   transport: {fileID: 2485032040079434802}
-  networkAddress: localhost
+  networkAddress: 76561198054975046
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
