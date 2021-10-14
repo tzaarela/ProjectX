@@ -36,15 +36,20 @@ namespace Player
 				return;
 			
 			inputs = GetComponent<InputManager>();
-			rb = GetComponent<Rigidbody>();
-			powerupSlot = GetComponent<PowerupSlot>();
 
 			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
 			// virtualCamera.Follow = transform;
 			
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
 			
+		}
+
+		public override void OnStartServer()
+		{
+			base.OnStartServer();
+			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = centerOfMassOffset;
+			powerupSlot = GetComponent<PowerupSlot>();
 		}
 
 		private void Update()
