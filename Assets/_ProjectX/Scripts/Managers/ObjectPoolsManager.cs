@@ -26,9 +26,10 @@ namespace Managers
 			ServiceLocator.ProvideObjectPoolsManager(this);
 		}
 		
-		[Server]
-		private void Start()
+		public override void OnStartServer()
 		{
+			base.OnStartServer();
+
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)
@@ -56,7 +57,8 @@ namespace Managers
 		
 		public GameObject SpawnFromPool(ObjectPoolType poolType)
 		{
-			if (poolDictionary[poolType].Count > 0) {
+			if (poolDictionary[poolType].Count > 0)
+			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				objFromPool.SetActive(objFromPool);
 				RpcActivateObject(objFromPool);
