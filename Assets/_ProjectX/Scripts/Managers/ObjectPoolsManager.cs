@@ -64,7 +64,6 @@ namespace Managers
 			if (poolDictionary[poolType].Count > 0)
 			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
-				objFromPool.SetActive(objFromPool);
 				//objFromPool.transform.parent = null;
 				objFromPool.SetActive(true);
 				RpcActivateObject(objFromPool);
@@ -77,6 +76,7 @@ namespace Managers
 				print(poolType + "-Pool was empty - Instantiating!");
 				GameObject instObj = Instantiate(entry.prefab);
 				NetworkServer.Spawn(instObj);
+				poolDictionary[poolType].Enqueue(instObj);
 				return instObj;
 			}
 			
