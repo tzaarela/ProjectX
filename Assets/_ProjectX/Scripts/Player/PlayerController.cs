@@ -49,8 +49,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 			
-			if (inputs.isShooting)
-				Shoot();
+			if (inputs.isUsingPowerup)
+				UsePowerup();
 		}
 		
 		private void FixedUpdate()
@@ -68,14 +68,14 @@ namespace Player
 		}
 
 		[Client]
-		private void Shoot()
+		private void UsePowerup()
 		{
 			Vector3 shootingDirection = transform.forward;
-			CmdShoot(shootingDirection);
+			CmdUsePowerup(shootingDirection);
 		}
 
 		[Command]
-		private void CmdShoot(Vector3 shootingDirection)
+		private void CmdUsePowerup(Vector3 shootingDirection)
 		{
 			// GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 			// NetworkServer.Spawn(bullet);

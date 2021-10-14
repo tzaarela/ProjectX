@@ -11,29 +11,29 @@ namespace Player
 		public Vector2 movement = Vector2.zero;
 		public bool isBoosting;
 		public bool isBraking;
-		public bool isShooting;
+		public bool isUsingPowerup;
 
 		private void Start()
 		{
 			playerControls = new PlayerControls();
-			playerControls.Player.Move.performed += MovePerformed;
-			playerControls.Player.Move.canceled += MovePerformed;
-			playerControls.Player.Fire.started += FireStarted;
-			playerControls.Player.Fire.canceled += FireCanceled;
+			playerControls.Player.Drive.performed += DrivePerformed;
+			playerControls.Player.Drive.canceled += DrivePerformed;
+			playerControls.Player.Powerup.started += UsePowerStarted;
+			playerControls.Player.Powerup.canceled += UsePowerCanceled;
 			playerControls.Enable();
 		}
 
-		private void FireStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void UsePowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
-			isShooting = true;
+			isUsingPowerup = true;
 		}
 
-		private void FireCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void UsePowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
-			isShooting = false;
+			isUsingPowerup = false;
 		}
 
-		private void MovePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void DrivePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
 			 movement = obj.ReadValue<Vector2>();
 		}

@@ -38,7 +38,7 @@ namespace Managers
 
 				for (int i = 0; i < pool.startSize; i++)
 				{
-					GameObject obj = Instantiate(pool.prefab, pool.parent);
+					GameObject obj = Instantiate(pool.prefab, pool.parent, true);
 					NetworkServer.Spawn(obj);
 					obj.SetActive(false);
 					RpcDeactivateObject(obj);
@@ -70,7 +70,7 @@ namespace Managers
 			if (entry != null)
 			{
 				print(poolType + "-Pool was empty - Instantiating!");
-				GameObject instObj = Instantiate(entry.prefab);
+				GameObject instObj = Instantiate(entry.prefab, entry.parent, true);
 				NetworkServer.Spawn(instObj);
 				return instObj;
 			}
