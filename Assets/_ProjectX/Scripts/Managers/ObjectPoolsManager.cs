@@ -44,7 +44,6 @@ namespace Managers
 				{
 					GameObject obj = Instantiate(pool.prefab);
 					NetworkServer.Spawn(obj);
-					obj.SetActive(false);
 					RpcDeactivateObject(obj);
 					objectPool.Enqueue(obj);
 				}
@@ -61,7 +60,6 @@ namespace Managers
 			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				//objFromPool.transform.parent = null;
-				objFromPool.SetActive(true);
 				RpcActivateObject(objFromPool);
 				return objFromPool;
 			}
