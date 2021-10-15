@@ -32,12 +32,13 @@ namespace Managers
 			if (!isServer)
 				return;
 
-			Invoke("CreatePool", 5f);
+			Invoke("CreatePool", 1f);
 		}
 
 		[Server]
 		private void CreatePool()
 		{
+			print("PoolCreation!");
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)
@@ -46,7 +47,7 @@ namespace Managers
 
 				for (int i = 0; i < pool.startSize; i++)
 				{
-					GameObject obj = Instantiate(pool.prefab);
+					GameObject obj = Instantiate(pool.prefab, pool.parent);
 					obj.SetActive(false);
 					NetworkServer.Spawn(obj);
 					//RpcDeactivateObject(obj);

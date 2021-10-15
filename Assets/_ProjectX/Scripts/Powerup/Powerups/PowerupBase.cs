@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Powerup.Powerups
 {
-	public abstract class PowerupBase : NetworkBehaviour
+	public abstract class PowerupBase : MonoBehaviour
 	{
 		protected int ammo;
 		protected float fireRate;
@@ -26,7 +26,6 @@ namespace Powerup.Powerups
 			}
 		}
 		
-		[Command]
 		public void CmdUse()
 		{
 			if (nextFire > Time.time)

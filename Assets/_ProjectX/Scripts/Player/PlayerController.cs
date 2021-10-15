@@ -32,26 +32,43 @@ namespace Player
 		private float fireCooldown = 0.2f;
 		private float nextFire = 0;
 
-		private void Start()
-		{
-			if (!isLocalPlayer)
-				return;
-			
-			inputs = GetComponent<InputManager>();
-
-			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-			// virtualCamera.Follow = transform;
-			
-			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
-			
-		}
-
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+
+			print("OnStartServer(netId) " + GetComponent<NetworkIdentity>().netId);
 			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = centerOfMassOffset;
 			powerupSlot = GetComponent<PowerupSlot>();
+		}
+
+		// public override void OnStartLocalPlayer()
+		// {
+		// 	base.OnStartLocalPlayer();
+		// 	
+		// 	print("OnStartLocalPlayer(netId) " + GetComponent<NetworkIdentity>().netId);
+		// 	rb = GetComponent<Rigidbody>();
+		// 	rb.centerOfMass = centerOfMassOffset;
+		// 	powerupSlot = GetComponent<PowerupSlot>();
+		// 	inputs = GetComponent<InputManager>();
+		// 	ServiceLocator.RoundManager.AddActivePlayer();
+		// 	SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
+		// }
+
+		private void Start()
+		{
+			print("Start(netId) " + GetComponent<NetworkIdentity>().netId);
+			if (!isLocalPlayer)
+				return;
+			
+			// rb = GetComponent<Rigidbody>();
+			// rb.centerOfMass = centerOfMassOffset;
+			// powerupSlot = GetComponent<PowerupSlot>();
+			inputs = GetComponent<InputManager>();
+			ServiceLocator.RoundManager.AddActivePlayer();
+			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
+			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+			// virtualCamera.Follow = transform;
 		}
 
 		private void Update()
@@ -59,10 +76,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 			
-			if (inputs.isUsingPowerup)
-				UsePowerup();
-
-			
+			// if (inputs.isUsingPowerup)
+			// 	UsePowerup();
 		}
 
 		private void FixedUpdate()

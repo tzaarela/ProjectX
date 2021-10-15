@@ -3,10 +3,11 @@ using System.Collections;
 using Data.Enums;
 using UnityEngine;
 using Managers;
+using Mirror;
 
 namespace PowerUp.Projectiles
 {
-	public abstract class ProjectileBase : MonoBehaviour
+	public abstract class ProjectileBase : NetworkBehaviour
 	{
 		protected float damage;
 		protected float shootingStrength;
@@ -15,10 +16,11 @@ namespace PowerUp.Projectiles
 		protected Rigidbody rb;
 
 		protected Vector3 direction;
-		
-		protected virtual void Start()
+
+		public override void OnStartServer()
 		{
-			rb.GetComponent<Rigidbody>();
+			base.OnStartServer();
+			rb = GetComponent<Rigidbody>();
 		}
 		
 		private void OnDisable()
@@ -26,6 +28,7 @@ namespace PowerUp.Projectiles
 			// TODO RESET VELOCITY AND STUFF
 		}
 
+		[Server]
 		public virtual void SetupProjectile(Vector3 dir)
 		{
 			direction = dir;

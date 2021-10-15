@@ -4,8 +4,13 @@ namespace Managers
 {
 	public class RoundManager : NetworkBehaviour
 	{
-		private static bool hasBeenProvided;
+
+		private int numberOfActivePlayers;
 		
+		private static bool hasBeenProvided;
+
+		public int NumberOfActivePlayers => numberOfActivePlayers;
+
 		private void Awake()
 		{
 			if (!hasBeenProvided)
@@ -19,6 +24,12 @@ namespace Managers
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		public void AddActivePlayer()
+		{
+			numberOfActivePlayers++;
+			print("NumberOfActivePlayers = " + numberOfActivePlayers);
 		}
 	}
 }
