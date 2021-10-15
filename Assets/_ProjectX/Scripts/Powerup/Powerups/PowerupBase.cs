@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace Powerup.Powerups
 {
-	public abstract class PowerupBase : MonoBehaviour
+	public abstract class PowerupBase : NetworkBehaviour
 	{
 		protected int ammo;
 		protected float fireRate;
@@ -24,8 +25,9 @@ namespace Powerup.Powerups
 				}
 			}
 		}
-
-		public void Use()
+		
+		[Command]
+		public void CmdUse()
 		{
 			if (nextFire > Time.time)
 				return;

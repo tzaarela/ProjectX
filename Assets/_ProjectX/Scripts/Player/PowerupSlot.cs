@@ -1,11 +1,12 @@
 ﻿using Data.Enums;
 using System.Collections.Generic;
+using Mirror;
 using Powerup.Powerups;
 using UnityEngine;
 
 namespace Player
 {
-	public class PowerupSlot : MonoBehaviour
+	public class PowerupSlot : NetworkBehaviour
 	{
 		private InputManager inputs;
 		
@@ -20,15 +21,18 @@ namespace Player
 		{
 			inputs = GetComponent<InputManager>();
 		}
-
+		
 		private void Update()
 		{
+			if (!isLocalPlayer)
+				return;
+
 			if (currentPowerup == PowerupType.NONE)
 				return;
 			
 			if (inputs.isUsingPowerup)
 			{
-				powerup.Use();
+				powerup.CmdUse();
 			}
 
 			if (powerup.GetAmmo() <= 0)
