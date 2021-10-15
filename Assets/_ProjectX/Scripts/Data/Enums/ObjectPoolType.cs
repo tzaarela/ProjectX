@@ -2,6 +2,7 @@
 {
 	public enum ObjectPoolType
 	{
-		Bullet
+		Bullet,
+		Rocket,
 	}
 }
