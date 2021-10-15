@@ -5,8 +5,8 @@
         NONE,
         MACHINEGUN,
         ROCKETLAUNCHER,
-        MINE,
-        OIL_PUDDLE,
-        SHIELD,
+        OIL_EJECTOR,
+        SHIELD_GENERATOR,
+        //MINE_DEPLOYER,
     }
 }
