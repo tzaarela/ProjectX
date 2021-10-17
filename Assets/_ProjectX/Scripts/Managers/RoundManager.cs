@@ -4,13 +4,13 @@ namespace Managers
 {
 	public class RoundManager : NetworkBehaviour
 	{
-
 		private int numberOfActivePlayers;
 		
 		private static bool hasBeenProvided;
 
 		public int NumberOfActivePlayers => numberOfActivePlayers;
-
+		
+		// NetworkIdentity = ServerOnly
 		private void Awake()
 		{
 			if (!hasBeenProvided)
