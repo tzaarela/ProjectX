@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Player
 {
-	public class Bullet : NetworkBehaviour
+	public class BulletOLD : NetworkBehaviour
 	{
 		public float shootingStrength = 100000f;
 		public float aliveTime = 3f;
