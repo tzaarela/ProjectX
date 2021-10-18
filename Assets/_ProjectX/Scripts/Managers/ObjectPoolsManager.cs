@@ -50,6 +50,7 @@ namespace Managers
 					GameObject obj = Instantiate(pool.prefab, pool.parent);
 					obj.SetActive(false);
 					NetworkServer.Spawn(obj);
+					RpcDeactivateObject(obj);
 					objectPool.Enqueue(obj);
 				}
 
@@ -63,7 +64,6 @@ namespace Managers
 			if (poolDictionary[poolType].Count > 0)
 			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
-				//objFromPool.transform.parent = null;
 				objFromPool.SetActive(true);
 				RpcActivateObject(objFromPool);
 				return objFromPool;
@@ -103,17 +103,17 @@ namespace Managers
 			obj.SetActive(true);
 		}
 
+		[Server]
 		private void OnDestroy()
 		{
 			ServiceLocator.ProvideObjectPoolsManager(null);
 		}
 
+		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
-			print("Yellow!");
 			if (eventState == GlobalEvent.ALL_PLAYERS_CONECTED_TO_GAME)
 			{
-				print("Yellow2!");
 				CreatePool();
 			}
 		}
