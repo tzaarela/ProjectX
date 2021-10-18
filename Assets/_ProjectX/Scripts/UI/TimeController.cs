@@ -1,31 +1,58 @@
-﻿using TMPro;
+﻿using System.Collections;
+using Data.Containers.GlobalSignal;
+using Data.Enums;
+using Data.Interfaces;
+using Managers;
+using Mirror;
+using TMPro;
 using UnityEngine;
 
 namespace UI
 {
-	public class TimeController : MonoBehaviour
+	public class TimeController : NetworkBehaviour, IReceiveGlobalSignal
 	{
 		[SerializeField] private TMP_Text timeText;
 		[SerializeField] private float timeLimit = 100f;
+		
+		[SyncVar(hook = nameof(UpdateUiTime))]
+		private int uiTime;
 
-		private float timeRemaining;
-
-		private void Start()
+		[Server]
+		public override void OnStartServer()
 		{
-			timeRemaining = timeLimit;
+			if (!isServer)
+				return;
+			
+			GlobalMediator.Instance.Subscribe(this);
+		}
+		
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			if (eventState == GlobalEvent.ALL_PLAYERS_CONECTED_TO_GAME)
+			{
+				print("GameTimer Started!");
+				uiTime = (int)timeLimit;
+				StartCoroutine(TimerRoutine());
+			}
 		}
 
-		private void Update()
+		[Server]
+		private IEnumerator TimerRoutine()
 		{
-			if (timeRemaining > 0)
+			while (uiTime > 0)
 			{
-				timeRemaining -= Time.deltaTime;
-				timeText.text =  Mathf.CeilToInt(timeRemaining).ToString();
+				yield return new WaitForSeconds(1f);
+				uiTime--;
+				yield return null;
 			}
-			else
-			{
-				timeText.text = "Out of time!";
-			}
+			print("GameTimer Stopped!");
+		}
+
+		//SyncVar Hook
+		private void UpdateUiTime(int oldValue, int newTime)
+		{
+			timeText.text =  newTime.ToString();
 		}
 	}
 }
