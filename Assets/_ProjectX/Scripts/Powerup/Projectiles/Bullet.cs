@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using Data.Enums;
+using Managers;
+using UnityEngine;
 
 namespace PowerUp.Projectiles
 {
@@ -9,6 +12,11 @@ namespace PowerUp.Projectiles
 			base.SetupProjectile(dir);
 			
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
+		}
+
+		private void OnCollisionEnter(Collision other)
+		{
+			//ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}
 	}
 }

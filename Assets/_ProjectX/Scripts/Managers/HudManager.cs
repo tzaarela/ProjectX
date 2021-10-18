@@ -1,14 +1,9 @@
-﻿using Mirror;
+﻿using UnityEngine;
 
 namespace Managers
 {
-	public class HudManager : NetworkBehaviour
+	public class HudManager : MonoBehaviour
 	{
-
-
-
-		
-		// NetworkIdentity = !ServerOnly
 		private void Awake()
 		{
 			print("HudManager provided to ServiceLocator");
