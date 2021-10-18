@@ -38,6 +38,8 @@ namespace Player
 			
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
 			CmdUpdateActivePlayersList();
+
+			name += "-local";
 		}
 
 		[Command]
