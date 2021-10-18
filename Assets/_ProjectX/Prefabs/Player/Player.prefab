@@ -415,6 +415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShieldGenerator
       objectReference: {fileID: 0}
+    - target: {fileID: 9212688320044278089, guid: 82df7beffd3b5714c9af1ad204f81538, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82df7beffd3b5714c9af1ad204f81538, type: 3}
 --- !u!4 &7198967274050916843 stripped
@@ -643,6 +647,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OilEjector
       objectReference: {fileID: 0}
+    - target: {fileID: 5304866942283922796, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6286672692612772126, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -715,6 +723,10 @@ PrefabInstance:
     - target: {fileID: 6459116806756631326, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_Name
       value: MachineGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459116806756631326, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209457327146490027, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_RootOrder
@@ -894,6 +906,10 @@ PrefabInstance:
     - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
       propertyPath: m_Name
       value: RocketLauncher
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
