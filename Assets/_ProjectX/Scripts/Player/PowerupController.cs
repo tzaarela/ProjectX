@@ -46,10 +46,10 @@ namespace Player
 
 			
 
-			if (powerup.GetAmmo() <= 0)
-			{
-				Drop();
-			}
+			//if (powerup.GetAmmo() <= 0)
+			//{
+			//	Drop();
+			//}
 		}
 
 		[Command]
