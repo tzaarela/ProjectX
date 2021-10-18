@@ -43,7 +43,8 @@ namespace Player
 		[Command]
 		private void CmdUpdateActivePlayersList()
 		{
-			ServiceLocator.RoundManager.AddActivePlayer();
+			int playerId = (int)GetComponent<NetworkIdentity>().netId;
+			ServiceLocator.RoundManager.AddActivePlayer(playerId);
 		}
 
 		//private void Update()

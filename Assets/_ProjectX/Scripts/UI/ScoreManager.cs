@@ -1,25 +1,53 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Data.Containers.GlobalSignal;
+using Data.Enums;
+using Data.Interfaces;
+using Managers;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace UI
 {
-	public class ScoreController : MonoBehaviour
+	public class ScoreManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
 		[SerializeField] private TMP_Text scorePlayer1;
 		[SerializeField] private TMP_Text scorePlayer2;
 		[SerializeField] private TMP_Text scorePlayer3;
 		[SerializeField] private float scoreRate = 0.2f;
 		[SerializeField] private int scoreToAdd = 2;
-
+		
+		[SyncVar(hook = nameof(UpdateScore1UI))]
 		private int score1 = 0;
+		[SyncVar(hook = nameof(UpdateScore2UI))]
 		private int score2 = 0;
+		[SyncVar(hook = nameof(UpdateScore3UI))]
 		private int score3 = 0;
 
 		private Coroutine scoreCounterRoutine;
+
+		private List<int> playerScores;
 		
+		[Server]
+		public override void OnStartServer()
+		{
+			if (!isServer)
+				return;
+			
+			GlobalMediator.Instance.Subscribe(this);
+		}
+		
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
+			{
+				print("ScoreManager Started!");
+			}
+		}
+
 		private void Update()
 		{
 			if (Keyboard.current.digit1Key.wasPressedThisFrame)
@@ -73,15 +101,15 @@ namespace UI
 			{
 				case 1:
 					score1 += scoreToAdd;
-					tmpText.text = score1.ToString();
+					// tmpText.text = score1.ToString();
 					break;
 				case 2:
 					score2 += scoreToAdd;
-					tmpText.text = score2.ToString();
+					// tmpText.text = score2.ToString();
 					break;
 				case 3:
 					score3 += scoreToAdd;
-					tmpText.text = score3.ToString();
+					// tmpText.text = score3.ToString();
 					break;
 			}
 			scoreCounterRoutine = StartCoroutine(InitScoreCounterRoutine(playerNumber, tmpText));
@@ -93,6 +121,21 @@ namespace UI
 				return;
 			
 			StopCoroutine(scoreCounterRoutine);
+		}
+
+		private void UpdateScore1UI(int oldInt, int newInt)
+		{
+			scorePlayer1.text = newInt.ToString();
+		}
+		
+		private void UpdateScore2UI(int oldInt, int newInt)
+		{
+			scorePlayer2.text = newInt.ToString();
+		}
+		
+		private void UpdateScore3UI(int oldInt, int newInt)
+		{
+			scorePlayer3.text = newInt.ToString();
 		}
 	}
 }

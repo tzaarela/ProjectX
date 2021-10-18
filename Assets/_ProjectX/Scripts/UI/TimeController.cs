@@ -29,7 +29,7 @@ namespace UI
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
-			if (eventState == GlobalEvent.ALL_PLAYERS_CONECTED_TO_GAME)
+			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
 			{
 				print("GameTimer Started!");
 				uiTime = (int)timeLimit;
