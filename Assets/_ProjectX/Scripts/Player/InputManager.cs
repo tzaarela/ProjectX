@@ -12,6 +12,7 @@ namespace Player
 		public bool isBoosting;
 		public bool isBraking;
 		public bool isUsingPowerup;
+		public bool isDroppingPowerup;
 
 		private void Start()
 		{
@@ -20,6 +21,8 @@ namespace Player
 			playerControls.Player.Drive.canceled += DrivePerformed;
 			playerControls.Player.Powerup.started += UsePowerStarted;
 			playerControls.Player.Powerup.canceled += UsePowerCanceled;
+			playerControls.Player.Drop.started += DropPowerStarted;
+			playerControls.Player.Drop.canceled += DropPowerCanceled;
 			playerControls.Enable();
 		}
 
@@ -31,6 +34,16 @@ namespace Player
 		private void UsePowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
 			isUsingPowerup = false;
+		}
+
+		private void DropPowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		{
+			isDroppingPowerup = true;
+		}
+		
+		private void DropPowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		{
+			isDroppingPowerup = false;
 		}
 
 		private void DrivePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
