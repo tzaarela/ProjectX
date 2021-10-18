@@ -187,10 +187,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1566610412460490308, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
-      propertyPath: Interval
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4185182600987269392, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
       propertyPath: m_Name
       value: NetworkLobbyManagerExt
@@ -586,7 +582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5931259736251436311, guid: 188e00d4bb9dc014693c4f1657774850, type: 3}
       propertyPath: sceneId
-      value: 763930974
+      value: 2899953523
       objectReference: {fileID: 0}
     - target: {fileID: 5931259736251436313, guid: 188e00d4bb9dc014693c4f1657774850, type: 3}
       propertyPath: m_Name
@@ -607,7 +603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7491678843912490276, guid: 3a3c5b0a41e6a8849b1f05f68e15b114, type: 3}
       propertyPath: sceneId
-      value: 3282249931
+      value: 3705397228
       objectReference: {fileID: 0}
     - target: {fileID: 7491678843912490279, guid: 3a3c5b0a41e6a8849b1f05f68e15b114, type: 3}
       propertyPath: m_RootOrder
