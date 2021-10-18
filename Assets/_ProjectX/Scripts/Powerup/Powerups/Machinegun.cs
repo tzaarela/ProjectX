@@ -9,7 +9,7 @@ namespace Powerup.Powerups
 	{
 		private void OnEnable()
 		{
-			ammo = 10;
+			ammo = 40;
 		}
 
 		protected override void Execute()
