@@ -1,74 +1,75 @@
-using Cinemachine;
 using Mirror;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Managers;
+using PowerUp.Projectiles;
 using UnityEngine;
 
 namespace Player
 {
 	public class PlayerController : NetworkBehaviour, ISendGlobalSignal
 	{
-		[Header("Setup")]
-		[SerializeField] private GameObject bulletPrefab;
-
 		[Header("Settings")]
 		public List<AxleInfo> axleInfos;
 		public float maxMotorTorque;
 		public float maxSteeringAngle;
 		public Vector3 centerOfMassOffset;
 
-		private InputManager inputs;
-		private CinemachineVirtualCamera virtualCamera;
-		private Rigidbody rb;
-		private PowerupSlot powerupSlot;
+		[Header("References")]
+		[SerializeField] private InputManager inputs;
+		[SerializeField] private PowerupSlot powerupSlot;
+		[SerializeField] private Rigidbody rb;
+		
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
 		private float fireCooldown = 0.2f;
 		private float nextFire = 0;
 
-		public override void OnStartServer()
-		{
-			base.OnStartServer();
-
-			print("OnStartServer(netId) " + GetComponent<NetworkIdentity>().netId);
-			rb = GetComponent<Rigidbody>();
-			rb.centerOfMass = centerOfMassOffset;
-			powerupSlot = GetComponent<PowerupSlot>();
-		}
-
-		// public override void OnStartLocalPlayer()
+		// [Server]
+		// public override void OnStartServer()
 		// {
-		// 	base.OnStartLocalPlayer();
+		// 	base.OnStartServer();
 		// 	
-		// 	print("OnStartLocalPlayer(netId) " + GetComponent<NetworkIdentity>().netId);
-		// 	rb = GetComponent<Rigidbody>();
+		// 	if (!isServer)
+		// 		return;
+		// 	
+		// 	print("OnStartServer(netId) " + GetComponent<NetworkIdentity>().netId);
 		// 	rb.centerOfMass = centerOfMassOffset;
-		// 	powerupSlot = GetComponent<PowerupSlot>();
-		// 	inputs = GetComponent<InputManager>();
-		// 	ServiceLocator.RoundManager.AddActivePlayer();
-		// 	SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
 		// }
 
-		private void Start()
+		public override void OnStartClient()
 		{
-			print("Start(netId) " + GetComponent<NetworkIdentity>().netId);
+			base.OnStartClient();
+
+			print("OnStartClient(netId) " + GetComponent<NetworkIdentity>().netId);
+			rb.centerOfMass = centerOfMassOffset;
+
 			if (!isLocalPlayer)
 				return;
 			
-			// rb = GetComponent<Rigidbody>();
-			// rb.centerOfMass = centerOfMassOffset;
-			// powerupSlot = GetComponent<PowerupSlot>();
-			inputs = GetComponent<InputManager>();
-			ServiceLocator.RoundManager.AddActivePlayer();
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
-			// virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
-			// virtualCamera.Follow = transform;
+			CmdUpdateActivePlayersList();
+		}
+
+		// private void Start()
+		// {
+		// 	if (!isLocalPlayer)
+		// 		return;
+		//
+		// 	print("Start(netId) " + GetComponent<NetworkIdentity>().netId);
+		// 	rb.centerOfMass = centerOfMassOffset;
+		//
+		// 	SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
+		// 	CmdUpdateActivePlayersList();
+		// }
+
+		[Command]
+		private void CmdUpdateActivePlayersList()
+		{
+			ServiceLocator.RoundManager.AddActivePlayer();
 		}
 
 		private void Update()
@@ -76,8 +77,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 			
-			// if (inputs.isUsingPowerup)
-			// 	UsePowerup();
+			if (inputs.isUsingPowerup)
+				UsePowerup();
 		}
 
 		private void FixedUpdate()
@@ -118,7 +119,7 @@ namespace Player
 			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
 			Vector3 bulletPosition = transform.position + new Vector3(0, 2, 0);
 			bullet.transform.position = bulletPosition;
-			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
+			bullet.GetComponent<Bullet>().SetupProjectile(shootingDirection);
 			nextFire = fireCooldown + Time.time;
 		}
 
@@ -156,7 +157,7 @@ namespace Player
 				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
 			}
 		}
-
+		
 		private void AutoStabilize(AxleInfo axleInfo)
 		{
 			WheelHit hit;
