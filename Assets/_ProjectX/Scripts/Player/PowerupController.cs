@@ -10,23 +10,23 @@ namespace Player
 	{
 		private InputManager inputs;
 		
-		[SerializeField]private PowerupType currentPowerup;
+		[SerializeField] private PowerupType currentPowerupType;
 
 		// Important that added items follows same pattern as PowerupType
 		public List<PowerupBase> powerups = new List<PowerupBase>();
 		
-		public PowerupBase powerup;
+		public PowerupBase currentPowerup;
 
 
 		public override void OnStartServer()
 		{
-			if (currentPowerup != PowerupType.NONE)
-				powerup = powerups[(int)currentPowerup - 1];
+			if (currentPowerupType != PowerupType.NONE)
+				currentPowerup = powerups[(int)currentPowerupType - 1];
 		}
 		public override void OnStartLocalPlayer()
 		{
-			if (currentPowerup != PowerupType.NONE)
-				powerup = powerups[(int)currentPowerup - 1];
+			//if (currentPowerup != PowerupType.NONE)
+			//	powerup = powerups[(int)currentPowerup - 1];
 
 			inputs = GetComponent<InputManager>();
 		}
@@ -36,8 +36,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-			if (currentPowerup == PowerupType.NONE)
-				return;
+			//if (currentPowerup == PowerupType.NONE)
+			//	return;
 			
 			if (inputs.isUsingPowerup)
 				CmdUse();
@@ -49,56 +49,72 @@ namespace Player
 		[Command]
 		public void CmdUse()
 		{
-			if(powerup == null)
+			if(currentPowerup == null)
 				return;
 			
-			if(currentPowerup != PowerupType.NONE)
-				powerup.Use();
-			
-			// if(powerup.GetAmmo() <= 0)
-			// 	Drop();
+			currentPowerup.Use();
+
+			if (currentPowerup.GetAmmo() <= 0)
+				Drop();
 		}
 
 		[Server]
 		public void Pickup(PowerupType newPowerUp)
 		{
-			if (currentPowerup != PowerupType.NONE || currentPowerup == newPowerUp)
+			if (currentPowerupType != PowerupType.NONE || currentPowerupType == newPowerUp)
 				return;
 			
 			// -1 as PowerupType.NONE is not in list powerups
-			powerup = powerups[(int)newPowerUp - 1];
+			currentPowerup = powerups[(int)newPowerUp - 1];
 			
-			currentPowerup = newPowerUp;
+			currentPowerupType = newPowerUp;
 
-			RpcUpdateClientPickup(newPowerUp);
+			UpdateClientPickup(newPowerUp);
 		}
 		
-		[ClientRpc]
-		private void RpcUpdateClientPickup(PowerupType newPowerupType)
+		
+		private void UpdateClientPickup(PowerupType newPowerupType)
 		{
-			if (currentPowerup != PowerupType.NONE)
-				powerups[(int)currentPowerup - 1].gameObject.SetActive(false);
+			if (currentPowerupType != PowerupType.NONE)
+			{
+				RpcDeactivateObject((int)currentPowerupType - 1);
+				
+			}
+
+			if (newPowerupType != PowerupType.NONE)
+			{
+				RpcActivateObject((int)newPowerupType - 1);
+			}
 			
-			if(newPowerupType != PowerupType.NONE)
-				powerups[(int)newPowerupType - 1].gameObject.SetActive(true);
-			
-			currentPowerup = newPowerupType;
+		}
+
+		[ClientRpc]
+		private void RpcActivateObject(int powerIndex)
+		{
+			powerups[powerIndex].gameObject.SetActive(true);
+		}
+
+
+		[ClientRpc]
+		private void RpcDeactivateObject(int powerIndex)
+		{
+			powerups[powerIndex].gameObject.SetActive(false);
 		}
 
 		[Server]
 		private void Drop()
 		{
-			powerup = null;
-			RpcUpdateClientPickup(PowerupType.NONE);
-			currentPowerup = PowerupType.NONE;
+			currentPowerup = null;
+			UpdateClientPickup(PowerupType.NONE);
+			currentPowerupType = PowerupType.NONE;
 		}
 
 		[Command]
 		private void CmdDrop()
 		{
-			powerup = null;
-			RpcUpdateClientPickup(PowerupType.NONE);
-			currentPowerup = PowerupType.NONE;
+			currentPowerup = null;
+			UpdateClientPickup(PowerupType.NONE);
+			currentPowerupType = PowerupType.NONE;
 		}
 	}
 }
