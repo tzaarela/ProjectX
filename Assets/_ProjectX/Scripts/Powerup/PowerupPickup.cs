@@ -3,10 +3,11 @@ using Player;
 using PowerUp;
 using Utilites;
 using UnityEngine;
+using Mirror;
 
-public class PowerupPickup : MonoBehaviour
+public class PowerupPickup : NetworkBehaviour
 {
-    [SerializeField]private PowerupType currentPowerupType;
+    [SerializeField] private PowerupType currentPowerupType;
 
     private Rotator rotator;
 
@@ -17,8 +18,8 @@ public class PowerupPickup : MonoBehaviour
     
     private void OnEnable()
     {
-        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(1);
         rotator.doRotate = true;
+        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(1);
     }
 
     private void OnDisable()
@@ -28,9 +29,13 @@ public class PowerupPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!isServer)
+            return;
+        
         if (other.CompareTag("Player"))
         {
             other.GetComponent<PowerupSlot>().Pickup(currentPowerupType);
+            NetworkServer.Destroy(gameObject);
         }
     }
 }

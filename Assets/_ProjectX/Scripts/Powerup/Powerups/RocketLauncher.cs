@@ -18,9 +18,10 @@ namespace Powerup.Powerups
 			{
 				Vector3 direction = hardpoint.forward;
 				
-				Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
-				bullet.transform.position = hardpoint.position + direction * 0.5f;
-				bullet.SetupProjectile(direction);
+				Rocket rocket = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Rocket).GetComponent<Rocket>();
+				rocket.transform.position = hardpoint.position + direction * 0.5f;
+				rocket.transform.rotation = hardpoint.rotation;
+				rocket.SetupProjectile(direction);
 			}
 		}
 	}

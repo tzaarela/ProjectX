@@ -25,8 +25,6 @@ namespace Player
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
-		private float fireCooldown = 0.2f;
-		private float nextFire = 0;
 
 		// [Server]
 		// public override void OnStartServer()

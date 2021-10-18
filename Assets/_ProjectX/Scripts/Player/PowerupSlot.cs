@@ -20,8 +20,10 @@ namespace Player
 		private void Start()
 		{
 			inputs = GetComponent<InputManager>();
-			powerup = powerups[0];
-			currentPowerup = PowerupType.MACHINEGUN;
+
+			if (currentPowerup != PowerupType.NONE)
+				powerup = powerups[(int)currentPowerup - 1];
+
 		}
 		
 		private void Update()
