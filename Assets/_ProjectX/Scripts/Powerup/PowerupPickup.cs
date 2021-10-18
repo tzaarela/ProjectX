@@ -24,9 +24,8 @@ public class PowerupPickup : NetworkBehaviour
 
 	private void OnEnable()
     {
-        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(1);
+        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
     }
-    
 
     [Server]
     private void OnTriggerEnter(Collider other)
@@ -38,6 +37,7 @@ public class PowerupPickup : NetworkBehaviour
 	{
         if (playerObj.CompareTag("Player"))
         {
+            Debug.Log("CURRENT PICKUP: " + currentPowerupType);
             playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
             NetworkServer.Destroy(gameObject);
         }

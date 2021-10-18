@@ -15,19 +15,8 @@ namespace Player
 		// Important that added items follows same pattern as PowerupType
 		public List<PowerupBase> powerups = new List<PowerupBase>();
 		
-		public PowerupBase currentPowerup;
-
-
-		public override void OnStartServer()
-		{
-			if (currentPowerupType != PowerupType.NONE)
-				currentPowerup = powerups[(int)currentPowerupType - 1];
-		}
 		public override void OnStartLocalPlayer()
 		{
-			//if (currentPowerup != PowerupType.NONE)
-			//	powerup = powerups[(int)currentPowerup - 1];
-
 			inputs = GetComponent<InputManager>();
 		}
 
@@ -35,9 +24,6 @@ namespace Player
 		{
 			if (!isLocalPlayer)
 				return;
-
-			//if (currentPowerup == PowerupType.NONE)
-			//	return;
 			
 			if (inputs.isUsingPowerup)
 				CmdUse();
@@ -49,12 +35,12 @@ namespace Player
 		[Command]
 		public void CmdUse()
 		{
-			if(currentPowerup == null)
+			if (currentPowerupType == PowerupType.NONE)
 				return;
 			
-			currentPowerup.Use();
+			powerups[(int)currentPowerupType].Use();
 
-			if (currentPowerup.GetAmmo() <= 0)
+			if (powerups[(int)currentPowerupType].GetAmmo() <= 0)
 				Drop();
 		}
 
@@ -64,28 +50,22 @@ namespace Player
 			if (currentPowerupType != PowerupType.NONE || currentPowerupType == newPowerUp)
 				return;
 			
-			// -1 as PowerupType.NONE is not in list powerups
-			currentPowerup = powerups[(int)newPowerUp - 1];
-			
 			currentPowerupType = newPowerUp;
 
 			UpdateClientPickup(newPowerUp);
 		}
 		
-		
 		private void UpdateClientPickup(PowerupType newPowerupType)
 		{
 			if (currentPowerupType != PowerupType.NONE)
 			{
-				RpcDeactivateObject((int)currentPowerupType - 1);
-				
+				RpcDeactivateObject((int)currentPowerupType);
 			}
 
 			if (newPowerupType != PowerupType.NONE)
 			{
-				RpcActivateObject((int)newPowerupType - 1);
+				RpcActivateObject((int)newPowerupType);
 			}
-			
 		}
 
 		[ClientRpc]
@@ -93,8 +73,7 @@ namespace Player
 		{
 			powerups[powerIndex].gameObject.SetActive(true);
 		}
-
-
+		
 		[ClientRpc]
 		private void RpcDeactivateObject(int powerIndex)
 		{
@@ -104,7 +83,6 @@ namespace Player
 		[Server]
 		private void Drop()
 		{
-			currentPowerup = null;
 			UpdateClientPickup(PowerupType.NONE);
 			currentPowerupType = PowerupType.NONE;
 		}
@@ -112,7 +90,6 @@ namespace Player
 		[Command]
 		private void CmdDrop()
 		{
-			currentPowerup = null;
 			UpdateClientPickup(PowerupType.NONE);
 			currentPowerupType = PowerupType.NONE;
 		}

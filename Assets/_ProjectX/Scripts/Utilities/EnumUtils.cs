@@ -13,7 +13,7 @@ namespace Utilites
                 startValue = values.Length;
             }
             
-            int random = UnityEngine.Random.Range(startValue, values.Length);
+            int random = UnityEngine.Random.Range(startValue, values.Length - 1);
             return (T)values.GetValue(random);
         }
     }
