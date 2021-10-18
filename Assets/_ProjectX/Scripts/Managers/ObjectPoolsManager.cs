@@ -103,7 +103,7 @@ namespace Managers
 			obj.SetActive(true);
 		}
 
-		[Server]
+		[ServerCallback]
 		private void OnDestroy()
 		{
 			ServiceLocator.ProvideObjectPoolsManager(null);

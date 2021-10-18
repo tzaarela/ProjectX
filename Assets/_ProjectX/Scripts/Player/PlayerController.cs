@@ -28,8 +28,6 @@ namespace Player
 
 		public override void OnStartClient()
 		{
-			base.OnStartClient();
-
 			print("OnStartClient(netId) " + GetComponent<NetworkIdentity>().netId);
 			rb.centerOfMass = centerOfMassOffset;
 

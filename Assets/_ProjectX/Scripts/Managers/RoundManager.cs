@@ -18,8 +18,12 @@ namespace Managers
 		public int NumberOfConnectedClients { get; set; }
 
 		// NetworkIdentity = ServerOnly
-		private void Awake()
+		[Server]
+		public override void OnStartServer()
 		{
+			if (!isServer)
+				return;
+
 			if (!hasBeenProvided)
 			{
 				print("RoundManager provided to ServiceLocator");
@@ -41,11 +45,12 @@ namespace Managers
 			print("NumberOfSpawnedPlayers = " + numberOfSpawnedPlayers);
 			if (numberOfSpawnedPlayers == NumberOfConnectedClients)
 			{
+				print("Spawned PlayerIds:");
 				foreach (var id in connectedPlayers)
 				{
 					print(id);
 				}
-				print("Mediator: All clients connected to game!");
+				print("Mediator: All players connected to game!");
 				SendGlobal(GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME);
 			}
 		}

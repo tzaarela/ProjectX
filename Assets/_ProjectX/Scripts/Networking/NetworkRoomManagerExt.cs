@@ -8,6 +8,8 @@ namespace Networking
 {
 	public class NetworkRoomManagerExt : NetworkRoomManager
 	{
+		private const string GameScene = "Assets/_ProjectX/Scenes/Game.unity";
+		
 		public override void OnServerSceneChanged(string sceneName)
 		{
 			base.OnServerSceneChanged(sceneName);
@@ -18,6 +20,10 @@ namespace Networking
 		{
 			base.ServerChangeScene(newSceneName);
 
+			
+			if (newSceneName != GameScene)
+				return;
+			
 			int connectedClients = 0;
 			foreach (NetworkRoomPlayer player in roomSlots)
 			{

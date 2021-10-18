@@ -9,8 +9,12 @@ namespace Managers
 		private static bool hasBeenProvided;
 		
 		// NetworkIdentity = ServerOnly
-		private void Awake()
+		[Server]
+		public override void OnStartServer()
 		{
+			if (!isServer)
+				return;
+			
 			if (!hasBeenProvided)
 			{
 				print("AudioManager provided to ServiceLocator");
