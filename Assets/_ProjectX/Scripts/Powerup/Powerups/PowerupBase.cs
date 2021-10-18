@@ -42,6 +42,13 @@ namespace Powerup.Powerups
 			return ammo;
 		}
 
-		protected virtual void Execute() { }
+		protected virtual void Execute() {
+			ammo--;
+
+			if (ammo <= 0)
+			{
+
+			}
+		}
 	}
 }

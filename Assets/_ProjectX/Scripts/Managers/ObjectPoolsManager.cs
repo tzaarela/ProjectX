@@ -29,8 +29,11 @@ namespace Managers
 			
 			print("ObjectPoolsManager provided to ServiceLocator");
 			ServiceLocator.ProvideObjectPoolsManager(this);
-			CreatePool();
-			// Invoke("CreatePool", 3f);
+
+
+			//wait for all player to connect
+			//CreatePool();
+			Invoke("CreatePool", 3f);
 		}
 		
 		// [Server]
@@ -59,7 +62,6 @@ namespace Managers
 					GameObject obj = Instantiate(pool.prefab, pool.parent);
 					obj.SetActive(false);
 					NetworkServer.Spawn(obj);
-					//RpcDeactivateObject(obj);
 					objectPool.Enqueue(obj);
 				}
 
@@ -75,7 +77,7 @@ namespace Managers
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				//objFromPool.transform.parent = null;
 				objFromPool.SetActive(true);
-				// RpcActivateObject(objFromPool);
+				RpcActivateObject(objFromPool);
 				return objFromPool;
 			}
 			
@@ -97,7 +99,7 @@ namespace Managers
 		public void ReturnToPool(ObjectPoolType poolType, GameObject obj)
 		{
 			obj.SetActive(false);
-			// RpcDeactivateObject(obj);
+			RpcDeactivateObject(obj);
 			poolDictionary[poolType].Enqueue(obj);
 		}
 

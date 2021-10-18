@@ -4,6 +4,10 @@ namespace Managers
 {
 	public class HudManager : NetworkBehaviour
 	{
+
+
+
+		
 		// NetworkIdentity = !ServerOnly
 		private void Awake()
 		{

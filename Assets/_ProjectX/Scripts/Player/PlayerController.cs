@@ -19,24 +19,12 @@ namespace Player
 
 		[Header("References")]
 		[SerializeField] private InputManager inputs;
-		[SerializeField] private PowerupSlot powerupSlot;
+		[SerializeField] private PowerupController powerupSlot;
 		[SerializeField] private Rigidbody rb;
 		
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
-
-		// [Server]
-		// public override void OnStartServer()
-		// {
-		// 	base.OnStartServer();
-		// 	
-		// 	if (!isServer)
-		// 		return;
-		// 	
-		// 	print("OnStartServer(netId) " + GetComponent<NetworkIdentity>().netId);
-		// 	rb.centerOfMass = centerOfMassOffset;
-		// }
 
 		public override void OnStartClient()
 		{
@@ -52,32 +40,17 @@ namespace Player
 			CmdUpdateActivePlayersList();
 		}
 
-		// private void Start()
-		// {
-		// 	if (!isLocalPlayer)
-		// 		return;
-		//
-		// 	print("Start(netId) " + GetComponent<NetworkIdentity>().netId);
-		// 	rb.centerOfMass = centerOfMassOffset;
-		//
-		// 	SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
-		// 	CmdUpdateActivePlayersList();
-		// }
-
 		[Command]
 		private void CmdUpdateActivePlayersList()
 		{
 			ServiceLocator.RoundManager.AddActivePlayer();
 		}
 
-		private void Update()
-		{
-			if (!isLocalPlayer)
-				return;
-			
-			if (inputs.isUsingPowerup)
-				UsePowerup();
-		}
+		//private void Update()
+		//{
+		//	if (!isLocalPlayer)
+		//		return;
+		//}
 
 		private void FixedUpdate()
 		{
@@ -92,19 +65,7 @@ namespace Player
 			Gizmos.color = Color.red;
 			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
 		}
-
-		[Client]
-		private void UsePowerup()
-		{
-			Vector3 shootingDirection = transform.forward;
-			CmdUsePowerup(shootingDirection);
-		}
-
-		[Command]
-		private void CmdUsePowerup(Vector3 shootingDirection)
-		{			
-			powerupSlot.Use();
-		}
+		
 
 		[Client]
 		private void Drive()

@@ -11,5 +11,17 @@ namespace Networking
 		{
 			base.OnServerSceneChanged(sceneName);
 		}
+
+		//Game Starts!
+		public override void ServerChangeScene(string newSceneName)
+		{
+			base.ServerChangeScene(newSceneName);
+
+			foreach (NetworkRoomPlayer player in roomSlots)
+			{
+				if (player.readyToBegin)
+					print("name: " + player.name + "Id: " + player.netId);
+			}
+		}
 	}
 }

@@ -187,6 +187,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3561817599053994394, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3561817599053994394, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 550862588956206963, guid: 3ff318fb047fe144689e6735632b6c15, type: 3}
     - target: {fileID: 4185182600987269392, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
       propertyPath: m_Name
       value: NetworkLobbyManagerExt

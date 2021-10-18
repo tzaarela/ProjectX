@@ -4,6 +4,7 @@ using PowerUp;
 using Utilites;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class PowerupPickup : NetworkBehaviour
 {
@@ -15,26 +16,29 @@ public class PowerupPickup : NetworkBehaviour
     {
         rotator = GetComponent<Rotator>();
     }
-    
-    private void OnEnable()
-    {
+
+	private void Start()
+	{
         rotator.doRotate = true;
+	}
+
+	private void OnEnable()
+    {
         currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(1);
     }
+    
 
-    private void OnDisable()
-    {
-        rotator.doRotate = false;
-    }
-
+    [Server]
     private void OnTriggerEnter(Collider other)
     {
-        if (!isServer)
-            return;
-        
-        if (other.CompareTag("Player"))
+        PickUp(other.gameObject);
+    }
+
+	private void PickUp(GameObject playerObj)
+	{
+        if (playerObj.CompareTag("Player"))
         {
-            other.GetComponent<PowerupSlot>().Pickup(currentPowerupType);
+            playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
             NetworkServer.Destroy(gameObject);
         }
     }

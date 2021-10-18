@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Player
 {
-	public class PowerupSlot : NetworkBehaviour
+	public class PowerupController : NetworkBehaviour
 	{
 		private InputManager inputs;
 		
@@ -17,15 +17,20 @@ namespace Player
 		
 		public PowerupBase powerup;
 
-		private void Start()
-		{
-			inputs = GetComponent<InputManager>();
 
+		public override void OnStartServer()
+		{
+			if (currentPowerup != PowerupType.NONE)
+				powerup = powerups[(int)currentPowerup - 1];
+		}
+		public override void OnStartLocalPlayer()
+		{
 			if (currentPowerup != PowerupType.NONE)
 				powerup = powerups[(int)currentPowerup - 1];
 
+			inputs = GetComponent<InputManager>();
 		}
-		
+
 		private void Update()
 		{
 			if (!isLocalPlayer)
@@ -36,8 +41,10 @@ namespace Player
 			
 			if (inputs.isUsingPowerup)
 			{
-				Use();
+				CmdUse();
 			}
+
+			
 
 			if (powerup.GetAmmo() <= 0)
 			{
@@ -45,13 +52,14 @@ namespace Player
 			}
 		}
 
-		[Server]
-		public void Use()
+		[Command]
+		public void CmdUse()
 		{
 			if(currentPowerup != PowerupType.NONE)
 				powerup.Use();
 		}
 
+		[Server]
 		public void Pickup(PowerupType newPowerUp)
 		{
 			if (currentPowerup != PowerupType.NONE || currentPowerup == newPowerUp)
@@ -61,9 +69,25 @@ namespace Player
 			powerup = powerups[(int)newPowerUp - 1];
 			
 			currentPowerup = newPowerUp;
+
+			RpcUpdateClientPickup(newPowerUp);
+		}
+
+		[ClientRpc]
+		private void RpcUpdateClientPickup(PowerupType powerupType)
+		{
+			currentPowerup = powerupType;
+			//UPDate models - Particles - Hud 
 		}
 
 		private void Drop()
+		{
+			currentPowerup = PowerupType.NONE;
+			CmdDrop();
+		}
+
+		[Command]
+		private void CmdDrop()
 		{
 			currentPowerup = PowerupType.NONE;
 			powerup = null;
