@@ -2,6 +2,9 @@ namespace Data.Enums
 {
     public enum GlobalEvent
     {
+        // NETWORK EVENT
+        ALL_PLAYERS_CONECTED_TO_GAME,
+        
         // GAME STATE EVENT
         WIN_GAMESTATE,
         LOST_GAMESTATE,
