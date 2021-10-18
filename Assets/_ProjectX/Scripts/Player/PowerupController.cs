@@ -44,12 +44,15 @@ namespace Player
 				CmdUse();
 			}
 
+			if (inputs.isDroppingPowerup)
+			{
+				Drop();
+			}
 			
-
-			//if (powerup.GetAmmo() <= 0)
-			//{
-			//	Drop();
-			//}
+			// if (powerup.GetAmmo() <= 0)
+			// {
+			// 	Drop();
+			// }
 		}
 
 		[Command]
@@ -74,23 +77,27 @@ namespace Player
 		}
 
 		[ClientRpc]
-		private void RpcUpdateClientPickup(PowerupType powerupType)
+		private void RpcUpdateClientPickup(PowerupType newPowerupType)
 		{
-			currentPowerup = powerupType;
-			//UPDate models - Particles - Hud 
+			if (currentPowerup != PowerupType.NONE)
+				powerups[(int)currentPowerup - 1].gameObject.SetActive(false);
+			
+			if(newPowerupType != PowerupType.NONE)
+				powerups[(int)newPowerupType - 1].gameObject.SetActive(true);
+			
+			currentPowerup = newPowerupType;
 		}
 
 		private void Drop()
 		{
-			currentPowerup = PowerupType.NONE;
 			CmdDrop();
 		}
 
 		[Command]
 		private void CmdDrop()
 		{
-			currentPowerup = PowerupType.NONE;
 			powerup = null;
+			RpcUpdateClientPickup(PowerupType.NONE);
 		}
 	}
 }
