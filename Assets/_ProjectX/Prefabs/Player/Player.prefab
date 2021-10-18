@@ -167,13 +167,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentPowerup: 0
+  currentPowerupType: 1
   powerups:
   - {fileID: 1564093055591017610}
   - {fileID: 8379933378597833462}
   - {fileID: 2795772024395906163}
   - {fileID: 7058477879792305930}
-  powerup: {fileID: 0}
 --- !u!114 &2873669366857949124
 MonoBehaviour:
   m_ObjectHideFlags: 0
