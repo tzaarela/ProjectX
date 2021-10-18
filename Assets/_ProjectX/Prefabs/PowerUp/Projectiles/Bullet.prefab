@@ -50,9 +50,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  damage: 5
+  damage: 1
   shootingStrength: 100
-  aliveTime: 3
+  aliveTime: 2
 --- !u!54 &-5622612303277816428
 Rigidbody:
   m_ObjectHideFlags: 0

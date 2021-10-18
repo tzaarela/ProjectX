@@ -9,9 +9,9 @@ namespace PowerUp.Projectiles
 {
 	public abstract class ProjectileBase : NetworkBehaviour
 	{
-		[SerializeField] protected float damage;
-		[SerializeField] protected float shootingStrength;
-		[SerializeField] protected float aliveTime;
+		[SerializeField] protected float damage = 1f;
+		[SerializeField] protected float shootingStrength = 100f;
+		[SerializeField] protected float aliveTime = 2f;
 
 		protected Rigidbody rb;
 

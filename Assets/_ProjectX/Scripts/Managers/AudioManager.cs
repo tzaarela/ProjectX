@@ -8,6 +8,7 @@ namespace Managers
 	{
 		private static bool hasBeenProvided;
 		
+		// NetworkIdentity = ServerOnly
 		private void Awake()
 		{
 			if (!hasBeenProvided)
