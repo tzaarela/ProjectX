@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data.Containers.GlobalSignal;
 using Data.Enums;
+using Data.Interfaces;
 using Mirror;
 using UnityEngine;
 
 namespace Managers
 {
-	public class ObjectPoolsManager : NetworkBehaviour
+	public class ObjectPoolsManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
 		[Serializable]
 		public class Pool
@@ -27,26 +29,12 @@ namespace Managers
 			if (!isServer)
 				return;
 			
+			GlobalMediator.Instance.Subscribe(this);
+			
 			print("ObjectPoolsManager provided to ServiceLocator");
 			ServiceLocator.ProvideObjectPoolsManager(this);
-
-
-			//wait for all player to connect
-			//CreatePool();
-			Invoke("CreatePool", 3f);
 		}
 		
-		// [Server]
-		// public void Start()
-		// {
-		// 	if (!isServerOnly)
-		// 		return;
-		//
-		// 	print("ObjectPoolsManager provided to ServiceLocator");
-		// 	ServiceLocator.ProvideObjectPoolsManager(this);
-		// 	Invoke("CreatePool", 3f);
-		// }
-
 		[Server]
 		private void CreatePool()
 		{
@@ -118,6 +106,16 @@ namespace Managers
 		private void OnDestroy()
 		{
 			ServiceLocator.ProvideObjectPoolsManager(null);
+		}
+
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			print("Yellow!");
+			if (eventState == GlobalEvent.ALL_PLAYERS_CONECTED_TO_GAME)
+			{
+				print("Yellow2!");
+				CreatePool();
+			}
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Networking
@@ -17,11 +18,17 @@ namespace Networking
 		{
 			base.ServerChangeScene(newSceneName);
 
+			int connectedClients = 0;
 			foreach (NetworkRoomPlayer player in roomSlots)
 			{
 				if (player.readyToBegin)
+				{
 					print("name: " + player.name + "Id: " + player.netId);
+					connectedClients++;
+				}
 			}
+			print("Connected clients when starting game: " + connectedClients);
+			ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
 		}
 	}
 }

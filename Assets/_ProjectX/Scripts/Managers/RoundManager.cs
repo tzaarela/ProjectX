@@ -1,16 +1,20 @@
-﻿using Mirror;
+﻿using Data.Containers.GlobalSignal;
+using Data.Enums;
+using Data.Interfaces;
+using Mirror;
 
 namespace Managers
 {
-	public class RoundManager : NetworkBehaviour
+	public class RoundManager : NetworkBehaviour, ISendGlobalSignal
 	{
-		private int numberOfActivePlayers;
-		
+		private int numberOfSpawnedPlayers;
+
 		private static bool hasBeenProvided;
 
-		public int NumberOfActivePlayers => numberOfActivePlayers;
-		
+		public int NumberOfConnectedClients { get; set; }
+
 		// NetworkIdentity = ServerOnly
+
 		private void Awake()
 		{
 			if (!hasBeenProvided)
@@ -28,8 +32,18 @@ namespace Managers
 
 		public void AddActivePlayer()
 		{
-			numberOfActivePlayers++;
-			print("NumberOfActivePlayers = " + numberOfActivePlayers);
+			numberOfSpawnedPlayers++;
+			print("NumberOfSpawnedPlayers = " + numberOfSpawnedPlayers);
+			if (numberOfSpawnedPlayers == NumberOfConnectedClients)
+			{
+				print("Mediator: All clients connected to game!");
+				SendGlobal(GlobalEvent.ALL_PLAYERS_CONECTED_TO_GAME);
+			}
+		}
+
+		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
 		}
 	}
 }
