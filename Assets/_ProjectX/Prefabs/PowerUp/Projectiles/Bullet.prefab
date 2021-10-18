@@ -48,6 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc270f471f546e9b4a7856d4be2aeb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  damage: 5
+  shootingStrength: 100
+  aliveTime: 3
 --- !u!54 &-5622612303277816428
 Rigidbody:
   m_ObjectHideFlags: 0

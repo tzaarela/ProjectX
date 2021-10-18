@@ -20,7 +20,7 @@ namespace Player
 		private void Start()
 		{
 			inputs = GetComponent<InputManager>();
-			powerup = powerups[1];
+			powerup = powerups[0];
 			currentPowerup = PowerupType.MACHINEGUN;
 		}
 		
@@ -34,7 +34,7 @@ namespace Player
 			
 			if (inputs.isUsingPowerup)
 			{
-				CmdUse();
+				Use();
 			}
 
 			if (powerup.GetAmmo() <= 0)
@@ -43,10 +43,11 @@ namespace Player
 			}
 		}
 
-		[Command]
-		public void CmdUse()
+		[Server]
+		public void Use()
 		{
-			powerup.CmdUse();
+			if(currentPowerup != PowerupType.NONE)
+				powerup.Use();
 		}
 
 		public void Pickup(PowerupType newPowerUp)

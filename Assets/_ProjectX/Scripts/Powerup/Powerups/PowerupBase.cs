@@ -26,7 +26,8 @@ namespace Powerup.Powerups
 			}
 		}
 		
-		public void CmdUse()
+		[Server]
+		public void Use()
 		{
 			if (nextFire > Time.time)
 				return;

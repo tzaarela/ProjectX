@@ -76,8 +76,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 			
-			// if (inputs.isUsingPowerup)
-			// 	UsePowerup();
+			if (inputs.isUsingPowerup)
+				UsePowerup();
 		}
 
 		private void FixedUpdate()
@@ -103,23 +103,8 @@ namespace Player
 
 		[Command]
 		private void CmdUsePowerup(Vector3 shootingDirection)
-		{
-			//if (powerupSlot.hasPowerup)
-			//{
-			//	//powerupSlot.Use(); ?
-			//	//powerupSlot.Power.Use(); ?
-			//}
-
-			//Move to MachineGun Powerup class
-
-			if (nextFire > Time.time)
-				return;
-
-			GameObject bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet);
-			Vector3 bulletPosition = transform.position + new Vector3(0, 2, 0);
-			bullet.transform.position = bulletPosition;
-			bullet.GetComponent<Bullet>().Shoot(shootingDirection);
-			nextFire = fireCooldown + Time.time;
+		{			
+			powerupSlot.Use();
 		}
 
 		[Client]
