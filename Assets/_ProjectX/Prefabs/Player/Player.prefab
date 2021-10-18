@@ -94,7 +94,7 @@ Transform:
   m_GameObject: {fileID: 2873669366857949122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 876894334275638519}
   - {fileID: 8266908404073395792}
@@ -132,7 +132,7 @@ MonoBehaviour:
     steering: 0
   maxMotorTorque: 2000
   maxSteeringAngle: 35
-  centerOfMassOffset: {x: 0, y: 0.6, z: 1}
+  centerOfMassOffset: {x: 0, y: 0.32, z: 0.81}
   inputs: {fileID: 145973192295524686}
   powerupSlot: {fileID: 6781728122339915790}
   rb: {fileID: 4581631504117252368}
@@ -152,6 +152,7 @@ MonoBehaviour:
   isBoosting: 0
   isBraking: 0
   isUsingPowerup: 0
+  isDroppingPowerup: 0
 --- !u!114 &6781728122339915790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.1
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -557,12 +558,16 @@ PrefabInstance:
       value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
+      propertyPath: m_Center.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_WheelDampingRate
       value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.1
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -573,12 +578,16 @@ PrefabInstance:
       value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
+      propertyPath: m_Center.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_WheelDampingRate
       value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.1
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -594,7 +603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.1
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
