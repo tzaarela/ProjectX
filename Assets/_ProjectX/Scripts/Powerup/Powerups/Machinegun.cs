@@ -9,19 +9,26 @@ namespace Powerup.Powerups
 	{
 		private void OnEnable()
 		{
-			ammo = 30;
+			ammo = 10;
 		}
 
 		protected override void Execute()
 		{
-			foreach (Transform hardpoint in hardpoints)
+			base.Execute();
+			
+			if (ammo > 0)
 			{
-				Vector3 direction = hardpoint.forward;
-				
-				Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
-				bullet.transform.position = hardpoint.position + direction * 0.5f;
-				bullet.transform.rotation = hardpoint.rotation;
-				bullet.SetupProjectile(direction);
+				foreach (Transform hardpoint in hardpoints)
+				{
+					Vector3 direction = hardpoint.forward;
+
+					Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
+					bullet.transform.position = hardpoint.position + direction * 0.5f;
+					bullet.transform.rotation = hardpoint.rotation;
+					bullet.SetupProjectile(direction);
+
+					ammo--;
+				}
 			}
 		}
 	}

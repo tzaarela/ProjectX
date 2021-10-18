@@ -40,26 +40,23 @@ namespace Player
 				return;
 			
 			if (inputs.isUsingPowerup)
-			{
 				CmdUse();
-			}
 
 			if (inputs.isDroppingPowerup)
-			{
-				Drop();
-			}
-			
-			// if (powerup.GetAmmo() <= 0)
-			// {
-			// 	Drop();
-			// }
+				CmdDrop();
 		}
 
 		[Command]
 		public void CmdUse()
 		{
+			if(powerup == null)
+				return;
+			
 			if(currentPowerup != PowerupType.NONE)
 				powerup.Use();
+			
+			// if(powerup.GetAmmo() <= 0)
+			// 	Drop();
 		}
 
 		[Server]
@@ -75,7 +72,7 @@ namespace Player
 
 			RpcUpdateClientPickup(newPowerUp);
 		}
-
+		
 		[ClientRpc]
 		private void RpcUpdateClientPickup(PowerupType newPowerupType)
 		{
@@ -88,9 +85,12 @@ namespace Player
 			currentPowerup = newPowerupType;
 		}
 
+		[Server]
 		private void Drop()
 		{
-			CmdDrop();
+			powerup = null;
+			RpcUpdateClientPickup(PowerupType.NONE);
+			currentPowerup = PowerupType.NONE;
 		}
 
 		[Command]
@@ -98,6 +98,7 @@ namespace Player
 		{
 			powerup = null;
 			RpcUpdateClientPickup(PowerupType.NONE);
+			currentPowerup = PowerupType.NONE;
 		}
 	}
 }

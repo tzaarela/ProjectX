@@ -7,7 +7,7 @@ namespace Powerup.Powerups
 {
 	public abstract class PowerupBase : MonoBehaviour
 	{
-		protected int ammo;
+		[SerializeField]protected int ammo;
 		protected float fireRate;
 
 		[SerializeField]protected float fireCooldown = 0.2f;
@@ -15,6 +15,8 @@ namespace Powerup.Powerups
 
 		protected List<Transform> hardpoints = new List<Transform>();
 
+		//public Action OnAmmoDepleted;
+		
 		protected virtual void Start()
 		{
 			foreach (Transform hardpoint in transform)
@@ -42,12 +44,11 @@ namespace Powerup.Powerups
 			return ammo;
 		}
 
-		protected virtual void Execute() {
-			ammo--;
-
+		protected virtual void Execute() 
+		{
 			if (ammo <= 0)
 			{
-
+				//OnAmmoDepleted.Invoke();
 			}
 		}
 	}
