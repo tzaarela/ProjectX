@@ -7,14 +7,22 @@ namespace Powerup.Powerups
 {
 	public class Machinegun : PowerupBase
 	{
+		protected override void Start()
+		{
+			base.Start();
+
+			forwardSpawnOffset = 0.5f;
+			fireCooldown = 0.2f;
+		}
+
 		private void OnEnable()
 		{
 			ammo = 40;
 		}
 
-		protected override void Execute()
+		protected override void Execute(int netID)
 		{
-			base.Execute();
+			base.Execute(netID);
 			
 			if (ammo > 0)
 			{
@@ -25,7 +33,7 @@ namespace Powerup.Powerups
 					Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
 					bullet.transform.position = hardpoint.position + direction * 0.5f;
 					bullet.transform.rotation = hardpoint.rotation;
-					bullet.SetupProjectile(direction);
+					bullet.SetupProjectile(direction, netID);
 
 					ammo--;
 				}

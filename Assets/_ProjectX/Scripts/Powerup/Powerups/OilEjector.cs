@@ -12,7 +12,7 @@ namespace Powerup.Powerups
 			ammo = 3;
 		}
 
-		protected override void Execute()
+		protected override void Execute(int netID)
 		{
 			foreach (Transform hardpoint in hardpoints)
 			{
@@ -20,7 +20,7 @@ namespace Powerup.Powerups
 				
 				Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
 				bullet.transform.position = hardpoint.position + direction * 0.5f;
-				bullet.SetupProjectile(direction);
+				bullet.SetupProjectile(direction, netID);
 			}
 		}
 	}

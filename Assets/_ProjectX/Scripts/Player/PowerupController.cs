@@ -9,7 +9,9 @@ namespace Player
 	public class PowerupController : NetworkBehaviour
 	{
 		private InputManager inputs;
-		
+		private NetworkIdentity networkIdentity;
+		private int localNetId;
+
 		[SerializeField] private PowerupType currentPowerupType;
 
 		// Important that added items follows same pattern as PowerupType
@@ -18,6 +20,8 @@ namespace Player
 		public override void OnStartLocalPlayer()
 		{
 			inputs = GetComponent<InputManager>();
+			networkIdentity = GetComponent<NetworkIdentity>();
+			localNetId = (int)networkIdentity.netId;
 		}
 
 		private void Update()
@@ -26,19 +30,19 @@ namespace Player
 				return;
 			
 			if (inputs.isUsingPowerup)
-				CmdUse();
+				CmdUse(localNetId);
 
 			if (inputs.isDroppingPowerup)
 				CmdDrop();
 		}
 
 		[Command]
-		public void CmdUse()
+		public void CmdUse(int netID)
 		{
 			if (currentPowerupType == PowerupType.NONE)
 				return;
 			
-			powerups[(int)currentPowerupType].Use();
+			powerups[(int)currentPowerupType].Use(netID);
 
 			if (powerups[(int)currentPowerupType].GetAmmo() <= 0)
 				Drop();

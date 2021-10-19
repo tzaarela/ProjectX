@@ -3,7 +3,7 @@
     public enum PowerupType
     {
         MACHINEGUN,
-        // ROCKETLAUNCHER,
+        ROCKETLAUNCHER,
         //OIL_EJECTOR,
         //SHIELD_GENERATOR,
         //MINE_DEPLOYER,

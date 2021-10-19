@@ -12,26 +12,29 @@ namespace PowerUp.Projectiles
 		[SerializeField] protected float damage = 1f;
 		[SerializeField] protected float shootingStrength = 100f;
 		[SerializeField] protected float aliveTime = 2f;
+		protected int spawnedByNetId;
 
 		protected Rigidbody rb;
 
 		protected Vector3 direction;
-
-		public override void OnStartServer()
+		
+		private void Awake()
 		{
-			base.OnStartServer();
 			rb = GetComponent<Rigidbody>();
 		}
-		
+
 		private void OnDisable()
 		{
-			// TODO RESET VELOCITY AND STUFF
+			rb.velocity = Vector3.zero;
+			transform.eulerAngles = Vector3.zero;
+			StopCoroutine(CoDestroyAfterTime());
 		}
 
 		[Server]
-		public virtual void SetupProjectile(Vector3 dir)
+		public virtual void SetupProjectile(Vector3 dir, int netID)
 		{
 			direction = dir;
+			spawnedByNetId = netID;
 			
 			StartCoroutine(CoDestroyAfterTime());
 		}

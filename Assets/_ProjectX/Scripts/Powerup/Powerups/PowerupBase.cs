@@ -7,15 +7,12 @@ namespace Powerup.Powerups
 {
 	public abstract class PowerupBase : MonoBehaviour
 	{
+		[SerializeField]protected float forwardSpawnOffset;
 		[SerializeField]protected int ammo;
-		protected float fireRate;
-
-		[SerializeField]protected float fireCooldown = 0.2f;
+		[SerializeField]protected float fireCooldown;
 		private float nextFire = 0f;
 
 		protected List<Transform> hardpoints = new List<Transform>();
-
-		//public Action OnAmmoDepleted;
 		
 		protected virtual void Start()
 		{
@@ -29,14 +26,14 @@ namespace Powerup.Powerups
 		}
 		
 		[Server]
-		public void Use()
+		public void Use(int netID)
 		{
 			if (nextFire > Time.time)
 				return;
 			
 			nextFire = fireCooldown + Time.time;
 
-			Execute();
+			Execute(netID);
 		}
 
 		public int GetAmmo()
@@ -44,12 +41,6 @@ namespace Powerup.Powerups
 			return ammo;
 		}
 
-		protected virtual void Execute() 
-		{
-			if (ammo <= 0)
-			{
-				//OnAmmoDepleted.Invoke();
-			}
-		}
+		protected virtual void Execute(int netID) { }
 	}
 }

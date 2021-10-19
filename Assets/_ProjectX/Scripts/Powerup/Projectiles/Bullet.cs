@@ -1,22 +1,30 @@
-﻿using System;
-using Data.Enums;
+﻿using Data.Enums;
 using Managers;
+using Mirror;
 using UnityEngine;
 
 namespace PowerUp.Projectiles
 {
 	public class Bullet : ProjectileBase
 	{
-		public override void SetupProjectile(Vector3 dir)
+		public override void SetupProjectile(Vector3 dir, int netID)
 		{
-			base.SetupProjectile(dir);
+			base.SetupProjectile(dir, netID);
 			
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
-
+		
 		private void OnCollisionEnter(Collision other)
 		{
-			//ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
+			if(!isServer)
+				return;
+
+			if (other.gameObject.CompareTag("Player"))
+			{
+				//other.gameObject.GetComponent<PlayerController>().DealDamage(bulletOwner, damageType);
+			}
+			
+			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}
 	}
 }
