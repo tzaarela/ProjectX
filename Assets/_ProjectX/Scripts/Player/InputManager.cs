@@ -26,11 +26,18 @@ namespace Player
 			playerControls.Player.Steer.canceled += Steer;
 			playerControls.Player.Handbrake.performed += Handbrake;
 			playerControls.Player.Handbrake.canceled += Handbrake;
+			playerControls.Player.Boost.performed += Boost;
+			playerControls.Player.Boost.canceled += Boost;
 			playerControls.Player.Powerup.started += UsePowerStarted;
 			playerControls.Player.Powerup.canceled += UsePowerCanceled;
 			playerControls.Player.Drop.started += DropPowerStarted;
 			playerControls.Player.Drop.canceled += DropPowerCanceled;
 			playerControls.Enable();
+		}
+
+		private void Boost(InputAction.CallbackContext obj)
+		{
+			isBoosting = obj.performed;
 		}
 
 		private void Steer(InputAction.CallbackContext obj)

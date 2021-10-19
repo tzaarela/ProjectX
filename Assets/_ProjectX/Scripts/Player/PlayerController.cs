@@ -18,6 +18,7 @@ namespace Player
 		public float maxSteeringAngle;
 		public float brakeTorque;
 		public float decelerationForce;
+		public float boostMultiplier = 6f;
 
 		public Vector3 centerOfMassOffset;
 
@@ -29,6 +30,7 @@ namespace Player
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
+		private float defaultMaxMotorTorque;
 
 		public override void OnStartClient()
 		{
@@ -42,6 +44,11 @@ namespace Player
 			CmdUpdateActivePlayersList();
 
 			name += "-local";
+		}
+
+		public override void OnStartServer()
+		{
+			defaultMaxMotorTorque = maxMotorTorque;
 		}
 
 		[Command]
@@ -60,6 +67,11 @@ namespace Player
 
 			if (inputs.isBraking)
 				Brake();
+			if (inputs.isBoosting)
+				Boost(true);
+			else
+				Boost(false);
+			
 		}
 
 
@@ -68,7 +80,22 @@ namespace Player
 			Gizmos.color = Color.red;
 			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
 		}
+
+		[Client]
+		private void Boost(bool turnOn)
+		{
+			CmdBoost(turnOn);
+		}
 		
+		[Command]
+		private void CmdBoost(bool turnOn)
+		{
+			if (turnOn)
+				maxMotorTorque = defaultMaxMotorTorque * boostMultiplier;
+			else
+				maxMotorTorque = defaultMaxMotorTorque;
+		}
+
 		[Client]
 		private void Brake()
 		{
@@ -91,7 +118,6 @@ namespace Player
 		[Client]
 		private void Drive()
 		{
-			
 			CmdDrive(inputs.acceleration, inputs.steering);
 		}
 
@@ -100,9 +126,6 @@ namespace Player
 		{
 			float motor = maxMotorTorque * acceleration;
 			float steering = maxSteeringAngle * steer;
-
-			print(motor);
-			print(steering);
 
 			foreach (AxleInfo axleInfo in axleInfos)
 			{

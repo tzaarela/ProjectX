@@ -132,10 +132,11 @@ MonoBehaviour:
     hasMotor: 1
     hasSteering: 0
     hasHandbrake: 1
-  maxMotorTorque: 1000
-  maxSteeringAngle: 30
+  maxMotorTorque: 700
+  maxSteeringAngle: 32
   brakeTorque: 4000
   decelerationForce: 1200
+  boostMultiplier: 2.5
   centerOfMassOffset: {x: 0, y: 0.4, z: 0.93}
   inputs: {fileID: 145973192295524686}
   powerupSlot: {fileID: 6781728122339915790}
