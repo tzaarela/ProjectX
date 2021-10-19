@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1585398688
 RectTransform:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -20, y: 30}
-  m_SizeDelta: {x: 150, y: 50}
+  m_SizeDelta: {x: 150, y: 80}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &7088452726518362331
 CanvasRenderer:
@@ -199,7 +199,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score3
+  m_text: 'Score3:
+
+    000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0e0ba0b8d50e2ac4cbf5b1de58d821f0, type: 2}
   m_sharedMaterial: {fileID: -5103112951533867976, guid: 0e0ba0b8d50e2ac4cbf5b1de58d821f0, type: 2}
@@ -226,19 +228,19 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 30
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 36
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 4
+  m_characterSpacing: 10
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 36
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -302,8 +304,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 120}
-  m_SizeDelta: {x: 150, y: 50}
+  m_AnchoredPosition: {x: -20, y: 110}
+  m_SizeDelta: {x: 150, y: 80}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &256430969402820275
 CanvasRenderer:
@@ -333,7 +335,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score2
+  m_text: 'Score2:
+
+    000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0e0ba0b8d50e2ac4cbf5b1de58d821f0, type: 2}
   m_sharedMaterial: {fileID: -5103112951533867976, guid: 0e0ba0b8d50e2ac4cbf5b1de58d821f0, type: 2}
@@ -360,19 +364,19 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 36
+  m_fontSizeMax: 40
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 4
+  m_characterSpacing: 10
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 36
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -419,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8683186200255713115
 RectTransform:
   m_ObjectHideFlags: 0
@@ -571,7 +575,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -20, y: 210}
-  m_SizeDelta: {x: 150, y: 50}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8007866306924117853
 CanvasRenderer:
@@ -601,7 +605,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score1
+  m_text: 'Score1:
+
+    000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0e0ba0b8d50e2ac4cbf5b1de58d821f0, type: 2}
   m_sharedMaterial: {fileID: -5103112951533867976, guid: 0e0ba0b8d50e2ac4cbf5b1de58d821f0, type: 2}
@@ -628,19 +634,19 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 50
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 36
+  m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 4
+  m_characterSpacing: 10
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 36
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -731,11 +737,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  scorePlayer1: {fileID: 8007866306924117826}
-  scorePlayer2: {fileID: 6175459268399665544}
-  scorePlayer3: {fileID: 3313420693077330115}
-  scoreRate: 0.05
+  score1: {fileID: 8007866306924117826}
+  score2: {fileID: 6175459268399665544}
+  score3: {fileID: 3313420693077330115}
+  scoreRate: 0.1
   scoreToAdd: 2
+  playerIds: 
 --- !u!114 &6290291368526158135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +1033,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &225746658680324072
 RectTransform:
   m_ObjectHideFlags: 0
