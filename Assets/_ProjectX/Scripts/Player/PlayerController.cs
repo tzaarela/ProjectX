@@ -23,6 +23,7 @@ namespace Player
 		public Vector3 centerOfMassOffset;
 
 		[Header("References")]
+		[SerializeField] private ParticleSystem boostParticle;
 		[SerializeField] private InputManager inputs;
 		[SerializeField] private PowerupController powerupSlot;
 		[SerializeField] private Rigidbody rb;
@@ -44,6 +45,9 @@ namespace Player
 			CmdUpdateActivePlayersList();
 
 			name += "-local";
+
+			inputs.playerControls.Player.Boost.performed += Boost_performed;
+			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
 		}
 
 		public override void OnStartServer()
@@ -67,18 +71,24 @@ namespace Player
 
 			if (inputs.isBraking)
 				Brake();
-			if (inputs.isBoosting)
-				Boost(true);
-			else
-				Boost(false);
-			
 		}
-
 
 		private void OnDrawGizmos()
 		{
 			Gizmos.color = Color.red;
 			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
+		}
+
+		[Client]
+		private void Boost_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		{
+			Boost(true);
+		}
+
+		[Client]
+		private void Boost_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		{
+			Boost(false);
 		}
 
 		[Client]
@@ -91,9 +101,25 @@ namespace Player
 		private void CmdBoost(bool turnOn)
 		{
 			if (turnOn)
+			{
 				maxMotorTorque = defaultMaxMotorTorque * boostMultiplier;
+			}
 			else
+			{
 				maxMotorTorque = defaultMaxMotorTorque;
+			}
+
+			RpcToggleParticle(turnOn);
+		}
+
+		[ClientRpc]
+		private void RpcToggleParticle(bool turnOn)
+		{
+			ParticleSystem.EmissionModule em = boostParticle.emission;
+			if (turnOn)
+				em.enabled = true;
+			else
+				em.enabled = false;
 		}
 
 		[Client]
