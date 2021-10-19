@@ -4,19 +4,17 @@ using System.Linq;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
-using Managers;
 using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace UI
+namespace Managers
 {
 	public class ScoreManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
-		[SerializeField] private TMP_Text score1;
-		[SerializeField] private TMP_Text score2;
-		[SerializeField] private TMP_Text score3;
+		[SerializeField] private TMP_Text[] scoreTexts;
+		[SerializeField] private GameObject newLeaderText;
 		[SerializeField] private float scoreRate = 0.2f;
 		[SerializeField] private int scoreToAdd = 2;
 
@@ -26,6 +24,7 @@ namespace UI
 		private Coroutine scoreCounterRoutine;
 
 		private string player1;
+		private string currentLeader;
 
 		[Server]
 		public override void OnStartServer()
@@ -46,12 +45,13 @@ namespace UI
 				playerScores = new Dictionary<string, int>();
 				foreach (int id in playerIds)
 				{
-					playerScores.Add(id.ToString(), 0);
-					player1 = id.ToString();
+					playerScores.Add("Player_" + id, 0);
+					player1 = "Player_" + id;
+					currentLeader = player1;
 				}
 				//TEMP:
-				playerScores.Add("Temp1", 1);
-				playerScores.Add("Temp2", 2);
+				playerScores.Add("PlayerTemp_1", 0);
+				playerScores.Add("PlayerTemp_2", 0);
 				SortPlayerScores(playerScores);
 			}
 		}
@@ -64,11 +64,11 @@ namespace UI
 			}
 			if (Keyboard.current.digit2Key.wasPressedThisFrame)
 			{
-				UpdateScore("Temp1");
+				UpdateScore("PlayerTemp_1");
 			}
 			if (Keyboard.current.digit3Key.wasPressedThisFrame)
 			{
-				UpdateScore("Temp2");
+				UpdateScore("PlayerTemp_2");
 			}
 			if (Keyboard.current.digit4Key.wasPressedThisFrame)
 			{
@@ -109,13 +109,21 @@ namespace UI
 		{
 			playerScores = scores.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 			
-			int index = 1; 
+			int index = 0; 
 			foreach(KeyValuePair<string, int> kvp in playerScores)
 			{
-				RpcUpdateHudScore(index, kvp.Key, kvp.Value);
-				// print("Index: " + index);
-				// print(kvp.Key + ": " + kvp.Value);
-				index++;
+				if (index <= 2)
+				{
+					// if (index == 0 && !kvp.Key.Equals(currentLeader))
+					// {
+					// 	currentLeader = kvp.Key;
+					// 	newLeaderText.SetActive(true);
+					// }
+					RpcUpdateHudScore(index, kvp.Key, kvp.Value);
+					// print("Index: " + index);
+					// print(kvp.Key + ": " + kvp.Value);
+					index++;
+				}
 			}
 		}
 
@@ -123,22 +131,13 @@ namespace UI
 		[ClientRpc]
 		private void RpcUpdateHudScore(int index, string kvpKey, int kvpValue)
 		{
-			switch (index)
+			scoreTexts[index].text = kvpKey + ":\n" +
+			                         kvpValue;
+			
+			if (index == 0 && !kvpKey.Equals(currentLeader))
 			{
-				case 1:
-					score1.text = kvpKey + ":\n" +
-									kvpValue;
-					break;
-				case 2:
-					score2.text = kvpKey + ":\n" +
-					              kvpValue;
-					break;
-				case 3:
-					score3.text = kvpKey + ":\n" +
-					              kvpValue;
-					break;
-				default:
-					break;
+				currentLeader = kvpKey;
+				newLeaderText.SetActive(true);
 			}
 		}
 	}
