@@ -89,10 +89,10 @@ namespace Managers
 			if (poolDictionary[poolType].Count > 0)
 			{
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
-				objFromPool.SetActive(true);
 				objFromPool.transform.position = position;
 				objFromPool.transform.rotation = rotation;
-				RpcActivateObject(objFromPool);
+				objFromPool.SetActive(true);
+				RpcActivatePositionObject(objFromPool, position, rotation.eulerAngles);
 				return objFromPool;
 			}
 			
@@ -127,6 +127,14 @@ namespace Managers
 		[ClientRpc]
 		private void RpcActivateObject(GameObject obj)
 		{
+			obj.SetActive(true);
+		}
+		
+		[ClientRpc]
+		private void RpcActivatePositionObject(GameObject obj, Vector3 position, Vector3 eulerAngles)
+		{
+			obj.transform.position = position;
+			obj.transform.eulerAngles = eulerAngles;
 			obj.SetActive(true);
 		}
 
