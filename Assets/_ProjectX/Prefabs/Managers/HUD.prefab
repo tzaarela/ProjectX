@@ -925,7 +925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0
   timeText: {fileID: 8007866307668988438}
   timeLimit: 100
 --- !u!114 &3814021661348307208
