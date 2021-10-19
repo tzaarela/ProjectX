@@ -28,6 +28,7 @@ namespace Player
 			currentHealth -= damage;
 		}
 
+		//SyncVar Hook
 		private void OnHealthChanged(int oldValue, int newValue)
 		{
 			if (newValue <= 0)
