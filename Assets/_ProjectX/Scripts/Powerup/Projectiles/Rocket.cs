@@ -1,5 +1,4 @@
-﻿using System;
-using Data.Enums;
+﻿using Data.Enums;
 using Managers;
 using Player;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace PowerUp.Projectiles
 				if(spawnedByNetId == (int)playerController.netId)
 					return;
 				
-				//TODO playerController.DealDamage(bulletOwner, damageType);
+				other.gameObject.GetComponent<Health>().ReceiveDamage(10, spawnedByNetId);
 			}
 			
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);

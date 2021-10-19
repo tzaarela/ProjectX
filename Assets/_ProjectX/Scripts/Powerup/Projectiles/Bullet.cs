@@ -1,6 +1,7 @@
 ﻿using Data.Enums;
 using Managers;
 using Mirror;
+using Player;
 using UnityEngine;
 
 namespace PowerUp.Projectiles
@@ -21,7 +22,7 @@ namespace PowerUp.Projectiles
 
 			if (other.gameObject.CompareTag("Player"))
 			{
-				//other.gameObject.GetComponent<PlayerController>().DealDamage(bulletOwner, damageType);
+				other.gameObject.GetComponent<Health>().ReceiveDamage(10, spawnedByNetId);
 			}
 			
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
