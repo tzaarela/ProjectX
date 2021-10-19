@@ -6,6 +6,7 @@ using Data.Interfaces;
 using Managers;
 using PowerUp.Projectiles;
 using UnityEngine;
+using System;
 
 namespace Player
 {
@@ -15,6 +16,9 @@ namespace Player
 		public List<AxleInfo> axleInfos;
 		public float maxMotorTorque;
 		public float maxSteeringAngle;
+		public float brakeTorque;
+		public float decelerationForce;
+
 		public Vector3 centerOfMassOffset;
 
 		[Header("References")]
@@ -47,19 +51,17 @@ namespace Player
 			ServiceLocator.RoundManager.AddActivePlayer(playerId);
 		}
 
-		//private void Update()
-		//{
-		//	if (!isLocalPlayer)
-		//		return;
-		//}
-
 		private void FixedUpdate()
 		{
 			if (!isLocalPlayer)
 				return;
 		
 			Drive();
+
+			if (inputs.isBraking)
+				Brake();
 		}
+
 
 		private void OnDrawGizmos()
 		{
@@ -67,33 +69,63 @@ namespace Player
 			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
 		}
 		
+		[Client]
+		private void Brake()
+		{
+			CmdBrake();
+		}
+
+		[Command]
+		private void CmdBrake()
+		{
+			foreach (AxleInfo axel in axleInfos)
+			{
+				if (axel.hasHandbrake)
+				{
+					axel.leftWheel.brakeTorque = brakeTorque;
+					axel.rightWheel.brakeTorque = brakeTorque;
+				}
+			}
+		}
 
 		[Client]
 		private void Drive()
 		{
-			Vector3 direction = new Vector3(inputs.movement.x, 0, inputs.movement.y);
-			CmdDrive(direction);
+			
+			CmdDrive(inputs.acceleration, inputs.steering);
 		}
 
 		[Command]
-		private void CmdDrive(Vector3 direction)
+		private void CmdDrive(float acceleration, float steer)
 		{
-			
-			float motor = maxMotorTorque * direction.z;
-			float steering = maxSteeringAngle * direction.x;
+			float motor = maxMotorTorque * acceleration;
+			float steering = maxSteeringAngle * steer;
+
+			print(motor);
+			print(steering);
 
 			foreach (AxleInfo axleInfo in axleInfos)
 			{
-				if (axleInfo.steering)
+				if (axleInfo.hasSteering)
 				{
 					axleInfo.leftWheel.steerAngle = steering;
 					axleInfo.rightWheel.steerAngle = steering;
 				}
 
-				if (axleInfo.motor)
+				if (axleInfo.hasMotor)
 				{
-					axleInfo.leftWheel.motorTorque = motor;
-					axleInfo.rightWheel.motorTorque = motor;
+					if (motor != 0)
+					{
+						axleInfo.leftWheel.brakeTorque = 0;
+						axleInfo.rightWheel.brakeTorque = 0;
+						axleInfo.leftWheel.motorTorque = motor;
+						axleInfo.rightWheel.motorTorque = motor;
+					}
+					else
+					{
+						axleInfo.leftWheel.brakeTorque = decelerationForce;
+						axleInfo.rightWheel.brakeTorque = decelerationForce;
+					}
 				}
 
 				AutoStabilize(axleInfo);

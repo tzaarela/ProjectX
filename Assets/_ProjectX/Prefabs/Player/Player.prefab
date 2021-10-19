@@ -124,15 +124,19 @@ MonoBehaviour:
   axleInfos:
   - leftWheel: {fileID: 2552032396053333394}
     rightWheel: {fileID: 7769311783409024620}
-    motor: 1
-    steering: 1
+    hasMotor: 1
+    hasSteering: 1
+    hasHandbrake: 0
   - leftWheel: {fileID: 7292767146872801892}
     rightWheel: {fileID: 1266952820590876871}
-    motor: 1
-    steering: 0
-  maxMotorTorque: 2000
-  maxSteeringAngle: 35
-  centerOfMassOffset: {x: 0, y: 0.32, z: 0.81}
+    hasMotor: 1
+    hasSteering: 0
+    hasHandbrake: 1
+  maxMotorTorque: 1000
+  maxSteeringAngle: 30
+  brakeTorque: 4000
+  decelerationForce: 1200
+  centerOfMassOffset: {x: 0, y: 0.4, z: 0.93}
   inputs: {fileID: 145973192295524686}
   powerupSlot: {fileID: 6781728122339915790}
   rb: {fileID: 4581631504117252368}
@@ -148,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45513e76c0bdf204daffbdf56acd186a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {x: 0, y: 0}
+  acceleration: 0
+  steering: 0
   isBoosting: 0
   isBraking: 0
   isUsingPowerup: 0
@@ -542,19 +547,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_WheelDampingRate
-      value: 0.12
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.11
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_Center.x
@@ -562,19 +567,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_WheelDampingRate
-      value: 0.12
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.11
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_Center.x
@@ -582,35 +587,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_WheelDampingRate
-      value: 0.12
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.11
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_WheelDampingRate
-      value: 0.12
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0.11
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_SidewaysFriction.m_Stiffness
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
@@ -734,7 +739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6459116806756631326, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9209457327146490027, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_RootOrder
@@ -917,7 +922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}

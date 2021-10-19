@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -8,7 +10,8 @@ namespace Player
 	{
 		public PlayerControls playerControls;
 
-		public Vector2 movement = Vector2.zero;
+		public float acceleration;
+		public float steering;
 		public bool isBoosting;
 		public bool isBraking;
 		public bool isUsingPowerup;
@@ -17,13 +20,32 @@ namespace Player
 		private void Start()
 		{
 			playerControls = new PlayerControls();
-			playerControls.Player.Drive.performed += DrivePerformed;
-			playerControls.Player.Drive.canceled += DrivePerformed;
+			playerControls.Player.Accelerate.performed += Accelerate;
+			playerControls.Player.Accelerate.canceled += Accelerate;
+			playerControls.Player.Steer.performed += Steer;
+			playerControls.Player.Steer.canceled += Steer;
+			playerControls.Player.Handbrake.performed += Handbrake;
+			playerControls.Player.Handbrake.canceled += Handbrake;
 			playerControls.Player.Powerup.started += UsePowerStarted;
 			playerControls.Player.Powerup.canceled += UsePowerCanceled;
 			playerControls.Player.Drop.started += DropPowerStarted;
 			playerControls.Player.Drop.canceled += DropPowerCanceled;
 			playerControls.Enable();
+		}
+
+		private void Steer(InputAction.CallbackContext obj)
+		{
+			steering = obj.ReadValue<float>();
+		}
+
+		private void Accelerate(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		{
+			 acceleration = obj.ReadValue<float>();
+		}
+
+		private void Handbrake(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		{
+			isBraking = obj.performed;
 		}
 
 		private void UsePowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -46,9 +68,5 @@ namespace Player
 			isDroppingPowerup = false;
 		}
 
-		private void DrivePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-		{
-			 movement = obj.ReadValue<Vector2>();
-		}
 	}
 }

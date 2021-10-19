@@ -12,7 +12,8 @@ namespace Player
 	{
 		public WheelCollider leftWheel;
 		public WheelCollider rightWheel;
-		public bool motor;
-		public bool steering;
+		public bool hasMotor;
+		public bool hasSteering;
+		public bool hasHandbrake;
 	}
 }
