@@ -82,6 +82,33 @@ namespace Managers
 			Debug.LogError(poolType + "-Pool was empty and couldn't find Pool to instantiate from!");
 			return null;
 		}
+		
+		[Server]
+		public GameObject SpawnFromPool(ObjectPoolType poolType, Vector3 position, Quaternion rotation)
+		{
+			if (poolDictionary[poolType].Count > 0)
+			{
+				GameObject objFromPool = poolDictionary[poolType].Dequeue();
+				objFromPool.SetActive(true);
+				objFromPool.transform.position = position;
+				objFromPool.transform.rotation = rotation;
+				RpcActivateObject(objFromPool);
+				return objFromPool;
+			}
+			
+			Pool entry = pools.Find(pool => pool.poolType == poolType);
+			if (entry != null)
+			{
+				print(poolType + "-Pool was empty - Instantiating!");
+				GameObject instObj = Instantiate(entry.prefab, position, rotation, entry.parent);
+				NetworkServer.Spawn(instObj);
+				poolDictionary[poolType].Enqueue(instObj);
+				return instObj;
+			}
+			
+			Debug.LogError(poolType + "-Pool was empty and couldn't find Pool to instantiate from!");
+			return null;
+		}
 
 		[Server]
 		public void ReturnToPool(ObjectPoolType poolType, GameObject obj)
