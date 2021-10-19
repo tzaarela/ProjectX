@@ -15,7 +15,7 @@ namespace Managers
 			{
 				if( roundManager == null )
 				{
-					Debug.LogError("GameManager is null!");
+					Debug.LogError("RoundManager is null!");
 				}
 				return roundManager;
 			}

@@ -6,7 +6,6 @@ using Data.Enums;
 using Data.Interfaces;
 using Managers;
 using Mirror;
-using Telepathy;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
