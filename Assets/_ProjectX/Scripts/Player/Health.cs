@@ -15,9 +15,11 @@ namespace Player
 			currentHealth = startingHealth;
 		}
 
-		public void ReceiveDamage()
+		public void ReceiveDamage(int damage, int attackerId)
 		{
-			print($"Player_{GetComponent<NetworkIdentity>().netId} has received damage!");
+			int thisPlayerId = (int)GetComponent<NetworkIdentity>().netId;
+			print($"Player_{thisPlayerId} was damaged\n"
+						+ $"by Player_{attackerId}! (Damage = {damage})");
 		}
 	}
 }
