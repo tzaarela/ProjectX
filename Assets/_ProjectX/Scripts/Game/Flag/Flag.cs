@@ -14,7 +14,7 @@ namespace Game.Flag
 	public class Flag : NetworkBehaviour
 	{
 
-		public float dropInvulnerableTime = 2f;
+		public float dropUninteractableTime = 2f;
 		public float dropUpwardsForce = 3;
 		public float flagDropOffset = 10f;
 
@@ -35,9 +35,7 @@ namespace Game.Flag
 		private void OnTriggerEnter(Collider other)
 		{
 			if (!isServer)
-			{
 				return;
-			}
 
 			if (other.gameObject.CompareTag("Player"))
 			{
@@ -76,12 +74,12 @@ namespace Game.Flag
 			rb.AddForce(Vector3.up * dropUpwardsForce);
 			RpcActivateFlag();
 			onFlagDropped();
-			StartCoroutine(CoWaitForFlagInvulnerable());
+			StartCoroutine(CoWaitForInteractable());
 		}
 
-		private IEnumerator CoWaitForFlagInvulnerable()
+		private IEnumerator CoWaitForInteractable()
 		{
-			yield return new WaitForSeconds(dropInvulnerableTime);
+			yield return new WaitForSeconds(dropUninteractableTime);
 			TogglePickup(true);
 		}
 
@@ -100,7 +98,9 @@ namespace Game.Flag
 
 		public void StartRotating()
 		{
-			rotationTween = transform.DOLocalRotate(new Vector3(0, 180, 0), 2f, RotateMode.Fast).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+			rotationTween = transform.DOLocalRotate(new Vector3(0, 180, 0), 2f, RotateMode.Fast)
+				.SetLoops(-1, LoopType.Incremental)
+				.SetEase(Ease.Linear);
 		}
 
 		public void StopRotating()
