@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2958276747978800056}
-  - component: {fileID: 4969837876030211446}
   - component: {fileID: 2219713681661849479}
   - component: {fileID: 4445343316783042884}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FlagCloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,20 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &4969837876030211446
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823577656750638529}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 4b3df182495c2734585164fe239878e3, type: 2}
 --- !u!137 &2219713681661849479
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

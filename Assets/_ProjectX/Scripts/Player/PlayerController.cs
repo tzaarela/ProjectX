@@ -69,12 +69,11 @@ namespace Player
 			hasFlag = true;
 		}
 
+		[ContextMenu("Drop")]
 		public void DropFlag()
 		{
 			hasFlag = false;
-			flag.transform.position = transform.position;
-			flag.Drop();
-
+			flag.Drop(transform.position, rb.velocity);
 		}
 
 		[Client]

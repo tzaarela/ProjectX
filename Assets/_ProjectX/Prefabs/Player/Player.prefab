@@ -146,7 +146,6 @@ MonoBehaviour:
   powerupSlot: {fileID: 6781728122339915790}
   rb: {fileID: 4581631504117252368}
   flagOnRoof: {fileID: 6743417112348194063}
-  flag: {fileID: 0}
   hasFlag: 0
 --- !u!114 &145973192295524686
 MonoBehaviour:
@@ -344,11 +343,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 632520990207879142, guid: d6f89a44fc0c36e4d8a085326b2a7ad5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 632520990207879142, guid: d6f89a44fc0c36e4d8a085326b2a7ad5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.29
       objectReference: {fileID: 0}
     - target: {fileID: 632520990207879142, guid: d6f89a44fc0c36e4d8a085326b2a7ad5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -380,7 +379,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6743417112279939101, guid: d6f89a44fc0c36e4d8a085326b2a7ad5, type: 3}
       propertyPath: m_Name
-      value: FlagSlot
+      value: FlagOnRoof
+      objectReference: {fileID: 0}
+    - target: {fileID: 6743417112279939101, guid: d6f89a44fc0c36e4d8a085326b2a7ad5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6f89a44fc0c36e4d8a085326b2a7ad5, type: 3}
