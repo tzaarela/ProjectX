@@ -75,6 +75,8 @@ GameObject:
   - component: {fileID: 6781728122339915790}
   - component: {fileID: 145973192295524686}
   - component: {fileID: 1195004310043866069}
+  - component: {fileID: 2829215293998245858}
+  - component: {fileID: 2972968912139933940}
   - component: {fileID: 2873669366857949124}
   - component: {fileID: 2873669366857949125}
   - component: {fileID: 7011831569965395882}
@@ -228,6 +230,45 @@ MonoBehaviour:
   syncInterval: 0
   startingHealth: 100
   currentState: 0
+--- !u!114 &2829215293998245858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2873669366857949122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c43c121e1e3b76429f04d4fa4bc6050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRPM: 700
+  maxRPM: 7000
+--- !u!114 &2972968912139933940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2873669366857949122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Vehicles/Car Engine
+  PlayEvent: 1
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params:
+  - Name: RPM
+    Value: 0
+  OverrideAttenuation: 1
+  OverrideMinDistance: 20
+  OverrideMaxDistance: 7000
 --- !u!114 &2873669366857949124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,14 +661,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db0ad5beb29a0b649b8a913879bbd3bb, type: 3}
---- !u!4 &5739366722767821205 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4032011553410374, guid: db0ad5beb29a0b649b8a913879bbd3bb, type: 3}
-  m_PrefabInstance: {fileID: 5739838514856006867}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &5555175912627414117 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198144883363393718, guid: db0ad5beb29a0b649b8a913879bbd3bb, type: 3}
+  m_PrefabInstance: {fileID: 5739838514856006867}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5739366722767821205 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4032011553410374, guid: db0ad5beb29a0b649b8a913879bbd3bb, type: 3}
   m_PrefabInstance: {fileID: 5739838514856006867}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6294658863403992984
@@ -817,6 +858,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 484704, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
   m_PrefabInstance: {fileID: 6294658863403992984}
   m_PrefabAsset: {fileID: 0}
+--- !u!146 &2552032396053333394 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
+  m_PrefabInstance: {fileID: 6294658863403992984}
+  m_PrefabAsset: {fileID: 0}
 --- !u!146 &7769311783409024620 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
@@ -830,11 +876,6 @@ WheelCollider:
 --- !u!146 &1266952820590876871 stripped
 WheelCollider:
   m_CorrespondingSourceObject: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
-  m_PrefabInstance: {fileID: 6294658863403992984}
-  m_PrefabAsset: {fileID: 0}
---- !u!146 &2552032396053333394 stripped
-WheelCollider:
-  m_CorrespondingSourceObject: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
   m_PrefabInstance: {fileID: 6294658863403992984}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6669435773500533682
