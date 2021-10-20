@@ -1,12 +1,9 @@
 using Mirror;
-using System.Collections.Generic;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Managers;
-using PowerUp.Projectiles;
 using UnityEngine;
-using System;
 using Game.Flag;
 
 namespace Player
@@ -26,15 +23,22 @@ namespace Player
 		
 		public int PlayerId => playerId;
 
+		[Server]
+		public override void OnStartServer()
+		{
+			rb = GetComponent<Rigidbody>();
+		}
+
 		public override void OnStartClient()
 		{
 			if (!isLocalPlayer)
 				return;
 			
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
-			// print("OnStartClient(netId) " + playerId);
+			print("OnStartClient(netId) " + playerId);
+			CmdUpdateActivePlayersList(playerId);
+			
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
-			CmdUpdateActivePlayersList();
 
 			name += "-local";
 		}
@@ -61,9 +65,10 @@ namespace Player
 		}
 
 		[Command]
-		private void CmdUpdateActivePlayersList()
+		private void CmdUpdateActivePlayersList(int id)
 		{
-			ServiceLocator.RoundManager.AddActivePlayer(playerId);
+			playerId = id;
+			ServiceLocator.RoundManager.AddActivePlayer(id);
 		}
 		
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)

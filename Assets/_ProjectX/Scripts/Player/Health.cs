@@ -13,11 +13,8 @@ namespace Player
 		[SyncVar(hook = nameof(OnHealthChanged))] private int currentHealth;
 
 		[Server]
-		private void Awake()
+		public override void OnStartServer()
 		{
-			if (!isServer)
-				return;
-			
 			currentHealth = startingHealth;
 		}
 

@@ -15,26 +15,22 @@ namespace Managers
 		[Server]
 		public override void OnStartServer()
 		{
-			if (!isServer)
-				return;
-			
 			print("HudManager provided to ServiceLocator");
 			ServiceLocator.ProvideHudManager(this);
 		}
 		
-		[Client]
-		public void UpdateTopThreeScore(int index, string player, int score)
+		[ClientRpc]
+		public void RpcUpdateScore(int index, string player, int score)
 		{
 			scoreTexts[index].text = player + ":\n" +
 			                         score;
 		}
 
-		[Client]
-		public void ActivateNewLeaderText()
+		[ClientRpc]
+		public void RpcActivateNewLeaderText()
 		{
 			newLeaderText.SetActive(true);
 		}
-		
 		
 		[ServerCallback]
 		private void OnDestroy()
