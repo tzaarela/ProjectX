@@ -7,6 +7,7 @@ using Managers;
 using PowerUp.Projectiles;
 using UnityEngine;
 using System;
+using Game.Flag;
 
 namespace Player
 {
@@ -19,7 +20,6 @@ namespace Player
 		public float brakeTorque;
 		public float decelerationForce;
 		public float boostMultiplier = 6f;
-
 		public Vector3 centerOfMassOffset;
 
 		[Header("References")]
@@ -27,7 +27,12 @@ namespace Player
 		[SerializeField] private InputManager inputs;
 		[SerializeField] private PowerupController powerupSlot;
 		[SerializeField] private Rigidbody rb;
+		[SerializeField] private GameObject flagOnRoof;
 		
+		[Header("Debug")]
+		[SyncVar(hook = "FlagStateChanged")] public bool hasFlag;
+
+		private Flag flag;
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
@@ -46,8 +51,36 @@ namespace Player
 
 			name += "-local";
 
+		}
+
+		private void Start()
+		{
+			if (!isLocalPlayer)
+				return;
+
 			inputs.playerControls.Player.Boost.performed += Boost_performed;
 			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
+		}
+
+		[Server]
+		public void GiveFlag(Flag flag)
+		{
+			this.flag = flag;
+			hasFlag = true;
+		}
+
+		public void DropFlag()
+		{
+			hasFlag = false;
+			flag.transform.position = transform.position;
+			flag.Drop();
+
+		}
+
+		[Client]
+		private void FlagStateChanged(bool oldValue, bool newValue)
+		{
+			flagOnRoof.SetActive(newValue);
 		}
 
 		public override void OnStartServer()
