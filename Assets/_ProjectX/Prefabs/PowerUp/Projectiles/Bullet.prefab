@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4167781434821934112}
   - component: {fileID: 8348846376184710401}
+  - component: {fileID: 287804010800598533}
   - component: {fileID: -5622612303277816428}
   - component: {fileID: 6451084921171561186}
   - component: {fileID: 20549987178494988}
@@ -53,6 +54,29 @@ MonoBehaviour:
   damage: 1
   shootingStrength: 100
   aliveTime: 2
+--- !u!114 &287804010800598533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088292643631628778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Weapons/Machine Gun
+  PlayEvent: 11
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 1
+  OverrideMinDistance: 20
+  OverrideMaxDistance: 7000
 --- !u!54 &-5622612303277816428
 Rigidbody:
   m_ObjectHideFlags: 0
