@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Player
 {
 	[Serializable]
-	public class AxleInfo
+	public class CarAxle
 	{
 		public WheelCollider leftWheel;
 		public WheelCollider rightWheel;

@@ -10,8 +10,8 @@ namespace Player
 	{
 		public PlayerControls playerControls;
 
-		public float acceleration;
-		public float steering;
+		public float acceleration = 0;
+		public float steering = 0;
 		public bool isBoosting;
 		public bool isBraking;
 		public bool isUsingPowerup;
