@@ -843,6 +843,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3704384345404677567, guid: 3ff318fb047fe144689e6735632b6c15, type: 3}
+      propertyPath: sceneId
+      value: 167210752
+      objectReference: {fileID: 0}
     - target: {fileID: 550862588956206963, guid: 3ff318fb047fe144689e6735632b6c15, type: 3}
       propertyPath: m_Name
       value: Powerup
