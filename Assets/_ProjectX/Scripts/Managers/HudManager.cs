@@ -22,6 +22,20 @@ namespace Managers
 			ServiceLocator.ProvideHudManager(this);
 		}
 		
+		[Client]
+		public void UpdateTopThreeScore(int index, string player, int score)
+		{
+			scoreTexts[index].text = player + ":\n" +
+			                         score;
+		}
+
+		[Client]
+		public void ActivateNewLeaderText()
+		{
+			newLeaderText.SetActive(true);
+		}
+		
+		
 		[ServerCallback]
 		private void OnDestroy()
 		{

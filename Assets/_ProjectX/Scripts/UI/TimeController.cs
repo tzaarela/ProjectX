@@ -11,6 +11,8 @@ namespace UI
 {
 	public class TimeController : NetworkBehaviour, IReceiveGlobalSignal
 	{
+		// NetworkIdentity = !ServerOnly
+		
 		[SerializeField] private float timeLimit = 100f;
 		
 		[SerializeField] private TMP_Text timeText;

@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  scoreRate: 0.2
-  scoreToAdd: 2
+  scoreRate: 0.5
+  scoreToAdd: 5
   scoreTexts: []
   newLeaderText: {fileID: 0}
 --- !u!114 &2681261741359888150
