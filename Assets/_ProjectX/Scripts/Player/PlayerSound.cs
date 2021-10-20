@@ -25,8 +25,6 @@ public class PlayerSound : MonoBehaviour
     {
         float rpm = GetForwardVelocity() / 50;
         
-        Debug.Log("RPM " + rpm);
-        
         float effectiveRPM = Mathf.Lerp(minRPM, maxRPM, rpm);
         emitter.SetParameter("RPM", effectiveRPM);
     }
