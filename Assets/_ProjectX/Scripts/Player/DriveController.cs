@@ -38,7 +38,7 @@ namespace Player
 			rb.centerOfMass = centerOfMassOffset;
 		}
 
-		private void Start()
+		public override void OnStartClient()
 		{
 			if (!isLocalPlayer)
 				return;

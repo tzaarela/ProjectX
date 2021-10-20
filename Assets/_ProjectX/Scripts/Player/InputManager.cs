@@ -17,7 +17,7 @@ namespace Player
 		public bool isUsingPowerup;
 		public bool isDroppingPowerup;
 
-		private void Start()
+		public void Awake()
 		{
 			playerControls = new PlayerControls();
 			playerControls.Player.Accelerate.performed += Accelerate;
