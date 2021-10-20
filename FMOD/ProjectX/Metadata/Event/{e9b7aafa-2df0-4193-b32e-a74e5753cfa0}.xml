@@ -189,6 +189,9 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{d30a8be5-04c4-42f5-b5f9-c60b7f924b51}">
+		<property name="volume">
+			<value>-80</value>
+		</property>
 		<property name="name">
 			<value>Casings</value>
 		</property>
@@ -208,6 +211,9 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		</property>
 		<property name="length">
 			<value>0.078034000000000006</value>
+		</property>
+		<property name="looping">
+			<value>0</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{fd348e80-4a9b-4d16-980b-261d33724ab7}</destination>
