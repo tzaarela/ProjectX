@@ -12,6 +12,7 @@ namespace Player
 	{
 		[Header("Settings")]
 		public List<CarAxle> axleInfos;
+		public List<FrictionValue> sidewayFrictions;
 		public float maxMotorTorque;
 		public float maxSteeringAngle;
 		public float brakeTorque;
@@ -47,7 +48,10 @@ namespace Player
 
 			inputs.playerControls.Player.Boost.performed += Boost_performed;
 			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
+			inputs.playerControls.Player.Handbrake.performed += Brake; 
+			inputs.playerControls.Player.Handbrake.canceled += Brake;
 		}
+
 
 		private void FixedUpdate()
 		{
@@ -58,28 +62,55 @@ namespace Player
 				inputs = GetComponent<InputManager>();
 
 			Drive();
-
-			if (inputs.isBraking)
-				Brake();
 		}
-
+		
 		[Client]
-		private void Brake()
+		private void Brake(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
-			CmdBrake();
+			CmdBrake(obj.performed);
 		}
 
 		[Command]
-		private void CmdBrake()
+		private void CmdBrake(bool shouldBrake)
 		{
 			foreach (CarAxle axel in axleInfos)
 			{
 				if (axel.hasHandbrake)
 				{
-					axel.leftWheel.brakeTorque = brakeTorque;
-					axel.rightWheel.brakeTorque = brakeTorque;
+					if (shouldBrake)
+					{
+						FrictionValue friction = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.handbrake);
+						WheelFrictionCurve frictionCurve = CreateWheelFrictionCurve(friction);
+
+						axel.leftWheel.sidewaysFriction = frictionCurve;
+						axel.rightWheel.sidewaysFriction = frictionCurve;
+						axel.leftWheel.brakeTorque = brakeTorque;
+						axel.rightWheel.brakeTorque = brakeTorque;
+					}
+					else
+					{
+					    FrictionValue friction = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.normal);
+						WheelFrictionCurve frictionCurve = CreateWheelFrictionCurve(friction);
+
+						axel.leftWheel.sidewaysFriction = frictionCurve;
+						axel.rightWheel.sidewaysFriction = frictionCurve;
+						axel.leftWheel.brakeTorque = 0;
+						axel.rightWheel.brakeTorque = 0;
+					}
 				}
 			}
+		}
+
+		[Server]
+		private WheelFrictionCurve CreateWheelFrictionCurve(FrictionValue friction)
+		{
+			WheelFrictionCurve frictionCurve = new WheelFrictionCurve();
+			frictionCurve.asymptoteSlip = friction.value.asymptoteSlip;
+			frictionCurve.asymptoteValue = friction.value.asymptoteValue;
+			frictionCurve.extremumSlip = friction.value.extremumSlip;
+			frictionCurve.extremumValue = friction.value.extremumValue;
+			frictionCurve.stiffness = friction.value.stiffness;
+			return frictionCurve;
 		}
 
 		[Client]

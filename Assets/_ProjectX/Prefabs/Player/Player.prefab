@@ -152,6 +152,21 @@ MonoBehaviour:
     hasMotor: 1
     hasSteering: 0
     hasHandbrake: 1
+  sidewayFrictions:
+  - key: 0
+    value:
+      extremumSlip: 0.5
+      extremumValue: 1
+      asymptoteSlip: 0.5
+      asymptoteValue: 0.75
+      stiffness: 2
+  - key: 1
+    value:
+      extremumSlip: 0.5
+      extremumValue: 1
+      asymptoteSlip: 0.5
+      asymptoteValue: 0.75
+      stiffness: 1
   maxMotorTorque: 700
   maxSteeringAngle: 32
   brakeTorque: 4000
@@ -159,7 +174,6 @@ MonoBehaviour:
   boostMultiplier: 2.5
   centerOfMassOffset: {x: 0, y: 0.4, z: 0.93}
   boostParticle: {fileID: 5555175912627414117}
-  inputs: {fileID: 145973192295524686}
 --- !u!114 &6781728122339915790
 MonoBehaviour:
   m_ObjectHideFlags: 0
