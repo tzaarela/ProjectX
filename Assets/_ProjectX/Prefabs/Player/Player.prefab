@@ -267,7 +267,7 @@ MonoBehaviour:
   - Name: RPM
     Value: 0
   OverrideAttenuation: 1
-  OverrideMinDistance: 20
+  OverrideMinDistance: 700
   OverrideMaxDistance: 7000
 --- !u!114 &2873669366857949124
 MonoBehaviour:
