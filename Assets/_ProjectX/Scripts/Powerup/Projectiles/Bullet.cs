@@ -1,4 +1,5 @@
-﻿using Data.Enums;
+﻿using System;
+using Data.Enums;
 using Managers;
 using Mirror;
 using Player;
@@ -11,10 +12,14 @@ namespace PowerUp.Projectiles
 		public override void SetupProjectile(Vector3 dir, int netID)
 		{
 			base.SetupProjectile(dir, netID);
-			
+		}
+
+		private void OnEnable()
+		{
+			direction = transform.forward;
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
-		
+
 		private void OnCollisionEnter(Collision other)
 		{
 			if(!isServer)
