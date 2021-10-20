@@ -26,19 +26,28 @@ namespace Player
 		
 		public int PlayerId => playerId;
 
+		[Server]
+		public override void OnStartServer()
+		{
+			if (!isServer)
+				return;
+			
+			rb = GetComponent<Rigidbody>();
+		}
+
 		public override void OnStartClient()
 		{
 			if (!isLocalPlayer)
 				return;
-			
+			print("OnStartClient(netId as uInt!) " + GetComponent<NetworkIdentity>().netId);
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
-			// print("OnStartClient(netId) " + playerId);
+			print("OnStartClient(netId) " + playerId);
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
 			CmdUpdateActivePlayersList();
 
 			name += "-local";
 		}
-
+		
 		[Server]
 		public void TakeFlag(Flag flag)
 		{
@@ -47,8 +56,12 @@ namespace Player
 		}
 
 		[ContextMenu("Drop")]
+		[Server]
 		public void DropFlag()
 		{
+			if (!isServer)
+				return;
+			
 			hasFlag = false;
 			flag.Drop(transform.position, rb.velocity);
 		}
