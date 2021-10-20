@@ -159,7 +159,7 @@ MonoBehaviour:
       extremumValue: 1
       asymptoteSlip: 0.5
       asymptoteValue: 0.75
-      stiffness: 2
+      stiffness: 2.4
   - key: 1
     value:
       extremumSlip: 0.5
@@ -169,8 +169,8 @@ MonoBehaviour:
       stiffness: 1
   maxMotorTorque: 700
   maxSteeringAngle: 32
-  brakeTorque: 4000
-  decelerationForce: 1200
+  brakeTorque: 6000
+  decelerationForce: 2000
   boostMultiplier: 2.5
   centerOfMassOffset: {x: 0, y: 0.4, z: 0.93}
   boostParticle: {fileID: 5555175912627414117}

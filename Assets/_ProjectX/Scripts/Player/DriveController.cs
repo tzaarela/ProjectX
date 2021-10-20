@@ -22,8 +22,8 @@ namespace Player
 
 		[Header("References")]
 		[SerializeField] private ParticleSystem boostParticle;
-		private InputManager inputs;
 
+		private InputManager inputs;
 		private float travelL = 0;
 		private float travelR = 0;
 		private float antiRoll = 8000;
@@ -51,7 +51,6 @@ namespace Player
 			inputs.playerControls.Player.Handbrake.performed += Brake; 
 			inputs.playerControls.Player.Handbrake.canceled += Brake;
 		}
-
 
 		private void FixedUpdate()
 		{
