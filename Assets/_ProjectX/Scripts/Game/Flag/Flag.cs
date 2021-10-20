@@ -8,6 +8,7 @@ using UnityEngine;
 using Player;
 using DG.Tweening;
 using System.Collections;
+using Managers;
 
 namespace Game.Flag
 {
@@ -57,6 +58,7 @@ namespace Game.Flag
 		[Server]
 		public void PickUp(PlayerController playerPickingUp)
 		{
+			ServiceLocator.ScoreManager.InitializeScoring(playerPickingUp.PlayerId);
 			playerPickingUp.GiveFlag(this);
 			onFlagPickedUp();
 			RpcDeactivateFlag();
@@ -65,6 +67,7 @@ namespace Game.Flag
 		[Server]
 		public void Drop(Vector3 position, Vector3 relativeVelocity)
 		{
+			ServiceLocator.ScoreManager.StopScoreCounter();
 			TogglePickup(false);
 			transform.position = position + Vector3.up * flagDropOffset;
 			physicsCollider.enabled = true;

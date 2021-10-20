@@ -853,7 +853,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8007866307283585575}
   - component: {fileID: 8007866307283585574}
-  - component: {fileID: 3999241957562125548}
   - component: {fileID: 6290291368526158135}
   - component: {fileID: 3814021661348307208}
   m_Layer: 0
@@ -890,18 +889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3c18d3fc3948229b0030ca864dd515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3999241957562125548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8007866307283585572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2277ee7e31ed4888942589c172502fce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   scoreTexts:
@@ -909,9 +896,6 @@ MonoBehaviour:
   - {fileID: 6175459268399665544}
   - {fileID: 3313420693077330115}
   newLeaderText: {fileID: 4117291048370290797}
-  scoreRate: 0.1
-  scoreToAdd: 2
-  playerIds: 
 --- !u!114 &6290291368526158135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,8 +910,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  timeText: {fileID: 8007866307668988438}
   timeLimit: 100
+  timeText: {fileID: 8007866307668988438}
 --- !u!114 &3814021661348307208
 MonoBehaviour:
   m_ObjectHideFlags: 0

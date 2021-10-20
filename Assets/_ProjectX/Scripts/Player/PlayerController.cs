@@ -37,15 +37,20 @@ namespace Player
 		private float travelR = 0;
 		private float antiRoll = 8000;
 		private float defaultMaxMotorTorque;
+		
+		private int playerId;
+		
+		public int PlayerId => playerId;
 
 		public override void OnStartClient()
 		{
-			print("OnStartClient(netId) " + GetComponent<NetworkIdentity>().netId);
 			rb.centerOfMass = centerOfMassOffset;
 
 			if (!isLocalPlayer)
 				return;
 			
+			playerId = (int)GetComponent<NetworkIdentity>().netId;
+			// print("OnStartClient(netId) " + playerId);
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
 			CmdUpdateActivePlayersList();
 
@@ -90,7 +95,6 @@ namespace Player
 		[Command]
 		private void CmdUpdateActivePlayersList()
 		{
-			int playerId = (int)GetComponent<NetworkIdentity>().netId;
 			ServiceLocator.RoundManager.AddActivePlayer(playerId);
 		}
 

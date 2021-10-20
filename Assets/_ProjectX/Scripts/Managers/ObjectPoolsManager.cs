@@ -10,6 +10,8 @@ namespace Managers
 {
 	public class ObjectPoolsManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
+		// NetworkIdentity = !ServerOnly
+		
 		[Serializable]
 		public class Pool
 		{
@@ -21,8 +23,7 @@ namespace Managers
 
 		public List<Pool> pools;
 		private Dictionary<ObjectPoolType, Queue<GameObject>> poolDictionary;
-
-		// NetworkIdentity = !ServerOnly
+		
 		[Server]
 		public override void OnStartServer()
 		{
@@ -141,6 +142,9 @@ namespace Managers
 		[ServerCallback]
 		private void OnDestroy()
 		{
+			if (!isServer)
+				return;
+
 			ServiceLocator.ProvideObjectPoolsManager(null);
 		}
 

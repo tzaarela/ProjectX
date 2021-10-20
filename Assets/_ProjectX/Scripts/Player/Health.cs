@@ -10,14 +10,18 @@ namespace Player
 
 		public HealthState currentState = HealthState.Great;
 
-		[SyncVar(hook = nameof(OnHealthChanged))]
-		private int currentHealth;
+		[SyncVar(hook = nameof(OnHealthChanged))] private int currentHealth;
 
+		[Server]
 		private void Awake()
 		{
+			if (!isServer)
+				return;
+			
 			currentHealth = startingHealth;
 		}
 
+		[Server]
 		public void ReceiveDamage(int damage, int attackerId)
 		{
 			int thisPlayerId = (int)GetComponent<NetworkIdentity>().netId;
@@ -29,6 +33,7 @@ namespace Player
 		}
 
 		//SyncVar Hook
+		[Client]
 		private void OnHealthChanged(int oldValue, int newValue)
 		{
 			if (newValue <= 0)

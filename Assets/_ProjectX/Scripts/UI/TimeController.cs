@@ -11,11 +11,11 @@ namespace UI
 {
 	public class TimeController : NetworkBehaviour, IReceiveGlobalSignal
 	{
-		[SerializeField] private TMP_Text timeText;
 		[SerializeField] private float timeLimit = 100f;
 		
-		[SyncVar(hook = nameof(UpdateUiTime))]
-		private int uiTime;
+		[SerializeField] private TMP_Text timeText;
+
+		[SyncVar(hook = nameof(UpdateUiTime))] private int uiTime;
 
 		[Server]
 		public override void OnStartServer()
@@ -31,7 +31,6 @@ namespace UI
 		{
 			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
 			{
-				print("GameTimer Started!");
 				uiTime = (int)timeLimit;
 				StartCoroutine(TimerRoutine());
 			}
@@ -46,10 +45,10 @@ namespace UI
 				uiTime--;
 				yield return null;
 			}
-			print("GameTimer Stopped!");
 		}
 
 		//SyncVar Hook
+		[Client]
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
 			timeText.text =  newTime.ToString();

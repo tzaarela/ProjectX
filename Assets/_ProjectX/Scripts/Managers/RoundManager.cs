@@ -8,6 +8,8 @@ namespace Managers
 {
 	public class RoundManager : NetworkBehaviour, ISendGlobalSignal
 	{
+		// NetworkIdentity = ServerOnly
+		
 		private int numberOfSpawnedPlayers;
 		
 		private List<int> connectedPlayers = new List<int>();
@@ -16,8 +18,7 @@ namespace Managers
 
 		public List<int> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
-
-		// NetworkIdentity = ServerOnly
+		
 		[Server]
 		public override void OnStartServer()
 		{

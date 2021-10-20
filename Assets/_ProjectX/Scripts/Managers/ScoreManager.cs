@@ -13,25 +13,32 @@ namespace Managers
 {
 	public class ScoreManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
-		[SerializeField] private TMP_Text[] scoreTexts;
-		[SerializeField] private GameObject newLeaderText;
+		// NetworkIdentity = ServerOnly
+
+		[Header("SETTINGS:")]
 		[SerializeField] private float scoreRate = 0.2f;
 		[SerializeField] private int scoreToAdd = 2;
+		
+		[SerializeField] private TMP_Text[] scoreTexts;
+		[SerializeField] private GameObject newLeaderText;
 
-		public List<int> playerIds;
-		public Dictionary<string, int> playerScores;
+		// public List<int> playerIds;
+		private Dictionary<string, int> playerScores;
 
 		private Coroutine scoreCounterRoutine;
 
-		private string player1;
-		private string currentLeader;
+		private string playerPrefix = "Player_";
+		private string currentLeader = "JohnDoe";
 
 		[Server]
 		public override void OnStartServer()
 		{
 			if (!isServer)
 				return;
-
+			
+			print("ScoreManager provided to ServiceLocator");
+			ServiceLocator.ProvideScoreManager(this);
+			
 			GlobalMediator.Instance.Subscribe(this);
 		}
 		
@@ -41,47 +48,51 @@ namespace Managers
 			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
 			{
 				print("ScoreManager Started!");
-				playerIds= new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
+				List<int> playerIds = new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
 				playerScores = new Dictionary<string, int>();
 				foreach (int id in playerIds)
 				{
-					playerScores.Add("Player_" + id, 0);
-					player1 = "Player_" + id;
-					currentLeader = player1;
+					playerScores.Add(playerPrefix + id, 0);
 				}
 				//TEMP:
 				playerScores.Add("PlayerTemp_1", 0);
 				playerScores.Add("PlayerTemp_2", 0);
-				SortPlayerScores(playerScores);
+				SortPlayerScoresByAscendingKey(playerScores);
 			}
 		}
 		
-		private void Update()
-		{
-			if (Keyboard.current.digit1Key.wasPressedThisFrame)
-			{
-				UpdateScore(player1);
-			}
-			if (Keyboard.current.digit2Key.wasPressedThisFrame)
-			{
-				UpdateScore("PlayerTemp_1");
-			}
-			if (Keyboard.current.digit3Key.wasPressedThisFrame)
-			{
-				UpdateScore("PlayerTemp_2");
-			}
-			if (Keyboard.current.digit4Key.wasPressedThisFrame)
-			{
-				StopScoreCounter();
-			}
-		}
+		// private void Update()
+		// {
+		// 	// if (!isLocalPlayer)
+		// 	// 	return;
+		// 	
+		// 	if (Keyboard.current.digit1Key.wasPressedThisFrame)
+		// 	{
+		// 		UpdateScore(player1);
+		// 	}
+		// 	if (Keyboard.current.digit2Key.wasPressedThisFrame)
+		// 	{
+		// 		UpdateScore("PlayerTemp_1");
+		// 	}
+		// 	if (Keyboard.current.digit3Key.wasPressedThisFrame)
+		// 	{
+		// 		UpdateScore("PlayerTemp_2");
+		// 	}
+		// 	if (Keyboard.current.digit4Key.wasPressedThisFrame)
+		// 	{
+		// 		StopScoreCounter();
+		// 	}
+		// }
 		
-		private void UpdateScore(string playerId)
+		[Server]
+		public void InitializeScoring(int playerId)
 		{
+			string playerName = playerPrefix + playerId;
+			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerName));
 			StopScoreCounter();
-			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerId));
 		}
 
+		[Server]
 		private IEnumerator ScoringRoutine(string playerId)
 		{
 			float time = 0;
@@ -92,12 +103,13 @@ namespace Managers
 			}
 
 			playerScores[playerId] += scoreToAdd;
-			SortPlayerScores(playerScores);
+			SortPlayerScoresByDescendingValue(playerScores);
 
 			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerId));
 		}
 		
-		private void StopScoreCounter()
+		[Server]
+		public void StopScoreCounter()
 		{
 			if (scoreCounterRoutine == null)
 				return;
@@ -105,7 +117,8 @@ namespace Managers
 			StopCoroutine(scoreCounterRoutine);
 		}
 		
-		private void SortPlayerScores(Dictionary<string, int> scores)
+		[Server]
+		private void SortPlayerScoresByDescendingValue(Dictionary<string, int> scores)
 		{
 			playerScores = scores.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 			
@@ -126,10 +139,41 @@ namespace Managers
 				}
 			}
 		}
+		
+		[Server]
+		private void SortPlayerScoresByAscendingKey(Dictionary<string, int> scores)
+		{
+			playerScores = scores.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+			
+			int index = 0; 
+			foreach(KeyValuePair<string, int> kvp in playerScores)
+			{
+				if (index <= 2)
+				{
+					RpcUpdateHudScore(index, kvp.Key, kvp.Value);
+					// print("Index: " + index);
+					// print(kvp.Key + ": " + kvp.Value);
+					index++;
+				}
+			}
+		}
 
 		// Should be from Command? Authority??
 		[ClientRpc]
 		private void RpcUpdateHudScore(int index, string kvpKey, int kvpValue)
+		{
+			scoreTexts[index].text = kvpKey + ":\n" +
+			                         kvpValue;
+			
+			if (index == 0 && !kvpKey.Equals(currentLeader))
+			{
+				currentLeader = kvpKey;
+				newLeaderText.SetActive(true);
+			}
+		}
+		
+		[ClientRpc]
+		private void RpcInitHudScore(int index, string kvpKey, int kvpValue)
 		{
 			scoreTexts[index].text = kvpKey + ":\n" +
 			                         kvpValue;
