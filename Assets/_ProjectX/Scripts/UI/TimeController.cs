@@ -47,6 +47,8 @@ namespace UI
 				uiTime--;
 				yield return null;
 			}
+			
+			ServiceLocator.RoundManager.EndOfGame();
 		}
 
 		//SyncVar Hook

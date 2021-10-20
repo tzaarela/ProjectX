@@ -6,8 +6,7 @@ namespace Data.Enums
         ALL_PLAYERS_CONNECTED_TO_GAME,
         
         // GAME STATE EVENT
-        WIN_GAMESTATE,
-        LOST_GAMESTATE,
+        END_GAMESTATE,
         PAUSED_GAMESTATE,
         PLAY_GAMESTATE,
         

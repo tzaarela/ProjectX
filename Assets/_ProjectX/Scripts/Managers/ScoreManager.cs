@@ -14,8 +14,9 @@ namespace Managers
 		// NetworkIdentity = ServerOnly
 
 		[Header("SETTINGS:")]
-		[SerializeField] private float scoreRate = 0.2f;
-		[SerializeField] private int scoreToAdd = 2;
+		[SerializeField] private float scoreRate = 0.5f;
+		[SerializeField] private int scoreToAdd = 5;
+		[SerializeField] private int scoreToWin = 100;
 		
 		private Dictionary<string, int> playerScores;
 
@@ -88,21 +89,17 @@ namespace Managers
 		private void UpdateScores(string playerId)
 		{
 			playerScores[playerId] += scoreToAdd;
+
+			if (playerScores[playerId] >= scoreToWin)
+			{
+				StopScoreCounter();
+				ServiceLocator.RoundManager.EndOfGame();
+				return;
+			}
+			
 			playerScores = SortedByDescendingValue(playerScores);
 			
 			UpdateScores();
-		}
-
-		[Server]
-		private Dictionary<string, int> SortedByDescendingValue(Dictionary<string, int> scores)
-		{
-			return scores.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-		}
-		
-		[Server]
-		private Dictionary<string, int> SortedByAscendingKey(Dictionary<string, int> scores)
-		{
-			return scores.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 		}
 
 		[Server]
@@ -121,7 +118,7 @@ namespace Managers
 				}
 			}
 		}
-		
+
 		[Server]
 		private void InitScores()
 		{
@@ -131,6 +128,18 @@ namespace Managers
 				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
 				index++;
 			}
+		}
+
+		[Server]
+		private Dictionary<string, int> SortedByDescendingValue(Dictionary<string, int> scores)
+		{
+			return scores.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+		}
+		
+		[Server]
+		private Dictionary<string, int> SortedByAscendingKey(Dictionary<string, int> scores)
+		{
+			return scores.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
 		}
 	}
 }

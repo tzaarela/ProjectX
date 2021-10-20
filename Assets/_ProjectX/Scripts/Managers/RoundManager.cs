@@ -22,9 +22,6 @@ namespace Managers
 		[Server]
 		public override void OnStartServer()
 		{
-			if (!isServer)
-				return;
-
 			if (!hasBeenProvided)
 			{
 				print("RoundManager provided to ServiceLocator");
@@ -54,6 +51,12 @@ namespace Managers
 				print("Mediator: All players connected to game!");
 				SendGlobal(GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME);
 			}
+		}
+
+		[Server]
+		public void EndOfGame()
+		{
+			SendGlobal(GlobalEvent.END_GAMESTATE);
 		}
 
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
