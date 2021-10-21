@@ -128,6 +128,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   flagOnRoof: {fileID: 6743417112348194063}
+  carMaterials:
+  - {fileID: 2100000, guid: bbab6070bb2219442a7e9185fbb56c4c, type: 2}
+  - {fileID: 2100000, guid: 9b7a279312cc6b747a6453b70939e553, type: 2}
+  - {fileID: 2100000, guid: 49062e0db43952f458bf8bdf424b275d, type: 2}
   hasFlag: 0
 --- !u!114 &5035307015958726276
 MonoBehaviour:

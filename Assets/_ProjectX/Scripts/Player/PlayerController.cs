@@ -13,7 +13,10 @@ namespace Player
 	{
 		[Header("References")]
 		[SerializeField] private GameObject flagOnRoof;
-		
+
+		[Header("Player")]
+		[SerializeField] private Material[] carMaterials;
+
 		[Header("Debug")]
 		[SyncVar(hook = "FlagStateChanged")] public bool hasFlag;
 
@@ -21,8 +24,9 @@ namespace Player
 		private Rigidbody rb;
 		
 		private int playerId;
-		
 		public int PlayerId => playerId;
+
+		private static int materialCount = 0;
 
 		[Server]
 		public override void OnStartServer()
@@ -34,9 +38,15 @@ namespace Player
 
 		public override void OnStartClient()
 		{
+			//TEMP SOLUTION TO GET DIFFERENT CAR COLORS IN GAME
+			GetComponentInChildren<Renderer>().material = carMaterials[materialCount];
+			materialCount++;
+			if (materialCount >= carMaterials.Length)
+				materialCount = 0;
+			
 			if (!isLocalPlayer)
 				return;
-			
+
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
 			print("OnStartClient(netId) " + playerId);
 			CmdUpdateActivePlayersList(playerId);
