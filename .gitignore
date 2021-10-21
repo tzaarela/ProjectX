@@ -60,3 +60,4 @@ sysinfo.txt
 crashlytics-build.properties
 
 .idea/
+Assets/Plugins/FMOD/lib/win/x86_64/fmodstudioL.dll
