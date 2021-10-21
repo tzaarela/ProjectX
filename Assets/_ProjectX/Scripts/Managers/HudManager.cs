@@ -64,12 +64,6 @@ namespace Managers
 			}
 		}
 
-		[Server]
-		public void ResetTimeScale()
-		{
-			GetComponent<TimeController>().RpcSetTimeScale(1);
-		}
-
 		public void LoadMainMenuScene()
 		{
 			SceneManager.LoadScene("MainMenu");

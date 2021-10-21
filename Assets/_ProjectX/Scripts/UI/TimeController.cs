@@ -13,7 +13,7 @@ namespace UI
 	{
 		// NetworkIdentity = !ServerOnly
 		
-		[SerializeField] private float timeLimit = 100f;
+		[SerializeField] private int timeLimit = 100;
 		
 		[SerializeField] private TMP_Text timeText;
 
@@ -23,6 +23,23 @@ namespace UI
 		public override void OnStartServer()
 		{
 			GlobalMediator.Instance.Subscribe(this);
+		}
+
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			switch (eventState)
+			{
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+					uiTime = timeLimit;
+					RpcSetTimeScale(1);
+					StartCoroutine(TimerRoutine());
+					break;
+				
+				case GlobalEvent.END_GAMESTATE:
+					RpcSetTimeScale(0);
+					break;
+			}
 		}
 
 		[Server]
@@ -39,37 +56,16 @@ namespace UI
 		}
 
 		//SyncVar Hook
+
+
 		[Client]
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
 			timeText.text =  newTime.ToString();
 		}
-
-		[Server]
-		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
-		{
-			switch (eventState)
-			{
-				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
-					uiTime = (int)timeLimit;
-					StartCoroutine(TimerRoutine());
-					break;
-				case GlobalEvent.END_GAMESTATE:
-					// RpcFreezeGame();
-					RpcSetTimeScale(0);
-					break;
-			}
-		}
-
-		[ClientRpc]
-		public void RpcFreezeGame()
-		{
-			Time.timeScale = 0;
-		}
 		
-				
 		[ClientRpc]
-		public void RpcSetTimeScale(float timeScale)
+		private void RpcSetTimeScale(float timeScale)
 		{
 			Time.timeScale = timeScale;
 		}

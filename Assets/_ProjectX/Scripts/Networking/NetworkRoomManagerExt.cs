@@ -1,6 +1,5 @@
 using Mirror;
 using Managers;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Networking
@@ -37,18 +36,14 @@ namespace Networking
 		[Server]
 		public void ReloadGameScene()
 		{
-			// Time.timeScale = 1;
-			ServiceLocator.HudManager.ResetTimeScale();
 			ServerChangeScene(GameScene);
 		}
-
-		[Client]
+		
 		public void LoadMainMenuScene()
 		{
 			gameHasStarted = false;
 			//Let Server/Host know that client leaves Game/Connection..?
-			ServerChangeScene("MainMenu");
+			SceneManager.LoadScene("MainMenu");
 		}
-		
 	}
 }
