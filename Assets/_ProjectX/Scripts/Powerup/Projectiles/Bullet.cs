@@ -22,6 +22,11 @@ namespace PowerUp.Projectiles
 
 			if (other.gameObject.CompareTag("Player"))
 			{
+				PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+
+				if (spawnedByNetId == (int)playerController.netId)
+					return;
+				
 				other.gameObject.GetComponent<Health>().ReceiveDamage(10, spawnedByNetId);
 			}
 			
