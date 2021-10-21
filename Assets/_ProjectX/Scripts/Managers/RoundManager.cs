@@ -59,6 +59,7 @@ namespace Managers
 			SendGlobal(GlobalEvent.END_GAMESTATE);
 		}
 
+		[Server]
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);

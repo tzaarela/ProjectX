@@ -91,7 +91,7 @@ namespace Managers
 
 			if (playerScores[player] >= scoreToWin)
 			{
-				StopScoreCounter();
+				StopAllCoroutines();
 				ActivateEndScreenWithFinalResults();
 				ServiceLocator.RoundManager.EndOfGame();
 				return;
@@ -155,6 +155,14 @@ namespace Managers
 		private Dictionary<string, int> SortedByAscendingKey(Dictionary<string, int> scores)
 		{
 			return scores.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+		}
+		
+		[ServerCallback]
+		private void OnDestroy()
+		{
+			// print("ScoreManager OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
+			ServiceLocator.ProvideScoreManager(null);
 		}
 	}
 }

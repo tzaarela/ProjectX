@@ -139,15 +139,6 @@ namespace Managers
 			obj.SetActive(true);
 		}
 
-		[ServerCallback]
-		private void OnDestroy()
-		{
-			if (!isServer)
-				return;
-
-			ServiceLocator.ProvideObjectPoolsManager(null);
-		}
-
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
@@ -155,6 +146,14 @@ namespace Managers
 			{
 				CreatePool();
 			}
+		}
+
+		[ServerCallback]
+		private void OnDestroy()
+		{
+			// print("ObjectPoolsManager OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
+			ServiceLocator.ProvideObjectPoolsManager(null);
 		}
 	}
 }

@@ -1297,8 +1297,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8007866307283585574}
-        m_TargetAssemblyTypeName: Managers.HudManager, Assembly-CSharp
+      - m_Target: {fileID: 3561817599053994394, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
+        m_TargetAssemblyTypeName: Networking.NetworkRoomManagerExt, Assembly-CSharp
         m_MethodName: LoadMainMenuScene
         m_Mode: 1
         m_Arguments:
@@ -2098,8 +2098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2384ef14f47d483d908e2f49aa16c141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   playerGroup: {fileID: 4271485579769744508}
   scoreGroup: {fileID: 6300219946292981256}
   resultsText: {fileID: 8947185736261297674, guid: ba5e01aa2cbdbd74e81adec2a2b90db5, type: 3}
@@ -2286,7 +2284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 30}
+  m_AnchoredPosition: {x: 20, y: 40}
   m_SizeDelta: {x: 150, y: 70}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &8007866307668988433
@@ -2344,12 +2342,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
+  m_fontSize: 100
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 70
+  m_fontSizeMax: 100
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

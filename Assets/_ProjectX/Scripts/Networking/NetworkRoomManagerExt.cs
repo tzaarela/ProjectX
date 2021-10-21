@@ -1,5 +1,6 @@
 using Mirror;
 using Managers;
+using UnityEngine.SceneManagement;
 
 namespace Networking
 {
@@ -10,8 +11,6 @@ namespace Networking
 		//Called just before Server loads new scene
 		public override void OnServerChangeScene(string newSceneName)
 		{
-			// base.ServerChangeScene(newSceneName);
-			
 			if (newSceneName != GameScene)
 				return;
 			
@@ -33,5 +32,13 @@ namespace Networking
 		{
 			ServerChangeScene(GameScene);
 		}
+
+		[Client]
+		public void LoadMainMenuScene()
+		{
+			//Let Server/Host know that client leaves Game/Connection..?
+			SceneManager.LoadScene("MainMenu");
+		}
+		
 	}
 }

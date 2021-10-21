@@ -1,7 +1,6 @@
 using FMODUnity;
 using UnityEngine;
 
-
 public class PlayerSound : MonoBehaviour
 {
     private Rigidbody rb;
@@ -13,7 +12,6 @@ public class PlayerSound : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        
     }
 
     private void Start()
@@ -41,5 +39,10 @@ public class PlayerSound : MonoBehaviour
         }
         
         return 0f;
+    }
+
+    public void StopEmitter()
+    {
+        emitter.Stop();
     }
 }

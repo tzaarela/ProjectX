@@ -22,20 +22,7 @@ namespace UI
 		[Server]
 		public override void OnStartServer()
 		{
-			if (!isServer)
-				return;
-			
 			GlobalMediator.Instance.Subscribe(this);
-		}
-		
-		[Server]
-		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
-		{
-			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
-			{
-				uiTime = (int)timeLimit;
-				StartCoroutine(TimerRoutine());
-			}
 		}
 
 		[Server]
@@ -56,6 +43,34 @@ namespace UI
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
 			timeText.text =  newTime.ToString();
+		}
+
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			switch (eventState)
+			{
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+					uiTime = (int)timeLimit;
+					StartCoroutine(TimerRoutine());
+					break;
+				case GlobalEvent.END_GAMESTATE:
+					RpcStopTime();
+					break;
+			}
+		}
+
+		[ClientRpc]
+		private void RpcStopTime()
+		{
+			Time.timeScale = 0;
+		}
+		
+		[ServerCallback]
+		private void OnDestroy()
+		{
+			// print("TimeController OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
 		}
 	}
 }

@@ -75,5 +75,9 @@ namespace Player
 			isDroppingPowerup = false;
 		}
 
+		public void DisableInput()
+		{
+			playerControls.Disable();
+		}
 	}
 }

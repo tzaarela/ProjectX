@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
@@ -8,7 +9,7 @@ using Game.Flag;
 
 namespace Player
 {
-	public class PlayerController : NetworkBehaviour, ISendGlobalSignal
+	public class PlayerController : NetworkBehaviour, ISendGlobalSignal, IReceiveGlobalSignal
 	{
 		[Header("References")]
 		[SerializeField] private GameObject flagOnRoof;
@@ -27,6 +28,8 @@ namespace Player
 		public override void OnStartServer()
 		{
 			rb = GetComponent<Rigidbody>();
+			
+			GlobalMediator.Instance.Subscribe(this);
 		}
 
 		public override void OnStartClient()
@@ -74,6 +77,24 @@ namespace Player
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
+		}
+
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			if (eventState == GlobalEvent.END_GAMESTATE)
+			{
+				RpcSetPlayerEndState();
+			}
+		}
+
+		[ClientRpc]
+		private void RpcSetPlayerEndState()
+		{
+			GetComponent<DriveController>().enabled = false;
+			GetComponent<InputManager>().DisableInput();
+			GetComponent<PlayerSound>().StopEmitter();
+			rb.velocity = Vector3.zero;
 		}
 	}
 }

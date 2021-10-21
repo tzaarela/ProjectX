@@ -72,9 +72,8 @@ namespace Managers
 		[ServerCallback]
 		private void OnDestroy()
 		{
-			if (!isServer)
-				return;
-			
+			// print("HudManager OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
 			ServiceLocator.ProvideHudManager(null);
 		}
 	}
