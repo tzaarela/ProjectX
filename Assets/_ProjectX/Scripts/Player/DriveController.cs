@@ -28,6 +28,8 @@ namespace Player
 		private float travelR = 0;
 		private float antiRoll = 8000;
 		private float defaultMaxMotorTorque;
+		private WheelFrictionCurve frictionCurveNornal;
+		private WheelFrictionCurve frictionCurveHandbrake;
 
 		private Rigidbody rb;
 
@@ -36,6 +38,17 @@ namespace Player
 			defaultMaxMotorTorque = maxMotorTorque;
 			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = centerOfMassOffset;
+			CreateFrictionCurves();
+		}
+
+		[Server]
+		private void CreateFrictionCurves()
+		{
+			FrictionValue frictionBrake = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.handbrake);
+			frictionCurveHandbrake = CreateWheelFrictionCurve(frictionBrake);
+
+			FrictionValue frictionNormal = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.normal);
+			frictionCurveNornal = CreateWheelFrictionCurve(frictionNormal);
 		}
 
 		public override void OnStartClient()
@@ -78,21 +91,15 @@ namespace Player
 				{
 					if (shouldBrake)
 					{
-						FrictionValue friction = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.handbrake);
-						WheelFrictionCurve frictionCurve = CreateWheelFrictionCurve(friction);
-
-						axel.leftWheel.sidewaysFriction = frictionCurve;
-						axel.rightWheel.sidewaysFriction = frictionCurve;
+						axel.leftWheel.sidewaysFriction = frictionCurveHandbrake;
+						axel.rightWheel.sidewaysFriction = frictionCurveHandbrake;
 						axel.leftWheel.brakeTorque = brakeTorque;
 						axel.rightWheel.brakeTorque = brakeTorque;
 					}
 					else
 					{
-					    FrictionValue friction = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.normal);
-						WheelFrictionCurve frictionCurve = CreateWheelFrictionCurve(friction);
-
-						axel.leftWheel.sidewaysFriction = frictionCurve;
-						axel.rightWheel.sidewaysFriction = frictionCurve;
+						axel.leftWheel.sidewaysFriction = frictionCurveNornal;
+						axel.rightWheel.sidewaysFriction = frictionCurveNornal;
 						axel.leftWheel.brakeTorque = 0;
 						axel.rightWheel.brakeTorque = 0;
 					}
@@ -103,6 +110,7 @@ namespace Player
 		[Server]
 		private WheelFrictionCurve CreateWheelFrictionCurve(FrictionValue friction)
 		{
+			//Almost wanted to get autoMapper just for this...
 			WheelFrictionCurve frictionCurve = new WheelFrictionCurve();
 			frictionCurve.asymptoteSlip = friction.value.asymptoteSlip;
 			frictionCurve.asymptoteValue = friction.value.asymptoteValue;
