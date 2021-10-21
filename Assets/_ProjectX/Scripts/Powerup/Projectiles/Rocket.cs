@@ -12,14 +12,14 @@ namespace PowerUp.Projectiles
 
 		private void Start()
 		{
-			trailerRenderer.enabled = false;
+			//trailerRenderer.enabled = false;
 		}
 
 		public override void SetupProjectile(Vector3 dir, int netID)
 		{
 			base.SetupProjectile(dir, netID);
 
-			trailerRenderer.enabled = true;
+			//trailerRenderer.enabled = true;
 			
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
@@ -29,8 +29,8 @@ namespace PowerUp.Projectiles
 			base.OnDisable();
 
 
-			trailerRenderer.Clear();
-			trailerRenderer.enabled = false;
+			//trailerRenderer.Clear();
+			//trailerRenderer.enabled = false;
 		}
 
 		private void OnCollisionEnter(Collision other)
