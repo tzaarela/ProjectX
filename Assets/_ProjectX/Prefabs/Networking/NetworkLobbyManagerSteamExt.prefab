@@ -50,7 +50,7 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 120
-  offlineScene: Assets/_ProjectX/Scenes/MainMenu.unity
+  offlineScene: Assets/_ProjectX/Scenes/MainMenuSteam.unity
   onlineScene: Assets/_ProjectX/Scenes/Lobby.unity
   transport: {fileID: 2485032040079434802}
   networkAddress: 76561198054975046

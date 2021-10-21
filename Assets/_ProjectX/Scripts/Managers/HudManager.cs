@@ -3,7 +3,9 @@ using Data.Enums;
 using Data.Interfaces;
 using Mirror;
 using TMPro;
+using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -15,7 +17,9 @@ namespace Managers
 		[SerializeField] private TMP_Text[] scoreTexts;
 		[SerializeField] private GameObject newLeaderText;
 		[SerializeField] private GameObject endScreen;
-		
+		[SerializeField] private TMP_Text winnerText;
+		[SerializeField] private GameObject rematchButton;
+
 		[Server]
 		public override void OnStartServer()
 		{
@@ -24,7 +28,7 @@ namespace Managers
 			
 			GlobalMediator.Instance.Subscribe(this);
 		}
-		
+
 		[ClientRpc]
 		public void RpcUpdateScore(int index, string player, int score)
 		{
@@ -39,9 +43,16 @@ namespace Managers
 		}
 
 		[ClientRpc]
-		private void RpcActivateEndScreen()
+		public void RpcActivateEndScreenAndSetWinner(string winningPlayer)
 		{
 			endScreen.SetActive(true);
+			winnerText.text = $"{winningPlayer} IS THE WINNER!";
+		}
+
+		[ClientRpc]
+		public void RpcCreatePlayerResult(int index, string player, int score)
+		{
+			GetComponent<ResultsController>().CreatePlayerResult(index, player, score);
 		}
 		
 		[Server]
@@ -49,8 +60,13 @@ namespace Managers
 		{
 			if (eventState == GlobalEvent.END_GAMESTATE)
 			{
-				RpcActivateEndScreen();
+				rematchButton.SetActive(true);
 			}
+		}
+
+		public void LoadMainMenuScene()
+		{
+			SceneManager.LoadScene("MainMenu");
 		}
 
 		[ServerCallback]

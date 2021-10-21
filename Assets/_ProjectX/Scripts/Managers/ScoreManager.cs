@@ -50,7 +50,7 @@ namespace Managers
 				
 				//TEMP:
 				playerScores.Add("PlayerTemp_1", 0);
-				playerScores.Add("PlayerTemp_2", 0);
+				playerScores.Add("PlayerTemp_2", 10);
 				
 				playerScores = SortedByAscendingKey(playerScores);
 				InitScores();
@@ -61,7 +61,6 @@ namespace Managers
 		public void InitializeScoring(int playerId)
 		{
 			string playerName = playerPrefix + playerId;
-			print("Scoring Initialized - " + playerName);
 			StopScoreCounter();
 			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerName));
 		}
@@ -76,28 +75,27 @@ namespace Managers
 		}
 		
 		[Server]
-		private IEnumerator ScoringRoutine(string playerId)
+		private IEnumerator ScoringRoutine(string player)
 		{
-			UpdateScores(playerId);
+			UpdateScores(player);
 			
 			yield return new WaitForSeconds(scoreRate);
 			
-			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerId));
+			scoreCounterRoutine = StartCoroutine(ScoringRoutine(player));
 		}
 
 		[Server]
-		private void UpdateScores(string playerId)
+		private void UpdateScores(string player)
 		{
-			playerScores[playerId] += scoreToAdd;
+			playerScores[player] += scoreToAdd;
 
-			if (playerScores[playerId] >= scoreToWin)
+			if (playerScores[player] >= scoreToWin)
 			{
 				StopScoreCounter();
+				ActivateEndScreenWithFinalResults();
 				ServiceLocator.RoundManager.EndOfGame();
 				return;
 			}
-			
-			playerScores = SortedByDescendingValue(playerScores);
 			
 			UpdateScores();
 		}
@@ -105,6 +103,8 @@ namespace Managers
 		[Server]
 		private void UpdateScores()
 		{
+			playerScores = SortedByDescendingValue(playerScores);
+			
 			int index = 0;
 			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
 			{
@@ -126,6 +126,21 @@ namespace Managers
 			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
 			{
 				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
+				index++;
+			}
+		}
+		
+		[Server]
+		private void ActivateEndScreenWithFinalResults()
+		{
+			playerScores = SortedByDescendingValue(playerScores);
+			
+			ServiceLocator.HudManager.RpcActivateEndScreenAndSetWinner(playerScores.ElementAt(0).Key);
+			
+			int index = 0;
+			foreach (KeyValuePair<string, int> kvp in playerScores)
+			{
+				ServiceLocator.HudManager.RpcCreatePlayerResult(index, kvp.Key, kvp.Value);
 				index++;
 			}
 		}

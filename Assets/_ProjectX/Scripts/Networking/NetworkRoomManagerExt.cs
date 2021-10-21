@@ -7,10 +7,10 @@ namespace Networking
 	{
 		private const string GameScene = "Assets/_ProjectX/Scenes/Game.unity";
 
-		//Before server loads Game-scene
-		public override void ServerChangeScene(string newSceneName)
+		//Called just before Server loads new scene
+		public override void OnServerChangeScene(string newSceneName)
 		{
-			base.ServerChangeScene(newSceneName);
+			// base.ServerChangeScene(newSceneName);
 			
 			if (newSceneName != GameScene)
 				return;
@@ -26,6 +26,12 @@ namespace Networking
 			}
 			print("Connected clients when starting game: " + connectedClients);
 			ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
+		}
+
+		[Server]
+		public void ReloadGameScene()
+		{
+			ServerChangeScene(GameScene);
 		}
 	}
 }
