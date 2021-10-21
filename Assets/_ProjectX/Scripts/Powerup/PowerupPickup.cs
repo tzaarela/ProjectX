@@ -5,11 +5,16 @@ using Utilites;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine.PlayerLoop;
 
 public class PowerupPickup : NetworkBehaviour
 {
     [SerializeField] private PowerupType currentPowerupType;
 
+    private bool sendStatus;
+    private float sendDelay = 0;
+
+    // private GameObject
     private Rotator rotator;
 
     private void Awake()
@@ -28,6 +33,21 @@ public class PowerupPickup : NetworkBehaviour
     }
 
     [Server]
+    private void Update()
+    {
+        if (sendStatus)
+        {
+            if(sendDelay >= 5f)
+                Debug.Log("GAMEOBJECT ACTIVE " + gameObject.activeSelf);
+            else
+            {
+                sendDelay += Time.deltaTime;
+                Debug.Log("SendDelay " + sendDelay);
+            }
+        }
+    }
+
+    [Server]
     private void OnTriggerEnter(Collider other)
     {
         PickUp(other.gameObject);
@@ -39,7 +59,15 @@ public class PowerupPickup : NetworkBehaviour
         {
             Debug.Log("CURRENT PICKUP: " + currentPowerupType);
             playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
-            NetworkServer.Destroy(gameObject);
+            Debug.Log("SEND STATUS SET TO TRUE");
+            RpcDisableObject();
+            sendStatus = true;
         }
+    }
+    
+    [ClientRpc]
+    private void RpcDisableObject()
+    {
+        gameObject.SetActive(false);
     }
 }
