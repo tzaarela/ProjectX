@@ -4,21 +4,20 @@ using PowerUp;
 using Utilites;
 using UnityEngine;
 using Mirror;
-using System;
-using UnityEngine.PlayerLoop;
 
 public class PowerupPickup : NetworkBehaviour
 {
     [SerializeField] private PowerupType currentPowerupType;
-
-    private bool sendStatus;
-    private float sendDelay = 0;
-
-    // private GameObject
+    
+    public GameObject body;
+    private Collider coll;
     private Rotator rotator;
 
+    public float disableTimestamp;
+    
     private void Awake()
     {
+        coll = GetComponent<Collider>();
         rotator = GetComponent<Rotator>();
     }
 
@@ -31,22 +30,7 @@ public class PowerupPickup : NetworkBehaviour
     {
         currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
     }
-
-    [Server]
-    private void Update()
-    {
-        if (sendStatus)
-        {
-            if(sendDelay >= 5f)
-                Debug.Log("GAMEOBJECT ACTIVE " + gameObject.activeSelf);
-            else
-            {
-                sendDelay += Time.deltaTime;
-                Debug.Log("SendDelay " + sendDelay);
-            }
-        }
-    }
-
+    
     [Server]
     private void OnTriggerEnter(Collider other)
     {
@@ -59,15 +43,25 @@ public class PowerupPickup : NetworkBehaviour
         {
             Debug.Log("CURRENT PICKUP: " + currentPowerupType);
             playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
-            Debug.Log("SEND STATUS SET TO TRUE");
+            disableTimestamp = Time.time;
             RpcDisableObject();
-            sendStatus = true;
         }
     }
     
     [ClientRpc]
     private void RpcDisableObject()
     {
-        gameObject.SetActive(false);
+        coll.enabled = false;
+        rotator.doRotate = false;
+        body.SetActive(false);
+    }
+    
+    [ClientRpc]
+    public void RpcEnableObject()
+    {
+        coll.enabled = true;
+        rotator.doRotate = true;
+        body.SetActive(true);
+        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
     }
 }

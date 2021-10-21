@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Managers
 {
@@ -10,6 +8,7 @@ namespace Managers
     {
         private List<PowerupPickup> powerupPickups = new List<PowerupPickup>();
 
+        [SerializeField] float respawnPowerupTime;
         [SerializeField] float respawnCooldown;
         private float nextRespawn = 0;
 
@@ -24,12 +23,25 @@ namespace Managers
             }
         }
 
+        [Server]
         private void Update()
         {
             if (nextRespawn > Time.time)
                 return;
 			
             nextRespawn = respawnCooldown + Time.time;
+
+            foreach (PowerupPickup powerupPickup in powerupPickups)
+            {
+                if (powerupPickup.disableTimestamp >= 0)
+                {
+                    if (Time.time > powerupPickup.disableTimestamp + respawnPowerupTime)
+                    {
+                        powerupPickup.RpcEnableObject();
+                        powerupPickup.disableTimestamp = -1;
+                    }
+                }
+            }
         }
     }
 }
