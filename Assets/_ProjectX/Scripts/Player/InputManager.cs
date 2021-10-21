@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,32 +42,32 @@ namespace Player
 			steering = obj.ReadValue<float>();
 		}
 
-		private void Accelerate(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void Accelerate(InputAction.CallbackContext obj)
 		{
 			 acceleration = obj.ReadValue<float>();
 		}
 
-		private void Handbrake(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void Handbrake(InputAction.CallbackContext obj)
 		{
 			isBraking = obj.performed;
 		}
 
-		private void UsePowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void UsePowerStarted(InputAction.CallbackContext obj)
 		{
 			isUsingPowerup = true;
 		}
 
-		private void UsePowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void UsePowerCanceled(InputAction.CallbackContext obj)
 		{
 			isUsingPowerup = false;
 		}
 
-		private void DropPowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void DropPowerStarted(InputAction.CallbackContext obj)
 		{
 			isDroppingPowerup = true;
 		}
 		
-		private void DropPowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void DropPowerCanceled(InputAction.CallbackContext obj)
 		{
 			isDroppingPowerup = false;
 		}

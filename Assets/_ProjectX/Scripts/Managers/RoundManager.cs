@@ -38,10 +38,10 @@ namespace Managers
 		[Server]
 		public void AddActivePlayer(int playerId)
 		{
-			numberOfSpawnedPlayers++;
+			// numberOfSpawnedPlayers++;
 			connectedPlayers.Add(playerId);
-			print("NumberOfSpawnedPlayers = " + numberOfSpawnedPlayers);
-			if (numberOfSpawnedPlayers == NumberOfConnectedClients)
+			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
+			if (connectedPlayers.Count == NumberOfConnectedClients)
 			{
 				print("Spawned PlayerIds:");
 				foreach (var id in connectedPlayers)
@@ -57,6 +57,7 @@ namespace Managers
 		public void EndOfGame()
 		{
 			SendGlobal(GlobalEvent.END_GAMESTATE);
+			connectedPlayers.Clear();
 		}
 
 		[Server]

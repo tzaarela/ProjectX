@@ -39,7 +39,6 @@ namespace Managers
 		[Server]
 		private void CreatePool()
 		{
-			print("PoolCreation!");
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)

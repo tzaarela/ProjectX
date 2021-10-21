@@ -55,15 +55,23 @@ namespace UI
 					StartCoroutine(TimerRoutine());
 					break;
 				case GlobalEvent.END_GAMESTATE:
-					RpcStopTime();
+					// RpcFreezeGame();
+					RpcSetTimeScale(0);
 					break;
 			}
 		}
 
 		[ClientRpc]
-		private void RpcStopTime()
+		public void RpcFreezeGame()
 		{
 			Time.timeScale = 0;
+		}
+		
+				
+		[ClientRpc]
+		public void RpcSetTimeScale(float timeScale)
+		{
+			Time.timeScale = timeScale;
 		}
 		
 		[ServerCallback]

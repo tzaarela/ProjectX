@@ -15,7 +15,7 @@ namespace UI
 		
 		public void CreatePlayerResult(int index, string player, int score)
 		{
-			print("ReultsController Index: " + index);
+			// print("ResultsController Index: " + index);
 			if (index < 3)
 			{
 				playerTexts[index].text = player;

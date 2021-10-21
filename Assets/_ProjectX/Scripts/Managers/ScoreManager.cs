@@ -39,8 +39,6 @@ namespace Managers
 		{
 			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
 			{
-				print("ScoreManager Started!");
-				
 				List<int> playerIds = new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
 				playerScores = new Dictionary<string, int>();
 				foreach (int id in playerIds)
