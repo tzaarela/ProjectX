@@ -23,9 +23,12 @@ namespace Managers
             }
         }
 
-        [Server]
+        // [Server]
         private void Update()
         {
+            if (!isServer)
+                return;
+
             if (nextRespawn > Time.time)
                 return;
 			
