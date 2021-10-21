@@ -27,7 +27,9 @@ namespace PowerUp.Projectiles
 		protected override void OnDisable()
 		{
 			base.OnDisable();
-			
+
+
+			trailerRenderer.Clear();
 			trailerRenderer.enabled = false;
 		}
 
