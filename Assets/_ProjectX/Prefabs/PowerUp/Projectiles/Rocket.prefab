@@ -54,6 +54,7 @@ MonoBehaviour:
   damage: 50
   shootingStrength: 60
   aliveTime: 5
+  trailerRenderer: {fileID: 7963119037639892381}
 --- !u!54 &-5622612303277816428
 Rigidbody:
   m_ObjectHideFlags: 0
