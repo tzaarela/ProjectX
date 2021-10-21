@@ -94,6 +94,10 @@ namespace Player
 			GetComponent<DriveController>().enabled = false;
 			GetComponent<InputManager>().DisableInput();
 			GetComponent<PlayerSound>().StopEmitter();
+
+			if (!isServer)
+				return;
+			
 			rb.velocity = Vector3.zero;
 		}
 	}
