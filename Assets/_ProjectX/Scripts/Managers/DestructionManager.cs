@@ -15,13 +15,13 @@ namespace Managers
 				Destroy(gameObject);
 		}
 		
-		[Server]
+		[ServerCallback]
 		public void DestructObject(GameObject destructionObject, Vector3 impulse)
 		{
 			RpcDestructObject(destructionObject, impulse);
 		}
 		
-		[Server]
+		[ServerCallback]
 		public void PlayerDestructObject(GameObject destructionObject)
 		{
 			RpcPlayerDestructObject(destructionObject);
