@@ -20,11 +20,23 @@ namespace Managers
 		{
 			RpcDestructObject(destructionObject, impulse);
 		}
+		
+		[Server]
+		public void PlayerDestructObject(GameObject destructionObject)
+		{
+			RpcPlayerDestructObject(destructionObject);
+		}
 
 		[ClientRpc]
 		private void RpcDestructObject(GameObject destructionObject, Vector3 impulse)
 		{
 			destructionObject.GetComponent<DestructionObject>().Destruct(impulse);
+		}
+		
+		[ClientRpc]
+		private void RpcPlayerDestructObject(GameObject destructionObject)
+		{
+			destructionObject.GetComponent<DestructionObject>().Explode();
 		}
 	}
 }

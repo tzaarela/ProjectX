@@ -26,6 +26,15 @@ public class DestructionObject : MonoBehaviour
 		rb.isKinematic = false;
 		rb.AddForce(impulse, ForceMode.Impulse);
 	}
+	
+	public void Explode()
+	{
+		if(rb == null)
+			return;
+		
+		rb.isKinematic = false;
+		rb.AddExplosionForce(100, transform.position, 3, 3f); //AddForce(impulse, ForceMode.Impulse);
+	}
 
 	private void OnCollisionEnter(Collision other)
 	{
@@ -33,5 +42,18 @@ public class DestructionObject : MonoBehaviour
 			return;
 
 		DestructionManager.Instance.DestructObject(gameObject, other.relativeVelocity);
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if(rb.isKinematic)
+			return;
+		
+		if (other.CompareTag("Player"))
+		{
+			rb.isKinematic = false;
+			
+			DestructionManager.Instance.PlayerDestructObject(gameObject);
+		}
 	}
 }
