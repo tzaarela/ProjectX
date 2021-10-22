@@ -37,21 +37,29 @@ namespace Managers
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
-			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
+			switch (eventState)
 			{
-				List<int> playerIds = new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
-				playerScores = new Dictionary<string, int>();
-				foreach (int id in playerIds)
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
 				{
-					playerScores.Add(playerPrefix + id, 0);
+					List<int> playerIds = new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
+					playerScores = new Dictionary<string, int>();
+					foreach (int id in playerIds)
+					{
+						playerScores.Add(playerPrefix + id, 0);
+					}
+				
+					//TEMP:
+					playerScores.Add("PlayerTemp_1", 0);
+					playerScores.Add("PlayerTemp_2", 10);
+				
+					playerScores = SortedByAscendingKey(playerScores);
+					InitScores();
+					break;
 				}
-				
-				//TEMP:
-				playerScores.Add("PlayerTemp_1", 0);
-				playerScores.Add("PlayerTemp_2", 10);
-				
-				playerScores = SortedByAscendingKey(playerScores);
-				InitScores();
+				case GlobalEvent.END_GAMESTATE:
+					StopAllCoroutines();
+					ActivateEndScreenWithFinalResults();
+					break;
 			}
 		}
 
@@ -89,8 +97,6 @@ namespace Managers
 
 			if (playerScores[player] >= scoreToWin)
 			{
-				StopAllCoroutines();
-				ActivateEndScreenWithFinalResults();
 				ServiceLocator.RoundManager.EndOfGame();
 				return;
 			}
