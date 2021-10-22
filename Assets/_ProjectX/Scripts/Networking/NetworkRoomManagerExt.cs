@@ -1,13 +1,33 @@
 using Mirror;
 using Managers;
 using UnityEngine;
+using Player;
+using Data.Interfaces;
+using Data.Enums;
+using Data.Containers.GlobalSignal;
 
 namespace Networking
 {
-	public class NetworkRoomManagerExt : NetworkRoomManager
+	public class NetworkRoomManagerExt : NetworkRoomManager, IReceiveGlobalSignal
 	{
 		private static bool gameHasStarted;
-		
+
+		public override void OnServerSceneChanged(string sceneName)
+		{
+			base.OnServerSceneChanged(sceneName);
+
+			if (sceneName == GameplayScene)
+				GlobalMediator.Instance.Subscribe(this);
+		}
+
+		public override void OnRoomServerSceneChanged(string sceneName)
+		{
+			base.OnRoomServerSceneChanged(sceneName);
+
+			if (sceneName == GameplayScene)
+				GlobalMediator.Instance.Subscribe(this);
+		}
+
 		//Called just before Server loads new scene
 		public override void OnServerChangeScene(string newSceneName)
 		{
@@ -51,14 +71,32 @@ namespace Networking
 		public void EndGame()
 		{
 			gameHasStarted = false;
-			
 			StopClient();
 		}
 
 		public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
 		{
-			NetworkServer.Destroy(roomPlayer);
-			return base.OnRoomServerCreateGamePlayer(conn, roomPlayer);
+			Transform startPos = GetStartPosition();
+			GameObject gamePlayer = startPos != null
+				? Instantiate(playerPrefab, startPos.position, startPos.rotation)
+				: Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+
+			return gamePlayer;
+		}
+
+
+
+		public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
+		{
+			NetworkServer.ReplacePlayerForConnection(conn, gamePlayer, true);
+			NetworkRoomPlayerExt networkedRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayerExt>();
+			//NetworkServer.Destroy(roomPlayer);
+			PlayerController playerController =  gamePlayer.GetComponent<PlayerController>();
+			playerController.PlayerName = networkedRoomPlayer.playerName;
+			Color color = networkedRoomPlayer.GetColor();
+			playerController.ChangeColor(color);
+			
+			return false;
 		}
 
 		public override void OnServerAddPlayer(NetworkConnection conn)
@@ -66,6 +104,17 @@ namespace Networking
 			base.OnServerAddPlayer(conn);
 
 			ServiceLocator.LobbyManager.AddRoomPlayer(conn.identity.gameObject.GetComponent<NetworkRoomPlayerExt>());
+		}
+
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
+			{
+				for (int i = roomSlots.Count - 1; i >= 0; i--)
+				{
+					NetworkServer.Destroy(roomSlots[i].gameObject);
+				}
+			}
 		}
 	}
 }

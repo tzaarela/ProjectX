@@ -158,6 +158,8 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     [Command]
     public void CmdChangeName(string name)
 	{
+        playerName = name;
+        nameTag.text = name;
         RpcChangeName(name);
 	}
 
@@ -175,9 +177,17 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
             CmdChangeColor(colorIndex);  
 	}
 
+    [Server]
+    public Color GetColor()
+	{
+        return color;
+	}
+
     [Command]
     public void CmdChangeColor(int colorIndex)
 	{
+        color = ServiceLocator.LobbyManager.indexColors[colorIndex];
+        colorChangingMesh.material.color = color;
         RpcChangeColor(colorIndex);
 	}
 
@@ -186,18 +196,6 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	{
         color = ServiceLocator.LobbyManager.indexColors[colorIndex];
         colorChangingMesh.material.color = color;
-    }
-
-	[Command]
-	private void CmdUpdateNameTag(string text)
-	{
-        RpcUpdateNameTag(text);
-	}
-
-    [ClientRpc]
-	private void RpcUpdateNameTag(string text)
-	{
-        nameTag.text = text;
     }
 
 	#endregion

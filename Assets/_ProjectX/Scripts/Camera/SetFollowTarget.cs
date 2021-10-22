@@ -5,7 +5,7 @@ using Data.Interfaces;
 using Managers;
 using UnityEngine;
 
-namespace Camera
+namespace Cameras
 {
     public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
     {

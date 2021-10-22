@@ -123,7 +123,8 @@ namespace Player
 		[Client]
 		private void Drive()
 		{
-			CmdDrive(inputs.acceleration, inputs.steering);
+			if (NetworkClient.ready)
+				CmdDrive(inputs.acceleration, inputs.steering);
 		}
 
 		[Command]
