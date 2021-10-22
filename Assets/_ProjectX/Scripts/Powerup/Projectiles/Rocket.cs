@@ -45,7 +45,7 @@ namespace PowerUp.Projectiles
 				if(spawnedByNetId == (int)playerController.netId)
 					return;
 				
-				other.gameObject.GetComponent<Health>().ReceiveDamage(10, spawnedByNetId);
+				other.gameObject.GetComponent<Health>().ReceiveDamage(50, spawnedByNetId);
 			}
 			
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);

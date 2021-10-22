@@ -51,8 +51,8 @@ namespace Managers
 		[Server]
 		public void EndOfGame()
 		{
-			SendGlobal(GlobalEvent.END_GAMESTATE);
 			connectedPlayers.Clear();
+			SendGlobal(GlobalEvent.END_GAMESTATE);
 		}
 
 		[Server]
