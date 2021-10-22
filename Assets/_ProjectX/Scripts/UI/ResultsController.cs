@@ -16,11 +16,13 @@ namespace UI
 		public void CreatePlayerResult(int index, string player, int score)
 		{
 			// print("ResultsController Index: " + index);
-			if (index < 3)
-			{
+			// if (index < 6)
+			// {
 				playerTexts[index].text = player;
+				playerTexts[index].gameObject.SetActive(true);
 				scoreTexts[index].text = score.ToString();
-			}
+				scoreTexts[index].gameObject.SetActive(true);
+			// }
 			// NOT WORKING! WHY? Was called as Server, not Rpc!
 			// GameObject playerText = Instantiate(resultsText, playerGroup.transform);
 			// playerText.GetComponent<TMP_Text>().text = player;

@@ -49,8 +49,10 @@ namespace Managers
 					}
 				
 					//TEMP:
-					playerScores.Add("PlayerTemp_1", 0);
-					playerScores.Add("PlayerTemp_2", 10);
+					// playerScores.Add("PlayerTemp_1", 0);
+					// playerScores.Add("PlayerTemp_2", 10);
+					// playerScores.Add("PlayerTemp_3", 0);
+					// playerScores.Add("PlayerTemp_4", 20);
 				
 					playerScores = SortedByAscendingKey(playerScores);
 					InitScores();
