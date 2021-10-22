@@ -56,8 +56,6 @@ namespace UI
 		}
 
 		//SyncVar Hook
-
-
 		[Client]
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
