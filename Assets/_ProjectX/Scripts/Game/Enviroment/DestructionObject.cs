@@ -46,7 +46,7 @@ public class DestructionObject : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if(rb.isKinematic)
+		if(!rb.isKinematic)
 			return;
 		
 		if (other.CompareTag("Player"))
