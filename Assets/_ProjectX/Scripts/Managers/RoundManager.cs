@@ -3,15 +3,12 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
+using UnityEngine;
 
 namespace Managers
 {
-	public class RoundManager : NetworkBehaviour, ISendGlobalSignal
+	public class RoundManager : MonoBehaviour, ISendGlobalSignal
 	{
-		// NetworkIdentity = ServerOnly
-		
-		private int numberOfSpawnedPlayers;
-		
 		private List<int> connectedPlayers = new List<int>();
 		
 		private static bool hasBeenProvided;
@@ -19,8 +16,7 @@ namespace Managers
 		public List<int> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
 		
-		[Server]
-		public override void OnStartServer()
+		private void Awake()
 		{
 			if (!hasBeenProvided)
 			{
@@ -38,7 +34,6 @@ namespace Managers
 		[Server]
 		public void AddActivePlayer(int playerId)
 		{
-			// numberOfSpawnedPlayers++;
 			connectedPlayers.Add(playerId);
 			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
 			if (connectedPlayers.Count == NumberOfConnectedClients)

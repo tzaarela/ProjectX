@@ -5,7 +5,6 @@ using Mirror;
 using TMPro;
 using UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -62,11 +61,6 @@ namespace Managers
 			{
 				rematchButton.SetActive(true);
 			}
-		}
-
-		public void LoadMainMenuScene()
-		{
-			SceneManager.LoadScene("MainMenu");
 		}
 
 		[ServerCallback]

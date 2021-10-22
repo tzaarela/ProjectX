@@ -1,13 +1,10 @@
 using Mirror;
 using Managers;
-using UnityEngine.SceneManagement;
 
 namespace Networking
 {
 	public class NetworkRoomManagerExt : NetworkRoomManager
 	{
-		private const string GameScene = "Assets/_ProjectX/Scenes/Game.unity";
-
 		private static bool gameHasStarted;
 		
 		//Called just before Server loads new scene
@@ -16,7 +13,7 @@ namespace Networking
 			if (gameHasStarted)
 				return;
 			
-			if (newSceneName != GameScene)
+			if (newSceneName != GameplayScene)
 				return;
 			
 			int connectedClients = 0;
@@ -36,14 +33,25 @@ namespace Networking
 		[Server]
 		public void ReloadGameScene()
 		{
-			ServerChangeScene(GameScene);
+			ServerChangeScene(GameplayScene);
+		}
+
+		[Server]
+		public override void OnServerDisconnect(NetworkConnection conn)
+		{
+			base.OnServerDisconnect(conn);
+
+			if (!IsSceneActive(GameplayScene))
+				return;
+			
+			StopHost();
 		}
 		
-		public void LoadMainMenuScene()
+		public void EndGame()
 		{
 			gameHasStarted = false;
-			//Let Server/Host know that client leaves Game/Connection..?
-			SceneManager.LoadScene("MainMenu");
+			
+			StopClient();
 		}
 	}
 }
