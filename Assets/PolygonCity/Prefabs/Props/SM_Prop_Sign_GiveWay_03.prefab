@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6536161474506637170}
   - component: {fileID: 3677323641985112116}
   - component: {fileID: 1012614332533886402}
+  - component: {fileID: 4287655326394433612}
   m_Layer: 7
   m_Name: SM_Prop_Sign_GiveWay_03
   m_TagString: Untagged
@@ -174,3 +175,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e8e6474dcc49e438b03596b32c5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &4287655326394433612
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149042}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.47546196
+  m_Height: 2.2172904
+  m_Direction: 1
+  m_Center: {x: -0.00000011920932, y: 1.02, z: 0.0020214473}

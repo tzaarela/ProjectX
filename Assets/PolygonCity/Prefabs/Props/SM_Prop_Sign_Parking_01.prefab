@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8493083183502149542}
   - component: {fileID: 1564975212985226845}
   - component: {fileID: 4248161925275754572}
+  - component: {fileID: 5732177562046266396}
   m_Layer: 7
   m_Name: SM_Prop_Sign_Parking_01
   m_TagString: Untagged
@@ -144,3 +145,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e8e6474dcc49e438b03596b32c5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &5732177562046266396
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159104}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.26
+  m_Height: 1.71726
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.77, z: -0.0023422241}
