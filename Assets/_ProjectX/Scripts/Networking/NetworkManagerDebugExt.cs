@@ -7,7 +7,7 @@ using Managers;
 
 namespace Networking
 {
-	public class NetworkManagerDebugExt : NetworkManager
+	public class NetworkManagerDebugExt : NetworkRoomManagerExt
 	{
 
 		[SerializeField] GameObject debugPlayer;

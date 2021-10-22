@@ -9,7 +9,8 @@ namespace Managers
 		private static HudManager hudManager;
 		private static ScoreManager scoreManager;
 		private static ObjectPoolsManager objectPoolsManager;
-		
+		private static LobbyManager lobbyManager;
+
 		public static RoundManager RoundManager
 		{
 			get
@@ -66,6 +67,18 @@ namespace Managers
 			}
 		}
 
+		public static LobbyManager LobbyManager
+		{
+			get
+			{
+				if (lobbyManager == null)
+				{
+					Debug.LogError("RoundManager is null!");
+				}
+				return lobbyManager;
+			}
+		}
+
 		public static void ProvideRoundManager(RoundManager round)
 		{
 			roundManager = round;
@@ -85,10 +98,15 @@ namespace Managers
 		{
 			scoreManager = score;
 		}
-		
+
 		public static void ProvideObjectPoolsManager(ObjectPoolsManager objectPool)
 		{
 			objectPoolsManager = objectPool;
 		}
+		public static void ProvideLobbyManager(LobbyManager lobby)
+		{
+			lobbyManager = lobby;
+		}
+
 	}
 }

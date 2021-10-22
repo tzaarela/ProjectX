@@ -22,6 +22,9 @@ namespace Player
 
 		private Flag flag;
 		private Rigidbody rb;
+
+		private string playerName;
+		private string PlayerName => playerName;
 		
 		private int playerId;
 		public int PlayerId => playerId;

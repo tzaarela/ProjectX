@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Mirror
@@ -36,12 +37,16 @@ namespace Mirror
         [SyncVar(hook = nameof(IndexChanged))]
         public int index;
 
-        #region Unity Callbacks
-
         /// <summary>
-        /// Do not use Start - Override OnStartHost / OnStartClient instead!
+        /// Player name
         /// </summary>
-        public void Start()
+        [SyncVar(hook = nameof(PlayerNameChanged))]
+        public string playerName;
+
+		/// <summary>
+		/// Do not use Start - Override OnStartHost / OnStartClient instead!
+		/// </summary>
+		public void Start()
         {
             if (NetworkManager.singleton is NetworkRoomManager room)
             {
@@ -73,10 +78,6 @@ namespace Mirror
             }
         }
 
-        #endregion
-
-        #region Commands
-
         [Command]
         public void CmdChangeReadyState(bool readyState)
         {
@@ -88,10 +89,6 @@ namespace Mirror
             }
         }
 
-        #endregion
-
-        #region SyncVar Hooks
-
         /// <summary>
         /// This is a hook that is invoked on clients when the index changes.
         /// </summary>
@@ -100,15 +97,18 @@ namespace Mirror
         public virtual void IndexChanged(int oldIndex, int newIndex) {}
 
         /// <summary>
+        /// This is a hook that is invoked on clients when the playername changes.
+        /// </summary>
+        /// <param name="oldValue">The old name value</param>
+        /// <param name="newValue">The new name value</param>
+        public virtual void PlayerNameChanged(string oldValue, string newValue) { }
+  
+        /// <summary>
         /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
         /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
         /// </summary>
         /// <param name="newReadyState">New Ready State</param>
         public virtual void ReadyStateChanged(bool oldReadyState, bool newReadyState) {}
-
-        #endregion
-
-        #region Room Client Virtuals
 
         /// <summary>
         /// This is a hook that is invoked on clients for all room player objects when entering the room.
@@ -120,10 +120,6 @@ namespace Mirror
         /// This is a hook that is invoked on clients for all room player objects when exiting the room.
         /// </summary>
         public virtual void OnClientExitRoom() {}
-
-        #endregion
-
-        #region Optional UI
 
         /// <summary>
         /// Render a UI for the room. Override to provide your own UI
@@ -151,7 +147,10 @@ namespace Mirror
         {
             GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
 
-            GUILayout.Label($"Player [{index + 1}]");
+            if (string.IsNullOrEmpty(playerName))
+                GUILayout.Label($"Player [{index + 1}]");
+            else
+                GUILayout.Label(playerName);
 
             if (readyToBegin)
                 GUILayout.Label("Ready");
@@ -189,7 +188,5 @@ namespace Mirror
                 GUILayout.EndArea();
             }
         }
-
-        #endregion
     }
 }

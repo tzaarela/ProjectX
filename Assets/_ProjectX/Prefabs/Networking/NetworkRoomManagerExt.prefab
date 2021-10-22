@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1566610412460490308}
   - component: {fileID: -9204374030515531311}
   m_Layer: 0
-  m_Name: NetworkLobbyManagerExt
+  m_Name: NetworkRoomManagerExt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   - {fileID: 550862588956206963, guid: 3ff318fb047fe144689e6735632b6c15, type: 3}
   showRoomGUI: 1
   minPlayers: 1
-  roomPlayerPrefab: {fileID: 4455770958646772882, guid: d032366a06426494f87b1b585e391f61, type: 3}
+  roomPlayerPrefab: {fileID: 2392863618073276917, guid: d032366a06426494f87b1b585e391f61, type: 3}
   RoomScene: Assets/_ProjectX/Scenes/Lobby.unity
   GameplayScene: Assets/_ProjectX/Scenes/Game.unity
   _allPlayersReady: 0

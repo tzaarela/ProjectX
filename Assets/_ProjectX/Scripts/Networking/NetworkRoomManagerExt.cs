@@ -1,5 +1,6 @@
 using Mirror;
 using Managers;
+using UnityEngine;
 
 namespace Networking
 {
@@ -52,6 +53,19 @@ namespace Networking
 			gameHasStarted = false;
 			
 			StopClient();
+		}
+
+		public override void OnServerAddPlayer(NetworkConnection conn)
+		{
+			base.OnServerAddPlayer(conn);
+
+			ServiceLocator.LobbyManager.AddRoomPlayer(conn.identity.gameObject.GetComponent<NetworkRoomPlayerExt>());
+		}
+
+
+		public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
+		{
+			return base.OnRoomServerCreateGamePlayer(conn, roomPlayer);
 		}
 	}
 }
