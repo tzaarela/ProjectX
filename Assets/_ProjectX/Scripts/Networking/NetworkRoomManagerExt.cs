@@ -55,17 +55,17 @@ namespace Networking
 			StopClient();
 		}
 
+		public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
+		{
+			NetworkServer.Destroy(roomPlayer);
+			return base.OnRoomServerCreateGamePlayer(conn, roomPlayer);
+		}
+
 		public override void OnServerAddPlayer(NetworkConnection conn)
 		{
 			base.OnServerAddPlayer(conn);
 
 			ServiceLocator.LobbyManager.AddRoomPlayer(conn.identity.gameObject.GetComponent<NetworkRoomPlayerExt>());
-		}
-
-
-		public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
-		{
-			return base.OnRoomServerCreateGamePlayer(conn, roomPlayer);
 		}
 	}
 }
