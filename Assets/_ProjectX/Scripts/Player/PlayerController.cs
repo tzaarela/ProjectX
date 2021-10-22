@@ -98,18 +98,13 @@ namespace Player
 		public void DropFlag()
 		{	
 			hasFlag = false;
-			// flag.Drop(transform.position, rb.velocity);
+			flag.Drop(transform.position, rb.velocity);
 		}
 
 		[Client]
 		private void FlagStateChanged(bool oldValue, bool newValue)
 		{
 			flagOnRoof.SetActive(newValue);
-			
-			if (!newValue)
-			{
-				flag.Drop(transform.position, rb.velocity);
-			}
 		}
 
 		[Command]
