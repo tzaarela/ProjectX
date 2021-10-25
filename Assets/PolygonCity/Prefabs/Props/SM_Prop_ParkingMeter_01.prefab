@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7520897216059799259}
   - component: {fileID: 2575401332714562798}
   - component: {fileID: 7101794899130533745}
+  - component: {fileID: 695288955084813225}
+  - component: {fileID: 6934129028705095090}
   m_Layer: 7
   m_Name: SM_Prop_ParkingMeter_01
   m_TagString: Untagged
@@ -144,3 +146,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e8e6474dcc49e438b03596b32c5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &695288955084813225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e8e6474dcc49e438b03596b32c5365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &6934129028705095090
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148214}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.14
+  m_Height: 1.4545168
+  m_Direction: 1
+  m_Center: {x: 0.00000047683716, y: 0.7272584, z: 0}

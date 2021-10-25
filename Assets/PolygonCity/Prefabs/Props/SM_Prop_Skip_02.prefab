@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1126109174308210207}
   - component: {fileID: 5102410310518001855}
   - component: {fileID: 4787112945007200368}
+  - component: {fileID: 4036725022229697306}
   m_Layer: 7
   m_Name: SM_Prop_Skip_02
   m_TagString: Untagged
@@ -144,3 +145,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e8e6474dcc49e438b03596b32c5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &4036725022229697306
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168790}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.58, y: 1.8469827, z: 1.57}
+  m_Center: {x: -0.0001983643, y: 0.92349136, z: 0.003939868}
