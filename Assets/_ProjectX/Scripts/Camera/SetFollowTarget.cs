@@ -22,7 +22,7 @@ namespace Cameras
         {
             switch (eventState)
             {
-                case GlobalEvent.SET_FOLLOW_TARGET:
+                case GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME:
 
                     if (globalSignalData is GameObjectData data)
                     {

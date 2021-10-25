@@ -69,7 +69,7 @@ namespace Player
 			print("OnStartClient(netId) " + playerId);
 			CmdUpdateActivePlayersList(playerId);
 			
-			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
+			SendGlobal(GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME, new GameObjectData(gameObject));
 
 			name += "-local";
 		}
