@@ -11,7 +11,8 @@ namespace Powerup.Powerups
 		{
 			base.Start();
 
-			forwardSpawnOffset = 0.5f;
+			forwardSpawnOffset = 0.0f;
+			heightSpawnOffset = -0.5f;
 			fireCooldown = 0.2f;
 		}
 
@@ -34,8 +35,8 @@ namespace Powerup.Powerups
 					
 					if(bullet == null)
 						continue;
-					
-					bullet.transform.position = hardpoint.position + direction * 0.5f;
+
+					bullet.transform.position = hardpoint.position;
 					bullet.transform.rotation = hardpoint.rotation;
 					bullet.SetupProjectile(direction, netID);
 
