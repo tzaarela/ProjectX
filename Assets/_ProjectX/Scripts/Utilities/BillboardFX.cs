@@ -11,9 +11,8 @@ public class BillboardFX : MonoBehaviour
         camTransform = Camera.main.transform;
     }
 
-    void Update()
+    private void LateUpdate()
     {
-        transform.LookAt(camTransform);
-        transform.Rotate(new Vector3(0, 180, 0));
+        transform.forward = camTransform.forward;
     }
 }

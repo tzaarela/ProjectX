@@ -41,6 +41,7 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
+			playerNameText.gameObject.SetActive(false);
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
 			print("OnStartClient(netId) " + playerId);
 			CmdUpdateActivePlayersList(playerId);
