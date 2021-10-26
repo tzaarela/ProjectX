@@ -17,6 +17,11 @@ namespace Player
 		[SerializeField] private MeshRenderer colorChangingMesh;
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
 
+		[Header("DeathSettings")] 
+		[SerializeField] private ParticleSystem deathFX;
+		[SerializeField] private ParticleSystem deathFX2;
+		[SerializeField] private ParticleSystem deathSmoke;
+		
 		[Header("Debug")]
 		[SyncVar(hook = nameof(FlagStateChanged))] public bool hasFlag;
 		[SyncVar(hook = nameof(PlayerNameChanged))] public string playerName;
@@ -24,9 +29,15 @@ namespace Player
 
 		private Flag flag;
 		private Rigidbody rb;
+		private InputManager inputManager;
 
 		private int playerId;
 		public int PlayerId => playerId;
+
+		private void Awake()
+		{
+			inputManager = GetComponent<InputManager>();
+		}
 
 		[Server]
 		public override void OnStartServer()
@@ -56,11 +67,17 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-			// F-Key resets car-rotation (when turned over)
+			// DEBUG: F-Key resets car-rotation (when turned over)
 			if (Keyboard.current.fKey.wasPressedThisFrame)
 			{
-				Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-				transform.rotation = Quaternion.Euler(newRotation);
+				CmdFlipCar();
+
+			}
+			
+			// DEBUG: I-Key = InstantDeath
+			if (Keyboard.current.iKey.wasPressedThisFrame)
+			{
+				CmdDeath();
 			}
 		}
 
@@ -81,21 +98,21 @@ namespace Player
 			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
 		}
 
-		//Hook
+		//SyncVar Hook
 		[Client]
 		private void FlagStateChanged(bool oldValue, bool newValue)
 		{
 			flagOnRoof.SetActive(newValue);
 		}
 
-		//Hook
+		//SyncVar Hook
 		[Client]
 		private void PlayerNameChanged(string oldValue, string newValue)
 		{
 			playerNameText.text = newValue;
 		}
 
-		//Hook
+		//SyncVar Hook
 		[Client]
 		private void PlayerColorChanged(Color oldValue, Color newValue)
 		{
@@ -108,7 +125,7 @@ namespace Player
 			playerId = id;
 			ServiceLocator.RoundManager.AddActivePlayer(id);
 		}
-		
+
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
@@ -135,20 +152,64 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-			GetComponent<InputManager>().EnableInput();
+			inputManager.EnableInput();
 		}
 
 		[ClientRpc]
 		private void RpcSetPlayerEndState()
 		{
+			inputManager.DisableInput();
 			GetComponent<DriveController>().enabled = false;
-			GetComponent<InputManager>().DisableInput();
 			GetComponent<PlayerSound>().StopEmitter();
 
 			if (!isServer)
 				return;
 			
 			rb.velocity = Vector3.zero;
+		}
+
+		[Client]
+		public void Death()
+		{
+			deathFX.Play();
+			deathFX2.Play();
+			deathSmoke.Play();
+			colorChangingMesh.material.color = Color.black;
+			GetComponent<PlayerSound>().StopEmitter();
+			
+			// if (!isLocalPlayer)
+			// 	return;
+			//
+			// inputManager.DisableInput();
+		}
+
+		// TEMP!
+		[Command]
+		private void CmdDeath()
+		{
+			RpcDeath();
+		}
+
+		// TEMP!
+		[ClientRpc]
+		private void RpcDeath()
+		{
+			Death();
+		}
+
+		// TEMP!
+		[Command]
+		private void CmdFlipCar()
+		{
+			RpcFlipCar();
+		}
+
+		// TEMP!
+		[ClientRpc]
+		private void RpcFlipCar()
+		{
+			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+			transform.rotation = Quaternion.Euler(newRotation);
 		}
 	}
 }
