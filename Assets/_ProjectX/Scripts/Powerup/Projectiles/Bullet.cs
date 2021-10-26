@@ -33,10 +33,11 @@ namespace PowerUp.Projectiles
 		
 		private void OnCollisionEnter(Collision other)
 		{
-			// if (other.gameObject.CompareTag("Player"))
-			// {
-			// 	FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg", Camera.main.transform.position);
-			// }
+			if (other.gameObject.CompareTag("Player"))
+			{
+				Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
+				FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg");
+			}
 			
 			if(!isServer)
 				return;
