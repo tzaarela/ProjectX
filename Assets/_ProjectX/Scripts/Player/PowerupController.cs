@@ -49,14 +49,16 @@ namespace Player
 		}
 
 		[Server]
-		public void Pickup(PowerupType newPowerUp)
+		public bool Pickup(PowerupType newPowerUp)
 		{
 			if (currentPowerupType != PowerupType.NONE || currentPowerupType == newPowerUp)
-				return;
+				return false;
 			
 			currentPowerupType = newPowerUp;
 
 			UpdateClientPickup(newPowerUp);
+
+			return true;
 		}
 		
 		private void UpdateClientPickup(PowerupType newPowerupType)

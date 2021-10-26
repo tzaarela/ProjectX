@@ -46,10 +46,14 @@ public class PowerupPickup : NetworkBehaviour
 	{
         if (playerObj.CompareTag("Player"))
         {
-            Debug.Log("CURRENT PICKUP: " + currentPowerupType);
-            playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
-            disableTimestamp = Time.time;
-            RpcDisableObject();
+            bool result = playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
+
+            if (result)
+            {
+                Debug.Log("CURRENT PICKUP: " + currentPowerupType);
+                disableTimestamp = Time.time;
+                RpcDisableObject();
+            }
         }
     }
 
