@@ -73,7 +73,7 @@ namespace Managers
 			{
 				if (lobbyManager == null)
 				{
-					Debug.LogError("RoundManager is null!");
+					Debug.LogError("LobbyManager is null!");
 				}
 				return lobbyManager;
 			}

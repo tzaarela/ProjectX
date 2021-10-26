@@ -88,32 +88,22 @@ namespace Networking
 
 		public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
 		{
-			NetworkServer.ReplacePlayerForConnection(conn, gamePlayer, true);
 			NetworkRoomPlayerExt networkedRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayerExt>();
-			//NetworkServer.Destroy(roomPlayer);
 			PlayerController playerController =  gamePlayer.GetComponent<PlayerController>();
-			playerController.PlayerName = networkedRoomPlayer.playerName;
-			Color color = networkedRoomPlayer.GetColor();
-			playerController.ChangeColor(color);
+			playerController.playerName = networkedRoomPlayer.playerName;
+			playerController.playerColor = networkedRoomPlayer.playerColor;
 			
-			return false;
-		}
-
-		public override void OnServerAddPlayer(NetworkConnection conn)
-		{
-			base.OnServerAddPlayer(conn);
-
-			ServiceLocator.LobbyManager.AddRoomPlayer(conn.identity.gameObject.GetComponent<NetworkRoomPlayerExt>());
+			return true;
 		}
 
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
 			{
-				for (int i = roomSlots.Count - 1; i >= 0; i--)
-				{
-					NetworkServer.Destroy(roomSlots[i].gameObject);
-				}
+				//for (int i = roomSlots.Count - 1; i >= 0; i--)
+				//{
+				//	NetworkServer.Destroy(roomSlots[i].gameObject);
+				//}
 			}
 		}
 	}

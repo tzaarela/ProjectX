@@ -38,15 +38,9 @@ namespace Mirror
         public int index;
 
         /// <summary>
-        /// Player name
+        /// Do not use Start - Override OnStartHost / OnStartClient instead!
         /// </summary>
-        [SyncVar(hook = nameof(PlayerNameChanged))]
-        public string playerName;
-
-		/// <summary>
-		/// Do not use Start - Override OnStartHost / OnStartClient instead!
-		/// </summary>
-		public void Start()
+        public void Start()
         {
             if (NetworkManager.singleton is NetworkRoomManager room)
             {
@@ -97,13 +91,6 @@ namespace Mirror
         public virtual void IndexChanged(int oldIndex, int newIndex) {}
 
         /// <summary>
-        /// This is a hook that is invoked on clients when the playername changes.
-        /// </summary>
-        /// <param name="oldValue">The old name value</param>
-        /// <param name="newValue">The new name value</param>
-        public virtual void PlayerNameChanged(string oldValue, string newValue) { }
-  
-        /// <summary>
         /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
         /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
         /// </summary>
@@ -121,72 +108,6 @@ namespace Mirror
         /// </summary>
         public virtual void OnClientExitRoom() {}
 
-        /// <summary>
-        /// Render a UI for the room. Override to provide your own UI
-        /// </summary>
-        public virtual void OnGUI()
-        {
-            if (!showRoomGUI)
-                return;
-
-            NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
-            if (room)
-            {
-                if (!room.showRoomGUI)
-                    return;
-
-                if (!NetworkManager.IsSceneActive(room.RoomScene))
-                    return;
-
-                DrawPlayerReadyState();
-                DrawPlayerReadyButton();
-            }
-        }
-
-        void DrawPlayerReadyState()
-        {
-            GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
-
-            if (string.IsNullOrEmpty(playerName))
-                GUILayout.Label($"Player [{index + 1}]");
-            else
-                GUILayout.Label(playerName);
-
-            if (readyToBegin)
-                GUILayout.Label("Ready");
-            else
-                GUILayout.Label("Not Ready");
-
-            if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("REMOVE"))
-            {
-                // This button only shows on the Host for all players other than the Host
-                // Host and Players can't remove themselves (stop the client instead)
-                // Host can kick a Player this way.
-                GetComponent<NetworkIdentity>().connectionToClient.Disconnect();
-            }
-
-            GUILayout.EndArea();
-        }
-
-        void DrawPlayerReadyButton()
-        {
-            if (NetworkClient.active && isLocalPlayer)
-            {
-                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
-
-                if (readyToBegin)
-                {
-                    if (GUILayout.Button("Cancel"))
-                        CmdChangeReadyState(false);
-                }
-                else
-                {
-                    if (GUILayout.Button("Ready"))
-                        CmdChangeReadyState(true);
-                }
-
-                GUILayout.EndArea();
-            }
-        }
+        
     }
 }

@@ -16,35 +16,17 @@ namespace Player
 		[SerializeField] private MeshRenderer colorChangingMesh;
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
 
-		//[Header("Player")]
-		//[SerializeField] private Material[] carMaterials;
-
 		[Header("Debug")]
-		[SyncVar(hook = "FlagStateChanged")] public bool hasFlag;
+		[SyncVar(hook = nameof(FlagStateChanged))] public bool hasFlag;
+		[SyncVar(hook = nameof(PlayerNameChanged))] public string playerName;
+		[SyncVar(hook = nameof(PlayerColorChanged))] public Color playerColor;
 
 		private Flag flag;
 		private Rigidbody rb;
 
-		private string playerName;
-		public string PlayerName { 
-			get { return playerName; } 
-			set
-			{
-				playerName = value;
-				RpcUpdatePlayerName(PlayerName);
-			}
-		}
-
-		[ClientRpc]
-		private void RpcUpdatePlayerName(string playerName)
-		{
-			playerNameText.text = playerName;
-		}
-
 		private int playerId;
 		public int PlayerId => playerId;
 
-		//private static int materialCount = 0;
 
 		[Server]
 		public override void OnStartServer()
@@ -56,12 +38,6 @@ namespace Player
 
 		public override void OnStartClient()
 		{
-			////TEMP SOLUTION TO GET DIFFERENT CAR COLORS IN GAME
-			//GetComponentInChildren<Renderer>().material = carMaterials[materialCount];
-			//materialCount++;
-			//if (materialCount >= carMaterials.Length)
-			//	materialCount = 0;
-			
 			if (!isLocalPlayer)
 				return;
 
@@ -72,18 +48,6 @@ namespace Player
 			SendGlobal(GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME, new GameObjectData(gameObject));
 
 			name += "-local";
-		}
-
-		[Server]
-		public void ChangeColor(Color color)
-		{
-			RpcChangeColor(new float[] { color.r, color.g, color.b });
-		}
-
-		[ClientRpc]
-		public void RpcChangeColor(float[] colorRbg)
-		{
-			colorChangingMesh.material.color = new Color(colorRbg[0], colorRbg[1], colorRbg[2]);
 		}
 
 		[Server]
@@ -105,6 +69,16 @@ namespace Player
 		private void FlagStateChanged(bool oldValue, bool newValue)
 		{
 			flagOnRoof.SetActive(newValue);
+		}
+
+		private void PlayerNameChanged(string oldValue, string newValue)
+		{
+			playerNameText.text = newValue;
+		}
+
+		private void PlayerColorChanged(Color oldValue, Color newValue)
+		{
+			colorChangingMesh.material.color = newValue;
 		}
 
 		[Command]

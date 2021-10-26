@@ -7,19 +7,25 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
-    public List<Transform> roomPlayerSpawnSlots;
-    public List<Color> indexColors;
-	public List<NetworkRoomPlayer> networkRoomPlayers;
-	public Transform topWorldUISlot;
 
+	public List<NetworkRoomPlayerExt> networkRoomPlayers;
+    
+	public List<Transform> roomPlayerSpawnSlots;
+    public List<Color> indexColors;
+	public Transform LobbyUI;
+
+	public Action onNameChanged;
+	public Action onColorChanged;
+
+	[SerializeField] private TMPro.TextMeshProUGUI nameText;
 	private bool hasBeenProvided;
 
-	private void Awake()
+	public void Awake()
 	{
 		if (!hasBeenProvided)
 		{
-			print("RoundManager provided to ServiceLocator");
 			ServiceLocator.ProvideLobbyManager(this);
+			print("LobbyManager provided to ServiceLocator");
 			hasBeenProvided = true;
 			DontDestroyOnLoad(gameObject);
 		}
@@ -30,8 +36,22 @@ public class LobbyManager : MonoBehaviour
 	}
 
 	[Server]
-	public void AddRoomPlayer(NetworkRoomPlayer networkRoomPlayer)
+	public void AddRoomPlayer(NetworkRoomPlayerExt networkRoomPlayer)
 	{
 		networkRoomPlayers.Add(networkRoomPlayer);
+	}
+	
+	[Client]
+	public void ChangeColor(int colorIndex)
+	{
+		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
+		roomPlayer.CmdChangeColor(colorIndex);
+	}
+
+	[Client]
+	public void ChangeName() 
+	{
+		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
+		roomPlayer.CmdChangeName(nameText.text);
 	}
 }

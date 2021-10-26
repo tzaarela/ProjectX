@@ -23,38 +23,20 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     [SerializeField] private TextMeshProUGUI nameInput;
     [SerializeField] private GameObject inputField;
     [SerializeField] private GameObject colorPicker;
-
-    [SerializeField] Color color;
     [SerializeField] MeshRenderer colorChangingMesh;
-    [SerializeField] Transform topUI;
-
-
-    #region Start & Stop Callbacks
 
     /// <summary>
-    /// This is invoked for NetworkBehaviour objects when they become active on the server.
-    /// <para>This could be triggered by NetworkServer.Listen() for objects in the scene, or by NetworkServer.Spawn() for objects that are dynamically created.</para>
-    /// <para>This will be called for objects on a "host" as well as for object on a dedicated server.</para>
+    /// Player name
     /// </summary>
-    public override void OnStartServer() { }
+    [SyncVar(hook = nameof(PlayerColorChanged))]
+    public Color playerColor;
 
     /// <summary>
-    /// Invoked on the server when the object is unspawned
-    /// <para>Useful for saving object data in persistent storage</para>
+    /// Player name
     /// </summary>
-    public override void OnStopServer() { }
-
-    /// <summary>
-    /// Called on every NetworkBehaviour when it is activated on a client.
-    /// <para>Objects on the host have this function called, as there is a local client on the host. The values of SyncVars on object are guaranteed to be initialized correctly with the latest state from the server when this function is called on the client.</para>
-    /// </summary>
-    public override void OnStartClient() { }
-
-    /// <summary>
-    /// This is invoked on clients when the server has caused this object to be destroyed.
-    /// <para>This can be used as a hook to invoke effects or do client specific cleanup.</para>
-    /// </summary>
-    public override void OnStopClient() { }
+    [SyncVar(hook = nameof(PlayerNameChanged))]
+    public string playerName;
+    
 
     /// <summary>
     /// Called when the local player object has been set up.
@@ -62,18 +44,18 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     /// </summary>
     public override void OnStartLocalPlayer() {
         
-        inputField.SetActive(true);
 
         var lobbyManager = ServiceLocator.LobbyManager;
         var indexColors = lobbyManager.indexColors;
-        var images = colorPicker.GetComponentsInChildren<Image>();
+        var images = lobbyManager.LobbyUI.gameObject.GetComponentsInChildren<Image>();
 
         for (int i = 0; i < indexColors.Count; i++)
 		{
             images[i].color = indexColors[i];
 		}
 
-        colorPicker.SetActive(true);
+        lobbyManager.LobbyUI.gameObject.SetActive(true);
+        
 
         CmdMoveToNextSlot(gameObject);
     }
@@ -83,128 +65,106 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     {
         LobbyManager lobbyManager = ServiceLocator.LobbyManager;
         var networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
-        networkRoomPlayer.gameObject.transform.position = lobbyManager.roomPlayerSpawnSlots[lobbyManager.networkRoomPlayers.Count - 1].position;
-        TargetPositionUI(networkRoomPlayer.connectionToClient);
-    }
-
-    [TargetRpc]
-    private void TargetPositionUI(NetworkConnection target)
-	{
-        topUI.position = ServiceLocator.LobbyManager.topWorldUISlot.position + Vector3.right * index * 2;
-    }
-
-    /// <summary>
-    /// This is invoked on behaviours that have authority, based on context and <see cref="NetworkIdentity.hasAuthority">NetworkIdentity.hasAuthority</see>.
-    /// <para>This is called after <see cref="OnStartServer">OnStartServer</see> and before <see cref="OnStartClient">OnStartClient.</see></para>
-    /// <para>When <see cref="NetworkIdentity.AssignClientAuthority"/> is called on the server, this will be called on the client that owns the object. When an object is spawned with <see cref="NetworkServer.Spawn">NetworkServer.Spawn</see> with a NetworkConnection parameter included, this will be called on the client that owns the object.</para>
-    /// </summary>
-    public override void OnStartAuthority() { }
-
-    /// <summary>
-    /// This is invoked on behaviours when authority is removed.
-    /// <para>When NetworkIdentity.RemoveClientAuthority is called on the server, this will be called on the client that owns the object.</para>
-    /// </summary>
-    public override void OnStopAuthority() { }
-
-    #endregion
-    #region Room Client Callbacks
-
-    /// <summary>
-    /// This is a hook that is invoked on all player objects when entering the room.
-    /// <para>Note: isLocalPlayer is not guaranteed to be set until OnStartLocalPlayer is called.</para>
-    /// </summary>
-    public override void OnClientEnterRoom() { }
-
-    /// <summary>
-    /// This is a hook that is invoked on all player objects when exiting the room.
-    /// </summary>
-    public override void OnClientExitRoom() { }
-
-    #endregion
-    #region SyncVar Hooks
-
-    /// <summary>
-    /// This is a hook that is invoked on clients when the index changes.
-    /// </summary>
-    /// <param name="oldIndex">The old index value</param>
-    /// <param name="newIndex">The new index value</param>
-    public override void IndexChanged(int oldIndex, int newIndex) { }
-
-    /// <summary>
-    /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
-    /// <para>This function is called when the a client player calls SendReadyToBeginMessage() or SendNotReadyToBeginMessage().</para>
-    /// </summary>
-    /// <param name="oldReadyState">The old readyState value</param>
-    /// <param name="newReadyState">The new readyState value</param>
-    public override void ReadyStateChanged(bool oldReadyState, bool newReadyState) { }
+        networkRoomPlayer.gameObject.transform.position = lobbyManager.roomPlayerSpawnSlots[NetworkRoomManager.singleton.numPlayers - 1].position;
+    }  
 
 	/// <summary>
 	/// This is a hook.
 	/// </summary>
 	/// <param name="oldValue"></param>
 	/// <param name="newValue"></param>
-	public override void PlayerNameChanged(string oldValue, string newValue)
+	public void PlayerNameChanged(string oldValue, string newValue)
 	{
 		nameTag.text = newValue;
 	}
 
-	[Client]
-    public void ChangeName()
-	{
-        if (isLocalPlayer)
-            CmdChangeName(nameInput.text);
-	}
+    /// <summary>
+	/// This is a hook.
+	/// </summary>
+	/// <param name="oldValue"></param>
+	/// <param name="newValue"></param>
+	public void PlayerColorChanged(Color oldValue, Color newValue)
+    {
+        colorChangingMesh.material.color = newValue;
+    }
 
     [Command]
     public void CmdChangeName(string name)
 	{
         playerName = name;
-        nameTag.text = name;
-        RpcChangeName(name);
 	}
-
-    [ClientRpc]
-    private void RpcChangeName(string name)
-	{
-        playerName = name;
-        nameTag.text = name;
-    }
-
-    [Client]
-    public void ChangeColor(int colorIndex)
-	{
-        if (isLocalPlayer)
-            CmdChangeColor(colorIndex);  
-	}
-
-    [Server]
-    public Color GetColor()
-	{
-        return color;
-	}
-
+   
     [Command]
     public void CmdChangeColor(int colorIndex)
 	{
-        color = ServiceLocator.LobbyManager.indexColors[colorIndex];
-        colorChangingMesh.material.color = color;
-        RpcChangeColor(colorIndex);
+        playerColor = ServiceLocator.LobbyManager.indexColors[colorIndex];
 	}
 
-    [ClientRpc]
-	private void RpcChangeColor(int colorIndex)
-	{
-        color = ServiceLocator.LobbyManager.indexColors[colorIndex];
-        colorChangingMesh.material.color = color;
-    }
-
-	#endregion
-	#region Optional UI
-
-	public override void OnGUI()
+    /// <summary>
+    /// Render a UI for the room. Override to provide your own UI
+    /// </summary>
+    public void OnGUI()
     {
-        base.OnGUI();
+        if (!showRoomGUI)
+            return;
+
+        NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
+        if (room)
+        {
+            if (!room.showRoomGUI)
+                return;
+
+            if (!NetworkManager.IsSceneActive(room.RoomScene))
+                return;
+
+            DrawPlayerReadyState();
+            DrawPlayerReadyButton();
+        }
     }
 
-    #endregion
+    void DrawPlayerReadyState()
+    {
+        GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
+
+        if (string.IsNullOrEmpty(playerName))
+            GUILayout.Label($"Player [{index + 1}]");
+        else
+            GUILayout.Label(playerName);
+
+        if (readyToBegin)
+            GUILayout.Label("Ready");
+        else
+            GUILayout.Label("Not Ready");
+
+        if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("REMOVE"))
+        {
+            // This button only shows on the Host for all players other than the Host
+            // Host and Players can't remove themselves (stop the client instead)
+            // Host can kick a Player this way.
+            GetComponent<NetworkIdentity>().connectionToClient.Disconnect();
+        }
+
+        GUILayout.EndArea();
+    }
+
+    void DrawPlayerReadyButton()
+    {
+        if (NetworkClient.active && isLocalPlayer)
+        {
+            GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
+
+            if (readyToBegin)
+            {
+                if (GUILayout.Button("Cancel"))
+                    CmdChangeReadyState(false);
+            }
+            else
+            {
+                if (GUILayout.Button("Ready"))
+                    CmdChangeReadyState(true);
+            }
+
+            GUILayout.EndArea();
+        }
+    }
 }
