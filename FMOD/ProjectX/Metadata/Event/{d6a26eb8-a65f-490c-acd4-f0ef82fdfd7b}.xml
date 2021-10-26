@@ -127,7 +127,6 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		<property name="voiceStealing">
 			<value>3</value>
 		</property>
-		<property name="name" />
 		<relationship name="modulators">
 			<destination>{4d75db6d-de01-4bce-80a4-ac2d3b51bd7e}</destination>
 			<destination>{f400442c-8b2c-4653-8491-da760b51029f}</destination>
@@ -227,8 +226,14 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		<property name="length">
 			<value>0</value>
 		</property>
+		<property name="startOffset">
+			<value>5</value>
+		</property>
 		<property name="voiceStealing">
 			<value>3</value>
+		</property>
+		<property name="pitch">
+			<value>5</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{0c8d7083-5af3-421a-a806-7ec67e53cab6}</destination>
