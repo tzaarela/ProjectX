@@ -16,6 +16,7 @@ namespace Player
 
 		public void Awake()
 		{
+			// PlayerControls is enabled later when all players are connected to the game
 			playerControls = new PlayerControls();
 			playerControls.Player.Accelerate.performed += Accelerate;
 			playerControls.Player.Accelerate.canceled += Accelerate;
@@ -29,7 +30,6 @@ namespace Player
 			playerControls.Player.Powerup.canceled += UsePowerCanceled;
 			playerControls.Player.Drop.started += DropPowerStarted;
 			playerControls.Player.Drop.canceled += DropPowerCanceled;
-			playerControls.Enable();
 		}
 
 		private void Boost(InputAction.CallbackContext obj)
@@ -72,6 +72,11 @@ namespace Player
 			isDroppingPowerup = false;
 		}
 
+		public void EnableInput()
+		{
+			playerControls.Enable();
+		}
+		
 		public void DisableInput()
 		{
 			playerControls.Disable();
