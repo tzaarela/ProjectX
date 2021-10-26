@@ -13,12 +13,13 @@ namespace Player
 	{
 		[Header("Settings")]
 		public List<CarAxle> axleInfos;
-		public List<FrictionValue> sidewayFrictions;
+		public List<FrictionCurve> frictionCurves;
 		public float maxMotorTorque;
 		public float maxSteeringAngle;
 		public float brakeTorque;
 		public float decelerationForce;
 		public float boostMultiplier = 6f;
+		public float antiRoll = 8000;
 		public Vector3 centerOfMassOffset;
 
 		[Header("References")]
@@ -27,29 +28,59 @@ namespace Player
 		private InputManager inputs;
 		private float travelL = 0;
 		private float travelR = 0;
-		private float antiRoll = 8000;
 		private float defaultMaxMotorTorque;
-		private WheelFrictionCurve frictionCurveNornal;
-		private WheelFrictionCurve frictionCurveHandbrake;
+		private WheelFrictionCurve sidewayFrictionCurveNormal;
+		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
+		private WheelFrictionCurve forwardFrictionCurveHandbrake;
+		private WheelFrictionCurve forwardFrictionCurveNormal;
 
 		private Rigidbody rb;
 
-		public override void OnStartServer()
+		private void Start()
 		{
+			if (!isServer)
+				return;
+			
 			defaultMaxMotorTorque = maxMotorTorque;
 			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = centerOfMassOffset;
 			CreateFrictionCurves();
+			SetNormalFriction();
 		}
 
 		[Server]
 		private void CreateFrictionCurves()
 		{
-			FrictionValue frictionBrake = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.handbrake);
-			frictionCurveHandbrake = CreateWheelFrictionCurve(frictionBrake);
+			CreateNormalFriction();
+			CreateHandbrakeFriction();
+		}
 
-			FrictionValue frictionNormal = sidewayFrictions.FirstOrDefault(x => x.key == FrictionType.normal);
-			frictionCurveNornal = CreateWheelFrictionCurve(frictionNormal);
+		[Server]
+		private void CreateHandbrakeFriction()
+		{
+			FrictionCurve frictionValueHandbrake = frictionCurves.FirstOrDefault(x => x.key == FrictionType.handbrake);
+			sidewayFrictionCurveHandbrake = CreateSidewayFrictionCurve(frictionValueHandbrake);
+			forwardFrictionCurveHandbrake = CreateForwardFrictionCurve(frictionValueHandbrake);
+		}
+
+		[Server]
+		private void CreateNormalFriction()
+		{
+			FrictionCurve frictionValueNormal = frictionCurves.FirstOrDefault(x => x.key == FrictionType.normal);
+			sidewayFrictionCurveNormal = CreateSidewayFrictionCurve(frictionValueNormal);
+			forwardFrictionCurveNormal = CreateForwardFrictionCurve(frictionValueNormal);
+		}
+
+		[Server]
+		private void SetNormalFriction()
+		{
+			foreach (CarAxle axle in axleInfos)
+			{
+				axle.leftWheel.forwardFriction = forwardFrictionCurveNormal;
+				axle.rightWheel.forwardFriction = forwardFrictionCurveNormal;
+				axle.leftWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+				axle.rightWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+			}
 		}
 
 		public override void OnStartClient()
@@ -84,23 +115,27 @@ namespace Player
 		}
 
 		[Command]
-		private void CmdBrake(bool shouldBrake)
+		private void CmdBrake(bool isHoldingHandbrake)
 		{
 			foreach (CarAxle axel in axleInfos)
 			{
 				if (axel.hasHandbrake)
 				{
-					if (shouldBrake)
+					if (isHoldingHandbrake)
 					{
-						axel.leftWheel.sidewaysFriction = frictionCurveHandbrake;
-						axel.rightWheel.sidewaysFriction = frictionCurveHandbrake;
+						axel.leftWheel.sidewaysFriction = sidewayFrictionCurveHandbrake;
+						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveHandbrake;
+						axel.leftWheel.forwardFriction = forwardFrictionCurveHandbrake;
+						axel.rightWheel.forwardFriction = forwardFrictionCurveHandbrake;
 						axel.leftWheel.brakeTorque = brakeTorque;
 						axel.rightWheel.brakeTorque = brakeTorque;
 					}
 					else
 					{
-						axel.leftWheel.sidewaysFriction = frictionCurveNornal;
-						axel.rightWheel.sidewaysFriction = frictionCurveNornal;
+						axel.leftWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+						axel.leftWheel.forwardFriction = forwardFrictionCurveNormal;
+						axel.rightWheel.forwardFriction = forwardFrictionCurveNormal;
 						axel.leftWheel.brakeTorque = 0;
 						axel.rightWheel.brakeTorque = 0;
 					}
@@ -109,15 +144,26 @@ namespace Player
 		}
 
 		[Server]
-		private WheelFrictionCurve CreateWheelFrictionCurve(FrictionValue friction)
+		private WheelFrictionCurve CreateSidewayFrictionCurve(FrictionCurve friction)
 		{
-			//Almost wanted to get autoMapper just for this...
 			WheelFrictionCurve frictionCurve = new WheelFrictionCurve();
-			frictionCurve.asymptoteSlip = friction.value.asymptoteSlip;
-			frictionCurve.asymptoteValue = friction.value.asymptoteValue;
-			frictionCurve.extremumSlip = friction.value.extremumSlip;
-			frictionCurve.extremumValue = friction.value.extremumValue;
-			frictionCurve.stiffness = friction.value.stiffness;
+			frictionCurve.asymptoteSlip = friction.sidewayFriction.asymptoteSlip;
+			frictionCurve.asymptoteValue = friction.sidewayFriction.asymptoteValue;
+			frictionCurve.extremumSlip = friction.sidewayFriction.extremumSlip;
+			frictionCurve.extremumValue = friction.sidewayFriction.extremumValue;
+			frictionCurve.stiffness = friction.sidewayFriction.stiffness;
+			return frictionCurve;
+		}
+
+		[Server]
+		private WheelFrictionCurve CreateForwardFrictionCurve(FrictionCurve friction)
+		{
+			WheelFrictionCurve frictionCurve = new WheelFrictionCurve();
+			frictionCurve.asymptoteSlip = friction.forwardFriction.asymptoteSlip;
+			frictionCurve.asymptoteValue = friction.forwardFriction.asymptoteValue;
+			frictionCurve.extremumSlip = friction.forwardFriction.extremumSlip;
+			frictionCurve.extremumValue = friction.forwardFriction.extremumValue;
+			frictionCurve.stiffness = friction.forwardFriction.stiffness;
 			return frictionCurve;
 		}
 
@@ -172,29 +218,21 @@ namespace Player
 
 			bool groundedL = axleInfo.leftWheel.GetGroundHit(out hit);
 			if (groundedL)
-			{
 				travelL = (-axleInfo.leftWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.leftWheel.radius) / axleInfo.leftWheel.suspensionDistance;
-			}
 
 			bool groundedR = axleInfo.rightWheel.GetGroundHit(out hit);
 			if (groundedR)
-			{
 				travelR = (-axleInfo.rightWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.rightWheel.radius) / axleInfo.rightWheel.suspensionDistance;
-			}
 
 			float antiRollForce = (travelL - travelR) * antiRoll;
 
 			if (groundedL)
-			{
 				rb.AddForceAtPosition(axleInfo.leftWheel.transform.up * -antiRollForce,
 						axleInfo.leftWheel.transform.position);
-			}
 
 			if (groundedR)
-			{
 				rb.AddForceAtPosition(axleInfo.rightWheel.transform.up * antiRollForce,
 						axleInfo.rightWheel.transform.position);
-			}
 		}
 
 		[Client]

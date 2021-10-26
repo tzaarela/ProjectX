@@ -9,14 +9,25 @@ using System.Threading.Tasks;
 namespace Player
 {
 	[Serializable]
-	public class FrictionValue
+	public class FrictionCurve
 	{
 		public FrictionType key;
-		public Friction value;
+		public SidewayFriction sidewayFriction;
+		public ForwardFriction forwardFriction;
 	}
 
 	[Serializable]
-	public struct Friction
+	public struct SidewayFriction
+	{
+		public float extremumSlip;
+		public float extremumValue;
+		public float asymptoteSlip;
+		public float asymptoteValue;
+		public float stiffness;
+	}
+
+	[Serializable]
+	public struct ForwardFriction
 	{
 		public float extremumSlip;
 		public float extremumValue;
