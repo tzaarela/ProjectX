@@ -1,12 +1,9 @@
-﻿using Data.Containers.GlobalSignal;
-using Data.Enums;
-using Data.Interfaces;
-using Managers;
+﻿using Mirror;
 using UnityEngine;
 
 namespace UI
 {
-	public class IndicatorController : MonoBehaviour, IReceiveGlobalSignal
+	public class IndicatorController : MonoBehaviour
 	{
 		[Header("SETTINGS:")]
 		[SerializeField] private float outOfSightOffset = 50f;
@@ -21,11 +18,7 @@ namespace UI
 		public GameObject mapFlag;
 		public Camera mainCamera;
 		public GameObject target;
-
-		private void Awake()
-		{
-			GlobalMediator.Instance.Subscribe(this);
-		}
+		public bool localPlayerHasFlag;
 
 		private void Start()
 		{
@@ -35,28 +28,13 @@ namespace UI
 			target = mapFlag;
 		}
 
-		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
-		{
-			// switch (eventState)
-			// {
-			// 	case GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME:
-			//
-			// 		if (globalSignalData is GameObjectData localPlayer)
-			// 		{
-			// 			print("IndicatorController");
-			// 			// target = localPlayer.gameObject;
-			// 		}
-			//              
-			// 		break;
-			// }
-		}
-		
 		public void Update()
 	    {
+		    if (localPlayerHasFlag)
+			    return;
+		    
 	        SetIndicatorPosition();
-
 	        //Adjust distance display?
-	        //Turn on or off when in range/out of range
 	    }
 
 		private void SetIndicatorPosition()
@@ -81,13 +59,12 @@ namespace UI
 	        }
 	        
 	        indicatorTransform.position = indicatorPosition;
-
 	    }
 
 	    private Vector3 OutOfRangeIndicatorPositionB(Vector3 indicatorPosition)
 	    {
-	        //Set indicatorPosition.z to 0f - Not necessary??
-	        // indicatorPosition.z = 0f;
+	        //Set indicatorPosition.z to 0f
+	        indicatorPosition.z = 0f;
 
 	        Rect rect = canvasRect.rect;
 	        
@@ -105,19 +82,20 @@ namespace UI
 	        {
 	            float angle = Vector3.SignedAngle(Vector3.right, indicatorPosition, Vector3.forward);
 	            indicatorPosition.x = Mathf.Sign(indicatorPosition.x) * (canvasRect.rect.width * 0.5f - outOfSightOffset) * canvasRect.localScale.x;
+	            // indicatorPosition.x = Mathf.Sign(indicatorPosition.x) * (canvasRect.rect.width * 0.5f) * canvasRect.localScale.x;
 	            indicatorPosition.y = Mathf.Tan(Mathf.Deg2Rad * angle) * indicatorPosition.x;
 	        }
 	        //In case it intersects with y border first, put the y-one to the border and adjust the x-one accordingly (Trigonometry)
 	        else
 	        {
 	            float angle = Vector3.SignedAngle(Vector3.up, indicatorPosition, Vector3.forward);
-
 	            indicatorPosition.y = Mathf.Sign(indicatorPosition.y) * (canvasRect.rect.height * 0.5f - outOfSightOffset) * canvasRect.localScale.y;
+	            // indicatorPosition.y = Mathf.Sign(indicatorPosition.y) * (canvasRect.rect.height * 0.5f) * canvasRect.localScale.y;
 	            indicatorPosition.x = -Mathf.Tan(Mathf.Deg2Rad * angle) * indicatorPosition.y;
 	        }
-
 	        //Change the indicator Position back to the actual rectTransform coordinate system and return indicatorPosition
 	        indicatorPosition += canvasCenter;
+	        
 	        return indicatorPosition;
 	    }
 	    
@@ -155,7 +133,20 @@ namespace UI
 
 	    public void SetTarget(bool targetIsAPlayer, GameObject newTarget = null)
 	    {
-		    target = targetIsAPlayer ? newTarget : mapFlag;
+		    if (targetIsAPlayer && newTarget != null)
+		    {
+			    target = newTarget;
+			    
+			    if (newTarget.GetComponent<NetworkBehaviour>().isLocalPlayer)
+			    {
+				    localPlayerHasFlag = true;
+			    }
+		    }
+		    else
+		    {
+			    target = mapFlag;
+			    localPlayerHasFlag = false;
+		    }
 	    }
 	}
 }

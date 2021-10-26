@@ -6,10 +6,6 @@ namespace Data.Enums
         LOCAL_PLAYER_CONNECTED_TO_GAME,
         ALL_PLAYERS_CONNECTED_TO_GAME,
 
-        // GAME EVENT
-        FLAG_TAKEN,
-        FLAG_DROPPED,
-        
         // GAME STATE EVENT
         END_GAMESTATE,
         PAUSED_GAMESTATE,

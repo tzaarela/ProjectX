@@ -14,7 +14,14 @@ namespace Player
 
 		public HealthState currentState = HealthState.Great;
 
+		private PlayerController playerController;
+
 		[SyncVar(hook = nameof(OnHealthChanged))] private int currentHealth;
+
+		private void Awake()
+		{
+			playerController = GetComponent<PlayerController>();
+		}
 
 		[Server]
 		public override void OnStartServer()
@@ -43,15 +50,14 @@ namespace Player
 			
 			if (newValue <= 0)
 			{
-				// ExplosionFX
-				// Respawn
 				print("Player Destroyed!");
-				GetComponent<PlayerController>().DropFlag();
-				currentHealth = 100;
-				currentState = HealthState.Great;
-				smokeFX[0].SetActive(false);
-				smokeFX[1].SetActive(false);
-				smokeFX[2].SetActive(false);
+				playerController.Death();
+				// Respawn
+				// currentHealth = 100;
+				// currentState = HealthState.Great;
+				// smokeFX[0].SetActive(false);
+				// smokeFX[1].SetActive(false);
+				// smokeFX[2].SetActive(false);
 				return;
 			}
 
