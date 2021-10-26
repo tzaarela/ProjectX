@@ -19,6 +19,15 @@ namespace Managers
 		[SerializeField] private TMP_Text winnerText;
 		[SerializeField] private GameObject rematchButton;
 
+		private IndicatorController indicatorController;
+		private ResultsController resultsController;
+
+		private void Awake()
+		{
+			indicatorController = GetComponent<IndicatorController>();
+			resultsController = GetComponent<ResultsController>();
+		}
+
 		[Server]
 		public override void OnStartServer()
 		{
@@ -26,6 +35,54 @@ namespace Managers
 			ServiceLocator.ProvideHudManager(this);
 			
 			GlobalMediator.Instance.Subscribe(this);
+		}
+
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			switch (eventState)
+			{
+				case GlobalEvent.FLAG_TAKEN:
+					if (globalSignalData is GameObjectData data)
+					{
+						RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: true, data.gameObject);
+					}
+					break;
+				
+				case GlobalEvent.FLAG_DROPPED:
+					RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
+					break;
+				
+				case GlobalEvent.END_GAMESTATE:
+					rematchButton.SetActive(true);
+					break;
+			}
+		}
+
+		[Server]
+		public void UpdateFlagIndicatorTarget(bool flagHasBeenTaken, GameObject player)
+		{
+			if (flagHasBeenTaken)
+			{
+				RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: true, player);
+			}
+			else
+			{
+				RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
+			}
+		}
+		
+		[ClientRpc]
+		private void RpcUpdateFlagIndicatorTarget(bool flagHasBeenTaken, GameObject player)
+		{
+			if (flagHasBeenTaken)
+			{
+				indicatorController.SetTarget(targetIsAPlayer: true, player);
+			}
+			else
+			{
+				indicatorController.SetTarget(targetIsAPlayer: false);
+			}
 		}
 
 		[ClientRpc]
@@ -51,16 +108,7 @@ namespace Managers
 		[ClientRpc]
 		public void RpcCreatePlayerResult(int index, string player, int score)
 		{
-			GetComponent<ResultsController>().CreatePlayerResult(index, player, score);
-		}
-		
-		[Server]
-		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
-		{
-			if (eventState == GlobalEvent.END_GAMESTATE)
-			{
-				rematchButton.SetActive(true);
-			}
+			resultsController.CreatePlayerResult(index, player, score);
 		}
 
 		[ServerCallback]
