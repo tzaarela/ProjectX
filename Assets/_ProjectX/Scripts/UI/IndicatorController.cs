@@ -16,21 +16,25 @@ namespace UI
 		[SerializeField] private RectTransform indicatorTransform;
 		[SerializeField] private RectTransform arrowTransform;
 		[SerializeField] private RectTransform canvasRect;
-
-		// TODO - Set external references through script (instead of in scene)
+		
 		[Header("DEBUG:")]
 		public GameObject mapFlag;
 		public Camera mainCamera;
-		
-		private GameObject target;
+		public GameObject target;
 
 		private void Awake()
 		{
-			target = mapFlag;
-			
 			GlobalMediator.Instance.Subscribe(this);
 		}
-		
+
+		private void Start()
+		{
+			// TODO? - Improved setting of external references
+			mapFlag = GameObject.Find("Flag");
+			mainCamera = Camera.main;
+			target = mapFlag;
+		}
+
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			// switch (eventState)
@@ -116,9 +120,7 @@ namespace UI
 	        indicatorPosition += canvasCenter;
 	        return indicatorPosition;
 	    }
-
-
-
+	    
 	    private void TargetOutOfSight(bool outOfSight, Vector3 indicatorPosition)
 	    {
 		    if (outOfSight)
