@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BillboardFX : MonoBehaviour
 {
-    public Transform camTransform;
+    private Transform camTransform;
 
     void Start()
     {
@@ -14,5 +14,6 @@ public class BillboardFX : MonoBehaviour
     void Update()
     {
         transform.LookAt(camTransform);
+        transform.Rotate(new Vector3(0, 180, 0));
     }
 }
