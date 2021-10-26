@@ -13,16 +13,17 @@ namespace Managers
 {
 	public class StartupController : MonoBehaviour
 	{
-		[SerializeField] private GameObject RoomManagerPrefab;
-		[SerializeField] private TMPro.TMP_Dropdown dropdownConnection;
-		[SerializeField] private TMPro.TextMeshProUGUI connectionText;
-		[SerializeField] private TMPro.TextMeshProUGUI connectionEnterText;
-		[SerializeField] private TMPro.TextMeshProUGUI statusText;
+		[Header("Networking")]
 		[SerializeField] private NetworkRoomManagerExt roomManager;
-
-
 		[SerializeField] private FizzySteamworks fizzySteamworks;
 		[SerializeField] private KcpTransport kcpTransport;
+
+		[Header("UI References")]
+		[SerializeField] private TMPro.TMP_Dropdown dropdownConnection;
+		[SerializeField] private TMPro.TextMeshProUGUI connectionInputText;
+		[SerializeField] private TMPro.TextMeshProUGUI connectionPlaceholderText;
+		[SerializeField] private TMPro.TextMeshProUGUI statusText;
+
 
 		private ConnectionType connectionType = ConnectionType.IP;
 
@@ -47,7 +48,7 @@ namespace Managers
 				case ConnectionType.IP:
 					{
 						roomManager.gameObject.SetActive(false);
-						connectionEnterText.text = "Enter ip...";
+						connectionPlaceholderText.text = "Enter ip...";
 						fizzySteamworks.gameObject.GetComponent<FizzySteamworks>().enabled = false;
 						kcpTransport.gameObject.GetComponent<KcpTransport>().enabled = true;
 						roomManager.transport = kcpTransport;
@@ -57,7 +58,7 @@ namespace Managers
 				case ConnectionType.Steam:
 					{
 						roomManager.gameObject.SetActive(false);
-						connectionEnterText.text = "Enter steamId...";
+						connectionPlaceholderText.text = "Enter steamId...";
 						kcpTransport.gameObject.GetComponent<KcpTransport>().enabled = false;
 						fizzySteamworks.gameObject.GetComponent<FizzySteamworks>().enabled = true;
 						roomManager.transport = fizzySteamworks;
@@ -69,7 +70,7 @@ namespace Managers
 
 		public void SetConnectionString()
 		{
-			roomManager.networkAddress = connectionText.text;
+			roomManager.networkAddress = connectionInputText.text;
 		}
 
 		public void HostGame()

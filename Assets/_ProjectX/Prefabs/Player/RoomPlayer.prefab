@@ -597,7 +597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tzaa
+  m_text: Default
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
   m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}

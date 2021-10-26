@@ -44,6 +44,7 @@ namespace Player
 			defaultMaxMotorTorque = maxMotorTorque;
 			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = centerOfMassOffset;
+
 			CreateFrictionCurves();
 			SetNormalFriction();
 		}

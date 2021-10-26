@@ -158,6 +158,14 @@ PrefabInstance:
       propertyPath: connectionEnterText
       value: 
       objectReference: {fileID: 120789882}
+    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
+      propertyPath: connectionInputText
+      value: 
+      objectReference: {fileID: 1162974925}
+    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
+      propertyPath: connectionPlaceholderText
+      value: 
+      objectReference: {fileID: 120789882}
     - target: {fileID: 2061408890175752595, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
       propertyPath: m_Name
       value: StartupController
@@ -324,7 +332,7 @@ GameObject:
   - component: {fileID: 603827783}
   - component: {fileID: 603827782}
   m_Layer: 5
-  m_Name: SelectConnection
+  m_Name: ConnectionDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2247,7 +2255,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 558398950463630959, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
       propertyPath: m_Name
-      value: SetConnectionString
+      value: ConnectionStringInput
       objectReference: {fileID: 0}
     - target: {fileID: 3924922216007851320, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
       propertyPath: m_Pivot.x

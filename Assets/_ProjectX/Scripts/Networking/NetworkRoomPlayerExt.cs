@@ -45,23 +45,13 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     [SyncVar(hook = nameof(PlayerReadyTextChanged))]
     public string playerReadyText;
 
-    [Client]
-	private void PlayerReadyTextChanged(string oldValue, string newValue)
-	{
-        readyText.text = newValue;
-    }
-
 	/// <summary>
 	/// Player name
 	/// </summary>
 	[SyncVar(hook = nameof(PlayerReadyColorChanged))]
     public Color playerReadyColor;
 
-	private void PlayerReadyColorChanged(Color oldValue, Color newValue)
-	{
-        readyImage.color = newValue;
-
-    }
+    
 
 
 	/// <summary>
@@ -87,7 +77,12 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
         CmdMoveToNextSlot(gameObject);
     }
 
-    [Command]
+	public override void OnStartServer()
+	{
+        playerName = "Player" + NetworkServer.connections.Count;
+	}
+
+	[Command]
     public void CmdRoomPlayerChangeReadyState(bool readyState)
     {
         readyToBegin = readyState;
@@ -108,26 +103,34 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
         LobbyManager lobbyManager = ServiceLocator.LobbyManager;
         var networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
         networkRoomPlayer.gameObject.transform.position = lobbyManager.roomPlayerSpawnSlots[NetworkRoomManager.singleton.numPlayers - 1].position;
-    }  
+    }
 
-	/// <summary>
-	/// This is a hook.
-	/// </summary>
-	/// <param name="oldValue"></param>
-	/// <param name="newValue"></param>
-	public void PlayerNameChanged(string oldValue, string newValue)
+    //hook
+    [Client]
+    public void PlayerNameChanged(string oldValue, string newValue)
 	{
 		nameTag.text = newValue;
 	}
 
-    /// <summary>
-	/// This is a hook.
-	/// </summary>
-	/// <param name="oldValue"></param>
-	/// <param name="newValue"></param>
-	public void PlayerColorChanged(Color oldValue, Color newValue)
+    //hook
+    [Client]
+    public void PlayerColorChanged(Color oldValue, Color newValue)
     {
         colorChangingMesh.material.color = newValue;
+    }
+
+    //hook
+    [Client]
+    private void PlayerReadyTextChanged(string oldValue, string newValue)
+    {
+        readyText.text = newValue;
+    }
+
+    //hook
+    [Client]
+    private void PlayerReadyColorChanged(Color oldValue, Color newValue)
+    {
+        readyImage.color = newValue;
     }
 
     [Command]
