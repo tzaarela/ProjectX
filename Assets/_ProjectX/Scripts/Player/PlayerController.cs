@@ -79,11 +79,13 @@ namespace Player
 			flagOnRoof.SetActive(newValue);
 		}
 
+		[Client]
 		private void PlayerNameChanged(string oldValue, string newValue)
 		{
 			playerNameText.text = newValue;
 		}
 
+		[Client]
 		private void PlayerColorChanged(Color oldValue, Color newValue)
 		{
 			colorChangingMesh.material.color = newValue;
