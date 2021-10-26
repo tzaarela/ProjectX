@@ -6,6 +6,7 @@ using Data.Interfaces;
 using Managers;
 using UnityEngine;
 using Game.Flag;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -26,7 +27,6 @@ namespace Player
 
 		private int playerId;
 		public int PlayerId => playerId;
-
 
 		[Server]
 		public override void OnStartServer()
@@ -107,10 +107,25 @@ namespace Player
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
-			if (eventState == GlobalEvent.END_GAMESTATE)
+			switch (eventState)
 			{
-				RpcSetPlayerEndState();
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+					RpcEnableAllPlayersInput();
+					break;
+				
+				case GlobalEvent.END_GAMESTATE:
+					RpcSetPlayerEndState();
+					break;
 			}
+		}
+
+		[ClientRpc]
+		private void RpcEnableAllPlayersInput()
+		{
+			if (!isLocalPlayer)
+				return;
+
+			GetComponent<InputManager>().EnableInput();
 		}
 
 		[ClientRpc]
