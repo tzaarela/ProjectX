@@ -78,6 +78,8 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 		{
             images[i].color = indexColors[i];
 		}
+        
+        playerColor = Color.white;
 
         lobbyManager.LobbyUI.gameObject.SetActive(true);
         
