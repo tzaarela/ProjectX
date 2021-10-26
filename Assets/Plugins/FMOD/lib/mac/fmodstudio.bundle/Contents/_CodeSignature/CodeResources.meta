@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Plugins/FMOD/Resources.meta
+guid: d41c670ddd091474bbc8c4cc53883950
+folderAsset: yes
+=======
 guid: 2d4718476c01bb144ad41e5ed59b67e4
+>>>>>>> master:Assets/Plugins/FMOD/lib/mac/fmodstudio.bundle/Contents/_CodeSignature/CodeResources.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

@@ -3,40 +3,40 @@ using Data.Enums;
 using Managers;
 using Mirror;
 using Player;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace PowerUp.Projectiles
 {
 	public class Bullet : ProjectileBase
 	{
-		private TrailRenderer trailRenderer;
-
-		protected override void Awake()
-		{
-			base.Awake();
-			
-			trailRenderer = GetComponent<TrailRenderer>();
-		}
-
+		public GameObject debugSphere;
+		public TrailRenderer trailRenderer;
+		
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			//trailRenderer.Clear();
+			
+			trailRenderer.Clear();
+			direction = transform.forward;
+			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
 
 		public override void SetupProjectile(Vector3 dir, int netID)
 		{
 			base.SetupProjectile(dir, netID);
-			
-			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
 		
 		private void OnCollisionEnter(Collision other)
 		{
 			if (other.gameObject.CompareTag("Player"))
 			{
-				Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
-				FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg");
+				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
+				{
+					Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
+					//Instantiate(debugSphere, transform.position, quaternion.identity);
+					FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg", Camera.main.transform.position);
+				}
 			}
 			
 			if(!isServer)

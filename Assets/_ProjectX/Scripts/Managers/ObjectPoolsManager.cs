@@ -4,6 +4,7 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
+using PowerUp.Projectiles;
 using UnityEngine;
 
 namespace Managers
@@ -84,7 +85,7 @@ namespace Managers
 		}
 		
 		[Server]
-		public GameObject SpawnFromPool(ObjectPoolType poolType, Vector3 position, Quaternion rotation)
+		public GameObject SpawnProjectileFromPool(ObjectPoolType poolType, Vector3 position, Quaternion rotation, int spawnedByID)
 		{
 			if (poolDictionary[poolType].Count > 0)
 			{
@@ -92,7 +93,7 @@ namespace Managers
 				objFromPool.transform.position = position;
 				objFromPool.transform.rotation = rotation;
 				objFromPool.SetActive(true);
-				RpcActivatePositionObject(objFromPool, position, rotation.eulerAngles);
+				RpcActivateProjectileObject(objFromPool, position, rotation.eulerAngles, spawnedByID);
 				return objFromPool;
 			}
 			
@@ -131,8 +132,9 @@ namespace Managers
 		}
 		
 		[ClientRpc]
-		private void RpcActivatePositionObject(GameObject obj, Vector3 position, Vector3 eulerAngles)
+		private void RpcActivateProjectileObject(GameObject obj, Vector3 position, Vector3 eulerAngles, int spawnedByID)
 		{
+			obj.GetComponent<ProjectileBase>().SetSpawnedBy(spawnedByID);
 			obj.transform.position = position;
 			obj.transform.eulerAngles = eulerAngles;
 			obj.SetActive(true);

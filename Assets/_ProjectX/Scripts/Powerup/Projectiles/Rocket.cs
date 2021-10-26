@@ -1,5 +1,4 @@
-﻿using System;
-using Data.Enums;
+﻿using Data.Enums;
 using Managers;
 using Player;
 using UnityEngine;
@@ -10,31 +9,32 @@ namespace PowerUp.Projectiles
 	{
 		public TrailRenderer trailerRenderer;
 
-		private void Start()
+		protected override void OnEnable()
 		{
-			//trailerRenderer.enabled = false;
+			base.OnEnable();
+			
+			trailerRenderer.Clear();
+			direction = transform.forward;
+			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
 
 		public override void SetupProjectile(Vector3 dir, int netID)
 		{
 			base.SetupProjectile(dir, netID);
-
-			//trailerRenderer.enabled = true;
-			
-			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
 		}
-
-		protected override void OnDisable()
-		{
-			base.OnDisable();
-
-
-			//trailerRenderer.Clear();
-			//trailerRenderer.enabled = false;
-		}
-
+		
 		private void OnCollisionEnter(Collision other)
 		{
+			if (other.gameObject.CompareTag("Player"))
+			{
+				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
+				{
+					Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
+					//Instantiate(debugSphere, transform.position, quaternion.identity);
+					FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg", Camera.main.transform.position);
+				}
+			}
+			
 			if(!isServer)
 				return;
 
@@ -48,7 +48,7 @@ namespace PowerUp.Projectiles
 				other.gameObject.GetComponent<Health>().ReceiveDamage(50, spawnedByNetId);
 			}
 			
-			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
+			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
 		}
 	}
 }

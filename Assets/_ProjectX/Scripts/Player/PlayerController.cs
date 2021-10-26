@@ -34,6 +34,8 @@ namespace Player
 		private int playerId;
 		public int PlayerId => playerId;
 
+		public bool localPlayer;
+
 		private void Awake()
 		{
 			inputManager = GetComponent<InputManager>();
@@ -52,6 +54,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
+			localPlayer = true;
+			
 			playerNameText.gameObject.SetActive(false);
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
 			print("OnStartClient(netId) " + playerId);

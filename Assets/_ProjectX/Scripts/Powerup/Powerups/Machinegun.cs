@@ -31,12 +31,12 @@ namespace Powerup.Powerups
 				{
 					Vector3 direction = hardpoint.forward;
 
-					Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
-					
+					Bullet bullet = ServiceLocator.ObjectPools.SpawnProjectileFromPool(ObjectPoolType.Bullet, hardpoint.position + direction, hardpoint.rotation, netID).GetComponent<Bullet>();
+
 					if(bullet == null)
 						continue;
-
-					bullet.transform.position = hardpoint.position;
+					
+					bullet.transform.position = hardpoint.position + direction * forwardSpawnOffset;
 					bullet.transform.rotation = hardpoint.rotation;
 					bullet.SetupProjectile(direction, netID);
 

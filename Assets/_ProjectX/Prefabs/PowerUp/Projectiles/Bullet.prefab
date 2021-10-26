@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 287804010800598533}
   - component: {fileID: 2122374991998106323}
   - component: {fileID: -5622612303277816428}
-  - component: {fileID: 6451084921171561186}
-  - component: {fileID: 20549987178494988}
   - component: {fileID: 5215735168201359799}
   - component: {fileID: 2527835905297967346}
   m_Layer: 6
@@ -56,6 +54,8 @@ MonoBehaviour:
   damage: 1
   shootingStrength: 100
   aliveTime: 2
+  debugSphere: {fileID: 3475899029366849771, guid: 5b3144e6b6af62a43bc8e65fcf38fa66, type: 3}
+  trailRenderer: {fileID: 2527835905297967346}
 --- !u!114 &287804010800598533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,57 +118,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6451084921171561186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088292643631628778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  sendInterval: 0.02
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
-  bufferTimeMultiplier: 3
-  bufferSizeLimit: 64
-  catchupThreshold: 6
-  catchupMultiplier: 0.1
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!114 &20549987178494988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088292643631628778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83392ae5c1b731446909f252fd494ae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  target: {fileID: -5622612303277816428}
-  clientAuthority: 0
-  syncVelocity: 1
-  clearVelocity: 0
-  velocitySensitivity: 0.1
-  syncAngularVelocity: 1
-  clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
 --- !u!114 &5215735168201359799
 MonoBehaviour:
   m_ObjectHideFlags: 0
