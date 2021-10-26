@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Data.Enums;
 using Player;
 using PowerUp;
@@ -12,6 +13,10 @@ public class PowerupPickup : NetworkBehaviour
     public GameObject body;
     private Collider coll;
     private Rotator rotator;
+
+
+    public MeshRenderer meshRenderer;
+    public List<Material> powerupTypeMaterials;
 
     public float disableTimestamp;
     
@@ -28,7 +33,7 @@ public class PowerupPickup : NetworkBehaviour
 
 	private void OnEnable()
     {
-        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
+        PickPowerupType();
     }
     
     [Server]
@@ -47,6 +52,12 @@ public class PowerupPickup : NetworkBehaviour
             RpcDisableObject();
         }
     }
+
+    private void PickPowerupType()
+    {
+        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
+        meshRenderer.material = powerupTypeMaterials[(int)currentPowerupType];
+    }
     
     [ClientRpc]
     private void RpcDisableObject()
@@ -62,6 +73,6 @@ public class PowerupPickup : NetworkBehaviour
         coll.enabled = true;
         rotator.doRotate = true;
         body.SetActive(true);
-        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
+        PickPowerupType();
     }
 }

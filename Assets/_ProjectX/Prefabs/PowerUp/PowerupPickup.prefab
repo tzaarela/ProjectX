@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d76d5dba59c8a824a8170635648a356c, type: 2}
+  - {fileID: 2100000, guid: 5b90544d322413e49afd67ee18ec4542, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,8 +144,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentPowerupType: 0
+  currentPowerupType: 2
   body: {fileID: 391251651015302868}
+  meshRenderer: {fileID: 6139544273563907547}
+  powerupTypeMaterials:
+  - {fileID: 2100000, guid: 5b90544d322413e49afd67ee18ec4542, type: 2}
+  - {fileID: 2100000, guid: 02bf1c01c75895a4791bd8130ebddff1, type: 2}
+  disableTimestamp: 0
 --- !u!114 &778435379292439055
 MonoBehaviour:
   m_ObjectHideFlags: 0
