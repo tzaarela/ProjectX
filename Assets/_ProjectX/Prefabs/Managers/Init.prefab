@@ -43,3 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cafb027302c7b304898eb7c952410d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoomManagerPrefab: {fileID: 0}
+  dropdownConnection: {fileID: 0}
+  connectionText: {fileID: 0}
+  connectionEnterText: {fileID: 0}
+  roomManager: {fileID: 0}

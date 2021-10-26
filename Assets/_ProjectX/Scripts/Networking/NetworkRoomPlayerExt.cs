@@ -24,9 +24,11 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     [SerializeField] private GameObject inputField;
     [SerializeField] private GameObject colorPicker;
     [SerializeField] MeshRenderer colorChangingMesh;
+    [SerializeField] Image readyImage;
+    [SerializeField] TextMeshProUGUI readyText;
 
     /// <summary>
-    /// Player name
+    /// Player color
     /// </summary>
     [SyncVar(hook = nameof(PlayerColorChanged))]
     public Color playerColor;
@@ -36,14 +38,37 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     /// </summary>
     [SyncVar(hook = nameof(PlayerNameChanged))]
     public string playerName;
-    
 
     /// <summary>
-    /// Called when the local player object has been set up.
-    /// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
+    /// Player ready text
     /// </summary>
-    public override void OnStartLocalPlayer() {
-        
+    [SyncVar(hook = nameof(PlayerReadyTextChanged))]
+    public string playerReadyText;
+
+    [Client]
+	private void PlayerReadyTextChanged(string oldValue, string newValue)
+	{
+        readyText.text = newValue;
+    }
+
+	/// <summary>
+	/// Player name
+	/// </summary>
+	[SyncVar(hook = nameof(PlayerReadyColorChanged))]
+    public Color playerReadyColor;
+
+	private void PlayerReadyColorChanged(Color oldValue, Color newValue)
+	{
+        readyImage.color = newValue;
+
+    }
+
+
+	/// <summary>
+	/// Called when the local player object has been set up.
+	/// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
+	/// </summary>
+	public override void OnStartLocalPlayer() {
 
         var lobbyManager = ServiceLocator.LobbyManager;
         var indexColors = lobbyManager.indexColors;
@@ -58,6 +83,21 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
         
 
         CmdMoveToNextSlot(gameObject);
+    }
+
+    [Command]
+    public void CmdRoomPlayerChangeReadyState(bool readyState)
+    {
+        readyToBegin = readyState;
+
+        playerReadyColor = Color.green;
+        playerReadyText = "Ready";
+
+        NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
+        if (room != null)
+        {
+            room.ReadyStatusChanged();
+        }
     }
 
     [Command]

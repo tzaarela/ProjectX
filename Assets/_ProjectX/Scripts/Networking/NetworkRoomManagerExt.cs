@@ -28,6 +28,8 @@ namespace Networking
 				GlobalMediator.Instance.Subscribe(this);
 		}
 
+
+
 		//Called just before Server loads new scene
 		public override void OnServerChangeScene(string newSceneName)
 		{
@@ -50,6 +52,8 @@ namespace Networking
 			ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
 			gameHasStarted = true;
 		}
+
+		
 
 		[Server]
 		public void ReloadGameScene()

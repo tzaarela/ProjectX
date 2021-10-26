@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Data.Enums;
+using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;

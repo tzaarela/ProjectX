@@ -43,4 +43,12 @@ public class LobbyManager : MonoBehaviour
 		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
 		roomPlayer.CmdChangeName(nameText.text);
 	}
+
+	[Client]
+	public void ReadyUp()
+	{
+		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
+		roomPlayer.CmdRoomPlayerChangeReadyState(true);
+
+	}
 }
