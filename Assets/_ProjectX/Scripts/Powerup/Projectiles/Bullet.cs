@@ -1,4 +1,5 @@
-﻿using Data.Enums;
+﻿using System;
+using Data.Enums;
 using Managers;
 using Mirror;
 using Player;
@@ -8,6 +9,21 @@ namespace PowerUp.Projectiles
 {
 	public class Bullet : ProjectileBase
 	{
+		private TrailRenderer trailRenderer;
+
+		protected override void Awake()
+		{
+			base.Awake();
+			
+			trailRenderer = GetComponent<TrailRenderer>();
+		}
+
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			//trailRenderer.Clear();
+		}
+
 		public override void SetupProjectile(Vector3 dir, int netID)
 		{
 			base.SetupProjectile(dir, netID);

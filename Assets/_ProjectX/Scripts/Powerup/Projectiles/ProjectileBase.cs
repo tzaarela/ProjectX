@@ -20,7 +20,7 @@ namespace PowerUp.Projectiles
 
 		protected Vector3 direction;
 		
-		private void Awake()
+		protected virtual void Awake()
 		{
 			emitter = GetComponent<FMODUnity.StudioEventEmitter>();
 			rb = GetComponent<Rigidbody>();
