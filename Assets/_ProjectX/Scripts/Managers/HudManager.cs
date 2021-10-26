@@ -42,17 +42,6 @@ namespace Managers
 		{
 			switch (eventState)
 			{
-				case GlobalEvent.FLAG_TAKEN:
-					if (globalSignalData is GameObjectData data)
-					{
-						RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: true, data.gameObject);
-					}
-					break;
-				
-				case GlobalEvent.FLAG_DROPPED:
-					RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
-					break;
-				
 				case GlobalEvent.END_GAMESTATE:
 					rematchButton.SetActive(true);
 					break;
@@ -101,6 +90,7 @@ namespace Managers
 		[ClientRpc]
 		public void RpcActivateEndScreenAndSetWinner(string winningPlayer)
 		{
+			indicatorController.enabled = false;
 			endScreen.SetActive(true);
 			winnerText.text = $"{winningPlayer} IS THE WINNER!";
 		}

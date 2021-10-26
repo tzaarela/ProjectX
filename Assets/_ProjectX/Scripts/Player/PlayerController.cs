@@ -64,16 +64,12 @@ namespace Player
 			}
 		}
 
-
 		[Server]
 		public void TakeFlag(Flag flag)
 		{
 			this.flag = flag;
 			hasFlag = true;
-			
-			//Which to use??
-			SendGlobal(GlobalEvent.FLAG_TAKEN, new GameObjectData(gameObject));
-			// ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
+			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
 		}
 
 		[ContextMenu("Drop Flag")]
@@ -82,10 +78,7 @@ namespace Player
 		{	
 			hasFlag = false;
 			flag.Drop(transform.position, rb.velocity);
-			
-			// Which to use??
-			SendGlobal(GlobalEvent.FLAG_DROPPED);
-			// ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
+			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
 		}
 
 		//Hook
