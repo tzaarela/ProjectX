@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Data.Enums;
 using UnityEngine;
 using Managers;
@@ -14,6 +15,9 @@ namespace PowerUp.Projectiles
 		[SerializeField] protected float shootingStrength = 100f;
 		[SerializeField] protected float aliveTime = 2f;
 		protected int spawnedByNetId;
+		protected ObjectPoolType currentPoolType;
+		protected bool allowCollision;
+		
 		public int SpawnedByNetId
 		{
 			get { return spawnedByNetId; }
@@ -30,12 +34,18 @@ namespace PowerUp.Projectiles
 			rb = GetComponent<Rigidbody>();
 		}
 
-		protected virtual void OnEnable() { }
+		protected virtual void Start() { }
+
+		protected virtual void OnEnable()
+		{
+			allowCollision = true;
+		}
 
 		protected virtual void OnDisable()
 		{
 			rb.velocity = Vector3.zero;
 			transform.eulerAngles = Vector3.zero;
+			allowCollision = false;
 			SetSpawnedBy(-1);
 			StopCoroutine(CoDestroyAfterTime());
 		}
@@ -60,7 +70,7 @@ namespace PowerUp.Projectiles
 			rb.velocity = Vector3.zero;
 			transform.position = Vector3.zero;
 			transform.rotation = Quaternion.identity;
-			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
+			ServiceLocator.ObjectPools.ReturnToPool(currentPoolType, gameObject);
 		}
 	}
 }

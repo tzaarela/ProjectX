@@ -10,7 +10,7 @@ namespace Powerup.Powerups
 		protected override void Start()
 		{
 			base.Start();
-
+			
 			forwardSpawnOffset = 0.0f;
 			heightSpawnOffset = -0.5f;
 			fireCooldown = 0.2f;

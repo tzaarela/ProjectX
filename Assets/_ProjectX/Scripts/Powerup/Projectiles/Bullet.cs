@@ -12,7 +12,14 @@ namespace PowerUp.Projectiles
 	{
 		public GameObject debugSphere;
 		public TrailRenderer trailRenderer;
-		
+
+		protected override void Start()
+		{
+			base.Start();
+
+			currentPoolType = ObjectPoolType.Bullet;
+		}
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
@@ -29,6 +36,9 @@ namespace PowerUp.Projectiles
 		
 		private void OnCollisionEnter(Collision other)
 		{
+			if(!allowCollision)
+				return;
+			
 			if (other.gameObject.CompareTag("Player"))
 			{
 				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
@@ -51,7 +61,8 @@ namespace PowerUp.Projectiles
 				
 				other.gameObject.GetComponent<Health>().ReceiveDamage(10, spawnedByNetId);
 			}
-			
+
+			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}
 	}
