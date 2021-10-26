@@ -11,29 +11,34 @@ namespace UI
 {
 	public class TimeController : NetworkBehaviour, IReceiveGlobalSignal
 	{
-		[SerializeField] private TMP_Text timeText;
-		[SerializeField] private float timeLimit = 100f;
+		// NetworkIdentity = !ServerOnly
 		
-		[SyncVar(hook = nameof(UpdateUiTime))]
-		private int uiTime;
+		[SerializeField] private int timeLimit = 100;
+		
+		[SerializeField] private TMP_Text timeText;
+
+		[SyncVar(hook = nameof(UpdateUiTime))] private int uiTime;
 
 		[Server]
 		public override void OnStartServer()
 		{
-			if (!isServer)
-				return;
-			
 			GlobalMediator.Instance.Subscribe(this);
 		}
-		
+
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
-			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
+			switch (eventState)
 			{
-				print("GameTimer Started!");
-				uiTime = (int)timeLimit;
-				StartCoroutine(TimerRoutine());
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+					uiTime = timeLimit;
+					RpcSetTimeScale(1);
+					StartCoroutine(TimerRoutine());
+					break;
+				
+				case GlobalEvent.END_GAMESTATE:
+					RpcSetTimeScale(0);
+					break;
 			}
 		}
 
@@ -46,13 +51,28 @@ namespace UI
 				uiTime--;
 				yield return null;
 			}
-			print("GameTimer Stopped!");
+			
+			ServiceLocator.RoundManager.EndOfGame();
 		}
 
 		//SyncVar Hook
+		[Client]
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
 			timeText.text =  newTime.ToString();
+		}
+		
+		[ClientRpc]
+		private void RpcSetTimeScale(float timeScale)
+		{
+			Time.timeScale = timeScale;
+		}
+		
+		[ServerCallback]
+		private void OnDestroy()
+		{
+			// print("TimeController OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
 		}
 	}
 }

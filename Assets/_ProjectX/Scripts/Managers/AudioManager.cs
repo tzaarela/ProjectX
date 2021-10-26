@@ -4,17 +4,12 @@ using AudioType = Audio.AudioType;
 
 namespace Managers
 {
-	public class AudioManager : NetworkBehaviour
+	public class AudioManager : MonoBehaviour
 	{
 		private static bool hasBeenProvided;
 		
-		// NetworkIdentity = ServerOnly
-		[Server]
-		public override void OnStartServer()
+		private void Awake()
 		{
-			if (!isServer)
-				return;
-			
 			if (!hasBeenProvided)
 			{
 				print("AudioManager provided to ServiceLocator");

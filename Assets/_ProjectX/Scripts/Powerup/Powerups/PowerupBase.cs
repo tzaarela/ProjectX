@@ -8,6 +8,7 @@ namespace Powerup.Powerups
 	public abstract class PowerupBase : MonoBehaviour
 	{
 		[SerializeField]protected float forwardSpawnOffset;
+		[SerializeField]protected float heightSpawnOffset;
 		[SerializeField]protected int ammo;
 		[SerializeField]protected float fireCooldown;
 		private float nextFire = 0f;

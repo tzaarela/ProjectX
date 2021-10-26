@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Mirror
@@ -36,8 +37,6 @@ namespace Mirror
         [SyncVar(hook = nameof(IndexChanged))]
         public int index;
 
-        #region Unity Callbacks
-
         /// <summary>
         /// Do not use Start - Override OnStartHost / OnStartClient instead!
         /// </summary>
@@ -73,10 +72,6 @@ namespace Mirror
             }
         }
 
-        #endregion
-
-        #region Commands
-
         [Command]
         public void CmdChangeReadyState(bool readyState)
         {
@@ -87,10 +82,6 @@ namespace Mirror
                 room.ReadyStatusChanged();
             }
         }
-
-        #endregion
-
-        #region SyncVar Hooks
 
         /// <summary>
         /// This is a hook that is invoked on clients when the index changes.
@@ -106,10 +97,6 @@ namespace Mirror
         /// <param name="newReadyState">New Ready State</param>
         public virtual void ReadyStateChanged(bool oldReadyState, bool newReadyState) {}
 
-        #endregion
-
-        #region Room Client Virtuals
-
         /// <summary>
         /// This is a hook that is invoked on clients for all room player objects when entering the room.
         /// <para>Note: isLocalPlayer is not guaranteed to be set until OnStartLocalPlayer is called.</para>
@@ -121,75 +108,6 @@ namespace Mirror
         /// </summary>
         public virtual void OnClientExitRoom() {}
 
-        #endregion
-
-        #region Optional UI
-
-        /// <summary>
-        /// Render a UI for the room. Override to provide your own UI
-        /// </summary>
-        public virtual void OnGUI()
-        {
-            if (!showRoomGUI)
-                return;
-
-            NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
-            if (room)
-            {
-                if (!room.showRoomGUI)
-                    return;
-
-                if (!NetworkManager.IsSceneActive(room.RoomScene))
-                    return;
-
-                DrawPlayerReadyState();
-                DrawPlayerReadyButton();
-            }
-        }
-
-        void DrawPlayerReadyState()
-        {
-            GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
-
-            GUILayout.Label($"Player [{index + 1}]");
-
-            if (readyToBegin)
-                GUILayout.Label("Ready");
-            else
-                GUILayout.Label("Not Ready");
-
-            if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("REMOVE"))
-            {
-                // This button only shows on the Host for all players other than the Host
-                // Host and Players can't remove themselves (stop the client instead)
-                // Host can kick a Player this way.
-                GetComponent<NetworkIdentity>().connectionToClient.Disconnect();
-            }
-
-            GUILayout.EndArea();
-        }
-
-        void DrawPlayerReadyButton()
-        {
-            if (NetworkClient.active && isLocalPlayer)
-            {
-                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
-
-                if (readyToBegin)
-                {
-                    if (GUILayout.Button("Cancel"))
-                        CmdChangeReadyState(false);
-                }
-                else
-                {
-                    if (GUILayout.Button("Ready"))
-                        CmdChangeReadyState(true);
-                }
-
-                GUILayout.EndArea();
-            }
-        }
-
-        #endregion
+        
     }
 }

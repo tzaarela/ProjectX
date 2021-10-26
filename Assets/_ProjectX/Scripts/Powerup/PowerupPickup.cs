@@ -4,16 +4,20 @@ using PowerUp;
 using Utilites;
 using UnityEngine;
 using Mirror;
-using System;
 
 public class PowerupPickup : NetworkBehaviour
 {
     [SerializeField] private PowerupType currentPowerupType;
-
+    
+    public GameObject body;
+    private Collider coll;
     private Rotator rotator;
 
+    public float disableTimestamp;
+    
     private void Awake()
     {
+        coll = GetComponent<Collider>();
         rotator = GetComponent<Rotator>();
     }
 
@@ -26,7 +30,7 @@ public class PowerupPickup : NetworkBehaviour
     {
         currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
     }
-
+    
     [Server]
     private void OnTriggerEnter(Collider other)
     {
@@ -39,7 +43,25 @@ public class PowerupPickup : NetworkBehaviour
         {
             Debug.Log("CURRENT PICKUP: " + currentPowerupType);
             playerObj.GetComponent<PowerupController>().Pickup(currentPowerupType);
-            NetworkServer.Destroy(gameObject);
+            disableTimestamp = Time.time;
+            RpcDisableObject();
         }
+    }
+    
+    [ClientRpc]
+    private void RpcDisableObject()
+    {
+        coll.enabled = false;
+        rotator.doRotate = false;
+        body.SetActive(false);
+    }
+    
+    [ClientRpc]
+    public void RpcEnableObject()
+    {
+        coll.enabled = true;
+        rotator.doRotate = true;
+        body.SetActive(true);
+        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
     }
 }

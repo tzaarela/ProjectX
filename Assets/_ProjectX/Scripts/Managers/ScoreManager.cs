@@ -5,99 +5,76 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Managers
 {
 	public class ScoreManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
-		[SerializeField] private TMP_Text[] scoreTexts;
-		[SerializeField] private GameObject newLeaderText;
-		[SerializeField] private float scoreRate = 0.2f;
-		[SerializeField] private int scoreToAdd = 2;
+		// NetworkIdentity = ServerOnly
 
-		public List<int> playerIds;
-		public Dictionary<string, int> playerScores;
+		[Header("SETTINGS:")]
+		[SerializeField] private float scoreRate = 0.5f;
+		[SerializeField] private int scoreToAdd = 5;
+		[SerializeField] private int scoreToWin = 100;
+		
+		private Dictionary<string, int> playerScores;
 
 		private Coroutine scoreCounterRoutine;
 
-		private string player1;
-		private string currentLeader;
+		private string playerPrefix = "Player_";
+		private string currentLeader = "JohnDoe";
 
 		[Server]
 		public override void OnStartServer()
 		{
-			if (!isServer)
-				return;
-
+			print("ScoreManager provided to ServiceLocator");
+			ServiceLocator.ProvideScoreManager(this);
+			
 			GlobalMediator.Instance.Subscribe(this);
 		}
 		
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
-			if (eventState == GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME)
+			switch (eventState)
 			{
-				print("ScoreManager Started!");
-				playerIds= new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
-				playerScores = new Dictionary<string, int>();
-				foreach (int id in playerIds)
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
 				{
-					playerScores.Add("Player_" + id, 0);
-					player1 = "Player_" + id;
-					currentLeader = player1;
+					List<int> playerIds = new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
+					playerScores = new Dictionary<string, int>();
+					foreach (int id in playerIds)
+					{
+						playerScores.Add(playerPrefix + id, 0);
+					}
+				
+					//TEMP:
+					// playerScores.Add("PlayerTemp_1", 0);
+					// playerScores.Add("PlayerTemp_2", 10);
+					// playerScores.Add("PlayerTemp_3", 0);
+					// playerScores.Add("PlayerTemp_4", 20);
+				
+					playerScores = SortedByAscendingKey(playerScores);
+					InitScores();
+					break;
 				}
-				//TEMP:
-				playerScores.Add("PlayerTemp_1", 0);
-				playerScores.Add("PlayerTemp_2", 0);
-				SortPlayerScores(playerScores);
+				case GlobalEvent.END_GAMESTATE:
+					StopAllCoroutines();
+					ActivateEndScreenWithFinalResults();
+					break;
 			}
 		}
-		
-		private void Update()
+
+		[Server]
+		public void InitializeScoring(int playerId)
 		{
-			if (Keyboard.current.digit1Key.wasPressedThisFrame)
-			{
-				UpdateScore(player1);
-			}
-			if (Keyboard.current.digit2Key.wasPressedThisFrame)
-			{
-				UpdateScore("PlayerTemp_1");
-			}
-			if (Keyboard.current.digit3Key.wasPressedThisFrame)
-			{
-				UpdateScore("PlayerTemp_2");
-			}
-			if (Keyboard.current.digit4Key.wasPressedThisFrame)
-			{
-				StopScoreCounter();
-			}
-		}
-		
-		private void UpdateScore(string playerId)
-		{
+			string playerName = playerPrefix + playerId;
 			StopScoreCounter();
-			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerId));
+			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerName));
 		}
 
-		private IEnumerator ScoringRoutine(string playerId)
-		{
-			float time = 0;
-			while (time < scoreRate)
-			{
-				time += Time.deltaTime;				
-				yield return null;
-			}
-
-			playerScores[playerId] += scoreToAdd;
-			SortPlayerScores(playerScores);
-
-			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerId));
-		}
-		
-		private void StopScoreCounter()
+		[Server]
+		public void StopScoreCounter()
 		{
 			if (scoreCounterRoutine == null)
 				return;
@@ -105,40 +82,93 @@ namespace Managers
 			StopCoroutine(scoreCounterRoutine);
 		}
 		
-		private void SortPlayerScores(Dictionary<string, int> scores)
+		[Server]
+		private IEnumerator ScoringRoutine(string player)
 		{
-			playerScores = scores.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+			UpdateScores(player);
 			
-			int index = 0; 
-			foreach(KeyValuePair<string, int> kvp in playerScores)
+			yield return new WaitForSeconds(scoreRate);
+			
+			scoreCounterRoutine = StartCoroutine(ScoringRoutine(player));
+		}
+
+		[Server]
+		private void UpdateScores(string player)
+		{
+			playerScores[player] += scoreToAdd;
+
+			if (playerScores[player] >= scoreToWin)
 			{
-				if (index <= 2)
+				ServiceLocator.RoundManager.EndOfGame();
+				return;
+			}
+			
+			UpdateScores();
+		}
+
+		[Server]
+		private void UpdateScores()
+		{
+			playerScores = SortedByDescendingValue(playerScores);
+			
+			int index = 0;
+			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
+			{
+				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
+				index++;
+				
+				if (index == 0 && !kvp.Key.Equals(currentLeader))
 				{
-					// if (index == 0 && !kvp.Key.Equals(currentLeader))
-					// {
-					// 	currentLeader = kvp.Key;
-					// 	newLeaderText.SetActive(true);
-					// }
-					RpcUpdateHudScore(index, kvp.Key, kvp.Value);
-					// print("Index: " + index);
-					// print(kvp.Key + ": " + kvp.Value);
-					index++;
+					currentLeader = kvp.Key;
+					ServiceLocator.HudManager.RpcActivateNewLeaderText();
 				}
 			}
 		}
 
-		// Should be from Command? Authority??
-		[ClientRpc]
-		private void RpcUpdateHudScore(int index, string kvpKey, int kvpValue)
+		[Server]
+		private void InitScores()
 		{
-			scoreTexts[index].text = kvpKey + ":\n" +
-			                         kvpValue;
-			
-			if (index == 0 && !kvpKey.Equals(currentLeader))
+			int index = 0;
+			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
 			{
-				currentLeader = kvpKey;
-				newLeaderText.SetActive(true);
+				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
+				index++;
 			}
+		}
+		
+		[Server]
+		private void ActivateEndScreenWithFinalResults()
+		{
+			playerScores = SortedByDescendingValue(playerScores);
+			
+			ServiceLocator.HudManager.RpcActivateEndScreenAndSetWinner(playerScores.ElementAt(0).Key);
+			
+			int index = 0;
+			foreach (KeyValuePair<string, int> kvp in playerScores)
+			{
+				ServiceLocator.HudManager.RpcCreatePlayerResult(index, kvp.Key, kvp.Value);
+				index++;
+			}
+		}
+
+		[Server]
+		private Dictionary<string, int> SortedByDescendingValue(Dictionary<string, int> scores)
+		{
+			return scores.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+		}
+		
+		[Server]
+		private Dictionary<string, int> SortedByAscendingKey(Dictionary<string, int> scores)
+		{
+			return scores.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
+		}
+		
+		[ServerCallback]
+		private void OnDestroy()
+		{
+			// print("ScoreManager OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
+			ServiceLocator.ProvideScoreManager(null);
 		}
 	}
 }

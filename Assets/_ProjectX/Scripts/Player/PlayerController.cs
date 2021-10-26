@@ -1,255 +1,161 @@
+using System;
 using Mirror;
-using System.Collections.Generic;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Managers;
-using PowerUp.Projectiles;
 using UnityEngine;
-using System;
 using Game.Flag;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
-	public class PlayerController : NetworkBehaviour, ISendGlobalSignal
+	public class PlayerController : NetworkBehaviour, ISendGlobalSignal, IReceiveGlobalSignal
 	{
-		[Header("Settings")]
-		public List<AxleInfo> axleInfos;
-		public float maxMotorTorque;
-		public float maxSteeringAngle;
-		public float brakeTorque;
-		public float decelerationForce;
-		public float boostMultiplier = 6f;
-		public Vector3 centerOfMassOffset;
-
 		[Header("References")]
-		[SerializeField] private ParticleSystem boostParticle;
-		[SerializeField] private InputManager inputs;
-		[SerializeField] private PowerupController powerupSlot;
-		[SerializeField] private Rigidbody rb;
 		[SerializeField] private GameObject flagOnRoof;
-		
+		[SerializeField] private MeshRenderer colorChangingMesh;
+		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
+
 		[Header("Debug")]
-		[SyncVar(hook = "FlagStateChanged")] public bool hasFlag;
+		[SyncVar(hook = nameof(FlagStateChanged))] public bool hasFlag;
+		[SyncVar(hook = nameof(PlayerNameChanged))] public string playerName;
+		[SyncVar(hook = nameof(PlayerColorChanged))] public Color playerColor;
 
 		private Flag flag;
-		private float travelL = 0;
-		private float travelR = 0;
-		private float antiRoll = 8000;
-		private float defaultMaxMotorTorque;
+		private Rigidbody rb;
+
+		private int playerId;
+		public int PlayerId => playerId;
+
+		[Server]
+		public override void OnStartServer()
+		{
+			rb = GetComponent<Rigidbody>();
+			
+			GlobalMediator.Instance.Subscribe(this);
+		}
 
 		public override void OnStartClient()
 		{
-			print("OnStartClient(netId) " + GetComponent<NetworkIdentity>().netId);
-			rb.centerOfMass = centerOfMassOffset;
-
 			if (!isLocalPlayer)
 				return;
+
+			playerNameText.gameObject.SetActive(false);
+			playerId = (int)GetComponent<NetworkIdentity>().netId;
+			print("OnStartClient(netId) " + playerId);
+			CmdUpdateActivePlayersList(playerId);
 			
-			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(gameObject));
-			CmdUpdateActivePlayersList();
+			SendGlobal(GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME, new GameObjectData(gameObject));
 
 			name += "-local";
-
 		}
-
-		private void Start()
+		
+		private void Update()
 		{
 			if (!isLocalPlayer)
 				return;
 
-			inputs.playerControls.Player.Boost.performed += Boost_performed;
-			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
+			// F-Key resets car-rotation (when turned over)
+			if (Keyboard.current.fKey.wasPressedThisFrame)
+			{
+				Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+				transform.rotation = Quaternion.Euler(newRotation);
+			}
 		}
 
+
 		[Server]
-		public void GiveFlag(Flag flag)
+		public void TakeFlag(Flag flag)
 		{
 			this.flag = flag;
 			hasFlag = true;
+			
+			//Which to use??
+			SendGlobal(GlobalEvent.FLAG_TAKEN, new GameObjectData(gameObject));
+			// ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
 		}
 
-		[ContextMenu("Drop")]
+		[ContextMenu("Drop Flag")]
+		[Server]
 		public void DropFlag()
-		{
+		{	
 			hasFlag = false;
 			flag.Drop(transform.position, rb.velocity);
+			
+			// Which to use??
+			SendGlobal(GlobalEvent.FLAG_DROPPED);
+			// ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
 		}
 
+		//Hook
 		[Client]
 		private void FlagStateChanged(bool oldValue, bool newValue)
 		{
 			flagOnRoof.SetActive(newValue);
 		}
 
-		public override void OnStartServer()
+		//Hook
+		[Client]
+		private void PlayerNameChanged(string oldValue, string newValue)
 		{
-			defaultMaxMotorTorque = maxMotorTorque;
+			playerNameText.text = newValue;
+		}
+
+		//Hook
+		[Client]
+		private void PlayerColorChanged(Color oldValue, Color newValue)
+		{
+			colorChangingMesh.material.color = newValue;
 		}
 
 		[Command]
-		private void CmdUpdateActivePlayersList()
+		private void CmdUpdateActivePlayersList(int id)
 		{
-			int playerId = (int)GetComponent<NetworkIdentity>().netId;
-			ServiceLocator.RoundManager.AddActivePlayer(playerId);
-		}
-
-		private void FixedUpdate()
-		{
-			if (!isLocalPlayer)
-				return;
-		
-			Drive();
-
-			if (inputs.isBraking)
-				Brake();
-		}
-
-		private void OnDrawGizmos()
-		{
-			Gizmos.color = Color.red;
-			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
-		}
-
-		[Client]
-		private void Boost_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-		{
-			Boost(true);
-		}
-
-		[Client]
-		private void Boost_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-		{
-			Boost(false);
-		}
-
-		[Client]
-		private void Boost(bool turnOn)
-		{
-			CmdBoost(turnOn);
-		}
-		
-		[Command]
-		private void CmdBoost(bool turnOn)
-		{
-			if (turnOn)
-			{
-				maxMotorTorque = defaultMaxMotorTorque * boostMultiplier;
-			}
-			else
-			{
-				maxMotorTorque = defaultMaxMotorTorque;
-			}
-
-			RpcToggleParticle(turnOn);
-		}
-
-		[ClientRpc]
-		private void RpcToggleParticle(bool turnOn)
-		{
-			ParticleSystem.EmissionModule em = boostParticle.emission;
-			if (turnOn)
-				em.enabled = true;
-			else
-				em.enabled = false;
-		}
-
-		[Client]
-		private void Brake()
-		{
-			CmdBrake();
-		}
-
-		[Command]
-		private void CmdBrake()
-		{
-			foreach (AxleInfo axel in axleInfos)
-			{
-				if (axel.hasHandbrake)
-				{
-					axel.leftWheel.brakeTorque = brakeTorque;
-					axel.rightWheel.brakeTorque = brakeTorque;
-				}
-			}
-		}
-
-		[Client]
-		private void Drive()
-		{
-			CmdDrive(inputs.acceleration, inputs.steering);
-		}
-
-		[Command]
-		private void CmdDrive(float acceleration, float steer)
-		{
-			float motor = maxMotorTorque * acceleration;
-			float steering = maxSteeringAngle * steer;
-
-			foreach (AxleInfo axleInfo in axleInfos)
-			{
-				if (axleInfo.hasSteering)
-				{
-					axleInfo.leftWheel.steerAngle = steering;
-					axleInfo.rightWheel.steerAngle = steering;
-				}
-
-				if (axleInfo.hasMotor)
-				{
-					if (motor != 0)
-					{
-						axleInfo.leftWheel.brakeTorque = 0;
-						axleInfo.rightWheel.brakeTorque = 0;
-						axleInfo.leftWheel.motorTorque = motor;
-						axleInfo.rightWheel.motorTorque = motor;
-					}
-					else
-					{
-						axleInfo.leftWheel.brakeTorque = decelerationForce;
-						axleInfo.rightWheel.brakeTorque = decelerationForce;
-					}
-				}
-
-				AutoStabilize(axleInfo);
-
-				//ApplyLocalPositionToVisuals(axleInfo.leftWheel);
-				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
-			}
-		}
-		
-		private void AutoStabilize(AxleInfo axleInfo)
-		{
-			WheelHit hit;
-			
-			bool groundedL = axleInfo.leftWheel.GetGroundHit(out hit);
-			if (groundedL)
-			{
-				travelL = (-axleInfo.leftWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.leftWheel.radius) / axleInfo.leftWheel.suspensionDistance;
-			}
-
-			bool groundedR = axleInfo.rightWheel.GetGroundHit(out hit);
-			if (groundedR)
-			{
-				travelR = (-axleInfo.rightWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.rightWheel.radius) / axleInfo.rightWheel.suspensionDistance;
-			}
-
-			float antiRollForce = (travelL - travelR) * antiRoll;
-			
-			if (groundedL)
-			{
-				rb.AddForceAtPosition(axleInfo.leftWheel.transform.up * -antiRollForce,
-						axleInfo.leftWheel.transform.position);
-			}
-
-			if (groundedR)
-			{
-				rb.AddForceAtPosition(axleInfo.rightWheel.transform.up * antiRollForce,
-						axleInfo.rightWheel.transform.position);
-			}
+			playerId = id;
+			ServiceLocator.RoundManager.AddActivePlayer(id);
 		}
 		
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
+		}
+
+		[Server]
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			switch (eventState)
+			{
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+					RpcEnableAllPlayersInput();
+					break;
+				
+				case GlobalEvent.END_GAMESTATE:
+					RpcSetPlayerEndState();
+					break;
+			}
+		}
+
+		[ClientRpc]
+		private void RpcEnableAllPlayersInput()
+		{
+			if (!isLocalPlayer)
+				return;
+
+			GetComponent<InputManager>().EnableInput();
+		}
+
+		[ClientRpc]
+		private void RpcSetPlayerEndState()
+		{
+			GetComponent<DriveController>().enabled = false;
+			GetComponent<InputManager>().DisableInput();
+			GetComponent<PlayerSound>().StopEmitter();
+
+			if (!isServer)
+				return;
+			
+			rb.velocity = Vector3.zero;
 		}
 	}
 }

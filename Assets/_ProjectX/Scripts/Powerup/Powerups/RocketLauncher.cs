@@ -31,6 +31,10 @@ namespace Powerup.Powerups
 					Vector3 direction = hardpoint.forward;
 					
 					Rocket rocket = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Rocket).GetComponent<Rocket>();
+					
+					if(rocket == null)
+						continue;
+					
 					rocket.transform.position = hardpoint.position + direction * forwardSpawnOffset;
 					rocket.transform.rotation = hardpoint.rotation;
 					rocket.SetupProjectile(direction, netID);

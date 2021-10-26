@@ -11,7 +11,8 @@ namespace Powerup.Powerups
 		{
 			base.Start();
 
-			forwardSpawnOffset = 0.5f;
+			forwardSpawnOffset = 0.0f;
+			heightSpawnOffset = -0.5f;
 			fireCooldown = 0.2f;
 		}
 

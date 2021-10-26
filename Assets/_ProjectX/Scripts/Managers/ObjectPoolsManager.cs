@@ -10,6 +10,8 @@ namespace Managers
 {
 	public class ObjectPoolsManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
+		// NetworkIdentity = !ServerOnly
+		
 		[Serializable]
 		public class Pool
 		{
@@ -21,8 +23,7 @@ namespace Managers
 
 		public List<Pool> pools;
 		private Dictionary<ObjectPoolType, Queue<GameObject>> poolDictionary;
-
-		// NetworkIdentity = !ServerOnly
+		
 		[Server]
 		public override void OnStartServer()
 		{
@@ -38,7 +39,6 @@ namespace Managers
 		[Server]
 		private void CreatePool()
 		{
-			print("PoolCreation!");
 			poolDictionary = new Dictionary<ObjectPoolType, Queue<GameObject>>();
 
 			foreach (Pool pool in pools)
@@ -138,12 +138,6 @@ namespace Managers
 			obj.SetActive(true);
 		}
 
-		[ServerCallback]
-		private void OnDestroy()
-		{
-			ServiceLocator.ProvideObjectPoolsManager(null);
-		}
-
 		[Server]
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
@@ -151,6 +145,14 @@ namespace Managers
 			{
 				CreatePool();
 			}
+		}
+
+		[ServerCallback]
+		private void OnDestroy()
+		{
+			// print("ObjectPoolsManager OnDestroy");
+			GlobalMediator.Instance.UnSubscribe(this);
+			ServiceLocator.ProvideObjectPoolsManager(null);
 		}
 	}
 }

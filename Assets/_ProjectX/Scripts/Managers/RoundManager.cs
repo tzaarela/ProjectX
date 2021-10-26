@@ -3,27 +3,21 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
+using UnityEngine;
 
 namespace Managers
 {
-	public class RoundManager : NetworkBehaviour, ISendGlobalSignal
+	public class RoundManager : MonoBehaviour, ISendGlobalSignal
 	{
-		private int numberOfSpawnedPlayers;
-		
 		private List<int> connectedPlayers = new List<int>();
 		
 		private static bool hasBeenProvided;
 
 		public List<int> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
-
-		// NetworkIdentity = ServerOnly
-		[Server]
-		public override void OnStartServer()
+		
+		private void Awake()
 		{
-			if (!isServer)
-				return;
-
 			if (!hasBeenProvided)
 			{
 				print("RoundManager provided to ServiceLocator");
@@ -40,10 +34,9 @@ namespace Managers
 		[Server]
 		public void AddActivePlayer(int playerId)
 		{
-			numberOfSpawnedPlayers++;
 			connectedPlayers.Add(playerId);
-			print("NumberOfSpawnedPlayers = " + numberOfSpawnedPlayers);
-			if (numberOfSpawnedPlayers == NumberOfConnectedClients)
+			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
+			if (connectedPlayers.Count == NumberOfConnectedClients)
 			{
 				print("Spawned PlayerIds:");
 				foreach (var id in connectedPlayers)
@@ -55,6 +48,14 @@ namespace Managers
 			}
 		}
 
+		[Server]
+		public void EndOfGame()
+		{
+			connectedPlayers.Clear();
+			SendGlobal(GlobalEvent.END_GAMESTATE);
+		}
+
+		[Server]
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);

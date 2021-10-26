@@ -9,6 +9,8 @@ namespace PowerUp.Projectiles
 {
 	public abstract class ProjectileBase : NetworkBehaviour
 	{
+		protected FMODUnity.StudioEventEmitter emitter;
+		
 		[SerializeField] protected float damage = 1f;
 		[SerializeField] protected float shootingStrength = 100f;
 		[SerializeField] protected float aliveTime = 2f;
@@ -18,12 +20,15 @@ namespace PowerUp.Projectiles
 
 		protected Vector3 direction;
 		
-		private void Awake()
+		protected virtual void Awake()
 		{
+			emitter = GetComponent<FMODUnity.StudioEventEmitter>();
 			rb = GetComponent<Rigidbody>();
 		}
 
-		private void OnDisable()
+		protected virtual void OnEnable() { }
+
+		protected virtual void OnDisable()
 		{
 			rb.velocity = Vector3.zero;
 			transform.eulerAngles = Vector3.zero;

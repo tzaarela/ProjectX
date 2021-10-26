@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,15 +7,16 @@ namespace Player
 	{
 		public PlayerControls playerControls;
 
-		public float acceleration;
-		public float steering;
+		public float acceleration = 0;
+		public float steering = 0;
 		public bool isBoosting;
 		public bool isBraking;
 		public bool isUsingPowerup;
 		public bool isDroppingPowerup;
 
-		private void Start()
+		public void Awake()
 		{
+			// PlayerControls is enabled later when all players are connected to the game
 			playerControls = new PlayerControls();
 			playerControls.Player.Accelerate.performed += Accelerate;
 			playerControls.Player.Accelerate.canceled += Accelerate;
@@ -32,7 +30,6 @@ namespace Player
 			playerControls.Player.Powerup.canceled += UsePowerCanceled;
 			playerControls.Player.Drop.started += DropPowerStarted;
 			playerControls.Player.Drop.canceled += DropPowerCanceled;
-			playerControls.Enable();
 		}
 
 		private void Boost(InputAction.CallbackContext obj)
@@ -45,35 +42,44 @@ namespace Player
 			steering = obj.ReadValue<float>();
 		}
 
-		private void Accelerate(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void Accelerate(InputAction.CallbackContext obj)
 		{
 			 acceleration = obj.ReadValue<float>();
 		}
 
-		private void Handbrake(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void Handbrake(InputAction.CallbackContext obj)
 		{
 			isBraking = obj.performed;
 		}
 
-		private void UsePowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void UsePowerStarted(InputAction.CallbackContext obj)
 		{
 			isUsingPowerup = true;
 		}
 
-		private void UsePowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void UsePowerCanceled(InputAction.CallbackContext obj)
 		{
 			isUsingPowerup = false;
 		}
 
-		private void DropPowerStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void DropPowerStarted(InputAction.CallbackContext obj)
 		{
 			isDroppingPowerup = true;
 		}
 		
-		private void DropPowerCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+		private void DropPowerCanceled(InputAction.CallbackContext obj)
 		{
 			isDroppingPowerup = false;
 		}
 
+		public void EnableInput()
+		{
+			playerControls.Enable();
+		}
+		
+		public void DisableInput()
+		{
+			playerControls.Disable();
+		}
 	}
 }

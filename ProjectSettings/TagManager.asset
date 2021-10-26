@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hardpoint
   - FxTemporaire
+  - Powerup
   layers:
   - Default
   - TransparentFX

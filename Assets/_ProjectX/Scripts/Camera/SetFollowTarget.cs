@@ -5,7 +5,7 @@ using Data.Interfaces;
 using Managers;
 using UnityEngine;
 
-namespace Camera
+namespace Cameras
 {
     public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
     {
@@ -22,7 +22,7 @@ namespace Camera
         {
             switch (eventState)
             {
-                case GlobalEvent.SET_FOLLOW_TARGET:
+                case GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME:
 
                     if (globalSignalData is GameObjectData data)
                     {
