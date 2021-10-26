@@ -266,7 +266,7 @@ MonoBehaviour:
   brakeTorque: 6000
   decelerationForce: 2000
   boostMultiplier: 2.5
-  antiRoll: 8000
+  antiRoll: 16000
   centerOfMassOffset: {x: 0, y: 0.4, z: 1}
   boostParticle: {fileID: 5555175912627414117}
 --- !u!114 &6781728122339915790
