@@ -180,6 +180,7 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 			<destination>{ecfd3df4-6b72-475d-a965-5238f4219ec4}</destination>
 			<destination>{be769005-ce35-4ed7-a958-bbee1f3240e7}</destination>
 			<destination>{f044658e-6925-4e87-87b1-5e90ce34ee37}</destination>
+			<destination>{f14ea7d1-86e5-4d40-8d6f-7e99588cdace}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{bdcf38b9-a082-4c1a-a65d-c2ec56d684a5}" />
@@ -310,6 +311,14 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		<relationship name="preset">
 			<destination>{028d38fd-417b-0bad-290b-a30ea50da357}</destination>
 		</relationship>
+	</object>
+	<object class="SpatialiserEffect" id="{f14ea7d1-86e5-4d40-8d6f-7e99588cdace}">
+		<property name="distanceRolloffType">
+			<value>4</value>
+		</property>
+		<property name="maximumDistance">
+			<value>650</value>
+		</property>
 	</object>
 	<object class="AutomationPoint" id="{34d8834d-4f38-47cc-9bb0-93434113270d}">
 		<property name="position">
