@@ -48,7 +48,7 @@ MonoBehaviour:
   syncInterval: 0.1
   scoreRate: 0.5
   scoreToAdd: 5
-  scoreToWin: 500
+  scoreToWin: 1000
 --- !u!114 &2681261741359888150
 MonoBehaviour:
   m_ObjectHideFlags: 0
