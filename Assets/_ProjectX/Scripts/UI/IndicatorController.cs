@@ -18,6 +18,9 @@ namespace UI
 		public GameObject mapFlag;
 		public Camera mainCamera;
 		public GameObject target;
+
+		public GameObject Target => target;
+
 		public bool localPlayerHasFlag;
 
 		private void Start()

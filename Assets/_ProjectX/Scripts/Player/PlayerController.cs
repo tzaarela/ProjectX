@@ -95,7 +95,10 @@ namespace Player
 		[ContextMenu("Drop Flag")]
 		[Server]
 		public void DropFlag()
-		{	
+		{
+			if (!hasFlag)
+				return;
+
 			hasFlag = false;
 			flag.Drop(transform.position, rb.velocity);
 			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
@@ -185,10 +188,21 @@ namespace Player
 			
 			inputManager.DisableInput();
 		}
-		
-		[Client]
-		public void EnablePlayerInput()
+
+		[Command]
+		public void CmdRespawnPlayer()
 		{
+			RpcRespawnPlayer();
+		}
+		
+		[ClientRpc]
+		private void RpcRespawnPlayer()
+		{
+			GetComponent<Health>().ResetCurrentHealth();
+			deathSmoke.Stop();
+			colorChangingMesh.material.color = playerColor;
+			//GetComponent<PlayerSound>()."StartEmitter"?
+			
 			if (!isLocalPlayer)
 				return;
 
@@ -200,6 +214,7 @@ namespace Player
 		private void CmdDeath()
 		{
 			RpcDeath();
+			DropFlag();
 			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, 666);
 		}
 

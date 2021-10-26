@@ -18,6 +18,8 @@ namespace Player
 
 		[SyncVar(hook = nameof(OnHealthChanged))] private int currentHealth;
 
+		private bool isDead;
+
 		private void Awake()
 		{
 			playerController = GetComponent<PlayerController>();
@@ -32,15 +34,19 @@ namespace Player
 		[Server]
 		public void ReceiveDamage(int damage, int attackerId)
 		{
-			int thisPlayerId = (int)GetComponent<NetworkIdentity>().netId;
+			if (isDead)
+				return;
+
+			int thisPlayerId = playerController.PlayerId;
 			
 			print($"Player_{thisPlayerId} was damaged by Player_{attackerId}! (Damage = {damage})");
-
+			
 			currentHealth -= damage;
-			print($"Player_{thisPlayerId} CurrentHealth: " + currentHealth);
 
 			if (currentHealth <= 0)
 			{
+				isDead = true;
+				playerController.DropFlag();
 				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerId);
 			}
 		}
@@ -56,12 +62,6 @@ namespace Player
 			{
 				print("Player Destroyed!");
 				playerController.Death();
-				// Respawn
-				// currentHealth = 100;
-				// currentState = HealthState.Great;
-				// smokeFX[0].SetActive(false);
-				// smokeFX[1].SetActive(false);
-				// smokeFX[2].SetActive(false);
 				return;
 			}
 
@@ -113,6 +113,12 @@ namespace Player
 			}
 			
 			return HealthState.Bad;
+		}
+
+		public void ResetCurrentHealth()
+		{
+			currentHealth = startingHealth;
+			isDead = false;
 		}
 	}
 }

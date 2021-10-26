@@ -101,11 +101,12 @@ namespace Managers
 		[Client]
 		private IEnumerator DeathTextsRoutine(GameObject target, int attackerId)
 		{
+			yield return new WaitForSeconds(0.5f);
 			killedByText.gameObject.SetActive(true);
 			killedByText.text = "KILLED BY\n" 
 			                    + $"Player_{attackerId}!";
 			yield return new WaitForSeconds(1.5f);
-			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(GameObject.Find("Flag")));
+			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(indicatorController.Target));
 			killedByText.gameObject.SetActive(false);
 			yield return new WaitForSeconds(0.5f);
 			respawnText.gameObject.SetActive(true);
@@ -118,9 +119,9 @@ namespace Managers
 			respawnText.gameObject.SetActive(false);
 			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(target));
 			yield return new WaitForSeconds(0.5f);
-			target.GetComponent<PlayerController>().EnablePlayerInput();
+			target.GetComponent<PlayerController>().CmdRespawnPlayer();
 			respawnText.gameObject.SetActive(true);
-			respawnText.text = "R E V E N G E !!!";
+			respawnText.text = "R E V E N G E ! ! !";
 			yield return new WaitForSeconds(2f);
 			respawnText.gameObject.SetActive(false);
 		}
