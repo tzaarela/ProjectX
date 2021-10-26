@@ -107,8 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d4cfe7943b13f42a6968292b29aaec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   roomPlayerSpawnSlots:
   - {fileID: 3315196420254376499}
   - {fileID: 3315196419057708399}
@@ -119,7 +117,6 @@ MonoBehaviour:
   - {r: 1, g: 0.00000012715658, b: 0, a: 1}
   - {r: 1, g: 0.8784348, b: 0, a: 1}
   - {r: 0, g: 0.03676009, b: 1, a: 1}
-  networkRoomPlayers: []
   LobbyUI: {fileID: 0}
   nameText: {fileID: 0}
 --- !u!1 &3315196420090907133

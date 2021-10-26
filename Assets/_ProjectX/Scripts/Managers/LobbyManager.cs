@@ -7,17 +7,12 @@ using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
 {
-
-	public List<NetworkRoomPlayerExt> networkRoomPlayers;
-    
 	public List<Transform> roomPlayerSpawnSlots;
     public List<Color> indexColors;
 	public Transform LobbyUI;
 
-	public Action onNameChanged;
-	public Action onColorChanged;
-
 	[SerializeField] private TMPro.TextMeshProUGUI nameText;
+	
 	private bool hasBeenProvided;
 
 	public void Awake()
@@ -33,12 +28,6 @@ public class LobbyManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-	}
-
-	[Server]
-	public void AddRoomPlayer(NetworkRoomPlayerExt networkRoomPlayer)
-	{
-		networkRoomPlayers.Add(networkRoomPlayer);
 	}
 	
 	[Client]

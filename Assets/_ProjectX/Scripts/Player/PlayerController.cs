@@ -88,18 +88,21 @@ namespace Player
 			// ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
 		}
 
+		//Hook
 		[Client]
 		private void FlagStateChanged(bool oldValue, bool newValue)
 		{
 			flagOnRoof.SetActive(newValue);
 		}
 
+		//Hook
 		[Client]
 		private void PlayerNameChanged(string oldValue, string newValue)
 		{
 			playerNameText.text = newValue;
 		}
 
+		//Hook
 		[Client]
 		private void PlayerColorChanged(Color oldValue, Color newValue)
 		{
