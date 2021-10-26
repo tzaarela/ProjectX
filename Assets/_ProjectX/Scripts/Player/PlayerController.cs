@@ -50,6 +50,20 @@ namespace Player
 
 			name += "-local";
 		}
+		
+		private void Update()
+		{
+			if (!isLocalPlayer)
+				return;
+
+			// F-Key resets car-rotation (when turned over)
+			if (Keyboard.current.fKey.wasPressedThisFrame)
+			{
+				Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+				transform.rotation = Quaternion.Euler(newRotation);
+			}
+		}
+
 
 		[Server]
 		public void TakeFlag(Flag flag)
