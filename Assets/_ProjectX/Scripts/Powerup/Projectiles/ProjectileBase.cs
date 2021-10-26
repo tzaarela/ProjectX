@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Data.Enums;
 using UnityEngine;
 using Managers;
@@ -9,13 +8,18 @@ namespace PowerUp.Projectiles
 {
 	public abstract class ProjectileBase : NetworkBehaviour
 	{
-		protected FMODUnity.StudioEventEmitter emitter;
+		private FMODUnity.StudioEventEmitter emitter;
 		
 		[SerializeField] protected float damage = 1f;
 		[SerializeField] protected float shootingStrength = 100f;
 		[SerializeField] protected float aliveTime = 2f;
 		protected int spawnedByNetId;
-
+		public int SpawnedByNetId
+		{
+			get { return spawnedByNetId; }
+		}
+		
+		
 		protected Rigidbody rb;
 
 		protected Vector3 direction;
@@ -32,9 +36,15 @@ namespace PowerUp.Projectiles
 		{
 			rb.velocity = Vector3.zero;
 			transform.eulerAngles = Vector3.zero;
+			SetSpawnedBy(-1);
 			StopCoroutine(CoDestroyAfterTime());
 		}
 
+		public void SetSpawnedBy(int netID)
+		{
+			spawnedByNetId = netID;
+		}
+		
 		[Server]
 		public virtual void SetupProjectile(Vector3 dir, int netID)
 		{
