@@ -24,6 +24,15 @@ namespace Cameras
             {
                 case GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME:
 
+                    if (globalSignalData is GameObjectData localPlayer)
+                    {
+                        virtualCamera.Follow = localPlayer.gameObject.transform;
+                    }
+                
+                    break;
+                
+                case GlobalEvent.SET_FOLLOW_TARGET:
+
                     if (globalSignalData is GameObjectData data)
                     {
                         virtualCamera.Follow = data.gameObject.transform;

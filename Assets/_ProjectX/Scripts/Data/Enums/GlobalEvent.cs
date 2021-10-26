@@ -5,6 +5,9 @@ namespace Data.Enums
         // NETWORK EVENT
         LOCAL_PLAYER_CONNECTED_TO_GAME,
         ALL_PLAYERS_CONNECTED_TO_GAME,
+        
+        // GAME EVENT
+        SET_FOLLOW_TARGET,
 
         // GAME STATE EVENT
         END_GAMESTATE,

@@ -1,5 +1,5 @@
-﻿using System;
-using Data.Enums;
+﻿using Data.Enums;
+using Managers;
 using Mirror;
 using UnityEngine;
 
@@ -34,11 +34,15 @@ namespace Player
 		{
 			int thisPlayerId = (int)GetComponent<NetworkIdentity>().netId;
 			
-			print($"Player_{thisPlayerId} was damaged\n"
-						+ $"by Player_{attackerId}! (Damage = {damage})");
+			print($"Player_{thisPlayerId} was damaged by Player_{attackerId}! (Damage = {damage})");
 
 			currentHealth -= damage;
 			print($"Player_{thisPlayerId} CurrentHealth: " + currentHealth);
+
+			if (currentHealth <= 0)
+			{
+				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerId);
+			}
 		}
 
 		//SyncVar Hook

@@ -75,7 +75,6 @@ namespace Player
 			if (Keyboard.current.fKey.wasPressedThisFrame)
 			{
 				CmdFlipCar();
-
 			}
 			
 			// DEBUG: I-Key = InstantDeath
@@ -181,10 +180,19 @@ namespace Player
 			colorChangingMesh.material.color = Color.black;
 			GetComponent<PlayerSound>().StopEmitter();
 			
-			// if (!isLocalPlayer)
-			// 	return;
-			//
-			// inputManager.DisableInput();
+			if (!isLocalPlayer)
+				return;
+			
+			inputManager.DisableInput();
+		}
+		
+		[Client]
+		public void EnablePlayerInput()
+		{
+			if (!isLocalPlayer)
+				return;
+
+			inputManager.EnableInput();
 		}
 
 		// TEMP!
@@ -192,6 +200,7 @@ namespace Player
 		private void CmdDeath()
 		{
 			RpcDeath();
+			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, 666);
 		}
 
 		// TEMP!

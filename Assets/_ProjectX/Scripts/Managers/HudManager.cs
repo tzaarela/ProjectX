@@ -1,20 +1,24 @@
-﻿using Data.Containers.GlobalSignal;
+﻿using System.Collections;
+using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
+using Player;
 using TMPro;
 using UI;
 using UnityEngine;
 
 namespace Managers
 {
-	public class HudManager : NetworkBehaviour, IReceiveGlobalSignal
+	public class HudManager : NetworkBehaviour, ISendGlobalSignal, IReceiveGlobalSignal
 	{
 		// NetworkIdentity = !ServerOnly
 		
 		[Header("REFERENCES:")]
 		[SerializeField] private TMP_Text[] scoreTexts;
 		[SerializeField] private GameObject newLeaderText;
+		[SerializeField] private TMP_Text killedByText;
+		[SerializeField] private TMP_Text respawnText;
 		[SerializeField] private GameObject endScreen;
 		[SerializeField] private TMP_Text winnerText;
 		[SerializeField] private GameObject rematchButton;
@@ -87,6 +91,40 @@ namespace Managers
 			newLeaderText.SetActive(true);
 		}
 
+		[TargetRpc]
+		public void TargetActivateDeathTexts(NetworkConnection conn, int attackerId)
+		{
+			GameObject target = conn.identity.gameObject;
+			StartCoroutine(DeathTextsRoutine(target, attackerId));
+		}
+
+		[Client]
+		private IEnumerator DeathTextsRoutine(GameObject target, int attackerId)
+		{
+			killedByText.gameObject.SetActive(true);
+			killedByText.text = "KILLED BY\n" 
+			                    + $"Player_{attackerId}!";
+			yield return new WaitForSeconds(1.5f);
+			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(GameObject.Find("Flag")));
+			killedByText.gameObject.SetActive(false);
+			yield return new WaitForSeconds(0.5f);
+			respawnText.gameObject.SetActive(true);
+			respawnText.text = "Respawning in... 3!";
+			yield return new WaitForSeconds(1f);
+			respawnText.text = "Respawning in... 2!";
+			yield return new WaitForSeconds(1f);
+			respawnText.text = "Respawning in... 1!";
+			yield return new WaitForSeconds(0.5f);
+			respawnText.gameObject.SetActive(false);
+			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(target));
+			yield return new WaitForSeconds(0.5f);
+			target.GetComponent<PlayerController>().EnablePlayerInput();
+			respawnText.gameObject.SetActive(true);
+			respawnText.text = "R E V E N G E !!!";
+			yield return new WaitForSeconds(2f);
+			respawnText.gameObject.SetActive(false);
+		}
+
 		[ClientRpc]
 		public void RpcActivateEndScreenAndSetWinner(string winningPlayer)
 		{
@@ -107,6 +145,11 @@ namespace Managers
 			// print("HudManager OnDestroy");
 			GlobalMediator.Instance.UnSubscribe(this);
 			ServiceLocator.ProvideHudManager(null);
+		}
+		
+		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
 		}
 	}
 }
