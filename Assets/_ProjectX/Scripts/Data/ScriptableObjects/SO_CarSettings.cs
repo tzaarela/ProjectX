@@ -11,7 +11,7 @@ namespace _ProjectX.Scripts.Data.ScriptableObjects
 		public bool f_HasMotor;
 		public bool f_HasSteering;
 		public bool f_HasHandbrake;
-		[Header("Front Wheels")]
+		[Header("Rear Wheels")]
 		public bool r_HasMotor;
 		public bool r_HasSteering;
 		public bool r_HasHandbrake;

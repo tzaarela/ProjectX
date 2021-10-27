@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b342128b4c7e4bba83ef12c6297a47ac, type: 3}
   m_Name: CarSettings
   m_EditorClassIdentifier: 
+  f_HasMotor: 0
+  f_HasSteering: 0
+  f_HasHandbrake: 0
+  r_HasMotor: 0
+  r_HasSteering: 0
+  r_HasHandbrake: 0
+  frictionCurves: []
   maxMotorTorque: 0
   maxSteeringAngle: 0
   brakeTorque: 0
@@ -19,3 +26,10 @@ MonoBehaviour:
   boostMultiplier: 0
   antiRoll: 0
   centerOfMassOffset: {x: 0, y: 0, z: 0}
+  mass: 0
+  drag: 0
+  angularDrag: 0
+  useGravity: 0
+  isKinematic: 0
+  interpolateMode: 0
+  collisionDetectionMode: 0
