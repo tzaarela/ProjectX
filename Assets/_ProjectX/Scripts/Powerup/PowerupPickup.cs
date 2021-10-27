@@ -36,7 +36,7 @@ public class PowerupPickup : NetworkBehaviour
         PickPowerupType();
     }
     
-    [Server]
+    [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
         PickUp(other.gameObject);
