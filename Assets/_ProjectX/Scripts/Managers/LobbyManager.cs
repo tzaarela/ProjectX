@@ -10,6 +10,7 @@ public class LobbyManager : MonoBehaviour
 	public List<Transform> roomPlayerSpawnSlots;
     public List<Color> indexColors;
 	public Transform LobbyUI;
+	public int nameCharacterLimit = 10;
 
 	[SerializeField] private TMPro.TextMeshProUGUI nameText;
 	
@@ -45,6 +46,11 @@ public class LobbyManager : MonoBehaviour
 			Debug.Log("name needs to be atleast 2 characters.");
 			return;
 		}	
+
+		if(nameText.text.Length > nameCharacterLimit)
+		{
+			nameText.text = nameText.text.Substring(0, nameCharacterLimit);
+		}
 
 		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
 		roomPlayer.CmdChangeName(nameText.text);

@@ -19,39 +19,31 @@ using UnityEngine.UI;
 /// </summary>
 public class NetworkRoomPlayerExt : NetworkRoomPlayer
 {
+    [Header("UI References")]
     [SerializeField] private TextMeshProUGUI nameTag;
-    [SerializeField] private TextMeshProUGUI nameInput;
-    [SerializeField] private GameObject inputField;
-    [SerializeField] private GameObject colorPicker;
-    [SerializeField] MeshRenderer colorChangingMesh;
-    [SerializeField] Image readyImage;
-    [SerializeField] TextMeshProUGUI readyText;
+    [SerializeField] private Image readyImage;
+    [SerializeField] private TextMeshProUGUI readyText;
+    
+    [Header("Mesh")]
+    [SerializeField] private MeshRenderer colorChangingMesh;
 
-    /// <summary>
-    /// Player color
-    /// </summary>
+    [Header("SyncVars")]
+
+    [HideInInspector]
     [SyncVar(hook = nameof(PlayerColorChanged))]
     public Color playerColor;
 
-    /// <summary>
-    /// Player name
-    /// </summary>
-    [SyncVar(hook = nameof(PlayerNameChanged))]
-    public string playerName;
-
-    /// <summary>
-    /// Player ready text
-    /// </summary>
-    [SyncVar(hook = nameof(PlayerReadyTextChanged))]
-    public string playerReadyText;
-
-	/// <summary>
-	/// Player name
-	/// </summary>
+    [HideInInspector]
 	[SyncVar(hook = nameof(PlayerReadyColorChanged))]
     public Color playerReadyColor;
 
-    
+    [HideInInspector]
+    [SyncVar(hook = nameof(PlayerNameChanged))]
+    public string playerName;
+
+    [HideInInspector]
+    [SyncVar(hook = nameof(PlayerReadyTextChanged))]
+    public string playerReadyText;
 
 
 	/// <summary>
@@ -144,72 +136,4 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	{
         playerColor = ServiceLocator.LobbyManager.indexColors[colorIndex];
 	}
-
-    /// <summary>
-    /// Render a UI for the room. Override to provide your own UI
-    /// </summary>
-    public void OnGUI()
-    {
-        if (!showRoomGUI)
-            return;
-
-        NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
-        if (room)
-        {
-            if (!room.showRoomGUI)
-                return;
-
-            if (!NetworkManager.IsSceneActive(room.RoomScene))
-                return;
-
-            DrawPlayerReadyState();
-            DrawPlayerReadyButton();
-        }
-    }
-
-    void DrawPlayerReadyState()
-    {
-        GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
-
-        if (string.IsNullOrEmpty(playerName))
-            GUILayout.Label($"Player [{index + 1}]");
-        else
-            GUILayout.Label(playerName);
-
-        if (readyToBegin)
-            GUILayout.Label("Ready");
-        else
-            GUILayout.Label("Not Ready");
-
-        if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("REMOVE"))
-        {
-            // This button only shows on the Host for all players other than the Host
-            // Host and Players can't remove themselves (stop the client instead)
-            // Host can kick a Player this way.
-            GetComponent<NetworkIdentity>().connectionToClient.Disconnect();
-        }
-
-        GUILayout.EndArea();
-    }
-
-    void DrawPlayerReadyButton()
-    {
-        if (NetworkClient.active && isLocalPlayer)
-        {
-            GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
-
-            if (readyToBegin)
-            {
-                if (GUILayout.Button("Cancel"))
-                    CmdChangeReadyState(false);
-            }
-            else
-            {
-                if (GUILayout.Button("Ready"))
-                    CmdChangeReadyState(true);
-            }
-
-            GUILayout.EndArea();
-        }
-    }
 }
