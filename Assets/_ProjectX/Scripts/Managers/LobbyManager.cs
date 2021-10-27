@@ -40,6 +40,12 @@ public class LobbyManager : MonoBehaviour
 	[Client]
 	public void ChangeName() 
 	{
+		if(nameText.text.Length < 3)
+		{
+			Debug.Log("name needs to be atleast 2 characters.");
+			return;
+		}	
+
 		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
 		roomPlayer.CmdChangeName(nameText.text);
 	}
