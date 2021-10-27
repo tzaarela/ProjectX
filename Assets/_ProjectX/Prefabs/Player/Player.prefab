@@ -241,13 +241,13 @@ MonoBehaviour:
       extremumValue: 10
       asymptoteSlip: 0.5
       asymptoteValue: 8
-      stiffness: 0.3
+      stiffness: 0.25
     forwardFriction:
       extremumSlip: 0.1
       extremumValue: 10
       asymptoteSlip: 0.5
       asymptoteValue: 8
-      stiffness: 0.3
+      stiffness: 0.25
   - key: 1
     sidewayFriction:
       extremumSlip: 0.1

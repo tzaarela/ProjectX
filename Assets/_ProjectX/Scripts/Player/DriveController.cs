@@ -239,6 +239,12 @@ namespace Player
 		[Client]
 		private void Boost_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
+			if (inputs.acceleration < 0)
+			{
+				Boost(false);
+				return;
+			}
+
 			Boost(true);
 		}
 
