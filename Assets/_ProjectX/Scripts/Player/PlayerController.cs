@@ -204,10 +204,10 @@ namespace Player
 		[ClientRpc]
 		private void RpcRespawnPlayer()
 		{
-			GetComponent<Health>().ResetCurrentHealth();
+			health.ResetCurrentHealth();
 			deathSmoke.Stop();
 			colorChangingMesh.material.color = playerColor;
-			//GetComponent<PlayerSound>()."StartEmitter"?
+			GetComponent<PlayerSound>().PlayEmitter();
 			
 			if (!isLocalPlayer)
 				return;

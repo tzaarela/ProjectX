@@ -41,6 +41,11 @@ public class PlayerSound : MonoBehaviour
         return 0f;
     }
 
+    public void PlayEmitter()
+    {
+        emitter.Play();
+    }
+
     public void StopEmitter()
     {
         emitter.Stop();
