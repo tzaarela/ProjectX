@@ -182,7 +182,7 @@ namespace Player
 		[Client]
 		public void Death()
 		{
-			FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/Explosion", Camera.main.transform.position);
+			FMODUnity.RuntimeManager.PlayOneShot("event:/Vehicles/DeathExplosion", Camera.main.transform.position);
 			deathFX.Play();
 			deathFX2.Play();
 			deathSmoke.Play();

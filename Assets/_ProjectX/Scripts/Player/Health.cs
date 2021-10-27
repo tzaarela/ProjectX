@@ -47,7 +47,6 @@ namespace Player
 
 			if (currentHealth <= 0)
 			{
-				isDead = true;
 				playerController.DropFlag();
 				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerId);
 			}
@@ -63,6 +62,7 @@ namespace Player
 			if (newValue <= 0)
 			{
 				print("Player Destroyed!");
+				isDead = true;
 				playerController.Death();
 				return;
 			}
@@ -99,6 +99,7 @@ namespace Player
 			}
 		}
 
+		[Client]
 		private HealthState GetHealthState(int health)
 		{
 			if (health > 75)
@@ -117,6 +118,7 @@ namespace Player
 			return HealthState.Bad;
 		}
 
+		[Client]
 		public void ResetCurrentHealth()
 		{
 			currentHealth = startingHealth;
