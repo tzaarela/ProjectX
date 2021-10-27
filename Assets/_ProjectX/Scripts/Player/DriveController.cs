@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _ProjectX.Scripts.Data.ScriptableObjects;
 using UnityEngine;
 
 namespace Player
@@ -34,12 +35,15 @@ namespace Player
 		private WheelFrictionCurve forwardFrictionCurveHandbrake;
 		private WheelFrictionCurve forwardFrictionCurveNormal;
 
+		private SO_CarSettings carSettings;
 		private Rigidbody rb;
 
 		private void Start()
 		{
 			if (!isServer)
 				return;
+
+			carSettings = GetComponent<CarSetup>().settings;
 			
 			defaultMaxMotorTorque = maxMotorTorque;
 			rb = GetComponent<Rigidbody>();
