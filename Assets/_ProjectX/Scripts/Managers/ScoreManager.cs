@@ -21,8 +21,7 @@ namespace Managers
 		private Dictionary<string, int> playerScores;
 
 		private Coroutine scoreCounterRoutine;
-
-		private string playerPrefix = "Player_";
+		
 		private string currentLeader = "JohnDoe";
 
 		[Server]
@@ -41,18 +40,18 @@ namespace Managers
 			{
 				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
 				{
-					List<int> playerIds = new List<int>(ServiceLocator.RoundManager.ConnectedPlayers);
+					List<string> playerNames = ServiceLocator.RoundManager.ConnectedPlayers;
 					playerScores = new Dictionary<string, int>();
-					foreach (int id in playerIds)
+					foreach (string name in playerNames)
 					{
-						playerScores.Add(playerPrefix + id, 0);
+						playerScores.Add(name, 0);
 					}
 				
 					//TEMP:
-					// playerScores.Add("PlayerTemp_1", 0);
-					// playerScores.Add("PlayerTemp_2", 10);
-					// playerScores.Add("PlayerTemp_3", 0);
-					// playerScores.Add("PlayerTemp_4", 20);
+					playerScores.Add("PlayerTemp_1", 0);
+					playerScores.Add("PlayerTemp_2", 10);
+					playerScores.Add("PlayerTemp_3", 0);
+					playerScores.Add("PlayerTemp_4", 20);
 				
 					playerScores = SortedByAscendingKey(playerScores);
 					InitScores();
@@ -66,9 +65,8 @@ namespace Managers
 		}
 
 		[Server]
-		public void InitializeScoring(int playerId)
+		public void InitializeScoring(string playerName)
 		{
-			string playerName = playerPrefix + playerId;
 			StopScoreCounter();
 			scoreCounterRoutine = StartCoroutine(ScoringRoutine(playerName));
 		}

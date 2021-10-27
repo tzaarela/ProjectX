@@ -58,7 +58,7 @@ namespace Game.Flag
 		[Server]
 		public void PickUp(PlayerController playerPickingUp)
 		{
-			ServiceLocator.ScoreManager.InitializeScoring(playerPickingUp.PlayerId);
+			ServiceLocator.ScoreManager.InitializeScoring(playerPickingUp.playerName);
 			playerPickingUp.TakeFlag(this);
 			onFlagPickedUp();
 			RpcDeactivateFlag();

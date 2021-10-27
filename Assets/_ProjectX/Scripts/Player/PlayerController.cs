@@ -57,15 +57,12 @@ namespace Player
 				return;
 
 			localPlayer = true;
-			
 			playerNameText.gameObject.SetActive(false);
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
 			print("OnStartClient(netId) " + playerId);
-			CmdUpdateActivePlayersList(playerId);
-			
-			SendGlobal(GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME, new GameObjectData(gameObject));
-
+			CmdUpdateActivePlayersList();
 			name += "-local";
+			SendGlobal(GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME, new GameObjectData(gameObject));
 		}
 		
 		private void Update()
@@ -131,10 +128,9 @@ namespace Player
 		}
 
 		[Command]
-		private void CmdUpdateActivePlayersList(int id)
+		private void CmdUpdateActivePlayersList()
 		{
-			playerId = id;
-			ServiceLocator.RoundManager.AddActivePlayer(id);
+			ServiceLocator.RoundManager.AddActivePlayer(playerName);
 		}
 
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)

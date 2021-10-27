@@ -9,11 +9,11 @@ namespace Managers
 {
 	public class RoundManager : MonoBehaviour, ISendGlobalSignal
 	{
-		private List<int> connectedPlayers = new List<int>();
+		private List<string> connectedPlayers = new List<string>();
 		
 		private static bool hasBeenProvided;
 
-		public List<int> ConnectedPlayers => connectedPlayers;
+		public List<string> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
 		
 		private void Awake()
@@ -32,16 +32,16 @@ namespace Managers
 		}
 
 		[Server]
-		public void AddActivePlayer(int playerId)
+		public void AddActivePlayer(string playerName)
 		{
-			connectedPlayers.Add(playerId);
+			connectedPlayers.Add(playerName);
 			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
 			if (connectedPlayers.Count == NumberOfConnectedClients)
 			{
 				print("Spawned PlayerIds:");
-				foreach (var id in connectedPlayers)
+				foreach (var name in connectedPlayers)
 				{
-					print(id);
+					print(name);
 				}
 				print("Mediator: All players connected to game!");
 				SendGlobal(GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME);
