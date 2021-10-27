@@ -56,8 +56,15 @@ namespace PowerUp.Projectiles
 					return;
 				
 				other.gameObject.GetComponent<Health>().ReceiveDamage(50, spawnedByNetId);
+				
+				allowCollision = false;
+				ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
+
+				return;
 			}
 
+			FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/Explosion", Camera.main.transform.position);
+			
 			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
 		}
