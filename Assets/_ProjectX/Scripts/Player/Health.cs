@@ -20,6 +20,8 @@ namespace Player
 
 		private bool isDead;
 
+		public bool IsDead => isDead;
+
 		private void Awake()
 		{
 			playerController = GetComponent<PlayerController>();

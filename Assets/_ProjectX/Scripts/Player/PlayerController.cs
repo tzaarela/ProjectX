@@ -30,6 +30,7 @@ namespace Player
 		private Flag flag;
 		private Rigidbody rb;
 		private InputManager inputManager;
+		private Health health;
 
 		private int playerId;
 		public int PlayerId => playerId;
@@ -39,6 +40,7 @@ namespace Player
 		private void Awake()
 		{
 			inputManager = GetComponent<InputManager>();
+			health = GetComponent<Health>();
 		}
 
 		[Server]
@@ -87,6 +89,9 @@ namespace Player
 		[Server]
 		public void TakeFlag(Flag flag)
 		{
+			if (health.IsDead)
+				return;
+			
 			this.flag = flag;
 			hasFlag = true;
 			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
@@ -177,6 +182,7 @@ namespace Player
 		[Client]
 		public void Death()
 		{
+			FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/Explosion", Camera.main.transform.position);
 			deathFX.Play();
 			deathFX2.Play();
 			deathSmoke.Play();
