@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Cinemachine;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
@@ -22,7 +23,11 @@ namespace Managers
 		[SerializeField] private GameObject endScreen;
 		[SerializeField] private TMP_Text winnerText;
 		[SerializeField] private GameObject rematchButton;
-
+		
+		[Header("TEMP:")]
+		[SerializeField] private CinemachineVirtualCamera zoomInCamera;
+		[SerializeField] private CinemachineVirtualCamera flagTargetCamera;
+		
 		private IndicatorController indicatorController;
 		private ResultsController resultsController;
 
@@ -101,13 +106,18 @@ namespace Managers
 		[Client]
 		private IEnumerator DeathTextsRoutine(GameObject target, int attackerId)
 		{
+			zoomInCamera.gameObject.SetActive(true);
+			zoomInCamera.Follow = target.transform;
 			yield return new WaitForSeconds(0.5f);
 			killedByText.gameObject.SetActive(true);
 			killedByText.text = "KILLED BY\n" 
 			                    + $"Player_{attackerId}!";
 			yield return new WaitForSeconds(1.5f);
-			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(indicatorController.Target));
 			killedByText.gameObject.SetActive(false);
+			zoomInCamera.gameObject.SetActive(false);
+			flagTargetCamera.gameObject.SetActive(true);
+			flagTargetCamera.Follow = indicatorController.Target.transform;
+			// SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(indicatorController.Target));
 			yield return new WaitForSeconds(0.5f);
 			respawnText.gameObject.SetActive(true);
 			respawnText.text = "Respawning in... 3!";
@@ -117,11 +127,12 @@ namespace Managers
 			respawnText.text = "Respawning in... 1!";
 			yield return new WaitForSeconds(0.5f);
 			respawnText.gameObject.SetActive(false);
-			SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(target));
+			flagTargetCamera.gameObject.SetActive(false);
+			// SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(target));
 			yield return new WaitForSeconds(0.5f);
 			target.GetComponent<PlayerController>().CmdRespawnPlayer();
 			respawnText.gameObject.SetActive(true);
-			respawnText.text = "R E V E N G E ! ! !";
+			respawnText.text = "V E N G E A N C E ! ! !";
 			yield return new WaitForSeconds(2f);
 			respawnText.gameObject.SetActive(false);
 		}
