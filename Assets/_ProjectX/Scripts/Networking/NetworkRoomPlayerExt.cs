@@ -60,11 +60,8 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 		{
             images[i].color = indexColors[i];
 		}
-        
-        playerColor = Color.white;
 
         lobbyManager.LobbyUI.gameObject.SetActive(true);
-        
 
         CmdMoveToNextSlot(gameObject);
     }
@@ -72,6 +69,7 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	public override void OnStartServer()
 	{
         playerName = "Player" + NetworkServer.connections.Count;
+        playerColor = Color.white;
 	}
 
 	[Command]
