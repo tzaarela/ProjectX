@@ -28,7 +28,6 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     [SerializeField] private MeshRenderer colorChangingMesh;
 
     [Header("SyncVars")]
-
     [HideInInspector]
     [SyncVar(hook = nameof(PlayerColorChanged))]
     public Color playerColor;
@@ -37,16 +36,18 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	[SyncVar(hook = nameof(PlayerReadyColorChanged))]
     public Color playerReadyColor;
 
-    [HideInInspector]
+    // [HideInInspector]
     [SyncVar(hook = nameof(PlayerNameChanged))]
     public string playerName;
 
     [HideInInspector]
     [SyncVar(hook = nameof(PlayerReadyTextChanged))]
     public string playerReadyText;
+    
+    private static string[] playerNames = Array.Empty<string>();
+    private int playerNamesIndex;
 
-
-	/// <summary>
+    /// <summary>
 	/// Called when the local player object has been set up.
 	/// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
 	/// </summary>
@@ -64,12 +65,26 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
         lobbyManager.LobbyUI.gameObject.SetActive(true);
 
         CmdMoveToNextSlot(gameObject);
-    }
+	}
 
 	public override void OnStartServer()
 	{
         playerName = "Player" + NetworkServer.connections.Count;
         playerColor = Color.white;
+
+        if (!isServer)
+	        return;
+
+        playerNamesIndex = playerNames.Length;
+        string[] playerNamesUpdate = new string[playerNames.Length + 1];
+        // if (playerNames != null)
+	        for (int i = 0; i < playerNames.Length; i++)
+	        {
+		        playerNamesUpdate[i] = playerNames[i];
+	        }
+
+        playerNamesUpdate[playerNamesIndex] = playerName;
+        playerNames = playerNamesUpdate;
 	}
 
 	[Command]
@@ -123,10 +138,27 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
         readyImage.color = newValue;
     }
 
+    [Client]
+    public void UpdateNameTagText(string newText)
+    {
+	    nameTag.text = newText;
+    }
+
     [Command]
     public void CmdChangeName(string name)
 	{
-        playerName = name;
+		for (int i = 0; i < playerNames.Length; i++)
+		{
+			if (i == playerNamesIndex)
+				continue;
+
+			if (string.Equals(playerNames[i], name, StringComparison.OrdinalIgnoreCase))
+			{
+				name += $"_{playerNamesIndex.ToString()}";
+			}
+		}
+		playerNames[playerNamesIndex] = name;
+		playerName = name;
 	}
    
     [Command]

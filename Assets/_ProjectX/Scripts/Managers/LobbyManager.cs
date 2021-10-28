@@ -1,8 +1,7 @@
 using Managers;
 using Mirror;
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LobbyManager : MonoBehaviour
@@ -11,8 +10,8 @@ public class LobbyManager : MonoBehaviour
     public List<Color> indexColors;
 	public Transform LobbyUI;
 	public int nameCharacterLimit = 10;
-
-	[SerializeField] private TMPro.TextMeshProUGUI nameText;
+	
+	[SerializeField] private TMP_InputField textInput;
 	
 	private bool hasBeenProvided;
 
@@ -30,7 +29,7 @@ public class LobbyManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 	}
-	
+
 	[Client]
 	public void ChangeColor(int colorIndex)
 	{
@@ -39,21 +38,31 @@ public class LobbyManager : MonoBehaviour
 	}
 
 	[Client]
+	public void UpdateNameTag(string newText)
+	{
+		if (newText.Length > nameCharacterLimit)
+			return;
+		
+		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
+		roomPlayer.UpdateNameTagText(newText);
+	}
+
+	[Client]
 	public void ChangeName() 
 	{
-		if(nameText.text.Length < 3)
+		if(textInput.text.Length < 3)
 		{
-			Debug.Log("name needs to be atleast 2 characters.");
+			Debug.Log("Name needs to be at least 2 characters.");
 			return;
 		}	
 
-		if(nameText.text.Length > nameCharacterLimit)
+		if(textInput.text.Length > nameCharacterLimit)
 		{
-			nameText.text = nameText.text.Substring(0, nameCharacterLimit);
+			textInput.text = textInput.text.Substring(0, nameCharacterLimit);
 		}
 
 		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
-		roomPlayer.CmdChangeName(nameText.text);
+		roomPlayer.CmdChangeName(textInput.text);
 	}
 
 	[Client]

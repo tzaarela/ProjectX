@@ -29068,7 +29068,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3315196419566063582}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
+        m_MethodName: UpdateNameTag
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -64972,6 +64984,10 @@ PrefabInstance:
       propertyPath: nameText
       value: 
       objectReference: {fileID: 1179155477}
+    - target: {fileID: 3315196419844947923, guid: 8a43667db55b4f048b2a2385fd99b9f7, type: 3}
+      propertyPath: textInput
+      value: 
+      objectReference: {fileID: 913409662}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a43667db55b4f048b2a2385fd99b9f7, type: 3}
 --- !u!114 &3315196419566063582 stripped
