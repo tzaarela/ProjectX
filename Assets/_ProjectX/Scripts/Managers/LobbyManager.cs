@@ -53,7 +53,7 @@ public class LobbyManager : MonoBehaviour
 		if(textInput.text.Length < 3)
 		{
 			Debug.Log("Name needs to be at least 2 characters.");
-			return;
+			textInput.text = "Mr.2Short";
 		}	
 
 		if(textInput.text.Length > nameCharacterLimit)

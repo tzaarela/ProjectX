@@ -41,6 +41,9 @@ namespace Game.Flag
 			if (other.gameObject.CompareTag("Player"))
 			{
 				PlayerController player = other.gameObject.GetComponent<PlayerController>();
+				if (player.GetComponent<Health>().IsDead)
+					return;
+				
 				PickUp(player);
 			}
 		}

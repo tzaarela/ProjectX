@@ -20,7 +20,11 @@ namespace Player
 
 		private bool isDead;
 
-		public bool IsDead => isDead;
+		public bool IsDead
+		{
+			get => isDead;
+			set => isDead = value;
+		}
 
 		private void Awake()
 		{
@@ -39,16 +43,16 @@ namespace Player
 			if (isDead)
 				return;
 
-			int thisPlayerId = playerController.PlayerId;
+			string attacker = NetworkServer.spawned[(uint)attackerId].gameObject.GetComponent<PlayerController>().playerName;
 			
-			print($"Player_{thisPlayerId} was damaged by Player_{attackerId}! (Damage = {damage})");
+			print($"{playerController.playerName} was damaged by Player_{attacker}! (Damage = {damage})");
 			
 			currentHealth -= damage;
 
 			if (currentHealth <= 0)
 			{
 				playerController.DropFlag();
-				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerId);
+				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attacker);
 			}
 		}
 

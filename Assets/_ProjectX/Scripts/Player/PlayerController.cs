@@ -86,9 +86,6 @@ namespace Player
 		[Server]
 		public void TakeFlag(Flag flag)
 		{
-			if (health.IsDead)
-				return;
-			
 			this.flag = flag;
 			hasFlag = true;
 			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
@@ -217,13 +214,14 @@ namespace Player
 		{
 			RpcDeath();
 			DropFlag();
-			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, 666);
+			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, "Mr.Debug");
 		}
 
 		// TEMP!
 		[ClientRpc]
 		private void RpcDeath()
 		{
+			health.IsDead = true;
 			Death();
 		}
 

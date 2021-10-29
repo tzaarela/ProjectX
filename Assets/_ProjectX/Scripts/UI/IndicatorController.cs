@@ -13,15 +13,16 @@ namespace UI
 		[SerializeField] private RectTransform indicatorTransform;
 		[SerializeField] private RectTransform arrowTransform;
 		[SerializeField] private RectTransform canvasRect;
-		
+
 		[Header("DEBUG:")]
-		public GameObject mapFlag;
 		public Camera mainCamera;
+		public GameObject mapFlag;
 		public GameObject target;
+		
+		public bool localPlayerHasFlag;
 
 		public GameObject Target => target;
-
-		public bool localPlayerHasFlag;
+		public GameObject OffScreenIndicator => offScreenIndicator;
 
 		private void Start()
 		{

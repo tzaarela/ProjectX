@@ -19,133 +19,131 @@ using UnityEngine.UI;
 /// </summary>
 public class NetworkRoomPlayerExt : NetworkRoomPlayer
 {
-    [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI nameTag;
-    [SerializeField] private Image readyImage;
-    [SerializeField] private TextMeshProUGUI readyText;
+	[Header("UI References")]
+	[SerializeField] private TextMeshProUGUI nameTag;
+	[SerializeField] private Image readyImage;
+	[SerializeField] private TextMeshProUGUI readyText;
     
-    [Header("Mesh")]
-    [SerializeField] private MeshRenderer colorChangingMesh;
+	[Header("Mesh")]
+	[SerializeField] private MeshRenderer colorChangingMesh;
 
-    [Header("SyncVars")]
-    [HideInInspector]
-    [SyncVar(hook = nameof(PlayerColorChanged))]
-    public Color playerColor;
+	[Header("SyncVars")]
+	[HideInInspector]
+	[SyncVar(hook = nameof(PlayerColorChanged))]
+	public Color playerColor;
 
-    [HideInInspector]
+	[HideInInspector]
 	[SyncVar(hook = nameof(PlayerReadyColorChanged))]
-    public Color playerReadyColor;
+	public Color playerReadyColor;
 
-    // [HideInInspector]
-    [SyncVar(hook = nameof(PlayerNameChanged))]
-    public string playerName;
+	// [HideInInspector]
+	[SyncVar(hook = nameof(PlayerNameChanged))]
+	public string playerName;
 
-    [HideInInspector]
-    [SyncVar(hook = nameof(PlayerReadyTextChanged))]
-    public string playerReadyText;
+	[HideInInspector]
+	[SyncVar(hook = nameof(PlayerReadyTextChanged))]
+	public string playerReadyText;
     
-    private static string[] playerNames = Array.Empty<string>();
-    private int playerNamesIndex;
+	private static string[] playerNames = Array.Empty<string>();
+	private int playerNamesIndex;
 
-    /// <summary>
+	/// <summary>
 	/// Called when the local player object has been set up.
 	/// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
 	/// </summary>
 	public override void OnStartLocalPlayer() {
 
-        var lobbyManager = ServiceLocator.LobbyManager;
-        var indexColors = lobbyManager.indexColors;
-        var images = lobbyManager.LobbyUI.gameObject.GetComponentsInChildren<Image>();
+		var lobbyManager = ServiceLocator.LobbyManager;
+		var indexColors = lobbyManager.indexColors;
+		var images = lobbyManager.LobbyUI.gameObject.GetComponentsInChildren<Image>();
 
-        for (int i = 0; i < indexColors.Count; i++)
+		for (int i = 0; i < indexColors.Count; i++)
 		{
-            images[i].color = indexColors[i];
+			images[i].color = indexColors[i];
 		}
 
-        lobbyManager.LobbyUI.gameObject.SetActive(true);
+		lobbyManager.LobbyUI.gameObject.SetActive(true);
 
-        CmdMoveToNextSlot(gameObject);
+		CmdMoveToNextSlot(gameObject);
 	}
 
 	public override void OnStartServer()
 	{
-        playerName = "Player" + NetworkServer.connections.Count;
-        playerColor = Color.white;
+		playerName = "Player" + NetworkServer.connections.Count;
+		playerColor = Color.white;
 
-        if (!isServer)
-	        return;
+		if (!isServer)
+			return;
 
-        playerNamesIndex = playerNames.Length;
-        string[] playerNamesUpdate = new string[playerNames.Length + 1];
-        // if (playerNames != null)
-	        for (int i = 0; i < playerNames.Length; i++)
-	        {
-		        playerNamesUpdate[i] = playerNames[i];
-	        }
-
-        playerNamesUpdate[playerNamesIndex] = playerName;
-        playerNames = playerNamesUpdate;
+		playerNamesIndex = playerNames.Length;
+		string[] playerNamesUpdate = new string[playerNames.Length + 1];
+		for (int i = 0; i < playerNames.Length; i++)
+		{
+			playerNamesUpdate[i] = playerNames[i];
+		}
+		playerNamesUpdate[playerNamesIndex] = playerName;
+		playerNames = playerNamesUpdate;
 	}
 
 	[Command]
-    public void CmdRoomPlayerChangeReadyState(bool readyState)
-    {
-        readyToBegin = readyState;
+	public void CmdRoomPlayerChangeReadyState(bool readyState)
+	{
+		readyToBegin = readyState;
 
-        playerReadyColor = Color.green;
-        playerReadyText = "Ready";
+		playerReadyColor = Color.green;
+		playerReadyText = "Ready";
 
-        NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
-        if (room != null)
-        {
-            room.ReadyStatusChanged();
-        }
-    }
+		NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
+		if (room != null)
+		{
+			room.ReadyStatusChanged();
+		}
+	}
 
-    [Command]
-    public void CmdMoveToNextSlot(GameObject roomPlayer)
-    {
-        LobbyManager lobbyManager = ServiceLocator.LobbyManager;
-        var networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
-        networkRoomPlayer.gameObject.transform.position = lobbyManager.roomPlayerSpawnSlots[NetworkRoomManager.singleton.numPlayers - 1].position;
-    }
+	[Command]
+	public void CmdMoveToNextSlot(GameObject roomPlayer)
+	{
+		LobbyManager lobbyManager = ServiceLocator.LobbyManager;
+		var networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
+		networkRoomPlayer.gameObject.transform.position = lobbyManager.roomPlayerSpawnSlots[NetworkRoomManager.singleton.numPlayers - 1].position;
+	}
 
-    //hook
-    [Client]
-    public void PlayerNameChanged(string oldValue, string newValue)
+	//hook
+	[Client]
+	public void PlayerNameChanged(string oldValue, string newValue)
 	{
 		nameTag.text = newValue;
 	}
 
-    //hook
-    [Client]
-    public void PlayerColorChanged(Color oldValue, Color newValue)
-    {
-        colorChangingMesh.material.color = newValue;
-    }
+	//hook
+	[Client]
+	public void PlayerColorChanged(Color oldValue, Color newValue)
+	{
+		colorChangingMesh.material.color = newValue;
+	}
 
-    //hook
-    [Client]
-    private void PlayerReadyTextChanged(string oldValue, string newValue)
-    {
-        readyText.text = newValue;
-    }
+	//hook
+	[Client]
+	private void PlayerReadyTextChanged(string oldValue, string newValue)
+	{
+		readyText.text = newValue;
+	}
 
-    //hook
-    [Client]
-    private void PlayerReadyColorChanged(Color oldValue, Color newValue)
-    {
-        readyImage.color = newValue;
-    }
+	//hook
+	[Client]
+	private void PlayerReadyColorChanged(Color oldValue, Color newValue)
+	{
+		readyImage.color = newValue;
+	}
 
-    [Client]
-    public void UpdateNameTagText(string newText)
-    {
-	    nameTag.text = newText;
-    }
+	[Client]
+	public void UpdateNameTagText(string newText)
+	{
+		nameTag.text = newText;
+	}
 
-    [Command]
-    public void CmdChangeName(string name)
+	[Command]
+	public void CmdChangeName(string name)
 	{
 		for (int i = 0; i < playerNames.Length; i++)
 		{
@@ -161,9 +159,9 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 		playerName = name;
 	}
    
-    [Command]
-    public void CmdChangeColor(int colorIndex)
+	[Command]
+	public void CmdChangeColor(int colorIndex)
 	{
-        playerColor = ServiceLocator.LobbyManager.indexColors[colorIndex];
+		playerColor = ServiceLocator.LobbyManager.indexColors[colorIndex];
 	}
 }

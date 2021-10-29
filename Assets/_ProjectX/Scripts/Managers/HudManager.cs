@@ -97,22 +97,22 @@ namespace Managers
 		}
 
 		[TargetRpc]
-		public void TargetActivateDeathTexts(NetworkConnection conn, int attackerId)
+		public void TargetActivateDeathTexts(NetworkConnection conn, string playerName)
 		{
 			GameObject target = conn.identity.gameObject;
-			StartCoroutine(DeathTextsRoutine(target, attackerId));
+			StartCoroutine(DeathTextsRoutine(target, playerName));
 		}
 
 		[Client]
-		private IEnumerator DeathTextsRoutine(GameObject target, int attackerId)
+		private IEnumerator DeathTextsRoutine(GameObject target, string attacker)
 		{
 			zoomInCamera.gameObject.SetActive(true);
 			zoomInCamera.Follow = target.transform;
 			yield return new WaitForSeconds(0.5f);
 			killedByText.gameObject.SetActive(true);
 			killedByText.text = "KILLED BY\n" 
-			                    + $"Player_{attackerId}!";
-			yield return new WaitForSeconds(1.5f);
+			                    + $"{attacker}!";
+			yield return new WaitForSeconds(2f);
 			killedByText.gameObject.SetActive(false);
 			zoomInCamera.gameObject.SetActive(false);
 			flagTargetCamera.gameObject.SetActive(true);
@@ -140,7 +140,9 @@ namespace Managers
 		[ClientRpc]
 		public void RpcActivateEndScreenAndSetWinner(string winningPlayer)
 		{
-			indicatorController.enabled = false;
+			indicatorController.OffScreenIndicator.SetActive(false);
+			killedByText.gameObject.SetActive(false);
+			respawnText.gameObject.SetActive(false);
 			endScreen.SetActive(true);
 			winnerText.text = $"{winningPlayer} IS THE WINNER!";
 		}
