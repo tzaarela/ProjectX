@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Data.Containers.GlobalSignal;
@@ -48,8 +49,8 @@ namespace Managers
 					}
 				
 					//TEMP:
-					playerScores.Add("PlayerTemp_1", 0);
-					playerScores.Add("PlayerTemp_2", 10);
+					playerScores.Add("PlayerTemp_1", 10);
+					playerScores.Add("PlayerTemp_2", 40);
 					playerScores.Add("PlayerTemp_3", 0);
 					playerScores.Add("PlayerTemp_4", 20);
 				
@@ -112,14 +113,14 @@ namespace Managers
 			int index = 0;
 			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
 			{
-				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
-				index++;
-				
-				if (index == 0 && !kvp.Key.Equals(currentLeader))
+				if (index == 0 && !string.Equals(kvp.Key, currentLeader, StringComparison.OrdinalIgnoreCase))
 				{
 					currentLeader = kvp.Key;
 					ServiceLocator.HudManager.RpcActivateNewLeaderText();
 				}
+
+				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
+				index++;
 			}
 		}
 
