@@ -23,7 +23,8 @@ namespace Managers
 
 		private Coroutine scoreCounterRoutine;
 		
-		private string currentLeader = "JohnDoe";
+		private string currentLeader;
+		private int currentLeaderScore;
 
 		[Server]
 		public override void OnStartServer()
@@ -49,15 +50,17 @@ namespace Managers
 					}
 				
 					//TEMP:
-					playerScores.Add("PlayerTemp_1", 10);
-					playerScores.Add("PlayerTemp_2", 40);
-					playerScores.Add("PlayerTemp_3", 0);
-					playerScores.Add("PlayerTemp_4", 20);
-				
-					playerScores = SortedByAscendingKey(playerScores);
+					playerScores.Add("PlayerTemp_1", 0);
+					playerScores.Add("PlayerTemp_2", 150);
+					playerScores.Add("PlayerTemp_3", 50);
+					currentLeader = "PlayerTemp_2";
+					currentLeaderScore = 150;
+					//
+					
 					InitScores();
 					break;
 				}
+				
 				case GlobalEvent.END_GAMESTATE:
 					StopAllCoroutines();
 					ActivateEndScreenWithFinalResults();
@@ -94,7 +97,9 @@ namespace Managers
 		[Server]
 		private void UpdateScores(string player)
 		{
-			playerScores[player] += scoreToAdd;
+			int additionalScore = CheckAdditionalScore(playerScores[player]);
+			playerScores[player] += scoreToAdd + additionalScore;
+			// print("ScoreAdded: " + (scoreToAdd + additionalScore));
 
 			if (playerScores[player] >= scoreToWin)
 			{
@@ -103,6 +108,24 @@ namespace Managers
 			}
 			
 			UpdateScores();
+		}
+
+		[Server]
+		private int CheckAdditionalScore(int playerScore)
+		{
+			int scoreDifference = currentLeaderScore - playerScore;
+
+			if (scoreDifference < 0)
+			{
+				currentLeaderScore = playerScore;
+			}
+			else if (scoreDifference > 50)
+			{
+				int additionalScore = Mathf.Clamp((currentLeaderScore - playerScore) / 15, 1, 10);
+				return additionalScore;
+			}
+
+			return 0;
 		}
 
 		[Server]
@@ -127,6 +150,12 @@ namespace Managers
 		[Server]
 		private void InitScores()
 		{
+			playerScores = SortedByAscendingKey(playerScores);
+			
+			// TEMP:
+			playerScores = SortedByDescendingValue(playerScores);
+			//
+			
 			int index = 0;
 			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
 			{
