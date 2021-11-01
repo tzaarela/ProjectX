@@ -1,10 +1,7 @@
 ﻿using Data.Enums;
 using Mirror;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using _ProjectX.Scripts.Data.ScriptableObjects;
 using UnityEngine;
 
@@ -43,14 +40,40 @@ namespace Player
 			if (!isServer)
 				return;
 
-			//carSettings = GetComponent<CarSetup>().settings;
+			carSettings = GetComponent<CarSetup>().settings;
+			SetWheelColliders();
 			
-			defaultMaxMotorTorque = maxMotorTorque;
+			defaultMaxMotorTorque = carSettings.maxMotorTorque;
 			rb = GetComponent<Rigidbody>();
-			rb.centerOfMass = centerOfMassOffset;
+			rb.centerOfMass = carSettings.centerOfMassOffset;
 
 			CreateFrictionCurves();
 			SetNormalFriction();
+		}
+
+		private void SetWheelColliders()
+		{
+			foreach (CarAxle axle in axleInfos)
+			{
+				axle.leftWheel.mass = carSettings.wheelMass;
+				axle.rightWheel.mass = carSettings.wheelMass;
+				axle.leftWheel.radius = carSettings.wheelRadius;
+				axle.rightWheel.radius = carSettings.wheelRadius;
+				axle.leftWheel.wheelDampingRate = carSettings.wheelDampingRate;
+				axle.rightWheel.wheelDampingRate = carSettings.wheelDampingRate;
+				axle.leftWheel.suspensionDistance = carSettings.wheelSuspensionDistance;
+				axle.rightWheel.suspensionDistance = carSettings.wheelSuspensionDistance;
+				axle.leftWheel.forceAppPointDistance = carSettings.wheelForceAppPointDistance;
+				axle.rightWheel.forceAppPointDistance = carSettings.wheelForceAppPointDistance;
+
+				JointSpring suspensionSpring = new JointSpring();
+					suspensionSpring.spring = carSettings.wheelSuspensionSpring;
+					suspensionSpring.damper = carSettings.wheelSuspensionDamper;
+					suspensionSpring.targetPosition = carSettings.wheelSuspensionTargetPosition;
+
+				axle.leftWheel.suspensionSpring = suspensionSpring;
+				axle.rightWheel.suspensionSpring = suspensionSpring;
+			}
 		}
 
 		[Server]
@@ -63,7 +86,7 @@ namespace Player
 		[Server]
 		private void CreateHandbrakeFriction()
 		{
-			FrictionCurve frictionValueHandbrake = frictionCurves.FirstOrDefault(x => x.key == FrictionType.handbrake);
+			FrictionCurve frictionValueHandbrake = carSettings.frictionCurves.FirstOrDefault(x => x.key == FrictionType.handbrake);
 			sidewayFrictionCurveHandbrake = CreateSidewayFrictionCurve(frictionValueHandbrake);
 			forwardFrictionCurveHandbrake = CreateForwardFrictionCurve(frictionValueHandbrake);
 		}
@@ -71,7 +94,7 @@ namespace Player
 		[Server]
 		private void CreateNormalFriction()
 		{
-			FrictionCurve frictionValueNormal = frictionCurves.FirstOrDefault(x => x.key == FrictionType.normal);
+			FrictionCurve frictionValueNormal = carSettings.frictionCurves.FirstOrDefault(x => x.key == FrictionType.normal);
 			sidewayFrictionCurveNormal = CreateSidewayFrictionCurve(frictionValueNormal);
 			forwardFrictionCurveNormal = CreateForwardFrictionCurve(frictionValueNormal);
 		}
@@ -132,8 +155,8 @@ namespace Player
 						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveHandbrake;
 						axel.leftWheel.forwardFriction = forwardFrictionCurveHandbrake;
 						axel.rightWheel.forwardFriction = forwardFrictionCurveHandbrake;
-						axel.leftWheel.brakeTorque = brakeTorque;
-						axel.rightWheel.brakeTorque = brakeTorque;
+						axel.leftWheel.brakeTorque = carSettings.brakeTorque;
+						axel.rightWheel.brakeTorque = carSettings.brakeTorque;
 					}
 					else
 					{
@@ -182,8 +205,8 @@ namespace Player
 		[Command]
 		private void CmdDrive(float acceleration, float steer)
 		{
-			float motor = maxMotorTorque * acceleration;
-			float steering = maxSteeringAngle * steer;
+			float motor = carSettings.maxMotorTorque * acceleration;
+			float steering = carSettings.maxSteeringAngle * steer;
 
 			foreach (CarAxle axleInfo in axleInfos)
 			{
@@ -204,8 +227,8 @@ namespace Player
 					}
 					else
 					{
-						axleInfo.leftWheel.brakeTorque = decelerationForce;
-						axleInfo.rightWheel.brakeTorque = decelerationForce;
+						axleInfo.leftWheel.brakeTorque = carSettings.decelerationForce;
+						axleInfo.rightWheel.brakeTorque = carSettings.decelerationForce;
 					}
 				}
 
@@ -229,7 +252,7 @@ namespace Player
 			if (groundedR)
 				travelR = (-axleInfo.rightWheel.transform.InverseTransformPoint(hit.point).y - axleInfo.rightWheel.radius) / axleInfo.rightWheel.suspensionDistance;
 
-			float antiRollForce = (travelL - travelR) * antiRoll;
+			float antiRollForce = (travelL - travelR) * carSettings.antiRoll;
 
 			if (groundedL)
 				rb.AddForceAtPosition(axleInfo.leftWheel.transform.up * -antiRollForce,
@@ -269,7 +292,7 @@ namespace Player
 		{
 			if (turnOn)
 			{
-				maxMotorTorque = defaultMaxMotorTorque * boostMultiplier;
+				maxMotorTorque = defaultMaxMotorTorque * carSettings.boostMultiplier;
 			}
 			else
 			{
@@ -291,8 +314,11 @@ namespace Player
 
 		private void OnDrawGizmos()
 		{
+			if(carSettings == null)
+				return;
+			
 			Gizmos.color = Color.red;
-			Gizmos.DrawSphere(transform.position + transform.rotation * centerOfMassOffset, 0.05f);
+			Gizmos.DrawSphere(transform.position + transform.rotation * carSettings.centerOfMassOffset, 0.05f);
 		}
 	}
 }

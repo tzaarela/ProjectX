@@ -12,24 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b342128b4c7e4bba83ef12c6297a47ac, type: 3}
   m_Name: CarSettings
   m_EditorClassIdentifier: 
-  f_HasMotor: 0
-  f_HasSteering: 0
+  f_HasMotor: 1
+  f_HasSteering: 1
   f_HasHandbrake: 0
-  r_HasMotor: 0
+  r_HasMotor: 1
   r_HasSteering: 0
-  r_HasHandbrake: 0
+  r_HasHandbrake: 1
   frictionCurves: []
-  maxMotorTorque: 0
-  maxSteeringAngle: 0
-  brakeTorque: 0
-  decelerationForce: 0
-  boostMultiplier: 0
-  antiRoll: 0
-  centerOfMassOffset: {x: 0, y: 0, z: 0}
-  mass: 0
+  wheelMass: 80
+  wheelRadius: 0.37
+  wheelDampingRate: 0.0001
+  wheelSuspensionDistance: 0.3
+  wheelForceAppPointDistance: 0
+  wheelSuspensionSpring: 35000
+  wheelSuspensionDamper: 4500
+  wheelSuspensionTargetPosition: 0.5
+  maxMotorTorque: 700
+  maxSteeringAngle: 32
+  brakeTorque: 6000
+  decelerationForce: 2000
+  boostMultiplier: 2.5
+  antiRoll: 16000
+  centerOfMassOffset: {x: 0, y: 0.4, z: 1}
+  mass: 1300
   drag: 0
   angularDrag: 0
-  useGravity: 0
+  useGravity: 1
   isKinematic: 0
-  interpolateMode: 0
+  interpolateMode: 1
   collisionDetectionMode: 0
