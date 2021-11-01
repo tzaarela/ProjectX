@@ -43,7 +43,7 @@ namespace Player
 			if (!isServer)
 				return;
 
-			carSettings = GetComponent<CarSetup>().settings;
+			//carSettings = GetComponent<CarSetup>().settings;
 			
 			defaultMaxMotorTorque = maxMotorTorque;
 			rb = GetComponent<Rigidbody>();
