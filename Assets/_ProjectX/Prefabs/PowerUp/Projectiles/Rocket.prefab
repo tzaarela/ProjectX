@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5215735168201359799}
   m_Layer: 6
   m_Name: Rocket
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,6 +53,10 @@ MonoBehaviour:
   shootingStrength: 60
   aliveTime: 5
   trailerRenderer: {fileID: 7963119037639892381}
+  aoeLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  radius: 0
 --- !u!54 &-5622612303277816428
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -100,7 +104,7 @@ GameObject:
   - component: {fileID: 8784091193162380391}
   m_Layer: 6
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

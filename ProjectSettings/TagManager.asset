@@ -7,6 +7,7 @@ TagManager:
   - Hardpoint
   - FxTemporaire
   - Powerup
+  - Projectile
   layers:
   - Default
   - TransparentFX
