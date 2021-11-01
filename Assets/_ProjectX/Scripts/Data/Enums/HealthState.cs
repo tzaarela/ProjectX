@@ -5,6 +5,7 @@
 		Great,
 		Good,
 		Ok,
-		Bad
+		Bad,
+		Dead
 	}
 }

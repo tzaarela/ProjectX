@@ -63,20 +63,13 @@ namespace Player
 			print("PlayerDamaged CurrentHealth = " + newValue);
 			print("PlayerDamaged HealthState = " + GetHealthState(newValue));
 			
-			if (newValue <= 0)
-			{
-				print("Player Destroyed!");
-				isDead = true;
-				playerController.Death();
-				return;
-			}
-
 			if (currentState == GetHealthState(newValue))
 				return;
 
 			switch (GetHealthState(newValue))
 			{
 				case HealthState.Great:
+					isDead = false;
 					currentState = HealthState.Great;
 					smokeFX[0].SetActive(false);
 					smokeFX[1].SetActive(false);
@@ -100,6 +93,11 @@ namespace Player
 					smokeFX[2].SetActive(true);
 					//Major damage
 					break;
+				case HealthState.Dead:
+					currentState = HealthState.Dead;
+					isDead = true;
+					playerController.Death();
+					break;
 			}
 		}
 
@@ -118,15 +116,18 @@ namespace Player
 			{
 				return HealthState.Ok;
 			}
+			if (health > 0)
+			{
+				return HealthState.Bad;
+			}
 			
-			return HealthState.Bad;
+			return HealthState.Dead;
 		}
 
-		[Client]
+		[Server]
 		public void ResetCurrentHealth()
 		{
 			currentHealth = startingHealth;
-			isDead = false;
 		}
 	}
 }

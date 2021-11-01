@@ -191,21 +191,29 @@ namespace Player
 		[Command]
 		public void CmdRespawnPlayer()
 		{
+			health.ResetCurrentHealth();
 			RpcRespawnPlayer();
 		}
 		
 		[ClientRpc]
 		private void RpcRespawnPlayer()
 		{
-			health.ResetCurrentHealth();
 			deathSmoke.Stop();
 			colorChangingMesh.material.color = playerColor;
 			GetComponent<PlayerSound>().PlayEmitter();
+			FlipCar();
 			
 			if (!isLocalPlayer)
 				return;
 
 			inputManager.EnableInput();
+		}
+		
+		[Client]
+		private void FlipCar()
+		{
+			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+			transform.rotation = Quaternion.Euler(newRotation);
 		}
 
 		// TEMP!
@@ -236,8 +244,7 @@ namespace Player
 		[ClientRpc]
 		private void RpcFlipCar()
 		{
-			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-			transform.rotation = Quaternion.Euler(newRotation);
+			FlipCar();
 		}
 	}
 }
