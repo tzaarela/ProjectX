@@ -18,7 +18,33 @@ MonoBehaviour:
   r_HasMotor: 1
   r_HasSteering: 0
   r_HasHandbrake: 1
-  frictionCurves: []
+  frictionCurves:
+  - key: 0
+    sidewayFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.35
+    forwardFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.35
+  - key: 1
+    sidewayFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.16
+    forwardFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.16
   wheelMass: 80
   wheelRadius: 0.37
   wheelDampingRate: 0.0001
