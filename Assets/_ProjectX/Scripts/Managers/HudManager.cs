@@ -8,6 +8,7 @@ using Player;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -20,6 +21,9 @@ namespace Managers
 		[SerializeField] private GameObject newLeaderText;
 		[SerializeField] private TMP_Text killedByText;
 		[SerializeField] private TMP_Text respawnText;
+		[SerializeField] private Texture[] powerUpTextures;
+		[SerializeField] private RawImage powerUpImage;
+		[SerializeField] private TMP_Text ammoText;
 		[SerializeField] private GameObject endScreen;
 		[SerializeField] private TMP_Text winnerText;
 		[SerializeField] private GameObject rematchButton;
@@ -35,14 +39,14 @@ namespace Managers
 		{
 			indicatorController = GetComponent<IndicatorController>();
 			resultsController = GetComponent<ResultsController>();
+			
+			print("HudManager provided to ServiceLocator");
+			ServiceLocator.ProvideHudManager(this);
 		}
 
 		[Server]
 		public override void OnStartServer()
 		{
-			print("HudManager provided to ServiceLocator");
-			ServiceLocator.ProvideHudManager(this);
-			
 			GlobalMediator.Instance.Subscribe(this);
 		}
 
@@ -94,6 +98,26 @@ namespace Managers
 		public void RpcActivateNewLeaderText()
 		{
 			newLeaderText.SetActive(true);
+		}
+
+		[Client]
+		public void ActivatePowerupUi(int powerIndex, int startingAmmo)
+		{
+			powerUpImage.gameObject.SetActive(true);
+			powerUpImage.texture = powerUpTextures[powerIndex];
+			ammoText.text = startingAmmo.ToString();
+		}
+		
+		[Client]
+		public void DeactivatePowerupUi()
+		{
+			powerUpImage.gameObject.SetActive(false);
+		}
+
+		[TargetRpc]
+		public void TargetUpdateAmmoUi(NetworkConnection conn, int currentAmmo)
+		{
+			ammoText.text = currentAmmo.ToString();
 		}
 
 		[TargetRpc]
@@ -156,9 +180,7 @@ namespace Managers
 		[ServerCallback]
 		private void OnDestroy()
 		{
-			// print("HudManager OnDestroy");
 			GlobalMediator.Instance.UnSubscribe(this);
-			ServiceLocator.ProvideHudManager(null);
 		}
 		
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)

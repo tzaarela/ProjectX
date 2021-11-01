@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using Player;
 using UnityEngine;
 
 namespace Powerup.Powerups
@@ -13,10 +14,14 @@ namespace Powerup.Powerups
 		[SerializeField]protected float fireCooldown;
 		private float nextFire = 0f;
 
+		protected PlayerController playerController;
+		
 		protected List<Transform> hardpoints = new List<Transform>();
 		
 		protected virtual void Start()
 		{
+			playerController = GetComponentInParent<PlayerController>();
+			
 			foreach (Transform hardpoint in transform)
 			{
 				if (hardpoint.CompareTag("Hardpoint"))

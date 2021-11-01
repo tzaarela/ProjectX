@@ -1,5 +1,6 @@
 ﻿using Data.Enums;
 using Managers;
+using Mirror;
 using PowerUp.Projectiles;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Powerup.Powerups
 		protected override void Start()
 		{
 			base.Start();
-			
+
 			forwardSpawnOffset = 0.0f;
 			heightSpawnOffset = -0.5f;
 			fireCooldown = 0.2f;
@@ -21,6 +22,7 @@ namespace Powerup.Powerups
 			ammo = 40;
 		}
 
+		[Server]
 		protected override void Execute(int netID)
 		{
 			base.Execute(netID);
@@ -41,6 +43,8 @@ namespace Powerup.Powerups
 					bullet.SetupProjectile(direction, netID);
 
 					ammo--;
+					
+					ServiceLocator.HudManager.TargetUpdateAmmoUi(playerController.connectionToClient, ammo);
 				}
 			}
 		}

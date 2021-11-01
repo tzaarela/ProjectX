@@ -1,5 +1,6 @@
 ﻿using Data.Enums;
 using System.Collections.Generic;
+using Managers;
 using Mirror;
 using Powerup.Powerups;
 using UnityEngine;
@@ -70,7 +71,7 @@ namespace Player
 
 			if (newPowerupType != PowerupType.NONE)
 			{
-				RpcActivateObject((int)newPowerupType);
+				RpcActivateObject((int)currentPowerupType);
 			}
 		}
 
@@ -78,12 +79,23 @@ namespace Player
 		private void RpcActivateObject(int powerIndex)
 		{
 			powerups[powerIndex].gameObject.SetActive(true);
+			
+			if (!isLocalPlayer)
+				return;
+			
+			int startingAmmo = powerups[powerIndex].gameObject.GetComponent<PowerupBase>().GetAmmo();
+			ServiceLocator.HudManager.ActivatePowerupUi(powerIndex, startingAmmo);
 		}
 		
 		[ClientRpc]
 		private void RpcDeactivateObject(int powerIndex)
 		{
 			powerups[powerIndex].gameObject.SetActive(false);
+			
+			if (!isLocalPlayer)
+				return;
+			
+			ServiceLocator.HudManager.DeactivatePowerupUi();
 		}
 
 		[Server]
