@@ -26,7 +26,7 @@ MonoBehaviour:
   boostMultiplier: 0
   antiRoll: 0
   centerOfMassOffset: {x: 0, y: 0, z: 0}
-  mass: 0
+  mass: 1300
   drag: 0
   angularDrag: 0
   useGravity: 0

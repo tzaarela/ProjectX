@@ -241,33 +241,33 @@ MonoBehaviour:
       extremumValue: 10
       asymptoteSlip: 0.5
       asymptoteValue: 8
-      stiffness: 0.25
+      stiffness: 0.35
     forwardFriction:
       extremumSlip: 0.1
       extremumValue: 10
       asymptoteSlip: 0.5
       asymptoteValue: 8
-      stiffness: 0.25
+      stiffness: 0.35
   - key: 1
     sidewayFriction:
       extremumSlip: 0.1
       extremumValue: 10
       asymptoteSlip: 0.5
       asymptoteValue: 8
-      stiffness: 0.1
+      stiffness: 0.16
     forwardFriction:
       extremumSlip: 0.1
       extremumValue: 10
       asymptoteSlip: 0.5
       asymptoteValue: 8
-      stiffness: 0.1
-  maxMotorTorque: 700
-  maxSteeringAngle: 32
-  brakeTorque: 6000
-  decelerationForce: 2000
-  boostMultiplier: 2.5
-  antiRoll: 16000
-  centerOfMassOffset: {x: 0, y: 0.4, z: 1}
+      stiffness: 0.16
+  maxMotorTorque: 1100
+  maxSteeringAngle: 31
+  brakeTorque: 12000
+  decelerationForce: 1000
+  boostMultiplier: 1.4
+  antiRoll: 12000
+  centerOfMassOffset: {x: 0, y: 0.32, z: 0.99}
   boostParticle: {fileID: 5555175912627414117}
 --- !u!114 &6781728122339915790
 MonoBehaviour:
@@ -1438,6 +1438,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2307898, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2d4d2ed696e5ade49ae50d4e19151de5, type: 2}
     - target: {fileID: 2383878, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1460,7 +1464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 3633846306269269500, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -1496,7 +1500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 4362084809932831220, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -1532,7 +1536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 5102015436666052447, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -1564,7 +1568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForceAppPointDistance
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 8372681075209126410, guid: edf6cb56e12fba648b2cf1e7dfa5bf88, type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
