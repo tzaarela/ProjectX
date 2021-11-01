@@ -1,10 +1,11 @@
 using System;
+using Data.Interfaces;
 using Managers;
 using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(NetworkIdentity))]
-public class DestructionObject : MonoBehaviour
+public class DestructionObject : MonoBehaviour, IReceiveAOE
 {
 	private Rigidbody rb;
 
@@ -55,5 +56,10 @@ public class DestructionObject : MonoBehaviour
 			
 			DestructionManager.Instance.PlayerDestructObject(gameObject);
 		}
+	}
+
+	public void ReceiveAOE(Vector3 direction, float distance)
+	{
+		DestructionManager.Instance.DestructObject(gameObject, direction * (distance * 10));
 	}
 }

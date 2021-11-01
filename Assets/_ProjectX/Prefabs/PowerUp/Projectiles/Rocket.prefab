@@ -55,8 +55,8 @@ MonoBehaviour:
   trailerRenderer: {fileID: 7963119037639892381}
   aoeLayerMask:
     serializedVersion: 2
-    m_Bits: 0
-  radius: 0
+    m_Bits: 4294967295
+  radius: 5
 --- !u!54 &-5622612303277816428
 Rigidbody:
   m_ObjectHideFlags: 0
