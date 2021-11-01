@@ -1,13 +1,20 @@
-﻿using Data.Enums;
+﻿using System;
+using System.Collections.Generic;
+using Data.Enums;
+using Data.Interfaces;
 using Managers;
 using Player;
 using UnityEngine;
+using Utilites;
 
 namespace PowerUp.Projectiles
 {
 	public class Rocket : ProjectileBase
 	{
 		public TrailRenderer trailerRenderer;
+		
+		[SerializeField] LayerMask aoeLayerMask;
+		[SerializeField] float radius;
 
 		protected override void Start()
 		{
@@ -63,10 +70,35 @@ namespace PowerUp.Projectiles
 				return;
 			}
 
+			AreaEffectExplosion(other);
+			
 			FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/Explosion", Camera.main.transform.position);
 			
 			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
+		}
+
+		private void AreaEffectExplosion(Collision other)
+		{
+			Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, aoeLayerMask);
+			
+			foreach (Collider coll in hitColliders)
+			{
+				if (coll.GetComponent<DestructionObject>())
+				{
+					Vector3 position = transform.position;
+					Vector3 collPosition = coll.transform.position;
+					Vector3 dir = (collPosition - position).normalized;
+					
+					coll.GetComponent<DestructionObject>().ReceiveAOE(dir, Vector3.Distance(position, collPosition));
+				}
+			}
+		}
+
+		private void OnDrawGizmos()
+		{
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawSphere(transform.position, radius);
 		}
 	}
 }
