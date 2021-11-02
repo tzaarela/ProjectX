@@ -150,6 +150,7 @@ MonoBehaviour:
   powerupTypeMaterials:
   - {fileID: 2100000, guid: 5b90544d322413e49afd67ee18ec4542, type: 2}
   - {fileID: 2100000, guid: 02bf1c01c75895a4791bd8130ebddff1, type: 2}
+  - {fileID: 2100000, guid: 932d660eb5758834bae0e21d3f0e24b2, type: 2}
   disableTimestamp: 0
 --- !u!114 &778435379292439055
 MonoBehaviour:

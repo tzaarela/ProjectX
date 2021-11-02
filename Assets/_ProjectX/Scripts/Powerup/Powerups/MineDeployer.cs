@@ -1,5 +1,6 @@
 ﻿using Data.Enums;
 using Managers;
+using Powerup.Projectiles;
 using PowerUp.Projectiles;
 using UnityEngine;
 
@@ -9,18 +10,15 @@ namespace Powerup.Powerups
 	{
 		private void OnEnable()
 		{
-			ammo = 30;
+			ammo = 2;
 		}
 
 		protected override void Execute(int netID)
 		{
 			foreach (Transform hardpoint in hardpoints)
 			{
-				Vector3 direction = hardpoint.forward;
-				
-				Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Bullet).GetComponent<Bullet>();
-				bullet.transform.position = hardpoint.position + direction * 0.5f;
-				bullet.SetupProjectile(direction, netID);
+				Mine mine = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Mine).GetComponent<Mine>();
+				mine.transform.position = hardpoint.position;
 			}
 		}
 	}

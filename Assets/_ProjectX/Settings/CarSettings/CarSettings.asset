@@ -56,7 +56,7 @@ MonoBehaviour:
   maxMotorTorque: 1100
   maxSteeringAngle: 35
   brakeTorque: 12000
-  decelerationForce: 1000
+  decelerationForce: 1500
   boostMultiplier: 2
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
