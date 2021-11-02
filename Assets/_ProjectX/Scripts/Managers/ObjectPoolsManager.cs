@@ -4,7 +4,6 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
-using PowerUp.Projectiles;
 using UnityEngine;
 
 namespace Managers
@@ -83,9 +82,9 @@ namespace Managers
 			Debug.LogError(poolType + "-Pool was empty and couldn't find Pool to instantiate from!");
 			return null;
 		}
-		
+
 		[Server]
-		public GameObject SpawnProjectileFromPool(ObjectPoolType poolType, Vector3 position, Quaternion rotation, int spawnedByID)
+		public GameObject SpawnFromPoolWithNetId(ObjectPoolType poolType, Vector3 position, Quaternion rotation, int spawnedByID)
 		{
 			if (poolDictionary[poolType].Count > 0)
 			{
@@ -93,7 +92,7 @@ namespace Managers
 				objFromPool.transform.position = position;
 				objFromPool.transform.rotation = rotation;
 				objFromPool.SetActive(true);
-				RpcActivateProjectileObject(objFromPool, position, rotation.eulerAngles, spawnedByID);
+				RpcActivateNetIdObject(objFromPool, position, rotation.eulerAngles, spawnedByID);
 				return objFromPool;
 			}
 			
@@ -132,9 +131,9 @@ namespace Managers
 		}
 		
 		[ClientRpc]
-		private void RpcActivateProjectileObject(GameObject obj, Vector3 position, Vector3 eulerAngles, int spawnedByID)
+		private void RpcActivateNetIdObject(GameObject obj, Vector3 position, Vector3 eulerAngles, int spawnedByID)
 		{
-			obj.GetComponent<ProjectileBase>().SetSpawnedBy(spawnedByID);
+			obj.GetComponent<ISpawnedByID>().SetSpawnedBy(spawnedByID);
 			obj.transform.position = position;
 			obj.transform.eulerAngles = eulerAngles;
 			obj.SetActive(true);
