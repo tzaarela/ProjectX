@@ -99,6 +99,7 @@ namespace Managers
 		[Server]
 		private void UpdateScores(string player)
 		{
+			int previousScore = playerScores[player];
 			int additionalScore = CheckAdditionalScore(playerScores[player]);
 			playerScores[player] += scoreToAdd + additionalScore;
 			// print("ScoreAdded: " + (scoreToAdd + additionalScore));
@@ -110,7 +111,7 @@ namespace Managers
 				return;
 			}
 			
-			UpdateScores();
+			UpdateScores(player, previousScore);
 		}
 
 		[Server]
@@ -132,11 +133,12 @@ namespace Managers
 		}
 
 		[Server]
-		private void UpdateScores()
+		private void UpdateScores(string scoringPlayer, int previousScore)
 		{
 			playerScores = SortedByDescendingValue(playerScores);
 			
 			int index = 0;
+			
 			foreach (KeyValuePair<string, int> kvp in playerScores.Where(kvp => index <= 2))
 			{
 				if (index == 0 && !string.Equals(kvp.Key, currentLeader, StringComparison.OrdinalIgnoreCase))
@@ -144,8 +146,16 @@ namespace Managers
 					currentLeader = kvp.Key;
 					ServiceLocator.HudManager.RpcActivateNewLeaderText();
 				}
-
-				ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);
+				
+				if (string.Equals(kvp.Key, scoringPlayer, StringComparison.OrdinalIgnoreCase))
+				{
+					ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, kvp.Value, previousScore, scoreRate);		
+				}
+				else
+				{
+					ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);					
+				}
+				
 				index++;
 			}
 		}

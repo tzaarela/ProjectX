@@ -96,6 +96,30 @@ namespace Managers
 			playerTexts[index].text = player;
 			scoreTexts[index].text = score.ToString();
 		}
+		
+		[ClientRpc]
+		public void RpcUpdateScoringPlayerScore(int index, string player, int score, int previousScore, float scoreRate)
+		{
+			playerTexts[index].text = player;
+			// scoreTexts[index].text = score.ToString();
+			StartCoroutine(ScoreCounterRoutine(index, previousScore, score, scoreRate));
+		}
+
+		[Client]
+		private IEnumerator ScoreCounterRoutine(int index, int previousScore, int newScore, float scoreRate)
+		{
+			print("Starting!");
+			int scoreToDisplay = previousScore;
+			int scoreDifference = newScore - previousScore;
+			
+			while (scoreToDisplay < newScore)
+			{
+				scoreToDisplay++;
+				scoreTexts[index].text = scoreToDisplay.ToString();
+				yield return new WaitForSeconds(scoreRate / scoreDifference);
+			}
+			print("Finished!");
+		}
 
 		[ClientRpc]
 		public void RpcActivateNewLeaderText()
