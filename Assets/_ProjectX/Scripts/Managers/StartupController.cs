@@ -20,7 +20,7 @@ namespace Managers
 
 		[Header("UI References")]
 		[SerializeField] private TMPro.TMP_Dropdown dropdownConnection;
-		[SerializeField] private TMPro.TextMeshProUGUI connectionInputText;
+		[SerializeField] private TMPro.TMP_InputField connectionInputField;
 		[SerializeField] private TMPro.TextMeshProUGUI connectionPlaceholderText;
 		[SerializeField] private TMPro.TextMeshProUGUI statusText;
 
@@ -70,7 +70,7 @@ namespace Managers
 
 		public void SetConnectionString()
 		{
-			roomManager.networkAddress = connectionInputText.text;
+			roomManager.networkAddress = connectionInputField.text;
 		}
 
 		public void HostGame()

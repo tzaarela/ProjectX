@@ -163,6 +163,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1162974925}
     - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
+      propertyPath: connectionInputField
+      value: 
+      objectReference: {fileID: 1944714401}
+    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
       propertyPath: connectionPlaceholderText
       value: 
       objectReference: {fileID: 120789882}
@@ -1924,6 +1928,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1944714401 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 167782727037145006, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
+  m_PrefabInstance: {fileID: 9096187230305675250}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2061261824
 GameObject:
   m_ObjectHideFlags: 0

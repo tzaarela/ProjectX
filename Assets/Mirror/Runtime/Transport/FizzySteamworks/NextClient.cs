@@ -60,7 +60,14 @@ namespace Mirror.FizzySteam
 
       try
       {
-        hostSteamID = new CSteamID(UInt64.Parse(host));
+        Debug.Log(host.Length);
+        ulong hostLong;
+        if (UInt64.TryParse(host, out hostLong))
+        {
+            hostSteamID = new CSteamID(hostLong);
+        }
+
+                //hostSteamID = new CSteamID(UInt64.Parse(host));
         connectedComplete = new TaskCompletionSource<Task>();
         OnConnected += SetConnectedComplete;
 
@@ -90,7 +97,7 @@ namespace Mirror.FizzySteam
 
         OnConnected -= SetConnectedComplete;
       }
-      catch (FormatException)
+      catch (FormatException ex)
       {
         Debug.LogError($"Connection string was not in the right format. Did you enter a SteamId?");
         Error = true;
