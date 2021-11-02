@@ -14,8 +14,9 @@ namespace Game.Explosions
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			
-			ProcessAOE();
+
+			if (isServer)
+				ProcessAOE();
 		}
 	}
 }
