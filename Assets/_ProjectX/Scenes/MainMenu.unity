@@ -123,102 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &18858754
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: statusText
-      value: 
-      objectReference: {fileID: 1473281422}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: roomManager
-      value: 
-      objectReference: {fileID: 735993436}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: kcpTransport
-      value: 
-      objectReference: {fileID: 735993435}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: fizzySteamworks
-      value: 
-      objectReference: {fileID: 735993434}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: dropdownConnection
-      value: 
-      objectReference: {fileID: 603827782}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: connectionInputField
-      value: 
-      objectReference: {fileID: 1944714401}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: connectionPlaceholderText
-      value: 
-      objectReference: {fileID: 120789882}
-    - target: {fileID: 2061408890175752595, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_Name
-      value: StartupController
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
---- !u!114 &18858755 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-  m_PrefabInstance: {fileID: 18858754}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cafb027302c7b304898eb7c952410d83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &120789882 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5203233472874084724, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
@@ -552,7 +456,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 18858755}
+      - m_Target: {fileID: 2061408890160794256}
         m_TargetAssemblyTypeName: Managers.StartupController, Assembly-CSharp
         m_MethodName: SetConnectionMode
         m_Mode: 1
@@ -2256,7 +2160,7 @@ PrefabInstance:
     - target: {fileID: 3834747363876129077, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 18858755}
+      objectReference: {fileID: 2061408890160794256}
     - target: {fileID: 5021214253123815532, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
       propertyPath: m_text
       value: Join Game
@@ -2308,6 +2212,56 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1448314820016061254, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
   m_PrefabInstance: {fileID: 846021309461199152}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2061408890160794256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061408890160794257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cafb027302c7b304898eb7c952410d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomManager: {fileID: 735993436}
+  fizzySteamworks: {fileID: 735993434}
+  kcpTransport: {fileID: 735993435}
+  dropdownConnection: {fileID: 603827782}
+  connectionInputField: {fileID: 1944714401}
+  connectionPlaceholderText: {fileID: 120789882}
+  statusText: {fileID: 1473281422}
+--- !u!1 &2061408890160794257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2061408890160794263}
+  - component: {fileID: 2061408890160794256}
+  m_Layer: 0
+  m_Name: StartupController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2061408890160794263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061408890160794257}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7578142391857978389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2402,7 +2356,7 @@ PrefabInstance:
     - target: {fileID: 3834747363876129077, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 18858755}
+      objectReference: {fileID: 2061408890160794256}
     - target: {fileID: 3834747363876129077, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: HostGame
@@ -2472,7 +2426,7 @@ PrefabInstance:
     - target: {fileID: 167782727037145006, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 18858755}
+      objectReference: {fileID: 2061408890160794256}
     - target: {fileID: 167782727037145006, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
