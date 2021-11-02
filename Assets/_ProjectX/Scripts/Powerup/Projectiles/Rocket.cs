@@ -13,12 +13,11 @@ namespace PowerUp.Projectiles
 	{
 		public TrailRenderer trailerRenderer;
 		
-		[SerializeField] LayerMask aoeLayerMask;
-		[SerializeField] float radius;
-
 		protected override void Start()
 		{
 			base.Start();
+
+			diretDamage = 50;
 
 			currentPoolType = ObjectPoolType.Rocket;
 		}
@@ -46,9 +45,8 @@ namespace PowerUp.Projectiles
 			{
 				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
 				{
-					Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
-					//Instantiate(debugSphere, transform.position, quaternion.identity);
-					FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg", Camera.main.transform.position);
+					Debug.Log("ROCKET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
+					ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.RocketExplosion, transform.position, Quaternion.identity, spawnedByNetId);
 				}
 			}
 			
@@ -62,43 +60,18 @@ namespace PowerUp.Projectiles
 				if(spawnedByNetId == (int)playerController.netId)
 					return;
 				
-				other.gameObject.GetComponent<Health>().ReceiveDamage(50, spawnedByNetId);
+				other.gameObject.GetComponent<Health>().ReceiveDamage(diretDamage, spawnedByNetId);
 				
 				allowCollision = false;
 				ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
 
 				return;
 			}
+			
+			ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.RocketExplosion, transform.position, Quaternion.identity, spawnedByNetId);
 
-			AreaEffectExplosion(other);
-			
-			FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/Explosion", Camera.main.transform.position);
-			
 			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
-		}
-
-		private void AreaEffectExplosion(Collision other)
-		{
-			Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius, aoeLayerMask);
-			
-			foreach (Collider coll in hitColliders)
-			{
-				if (coll.GetComponent<DestructionObject>())
-				{
-					Vector3 position = transform.position;
-					Vector3 collPosition = coll.transform.position;
-					Vector3 dir = (collPosition - position).normalized;
-					
-					coll.GetComponent<DestructionObject>().ReceiveAOE(dir, Vector3.Distance(position, collPosition));
-				}
-			}
-		}
-
-		private void OnDrawGizmos()
-		{
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawSphere(transform.position, radius);
 		}
 	}
 }

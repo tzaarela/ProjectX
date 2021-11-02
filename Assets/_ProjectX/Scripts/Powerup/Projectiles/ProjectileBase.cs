@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Collections;
 using Data.Enums;
+using Data.Interfaces;
 using UnityEngine;
 using Managers;
 using Mirror;
 
 namespace PowerUp.Projectiles
 {
-	public abstract class ProjectileBase : NetworkBehaviour
+	public abstract class ProjectileBase : NetworkBehaviour, ISpawnedByID
 	{
 		private FMODUnity.StudioEventEmitter emitter;
 		
-		[SerializeField] protected float damage = 1f;
+		[SerializeField] protected int diretDamage = 1;
 		[SerializeField] protected float shootingStrength = 100f;
 		[SerializeField] protected float aliveTime = 2f;
 		protected int spawnedByNetId;
 		protected ObjectPoolType currentPoolType;
 		protected bool allowCollision;
-		
-		public int SpawnedByNetId
-		{
-			get { return spawnedByNetId; }
-		}
-		
 		
 		protected Rigidbody rb;
 
@@ -54,7 +49,12 @@ namespace PowerUp.Projectiles
 		{
 			spawnedByNetId = netID;
 		}
-		
+
+		public int GetSpawnedBy()
+		{
+			return spawnedByNetId;
+		}
+
 		[Server]
 		public virtual void SetupProjectile(Vector3 dir, int netID)
 		{

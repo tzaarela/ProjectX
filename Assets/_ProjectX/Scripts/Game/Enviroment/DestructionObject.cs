@@ -5,7 +5,7 @@ using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(NetworkIdentity))]
-public class DestructionObject : MonoBehaviour, IReceiveAOE
+public class DestructionObject : MonoBehaviour, IReceiveDamageAOE
 {
 	private Rigidbody rb;
 
@@ -58,7 +58,7 @@ public class DestructionObject : MonoBehaviour, IReceiveAOE
 		}
 	}
 
-	public void ReceiveAOE(Vector3 direction, float distance)
+	public void ReceiveDamageAOE(Vector3 direction, float distance, int damage)
 	{
 		DestructionManager.Instance.DestructObject(gameObject, direction * (distance * 10));
 	}

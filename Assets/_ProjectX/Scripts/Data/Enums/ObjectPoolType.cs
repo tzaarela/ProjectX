@@ -4,5 +4,7 @@
 	{
 		Bullet,
 		Rocket,
+		
+		RocketExplosion,
 	}
 }
