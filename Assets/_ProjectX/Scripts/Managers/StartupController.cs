@@ -51,7 +51,7 @@ namespace Managers
 						connectionPlaceholderText.text = "Enter ip...";
 						fizzySteamworks.gameObject.GetComponent<FizzySteamworks>().enabled = false;
 						kcpTransport.gameObject.GetComponent<KcpTransport>().enabled = true;
-						roomManager.transport = kcpTransport;
+						Transport.activeTransport = kcpTransport;
 						roomManager.gameObject.SetActive(true);
 						break;
 					}
@@ -61,7 +61,7 @@ namespace Managers
 						connectionPlaceholderText.text = "Enter steamId...";
 						kcpTransport.gameObject.GetComponent<KcpTransport>().enabled = false;
 						fizzySteamworks.gameObject.GetComponent<FizzySteamworks>().enabled = true;
-						roomManager.transport = fizzySteamworks;
+						Transport.activeTransport = fizzySteamworks;
 						roomManager.gameObject.SetActive(true);
 						break;
 					}
