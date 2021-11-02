@@ -5656,6 +5656,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VirtualCamera_Game
       objectReference: {fileID: 0}
+    - target: {fileID: 4793371393620218358, guid: 123490e065e69fb44af82870d7743945, type: 3}
+      propertyPath: velocityZoomMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5870251859927098626, guid: 123490e065e69fb44af82870d7743945, type: 3}
       propertyPath: m_Priority
       value: 10

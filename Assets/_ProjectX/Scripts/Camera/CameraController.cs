@@ -10,10 +10,14 @@ namespace Cameras
 {
     public class CameraController : MonoBehaviour, IReceiveGlobalSignal
     {
+        [SerializeField] private float velocityZoomMultiplier = 1;
+        [SerializeField] private float maxZoomOutDistance = 60f;
+        [SerializeField] private float minZoomInDistance = 40f;
+
         private CinemachineVirtualCamera virtualCamera;
         private PlayerController playerController;
 
-        private void Awake()
+		private void Awake()
         {
             GlobalMediator.Instance.Subscribe(this);
             virtualCamera = GetComponent<CinemachineVirtualCamera>();
@@ -24,8 +28,9 @@ namespace Cameras
 			if (playerController != null)
 			{
                 float localForwardVelocity = Vector3.Dot(playerController.rb.velocity, playerController.transform.forward);
-				print(localForwardVelocity);
-                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Clamp(localForwardVelocity, 40, 60);
+
+                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = 
+                    Mathf.Clamp(localForwardVelocity * velocityZoomMultiplier, minZoomInDistance, maxZoomOutDistance);
 			}
 		}
 
