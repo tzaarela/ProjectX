@@ -1,8 +1,11 @@
-﻿using Data.Enums;
+﻿using System.Collections;
+using Data.Enums;
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
 using _ProjectX.Scripts.Data.ScriptableObjects;
+using Managers;
+using UnityEditor;
 using UnityEngine;
 
 namespace Player
@@ -28,12 +31,17 @@ namespace Player
 		private SO_CarSettings carSettings;
 		private Rigidbody rb;
 
+		private float remainingBoost;
+		private Coroutine boostCounterRoutine;
+
 		private void Start()
 		{
 			if (!isServer)
 				return;
 
 			carSettings = GetComponent<CarSetup>().settings;
+			remainingBoost = carSettings.boostMaxTime;
+
 			SetWheelColliders();
 			
 			defaultMaxMotorTorque = carSettings.maxMotorTorque;
@@ -266,7 +274,7 @@ namespace Player
 				Boost(false);
 				return;
 			}
-
+			
 			Boost(true);
 		}
 
@@ -285,6 +293,12 @@ namespace Player
 		[Command]
 		private void CmdBoost(bool turnOn)
 		{
+			if (boostCounterRoutine != null)
+			{
+				StopCoroutine(boostCounterRoutine);
+			}
+			boostCounterRoutine = StartCoroutine(BoostRoutine(turnOn));
+			
 			if (turnOn)
 			{
 				maxMotorTorque = defaultMaxMotorTorque * carSettings.boostMultiplier;
@@ -301,10 +315,7 @@ namespace Player
 		private void RpcToggleParticle(bool turnOn)
 		{
 			ParticleSystem.EmissionModule em = boostParticle.emission;
-			if (turnOn)
-				em.enabled = true;
-			else
-				em.enabled = false;
+			em.enabled = turnOn;
 		}
 
 		private void OnDrawGizmos()
@@ -314,6 +325,32 @@ namespace Player
 			
 			Gizmos.color = Color.red;
 			Gizmos.DrawSphere(transform.position + transform.rotation * carSettings.centerOfMassOffset, 0.05f);
+		}
+
+		[Server]
+		private IEnumerator BoostRoutine(bool turnOn)
+		{
+			if (turnOn)
+			{
+				while (remainingBoost > 0)
+				{
+					remainingBoost -= Time.deltaTime;
+					ServiceLocator.HudManager.TargetUpdateBoostBar(connectionToClient, remainingBoost / carSettings.boostMaxTime);
+					yield return null;
+				}
+				boostCounterRoutine = null;
+				Boost(false);
+			}
+			else
+			{
+				while (remainingBoost < carSettings.boostMaxTime)
+				{
+					remainingBoost += Time.deltaTime * carSettings.boostRecoveryRatePerSecond;
+					ServiceLocator.HudManager.TargetUpdateBoostBar(connectionToClient, remainingBoost / carSettings.boostMaxTime);
+					yield return null;
+				}
+				boostCounterRoutine = null;
+			}
 		}
 	}
 }

@@ -41,8 +41,7 @@ namespace Managers
 		public void SetConnectionMode()
 		{
 			this.connectionType = (ConnectionType)dropdownConnection.value;
-		
-
+			
 			switch (connectionType)
 			{
 				case ConnectionType.IP:

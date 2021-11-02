@@ -25,6 +25,7 @@ namespace Managers
 		[SerializeField] private Texture[] powerUpTextures;
 		[SerializeField] private RawImage powerUpImage;
 		[SerializeField] private TMP_Text ammoText;
+		[SerializeField] private Image boostBar;
 		[SerializeField] private GameObject endScreen;
 		[SerializeField] private TMP_Text winnerText;
 		[SerializeField] private GameObject rematchButton;
@@ -40,6 +41,7 @@ namespace Managers
 		{
 			indicatorController = GetComponent<IndicatorController>();
 			resultsController = GetComponent<ResultsController>();
+			boostBar.fillAmount = 1f;
 			
 			print("HudManager provided to ServiceLocator");
 			ServiceLocator.ProvideHudManager(this);
@@ -119,6 +121,12 @@ namespace Managers
 		public void TargetUpdateAmmoUi(NetworkConnection conn, int currentAmmo)
 		{
 			ammoText.text = currentAmmo.ToString();
+		}
+
+		[TargetRpc]
+		public void TargetUpdateBoostBar(NetworkConnection conn, float percent)
+		{
+			boostBar.fillAmount = percent;
 		}
 
 		[TargetRpc]

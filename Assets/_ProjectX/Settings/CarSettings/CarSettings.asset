@@ -58,6 +58,8 @@ MonoBehaviour:
   brakeTorque: 12000
   decelerationForce: 1000
   boostMultiplier: 2
+  boostMaxTime: 2
+  boostRecoveryRatePerSecond: 0.5
   antiRoll: 12000
   centerOfMassOffset: {x: 0, y: 0.32, z: 1}
   mass: 1300

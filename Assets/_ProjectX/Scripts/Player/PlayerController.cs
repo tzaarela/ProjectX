@@ -56,6 +56,7 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
+			rb = GetComponent<Rigidbody>();
 			localPlayer = true;
 			playerNameText.gameObject.SetActive(false);
 			playerId = (int)GetComponent<NetworkIdentity>().netId;

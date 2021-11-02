@@ -36,6 +36,8 @@ namespace _ProjectX.Scripts.Data.ScriptableObjects
 		public float brakeTorque = 6000;
 		public float decelerationForce = 2000;
 		public float boostMultiplier = 2.5f;
+		public float boostMaxTime = 2f;
+		public float boostRecoveryRatePerSecond = 1f;
 		public float antiRoll = 16000;
 		public Vector3 centerOfMassOffset = new Vector3(0,0.4f,1);
 

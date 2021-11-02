@@ -103,6 +103,7 @@ namespace Managers
 
 			if (playerScores[player] >= scoreToWin)
 			{
+				playerScores[player] = scoreToWin;
 				ServiceLocator.RoundManager.EndOfGame();
 				return;
 			}
