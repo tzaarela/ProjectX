@@ -4685,7 +4685,7 @@ MonoBehaviour:
   powerUpTextures:
   - {fileID: 2800000, guid: a1ec1a4951a3c9c4e8b7b3fde8b4eaee, type: 3}
   - {fileID: 2800000, guid: 5f1ea67927e454b4db23a7b9e1d649e8, type: 3}
-  - {fileID: 2800000, guid: 5f1ea67927e454b4db23a7b9e1d649e8, type: 3}
+  - {fileID: 2800000, guid: b31115450e34142458110c4c0921e7d6, type: 3}
   powerUpImage: {fileID: 324278329634458946}
   ammoText: {fileID: 206232540081672273}
   boostBar: {fileID: 5545644913209763767}
