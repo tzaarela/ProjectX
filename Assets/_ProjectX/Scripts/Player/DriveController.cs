@@ -19,7 +19,7 @@ namespace Player
 		private float travelL = 0;
 		private float travelR = 0;
 		private float defaultMaxMotorTorque;
-		private float maxMotorTorque;
+		private float currentMotorTorque;
 		private WheelFrictionCurve sidewayFrictionCurveNormal;
 		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
 		private WheelFrictionCurve forwardFrictionCurveHandbrake;
@@ -198,7 +198,7 @@ namespace Player
 		[Command]
 		private void CmdDrive(float acceleration, float steer)
 		{
-			float motor = carSettings.maxMotorTorque * acceleration;
+			float motor = currentMotorTorque * acceleration;
 			float steering = carSettings.maxSteeringAngle * steer;
 
 			foreach (CarAxle axleInfo in axleInfos)
@@ -285,11 +285,11 @@ namespace Player
 		{
 			if (turnOn)
 			{
-				maxMotorTorque = defaultMaxMotorTorque * carSettings.boostMultiplier;
+				currentMotorTorque = defaultMaxMotorTorque * carSettings.boostMultiplier;
 			}
 			else
 			{
-				maxMotorTorque = defaultMaxMotorTorque;
+				currentMotorTorque = defaultMaxMotorTorque;
 			}
 
 			RpcToggleParticle(turnOn);
