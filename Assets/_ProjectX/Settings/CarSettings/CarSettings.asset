@@ -49,17 +49,17 @@ MonoBehaviour:
   wheelRadius: 0.37
   wheelDampingRate: 0.0001
   wheelSuspensionDistance: 0.3
-  wheelForceAppPointDistance: 0
+  wheelForceAppPointDistance: 0.18
   wheelSuspensionSpring: 35000
   wheelSuspensionDamper: 4500
   wheelSuspensionTargetPosition: 0.5
-  maxMotorTorque: 700
-  maxSteeringAngle: 32
-  brakeTorque: 6000
-  decelerationForce: 2000
-  boostMultiplier: 2.5
-  antiRoll: 16000
-  centerOfMassOffset: {x: 0, y: 0.4, z: 1}
+  maxMotorTorque: 1100
+  maxSteeringAngle: 35
+  brakeTorque: 12000
+  decelerationForce: 1000
+  boostMultiplier: 2
+  antiRoll: 12000
+  centerOfMassOffset: {x: 0, y: 0.32, z: 1}
   mass: 1300
   drag: 0
   angularDrag: 0
