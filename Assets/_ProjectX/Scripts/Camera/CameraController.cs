@@ -21,12 +21,12 @@ namespace Cameras
 
 		private void Update()
 		{
-   //         if(playerController != null)
-			//{
-   //             print(playerController.rb.velocity.z);
-   //             Vector3 forwardVelocity = playerController.rb.velocity + Vector3.forward;
-   //             virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Clamp(, 40, 60);
-			//}
+			if (playerController != null)
+			{
+                float localForwardVelocity = Vector3.Dot(playerController.rb.velocity, playerController.transform.forward);
+				print(localForwardVelocity);
+                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Clamp(localForwardVelocity, 40, 60);
+			}
 		}
 
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
