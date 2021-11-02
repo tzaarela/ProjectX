@@ -108,7 +108,6 @@ namespace Managers
 		[Client]
 		private IEnumerator ScoreCounterRoutine(int index, int previousScore, int newScore, float scoreRate)
 		{
-			print("Starting!");
 			int scoreToDisplay = previousScore;
 			int scoreDifference = newScore - previousScore;
 			
@@ -118,7 +117,6 @@ namespace Managers
 				scoreTexts[index].text = scoreToDisplay.ToString();
 				yield return new WaitForSeconds(scoreRate / scoreDifference);
 			}
-			print("Finished!");
 		}
 
 		[ClientRpc]
