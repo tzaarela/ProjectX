@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Not ready
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
-  m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f9b6c14a6838f384b8d289ddaed7225a, type: 2}
+  m_sharedMaterial: {fileID: -1830215909407871714, guid: f9b6c14a6838f384b8d289ddaed7225a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -400,16 +400,13 @@ MonoBehaviour:
   readyToBegin: 0
   index: 0
   nameTag: {fileID: 5507403066108147415}
-  nameInput: {fileID: 0}
-  inputField: {fileID: 0}
-  colorPicker: {fileID: 0}
-  colorChangingMesh: {fileID: 5915005022016305053}
   readyImage: {fileID: 3170813172766795276}
   readyText: {fileID: 7270673838508048886}
+  colorChangingMesh: {fileID: 5915005022016305053}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  playerReadyColor: {r: 0, g: 0, b: 0, a: 0}
   playerName: 
   playerReadyText: 
-  playerReadyColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &7602962358310034458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,8 +596,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Default
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
-  m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1008b33461ae1ef4aa2ee437910d5fe5, type: 2}
+  m_sharedMaterial: {fileID: 4903200017179365529, guid: 1008b33461ae1ef4aa2ee437910d5fe5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

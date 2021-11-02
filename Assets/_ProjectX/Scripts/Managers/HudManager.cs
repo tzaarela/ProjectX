@@ -17,6 +17,7 @@ namespace Managers
 		// NetworkIdentity = !ServerOnly
 		
 		[Header("REFERENCES:")]
+		[SerializeField] private TMP_Text[] playerTexts;
 		[SerializeField] private TMP_Text[] scoreTexts;
 		[SerializeField] private GameObject newLeaderText;
 		[SerializeField] private TMP_Text killedByText;
@@ -90,8 +91,8 @@ namespace Managers
 		[ClientRpc]
 		public void RpcUpdateScore(int index, string player, int score)
 		{
-			scoreTexts[index].text = player + ":\n" +
-			                         score;
+			playerTexts[index].text = player;
+			scoreTexts[index].text = score.ToString();
 		}
 
 		[ClientRpc]
@@ -168,7 +169,7 @@ namespace Managers
 			killedByText.gameObject.SetActive(false);
 			respawnText.gameObject.SetActive(false);
 			endScreen.SetActive(true);
-			winnerText.text = $"{winningPlayer} IS THE WINNER!";
+			winnerText.text = $"{winningPlayer} is the winner!";
 		}
 
 		[ClientRpc]
