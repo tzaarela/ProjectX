@@ -4,21 +4,32 @@ using Data.Enums;
 using Data.Interfaces;
 using Managers;
 using UnityEngine;
+using Player;
 
 namespace Cameras
 {
-    public class SetFollowTarget : MonoBehaviour, IReceiveGlobalSignal
+    public class CameraController : MonoBehaviour, IReceiveGlobalSignal
     {
         private CinemachineVirtualCamera virtualCamera;
+        private PlayerController playerController;
 
         private void Awake()
         {
             GlobalMediator.Instance.Subscribe(this);
-
             virtualCamera = GetComponent<CinemachineVirtualCamera>();
         }
-    
-        public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+
+		private void Update()
+		{
+   //         if(playerController != null)
+			//{
+   //             print(playerController.rb.velocity.z);
+   //             Vector3 forwardVelocity = playerController.rb.velocity + Vector3.forward;
+   //             virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = Mathf.Clamp(, 40, 60);
+			//}
+		}
+
+		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
         {
             switch (eventState)
             {
@@ -27,6 +38,7 @@ namespace Cameras
                     if (globalSignalData is GameObjectData localPlayer)
                     {
                         virtualCamera.Follow = localPlayer.gameObject.transform;
+                        playerController = localPlayer.gameObject.GetComponent<PlayerController>();
                     }
                 
                     break;

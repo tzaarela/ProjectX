@@ -11,14 +11,6 @@ namespace Player
 	{
 		[Header("Settings")]
 		public List<CarAxle> axleInfos;
-		public List<FrictionCurve> frictionCurves;
-		public float maxMotorTorque;
-		public float maxSteeringAngle;
-		public float brakeTorque;
-		public float decelerationForce;
-		public float boostMultiplier = 6f;
-		public float antiRoll = 8000;
-		public Vector3 centerOfMassOffset;
 
 		[Header("References")]
 		[SerializeField] private ParticleSystem boostParticle;
@@ -27,6 +19,7 @@ namespace Player
 		private float travelL = 0;
 		private float travelR = 0;
 		private float defaultMaxMotorTorque;
+		private float maxMotorTorque;
 		private WheelFrictionCurve sidewayFrictionCurveNormal;
 		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
 		private WheelFrictionCurve forwardFrictionCurveHandbrake;

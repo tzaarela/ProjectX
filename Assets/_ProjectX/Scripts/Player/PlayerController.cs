@@ -27,8 +27,8 @@ namespace Player
 		[SyncVar(hook = nameof(PlayerNameChanged))] public string playerName;
 		[SyncVar(hook = nameof(PlayerColorChanged))] public Color playerColor;
 
+		[HideInInspector] public Rigidbody rb;
 		private Flag flag;
-		private Rigidbody rb;
 		private InputManager inputManager;
 		private Health health;
 
