@@ -265,7 +265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  currentPowerupType: 2
+  currentPowerupType: 3
   powerups:
   - {fileID: 1564093055591017610}
   - {fileID: 8379933378597833462}

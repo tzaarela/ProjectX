@@ -15,10 +15,18 @@ namespace Powerup.Powerups
 
 		protected override void Execute(int netID)
 		{
+			if (ammo <= 0)
+				return;
+
 			foreach (Transform hardpoint in hardpoints)
 			{
-				Mine mine = ServiceLocator.ObjectPools.SpawnFromPool(ObjectPoolType.Mine).GetComponent<Mine>();
+				Mine mine = ServiceLocator.ObjectPools.
+					SpawnFromPoolWithNetId(ObjectPoolType.Mine, hardpoint.position, Quaternion.identity, netID).GetComponent<Mine>();
+				
 				mine.transform.position = hardpoint.position;
+				ammo--;
+
+				ServiceLocator.HudManager.TargetUpdateAmmoUi(playerController.connectionToClient, ammo);
 			}
 		}
 	}

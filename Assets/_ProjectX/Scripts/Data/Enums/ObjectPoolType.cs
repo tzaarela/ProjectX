@@ -4,7 +4,9 @@
 	{
 		Bullet,
 		Rocket,
-		Mine
+		Mine,
 		RocketExplosion,
+		MineExplosion,
+
 	}
 }
