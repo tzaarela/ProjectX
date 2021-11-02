@@ -58,7 +58,7 @@ public class DestructionObject : MonoBehaviour, IReceiveDamageAOE
 		}
 	}
 
-	public void ReceiveDamageAOE(Vector3 direction, float distance, int damage)
+	public void ReceiveDamageAOE(Vector3 direction, float distance, int damage, int spawnedById)
 	{
 		DestructionManager.Instance.DestructObject(gameObject, direction * (distance * 10));
 	}
