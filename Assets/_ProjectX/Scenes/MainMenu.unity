@@ -143,10 +143,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 735993435}
     - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: connectionText
-      value: 
-      objectReference: {fileID: 1162974925}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
       propertyPath: fizzySteamworks
       value: 
       objectReference: {fileID: 735993434}
@@ -154,14 +150,6 @@ PrefabInstance:
       propertyPath: dropdownConnection
       value: 
       objectReference: {fileID: 603827782}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: connectionEnterText
-      value: 
-      objectReference: {fileID: 120789882}
-    - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: connectionInputText
-      value: 
-      objectReference: {fileID: 1162974925}
     - target: {fileID: 2061408890175752594, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
       propertyPath: connectionInputField
       value: 
@@ -177,18 +165,6 @@ PrefabInstance:
     - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2061408890175752597, guid: e71f4d064de8b2f40a963828ed601997, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1232,17 +1208,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1162974925 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6287270423626138507, guid: 73e0c760b3a19cd42bf019cf2dac2a1c, type: 3}
-  m_PrefabInstance: {fileID: 9096187230305675250}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1179047143
 GameObject:
   m_ObjectHideFlags: 0
