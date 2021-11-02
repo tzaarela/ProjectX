@@ -250,8 +250,8 @@ namespace Player
 
 		public void ReceiveDamageAOE(Vector3 direction, float distance, int damage)
 		{
-			Debug.Log("EXPLODE!");
 			rb.AddForce(direction * (distance * 100) + Vector3.up * 10000, ForceMode.Impulse);
+			health.ReceiveDamage(50, 0);
 		}
 	}
 }
