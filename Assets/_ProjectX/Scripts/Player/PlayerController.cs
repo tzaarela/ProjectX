@@ -248,10 +248,10 @@ namespace Player
 			FlipCar();
 		}
 
-		public void ReceiveDamageAOE(Vector3 direction, float distance, int damage)
+		public void ReceiveDamageAOE(Vector3 direction, float distance, int damage, int spawnedById)
 		{
 			rb.AddForce(direction * (distance * 100) + Vector3.up * 10000, ForceMode.Impulse);
-			health.ReceiveDamage(50, 0);
+			health.ReceiveDamage(50, spawnedById);
 		}
 	}
 }

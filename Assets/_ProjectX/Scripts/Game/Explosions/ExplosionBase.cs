@@ -71,7 +71,7 @@ namespace Game.Explosions
 					Vector3 collPosition = coll.transform.position;
 					Vector3 dir = (collPosition - position).normalized;
 					
-					receiver.ReceiveDamageAOE(dir, Vector3.Distance(position, collPosition), damage);
+					receiver.ReceiveDamageAOE(dir, Vector3.Distance(position, collPosition), damage, spawnedByNetId);
 
 					//coll.GetComponent<DestructionObject>().ReceiveDamageAOE(dir, Vector3.Distance(position, collPosition), damage);
 				}
