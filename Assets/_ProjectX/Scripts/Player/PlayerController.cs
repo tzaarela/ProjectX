@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
-	public class PlayerController : NetworkBehaviour, ISendGlobalSignal, IReceiveGlobalSignal
+	public class PlayerController : NetworkBehaviour, ISendGlobalSignal, IReceiveGlobalSignal, IReceiveDamageAOE
 	{
 		[Header("References")]
 		[SerializeField] private GameObject flagOnRoof;
@@ -246,6 +246,12 @@ namespace Player
 		private void RpcFlipCar()
 		{
 			FlipCar();
+		}
+
+		public void ReceiveDamageAOE(Vector3 direction, float distance, int damage)
+		{
+			Debug.Log("EXPLODE!");
+			rb.AddForce(direction * (distance * 100) + Vector3.up * 10000, ForceMode.Impulse);
 		}
 	}
 }

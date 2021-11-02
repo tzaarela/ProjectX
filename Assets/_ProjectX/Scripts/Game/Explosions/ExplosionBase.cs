@@ -11,7 +11,7 @@ namespace Game.Explosions
 	public class ExplosionBase : NetworkBehaviour, ISpawnedByID
 	{
 		protected int spawnedByNetId;
-		
+
 		[SerializeField] protected float aoeRadius;
 		[SerializeField] protected LayerMask aoeLayerMask;
 		[SerializeField] protected ParticleSystem[] aoeParticlePrefabs;

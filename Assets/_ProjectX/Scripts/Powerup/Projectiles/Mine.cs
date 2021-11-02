@@ -4,6 +4,7 @@ using Managers;
 using Mirror;
 using PowerUp.Projectiles;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace Powerup.Projectiles
 	public class Mine : NetworkBehaviour, ISpawnedByID
 	{
 		public float timeUntilActivaded = 1.5f;
+		public float triggerDelay = 0.5f;
+
 		public bool isArmed;
 
 		[SerializeField] ParticleSystem lightParticle;
@@ -22,11 +25,15 @@ namespace Powerup.Projectiles
 		[SyncVar(hook = nameof(Arm))] private bool isActivated;
 
 		private int spawnedByNetId;
+		private Rigidbody rb;
+		
 
 		private void Start()
 		{
-			if(isServer)
+			if (isServer)
+			{
 				Invoke(nameof(Activate), timeUntilActivaded);
+			}
 		}
 
 		[Server]
@@ -51,9 +58,15 @@ namespace Powerup.Projectiles
 
 			if (other.CompareTag("Player") && isArmed)
 			{
-				ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.MineExplosion, transform.position, Quaternion.identity, spawnedByNetId);
-				NetworkServer.Destroy(gameObject);
+				StartCoroutine(CoWaitForExplosionTrigger());
 			}
+		}
+
+		private IEnumerator CoWaitForExplosionTrigger()
+		{
+			yield return new WaitForSeconds(triggerDelay);
+			ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.MineExplosion, transform.position, Quaternion.identity, spawnedByNetId);
+			NetworkServer.Destroy(gameObject);
 		}
 
 		public void SetSpawnedBy(int netID)
