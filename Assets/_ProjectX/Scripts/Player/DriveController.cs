@@ -34,6 +34,20 @@ namespace Player
 		private float remainingBoost;
 		private Coroutine boostCounterRoutine;
 
+		public override void OnStartClient()
+		{
+			if (!isLocalPlayer)
+				return;
+
+			if (inputs == null)
+				inputs = GetComponent<InputManager>();
+
+			inputs.playerControls.Player.Boost.performed += Boost_performed;
+			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
+			inputs.playerControls.Player.Handbrake.performed += Brake;
+			inputs.playerControls.Player.Handbrake.canceled += Brake;
+		}
+
 		private void Start()
 		{
 			if (!isServer)
@@ -54,6 +68,18 @@ namespace Player
 			SetNormalFriction();
 		}
 
+		private void FixedUpdate()
+		{
+			if (!isLocalPlayer)
+				return;
+
+			if (inputs == null)
+				inputs = GetComponent<InputManager>();
+
+			Drive();
+		}
+
+		[Server]
 		private void SetWheelColliders()
 		{
 			foreach (CarAxle axle in axleInfos)
@@ -114,30 +140,8 @@ namespace Player
 			}
 		}
 
-		public override void OnStartClient()
-		{
-			if (!isLocalPlayer)
-				return;
-
-			if (inputs == null)
-				inputs = GetComponent<InputManager>();
-
-			inputs.playerControls.Player.Boost.performed += Boost_performed;
-			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
-			inputs.playerControls.Player.Handbrake.performed += Brake; 
-			inputs.playerControls.Player.Handbrake.canceled += Brake;
-		}
-
-		private void FixedUpdate()
-		{
-			if (!isLocalPlayer)
-				return;
-
-			if (inputs == null)
-				inputs = GetComponent<InputManager>();
-
-			Drive();
-		}
+		
+		
 		
 		[Client]
 		private void Brake(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -237,9 +241,13 @@ namespace Player
 
 				AutoStabilize(axleInfo);
 
-				//ApplyLocalPositionToVisuals(axleInfo.leftWheel);
-				//ApplyLocalPositionToVisuals(axleInfo.rightWheel);
 			}
+
+			float driftValue = Vector3.Dot(rb.velocity, transform.forward);
+			float driftAngle = Mathf.Acos(driftValue) * Mathf.Rad2Deg;
+
+			//print("driftValue: " + driftValue);
+			//print("driftAngle: " + driftAngle);
 		}
 
 		[Server]
