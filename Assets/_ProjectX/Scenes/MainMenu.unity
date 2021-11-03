@@ -145,6 +145,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3898556398853668274, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
+      propertyPath: SteamAppID
+      value: 480
+      objectReference: {fileID: 0}
     - target: {fileID: 3561817599053994394, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
       propertyPath: transport
       value: 
