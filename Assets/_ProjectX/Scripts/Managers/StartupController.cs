@@ -71,6 +71,25 @@ namespace Managers
 		{
 			roomManager.networkAddress = connectionInputField.text;
 		}
+		
+		// TEMP. for QuickButtons:
+		public void SetConnectionString(string steamId)
+		{
+			if (connectionType == ConnectionType.IP)
+			{
+				connectionType = ConnectionType.Steam;
+				roomManager.gameObject.SetActive(false);
+				connectionPlaceholderText.text = "Enter steamId...";
+				kcpTransport.gameObject.GetComponent<KcpTransport>().enabled = false;
+				fizzySteamworks.gameObject.GetComponent<FizzySteamworks>().enabled = true;
+				Transport.activeTransport = fizzySteamworks;
+				roomManager.gameObject.SetActive(true);
+			}
+			
+			roomManager.networkAddress = steamId;
+			
+			JoinGame();
+		}
 
 		public void HostGame()
 		{

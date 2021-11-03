@@ -60,7 +60,6 @@ namespace Mirror.FizzySteam
 
       try
       {
-        Debug.Log(host.Length);
         ulong hostLong;
         if (UInt64.TryParse(host, out hostLong))
         {
