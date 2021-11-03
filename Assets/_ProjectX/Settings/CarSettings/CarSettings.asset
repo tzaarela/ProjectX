@@ -53,6 +53,8 @@ MonoBehaviour:
   wheelSuspensionSpring: 35000
   wheelSuspensionDamper: 4500
   wheelSuspensionTargetPosition: 0.5
+  maxVelocity: 900
+  maxVelocityBoost: 1200
   maxMotorTorque: 1100
   maxSteeringAngle: 35
   brakeTorque: 12000
@@ -61,6 +63,8 @@ MonoBehaviour:
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
   antiRoll: 12000
+  slidingThreshold: 0.95
+  slidingMinimumVelocity: 2
   centerOfMassOffset: {x: 0, y: 0.32, z: 1}
   mass: 1300
   drag: 0

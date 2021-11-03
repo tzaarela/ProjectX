@@ -17,12 +17,17 @@ namespace Player
 
 		[Header("References")]
 		[SerializeField] private ParticleSystem boostParticle;
+		[SerializeField] private ParticleSystem driftParticleLeft;
+		[SerializeField] private ParticleSystem driftParticleRight;
+
 
 		private InputManager inputs;
 		private float travelL = 0;
 		private float travelR = 0;
 		private float defaultMaxMotorTorque;
 		private float maxMotorTorque;
+		private float maxVelocity;
+
 		private WheelFrictionCurve sidewayFrictionCurveNormal;
 		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
 		private WheelFrictionCurve forwardFrictionCurveHandbrake;
@@ -60,6 +65,7 @@ namespace Player
 			
 			defaultMaxMotorTorque = carSettings.maxMotorTorque;
 			maxMotorTorque = carSettings.maxMotorTorque;
+			maxVelocity = carSettings.maxVelocity;
 
 			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = carSettings.centerOfMassOffset;
@@ -212,6 +218,51 @@ namespace Player
 		[Command]
 		private void CmdDrive(float acceleration, float steer)
 		{
+			ApplyTorque(acceleration, steer);
+			
+			if (AreWeDrifting())
+			{
+				RpcPlayDriftEffects(); 
+			}
+			else if (driftParticleLeft.isPlaying || driftParticleRight.isPlaying)
+			{
+				RpcStopDriftEffects();
+			}
+		}
+
+		[ClientRpc]
+		private void RpcStopDriftEffects()
+		{
+			driftParticleLeft.Stop();
+			driftParticleRight.Stop();
+		}
+
+		[ClientRpc]
+		private void RpcPlayDriftEffects()
+		{
+			driftParticleRight.Play();
+			driftParticleLeft.Play();
+		}
+
+		private bool AreWeDrifting()
+		{
+			if (axleInfos.Any(x => x.leftWheel.isGrounded || x.rightWheel.isGrounded))
+			{
+				var velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+				float driftValue = Vector3.Dot(velocity.normalized, transform.forward);
+			
+				if (velocity.sqrMagnitude > carSettings.slidingMinimumVelocity && Mathf.Abs(driftValue) < carSettings.slidingThreshold)
+				{
+					return true;
+				}
+
+			}
+			return false;
+		}
+
+		[Server]
+		private void ApplyTorque(float acceleration, float steer)
+		{
 			float motor = maxMotorTorque * acceleration;
 			float steering = carSettings.maxSteeringAngle * steer;
 
@@ -225,7 +276,15 @@ namespace Player
 
 				if (axleInfo.hasMotor)
 				{
-					if (motor != 0)
+					var speed = rb.velocity.sqrMagnitude;
+					if (speed > maxVelocity)
+					{
+						axleInfo.leftWheel.brakeTorque = 0;
+						axleInfo.rightWheel.brakeTorque = 0;
+						axleInfo.leftWheel.motorTorque = 0;
+						axleInfo.rightWheel.motorTorque = 0;
+					}
+					else if (motor != 0)
 					{
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;
@@ -240,14 +299,7 @@ namespace Player
 				}
 
 				AutoStabilize(axleInfo);
-
 			}
-
-			float driftValue = Vector3.Dot(rb.velocity, transform.forward);
-			float driftAngle = Mathf.Acos(driftValue) * Mathf.Rad2Deg;
-
-			//print("driftValue: " + driftValue);
-			//print("driftAngle: " + driftAngle);
 		}
 
 		[Server]
@@ -310,10 +362,12 @@ namespace Player
 			if (turnOn)
 			{
 				maxMotorTorque = defaultMaxMotorTorque * carSettings.boostMultiplier;
+				maxVelocity = carSettings.maxVelocityBoost;
 			}
 			else
 			{
 				maxMotorTorque = defaultMaxMotorTorque;
+				maxVelocity = carSettings.maxVelocity;
 			}
 
 			RpcToggleParticle(turnOn);
