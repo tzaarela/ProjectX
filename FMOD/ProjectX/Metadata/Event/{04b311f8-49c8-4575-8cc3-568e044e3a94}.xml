@@ -421,6 +421,9 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{d6c83002-738d-43f0-9852-3a09fc5a5198}">
+		<property name="color">
+			<value>Blue</value>
+		</property>
 		<property name="name">
 			<value>Audio 2</value>
 		</property>
