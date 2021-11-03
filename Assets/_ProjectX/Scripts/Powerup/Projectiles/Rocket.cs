@@ -29,6 +29,8 @@ namespace PowerUp.Projectiles
 			trailerRenderer.Clear();
 			direction = transform.forward;
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
+			
+			//FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/RocketRelease");
 		}
 
 		public override void SetupProjectile(Vector3 dir, int netID)
