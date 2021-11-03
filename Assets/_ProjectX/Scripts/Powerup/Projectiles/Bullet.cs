@@ -43,7 +43,7 @@ namespace PowerUp.Projectiles
 			{
 				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
 				{
-					Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
+					//Debug.Log("BULLET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
 					//Instantiate(debugSphere, transform.position, quaternion.identity);
 					FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg", Camera.main.transform.position);
 				}
