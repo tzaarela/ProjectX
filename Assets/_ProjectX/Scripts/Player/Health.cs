@@ -45,7 +45,7 @@ namespace Player
 
 			string attacker = NetworkServer.spawned[(uint)attackerId].gameObject.GetComponent<PlayerController>().playerName;
 			
-			print($"{playerController.playerName} was damaged by Player_{attacker}! (Damage = {damage})");
+			// print($"{playerController.playerName} was damaged by Player_{attacker}! (Damage = {damage})");
 			
 			currentHealth -= damage;
 
@@ -60,8 +60,8 @@ namespace Player
 		[Client]
 		private void OnHealthChanged(int oldValue, int newValue)
 		{
-			print("PlayerDamaged CurrentHealth = " + newValue);
-			print("PlayerDamaged HealthState = " + GetHealthState(newValue));
+			// print("PlayerDamaged CurrentHealth = " + newValue);
+			// print("PlayerDamaged HealthState = " + GetHealthState(newValue));
 			
 			if (currentState == GetHealthState(newValue))
 				return;

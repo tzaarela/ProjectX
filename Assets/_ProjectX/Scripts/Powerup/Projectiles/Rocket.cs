@@ -38,9 +38,12 @@ namespace PowerUp.Projectiles
 		
 		private void OnCollisionEnter(Collision other)
 		{
-			if(!allowCollision)
+			if(!isServer)
 				return;
 			
+			if(!allowCollision)
+				return;
+
 			if (other.gameObject.CompareTag("Player"))
 			{
 				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
@@ -49,9 +52,6 @@ namespace PowerUp.Projectiles
 					ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.RocketExplosion, transform.position, Quaternion.identity, spawnedByNetId);
 				}
 			}
-			
-			if(!isServer)
-				return;
 
 			if (other.gameObject.CompareTag("Player"))
 			{
