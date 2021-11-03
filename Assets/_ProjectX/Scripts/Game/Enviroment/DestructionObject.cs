@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Data.Interfaces;
 using Managers;
 using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(NetworkIdentity))]
-public class DestructionObject : MonoBehaviour, IReceiveDamageAOE
+public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 {
 	private Rigidbody rb;
 
@@ -17,6 +18,17 @@ public class DestructionObject : MonoBehaviour, IReceiveDamageAOE
 	private void Start()
 	{
 		rb.isKinematic = true;
+		
+		if(!isServer)
+			DeactivateColliders();
+	}
+
+	private void DeactivateColliders()
+	{
+		foreach (Collider coll in GetComponentsInChildren<Collider>())
+		{
+			coll.enabled = false;
+		}
 	}
 
 	public void Destruct(Vector3 impulse)
