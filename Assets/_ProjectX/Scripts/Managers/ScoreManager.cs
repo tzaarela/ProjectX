@@ -52,11 +52,11 @@ namespace Managers
 					}
 				
 					//TEMP:
-					playerScores.Add("PlayerTemp_1", 0);
-					playerScores.Add("PlayerTemp_2", 150);
-					playerScores.Add("PlayerTemp_3", 50);
-					currentLeader = "PlayerTemp_2";
-					currentLeaderScore = 150;
+					// playerScores.Add("PlayerTemp_1", 0);
+					// playerScores.Add("PlayerTemp_2", 150);
+					// playerScores.Add("PlayerTemp_3", 50);
+					// currentLeader = "PlayerTemp_2";
+					// currentLeaderScore = 150;
 					//
 					
 					InitScores();
