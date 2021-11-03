@@ -29,12 +29,13 @@ namespace Cameras
 			{
                 float localForwardVelocity = Vector3.Dot(playerController.rb.velocity, playerController.transform.forward);
 
-                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = 
-                    Mathf.Clamp(localForwardVelocity * velocityZoomMultiplier, minZoomInDistance, maxZoomOutDistance);
-			}
+                float zoom = Mathf.Clamp(localForwardVelocity * velocityZoomMultiplier, minZoomInDistance, maxZoomOutDistance);
+                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = zoom;
+            }
 		}
+        
 
-		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+        public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
         {
             switch (eventState)
             {
