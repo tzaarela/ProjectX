@@ -18,7 +18,8 @@ namespace Managers
 		[SerializeField] private float scoreRate = 0.5f;
 		[SerializeField] private int scoreToAdd = 5;
 		[SerializeField] private int scoreToWin = 100;
-		[SerializeField] private int additionalScoringThreshold = 50;
+		[SerializeField] private int additionalScoringStartupThreshold = 100;
+		[SerializeField] private int additionalScoringMaxThreshold = 300;
 		[SerializeField] private float additionalScoreMaxMultiplier = 2;
 
 		private Dictionary<string, int> playerScores;
@@ -123,9 +124,11 @@ namespace Managers
 			{
 				currentLeaderScore = playerScore;
 			}
-			else if (scoreDifference > additionalScoringThreshold)
+			else if (scoreDifference > additionalScoringStartupThreshold)
 			{
-				int additionalScore = Mathf.Clamp((scoreDifference - additionalScoringThreshold) / 10, 1, (int)(scoreToAdd * additionalScoreMaxMultiplier));
+				int additionalScore = Mathf.Clamp((scoreDifference - additionalScoringStartupThreshold) /
+				                                  ((additionalScoringMaxThreshold - additionalScoringStartupThreshold) / scoreToAdd)
+													,1, (int)(scoreToAdd * additionalScoreMaxMultiplier));
 				return additionalScore;
 			}
 
