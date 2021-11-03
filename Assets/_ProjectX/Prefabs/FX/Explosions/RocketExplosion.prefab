@@ -53,6 +53,7 @@ MonoBehaviour:
     m_Bits: 384
   aoeParticlePrefabs:
   - {fileID: 19800002, guid: 8e4c7f021f137774aaf3ae503165f560, type: 3}
+  - {fileID: 198717222519016466, guid: eca50f41f29040847aefc2bd308843b0, type: 3}
   damage: 25
   aoeAliveTime: 0
 --- !u!114 &3734352072165647074
