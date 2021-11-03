@@ -12,7 +12,7 @@ namespace PowerUp.Projectiles
 	{
 		private FMODUnity.StudioEventEmitter emitter;
 		
-		[SerializeField] protected int diretDamage = 1;
+		[SerializeField] protected int directDamage = 1;
 		[SerializeField] protected float shootingStrength = 100f;
 		[SerializeField] protected float aliveTime = 2f;
 		protected int spawnedByNetId;

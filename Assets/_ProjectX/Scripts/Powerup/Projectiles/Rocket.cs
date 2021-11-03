@@ -17,7 +17,7 @@ namespace PowerUp.Projectiles
 		{
 			base.Start();
 
-			diretDamage = 50;
+			directDamage = 50;
 
 			currentPoolType = ObjectPoolType.Rocket;
 		}
@@ -60,7 +60,7 @@ namespace PowerUp.Projectiles
 				if(spawnedByNetId == (int)playerController.netId)
 					return;
 				
-				other.gameObject.GetComponent<Health>().ReceiveDamage(diretDamage, spawnedByNetId);
+				other.gameObject.GetComponent<Health>().ReceiveDamage(directDamage, spawnedByNetId);
 				
 				allowCollision = false;
 				ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);

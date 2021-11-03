@@ -47,7 +47,7 @@ namespace Player
 		public override void OnStartServer()
 		{
 			rb = GetComponent<Rigidbody>();
-			
+			playerId = (int)GetComponent<NetworkIdentity>().netId;
 			GlobalMediator.Instance.Subscribe(this);
 		}
 

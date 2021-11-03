@@ -91,6 +91,7 @@ namespace Managers
 				GameObject objFromPool = poolDictionary[poolType].Dequeue();
 				objFromPool.transform.position = position;
 				objFromPool.transform.rotation = rotation;
+				objFromPool.GetComponent<ISpawnedByID>().SetSpawnedBy(spawnedByID);
 				objFromPool.SetActive(true);
 				RpcActivateNetIdObject(objFromPool, position, rotation.eulerAngles, spawnedByID);
 				return objFromPool;

@@ -11,7 +11,6 @@ namespace Player
 	{
 		private InputManager inputs;
 		private NetworkIdentity networkIdentity;
-		private int localNetId;
 
 		[SerializeField] private PowerupType currentPowerupType;
 
@@ -22,7 +21,6 @@ namespace Player
 		{
 			inputs = GetComponent<InputManager>();
 			networkIdentity = GetComponent<NetworkIdentity>();
-			localNetId = (int)networkIdentity.netId;
 		}
 
 		private void Update()
@@ -31,7 +29,7 @@ namespace Player
 				return;
 			
 			if (inputs.isUsingPowerup)
-				CmdUse(localNetId);
+				CmdUse((int)networkIdentity.netId);
 
 			if (inputs.isDroppingPowerup)
 				CmdDrop();

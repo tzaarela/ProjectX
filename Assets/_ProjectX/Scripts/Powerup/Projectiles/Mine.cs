@@ -10,46 +10,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Player;
 
 namespace Powerup.Projectiles
 {
 	public class Mine : NetworkBehaviour, ISpawnedByID
 	{
-		public float timeUntilActivaded = 1.5f;
+		public float timeUntilArmed = 1.5f;
 		public float triggerDelay = 0.5f;
-
-		public bool isArmed;
+		public bool shouldTakeSelfDamage = true;
 
 		[SerializeField] ParticleSystem lightParticle;
 
-		[SyncVar(hook = nameof(Arm))] private bool isActivated;
+		[SyncVar(hook = nameof(TurnRed))] private bool isArmed;
 
 		private int spawnedByNetId;
 		private Rigidbody rb;
-		
 
 		private void Start()
 		{
 			if (isServer)
 			{
-				Invoke(nameof(Activate), timeUntilActivaded);
+				Invoke(nameof(Arm), timeUntilArmed);
 			}
 		}
 
 		[Server]
-		private void Arm(bool oldValue, bool newValue)
+		private void Arm()
 		{
-			var lightParticleMain = lightParticle.main;
-			lightParticleMain.startColor = Color.red;
 			isArmed = true;
 		}
 
-		[Server]
-		private void Activate()
+		//Hook
+		[Client]
+		private void TurnRed(bool oldValue, bool newValue)
 		{
-			isActivated = true;
+			var lightParticleMain = lightParticle.main;
+			lightParticleMain.startColor = Color.red;
 		}
-
 		
 		private void OnTriggerEnter(Collider other)
 		{
@@ -58,6 +56,9 @@ namespace Powerup.Projectiles
 
 			if (other.CompareTag("Player") && isArmed)
 			{
+				if (spawnedByNetId == other.gameObject.GetComponent<PlayerController>().PlayerId && !shouldTakeSelfDamage)
+					return;
+
 				StartCoroutine(CoWaitForExplosionTrigger());
 			}
 		}

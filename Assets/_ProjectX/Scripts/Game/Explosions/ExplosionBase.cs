@@ -44,7 +44,8 @@ namespace Game.Explosions
 				}
 			}
 			
-			StartCoroutine(CoDestroyAfterTime());
+			if(isServer)
+				StartCoroutine(CoDestroyAfterTime());
 		}
 		
 		protected virtual void OnDisable() { }
