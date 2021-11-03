@@ -271,27 +271,27 @@ namespace Player
 		{
 			if (inputs.acceleration < 0)
 			{
-				Boost(false);
+				CmdBoost(false);
 				return;
 			}
 			
-			Boost(true);
+			CmdBoost(true);
 		}
 
 		[Client]
 		private void Boost_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
-			Boost(false);
+			CmdBoost(false);
 		}
-
-		[Client]
-		private void Boost(bool turnOn)
-		{
-			CmdBoost(turnOn);
-		}
-
+		
 		[Command]
 		private void CmdBoost(bool turnOn)
+		{
+			Boost(turnOn);
+		}
+
+		[Server]
+		private void Boost(bool turnOn)
 		{
 			if (boostCounterRoutine != null)
 			{
