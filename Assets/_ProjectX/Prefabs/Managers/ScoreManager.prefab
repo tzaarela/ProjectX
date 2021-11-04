@@ -48,8 +48,9 @@ MonoBehaviour:
   syncInterval: 0.1
   scoreRate: 0.5
   scoreToAdd: 5
-  scoreToWin: 999
-  additionalScoringThreshold: 100
+  scoreToWin: 10
+  additionalScoringStartupThreshold: 100
+  additionalScoringMaxThreshold: 300
   additionalScoreMaxMultiplier: 1
 --- !u!114 &2681261741359888150
 MonoBehaviour:

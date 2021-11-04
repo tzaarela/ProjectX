@@ -38,7 +38,7 @@ namespace Managers
 			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
 			if (connectedPlayers.Count == NumberOfConnectedClients)
 			{
-				print("Spawned PlayerIds:");
+				print("Spawned Players:");
 				foreach (var name in connectedPlayers)
 				{
 					print(name);
@@ -51,6 +51,7 @@ namespace Managers
 		[Server]
 		public void EndOfGame()
 		{
+			print("---- GAME HAS ENDED ----");
 			connectedPlayers.Clear();
 			SendGlobal(GlobalEvent.END_GAMESTATE);
 		}

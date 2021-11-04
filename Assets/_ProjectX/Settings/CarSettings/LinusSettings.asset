@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b342128b4c7e4bba83ef12c6297a47ac, type: 3}
+  m_Name: LinusSettings
+  m_EditorClassIdentifier: 
+  f_HasMotor: 1
+  f_HasSteering: 1
+  f_HasHandbrake: 0
+  r_HasMotor: 1
+  r_HasSteering: 0
+  r_HasHandbrake: 1
+  frictionCurves:
+  - key: 0
+    sidewayFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.35
+    forwardFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.35
+  - key: 1
+    sidewayFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.16
+    forwardFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.16
+  wheelMass: 80
+  wheelRadius: 0.37
+  wheelDampingRate: 0.0001
+  wheelSuspensionDistance: 0.3
+  wheelForceAppPointDistance: 0.18
+  wheelSuspensionSpring: 35000
+  wheelSuspensionDamper: 4500
+  wheelSuspensionTargetPosition: 0.5
+  maxMotorTorque: 1100
+  maxSteeringAngle: 35
+  brakeTorque: 12000
+  decelerationForce: 1500
+  boostMultiplier: 2
+  boostMaxTime: 2
+  boostRecoveryRatePerSecond: 0.5
+  antiRoll: 12000
+  centerOfMassOffset: {x: 0, y: 0.32, z: 0.9}
+  mass: 1300
+  drag: 0
+  angularDrag: 0
+  useGravity: 1
+  isKinematic: 0
+  interpolateMode: 1
+  collisionDetectionMode: 0
