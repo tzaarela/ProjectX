@@ -88,7 +88,7 @@ Note that the audio does not continue through the bus - it is sent through the o
 			<destination>{dd70aa02-4085-487e-ae6e-f9d314678cd2}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{009ebac0-e5a9-4e69-8d37-6bdc9d8c6f45}</destination>
+			<destination>{7e33a2b3-db05-4b7a-ba1e-e862f2bfde36}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{9e751806-0fc8-4bde-a83d-22445a3f3294}" />
