@@ -5,6 +5,7 @@ using Player;
 using Data.Interfaces;
 using Data.Enums;
 using Data.Containers.GlobalSignal;
+using Telepathy;
 
 namespace Networking
 {
@@ -27,9 +28,7 @@ namespace Networking
 			if (sceneName == GameplayScene)
 				GlobalMediator.Instance.Subscribe(this);
 		}
-
-
-
+		
 		//Called just before Server loads new scene
 		public override void OnServerChangeScene(string newSceneName)
 		{
@@ -52,30 +51,18 @@ namespace Networking
 			ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
 			gameHasStarted = true;
 		}
-
 		
-
 		[Server]
 		public void ReloadGameScene()
 		{
 			ServerChangeScene(GameplayScene);
 		}
 
-		[Server]
-		public override void OnServerDisconnect(NetworkConnection conn)
-		{
-			base.OnServerDisconnect(conn);
-
-			if (!IsSceneActive(GameplayScene))
-				return;
-			
-			StopHost();
-		}
-		
+		[Client]
 		public void EndGame()
 		{
 			gameHasStarted = false;
-			StopClient();
+			StopHost();
 		}
 
 		public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
@@ -87,9 +74,7 @@ namespace Networking
 
 			return gamePlayer;
 		}
-
-
-
+		
 		public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
 		{
 			NetworkRoomPlayerExt networkedRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayerExt>();
