@@ -21,7 +21,6 @@ public class PlayerSound : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         
         driftSoundInstance = FMODUnity.RuntimeManager.CreateInstance(driftSound);
-        //FMODUnity.RuntimeManager.AttachInstanceToGameObject(driftSoundInstance, transform);
     }
 
     private void Start()
@@ -53,14 +52,14 @@ public class PlayerSound : MonoBehaviour
 
     public void PlayDriftSound()
     {
-        Debug.Log("Start to drift");
+        //TODO REMOVE WHEN NOT NEEDED Debug.Log("Start to drift");
         driftSoundInstance.start();
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(driftSoundInstance, transform);
     }
     
     public void StopDriftSound()
     {
-        Debug.Log("Stop drift");
+        //TODO REMOVE WHEN NOT NEEDED Debug.Log("Stop drift");
         driftSoundInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
     
