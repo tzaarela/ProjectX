@@ -20,6 +20,9 @@ namespace Player
 		[SerializeField] private ParticleSystem driftParticleLeft;
 		[SerializeField] private ParticleSystem driftParticleRight;
 
+		[SyncVar(hook = nameof(ToggleDriftingEffects))] private bool isDrifting;
+
+		
 
 		private InputManager inputs;
 		private float travelL = 0;
@@ -218,6 +221,23 @@ namespace Player
 				CmdDrive(inputs.acceleration, inputs.steering);
 		}
 
+		//Hook
+		private void ToggleDriftingEffects(bool oldValue, bool newValue)
+		{
+			if (newValue)
+			{
+				driftParticleRight.Play();
+				driftParticleLeft.Play();
+				playerSound.PlayDriftSound();
+			}
+			else
+			{
+				driftParticleLeft.Stop();
+				driftParticleRight.Stop();
+				playerSound.StopDriftSound();
+			}
+		}
+
 		[Command]
 		private void CmdDrive(float acceleration, float steer)
 		{
@@ -225,29 +245,12 @@ namespace Player
 			
 			if (AreWeDrifting())
 			{
-				RpcPlayDriftEffects(); 
+				isDrifting = true;
 			}
 			else if (driftParticleLeft.isPlaying || driftParticleRight.isPlaying)
 			{
-				RpcStopDriftEffects();
+				isDrifting = false;
 			}
-		}
-
-
-		[ClientRpc]
-		private void RpcPlayDriftEffects()
-		{
-			driftParticleRight.Play();
-			driftParticleLeft.Play();
-			playerSound.PlayDriftSound();
-		}
-
-		[ClientRpc]
-		private void RpcStopDriftEffects()
-		{
-			driftParticleLeft.Stop();
-			driftParticleRight.Stop();
-			playerSound.StopDriftSound();
 		}
 		
 		private bool AreWeDrifting()
