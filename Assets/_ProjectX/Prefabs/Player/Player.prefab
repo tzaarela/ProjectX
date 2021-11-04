@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c43c121e1e3b76429f04d4fa4bc6050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  driftSound: event:/Vehicles/Drift
   minRPM: 700
   maxRPM: 7000
 --- !u!114 &2972968912139933940

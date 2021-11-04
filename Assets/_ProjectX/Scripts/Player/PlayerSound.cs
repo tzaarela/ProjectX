@@ -1,10 +1,17 @@
-using FMODUnity;
+using Player;
 using UnityEngine;
 
 public class PlayerSound : MonoBehaviour
 {
     private Rigidbody rb;
-    private StudioEventEmitter emitter;
+    private DriveController driveController;
+    private FMODUnity.StudioEventEmitter emitter;
+    
+    [SerializeField]
+    [FMODUnity.EventRef]
+    private string driftSound;
+    
+    private FMOD.Studio.EventInstance driftSoundInstance;
     
     public float minRPM = 0;
     public float maxRPM = 300;
@@ -12,11 +19,14 @@ public class PlayerSound : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        
+        driftSoundInstance = FMODUnity.RuntimeManager.CreateInstance(driftSound);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(driftSoundInstance, transform);
     }
 
     private void Start()
     {
-        emitter = GetComponent<StudioEventEmitter>();
+        emitter = GetComponent<FMODUnity.StudioEventEmitter>();
     }
 
     void Update()
@@ -41,6 +51,18 @@ public class PlayerSound : MonoBehaviour
         return 0f;
     }
 
+    public void PlayDriftSound()
+    {
+        Debug.Log("Start to drift");
+        driftSoundInstance.start();
+    }
+    
+    public void StopDriftSound()
+    {
+        Debug.Log("Stop drift");
+        driftSoundInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
+    
     public void PlayEmitter()
     {
         emitter.Play();

@@ -35,6 +35,7 @@ namespace Player
 
 		private SO_CarSettings carSettings;
 		private Rigidbody rb;
+		private PlayerSound playerSound;
 
 		private float remainingBoost;
 		private Coroutine boostCounterRoutine;
@@ -47,6 +48,8 @@ namespace Player
 			if (inputs == null)
 				inputs = GetComponent<InputManager>();
 
+			playerSound = GetComponent<PlayerSound>();
+			
 			inputs.playerControls.Player.Boost.performed += Boost_performed;
 			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
 			inputs.playerControls.Player.Handbrake.performed += Brake;
@@ -69,7 +72,7 @@ namespace Player
 
 			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = carSettings.centerOfMassOffset;
-
+			
 			CreateFrictionCurves();
 			SetNormalFriction();
 		}
@@ -230,20 +233,23 @@ namespace Player
 			}
 		}
 
-		[ClientRpc]
-		private void RpcStopDriftEffects()
-		{
-			driftParticleLeft.Stop();
-			driftParticleRight.Stop();
-		}
 
 		[ClientRpc]
 		private void RpcPlayDriftEffects()
 		{
 			driftParticleRight.Play();
 			driftParticleLeft.Play();
+			playerSound.PlayDriftSound();
 		}
 
+		[ClientRpc]
+		private void RpcStopDriftEffects()
+		{
+			driftParticleLeft.Stop();
+			driftParticleRight.Stop();
+			playerSound.StopDriftSound();
+		}
+		
 		private bool AreWeDrifting()
 		{
 			if (axleInfos.Any(x => x.leftWheel.isGrounded || x.rightWheel.isGrounded))
