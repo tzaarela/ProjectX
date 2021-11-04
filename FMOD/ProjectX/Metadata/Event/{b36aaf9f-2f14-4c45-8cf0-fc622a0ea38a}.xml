@@ -140,6 +140,9 @@ Note that the audio does not continue through the bus - it is sent through the o
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{055691f8-dcdd-434b-8279-a84d35ca0038}">
+		<property name="volume">
+			<value>-14.5</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{853bf530-bf0e-45b5-9ca5-9121446a1cdd}</destination>
 		</relationship>
