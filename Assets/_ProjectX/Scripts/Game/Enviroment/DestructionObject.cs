@@ -27,7 +27,8 @@ public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 	{
 		foreach (Collider coll in GetComponentsInChildren<Collider>())
 		{
-			coll.enabled = false;
+			if(!coll.isTrigger)
+				coll.enabled = false;
 		}
 	}
 
