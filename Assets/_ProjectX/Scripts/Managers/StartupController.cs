@@ -35,6 +35,15 @@ namespace Managers
 
 		private void Start()
 		{
+			if (roomManager == null)
+			{
+				Debug.LogError("RoomManager not found on Start");
+				GameObject roomManagerGO = GameObject.Find("NetworkRoomManagerExt");
+				roomManager = roomManagerGO.GetComponent<NetworkRoomManagerExt>();
+				fizzySteamworks = roomManagerGO.GetComponent<FizzySteamworks>();
+				kcpTransport = roomManagerGO.GetComponent<KcpTransport>();
+			}
+			
 			SetConnectionMode();
 		}
 

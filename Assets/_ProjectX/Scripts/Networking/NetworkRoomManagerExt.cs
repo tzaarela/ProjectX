@@ -57,12 +57,33 @@ namespace Networking
 		{
 			ServerChangeScene(GameplayScene);
 		}
+		
+		[Server]
+		public override void OnServerDisconnect(NetworkConnection conn)
+		{
+			base.OnServerDisconnect(conn);
+		
+			if (!IsSceneActive(GameplayScene))
+				return;
+			
+			StopHost();
+		}
 
 		[Client]
 		public void EndGame()
 		{
 			gameHasStarted = false;
-			StopHost();
+			
+			if (NetworkServer.active && NetworkClient.isConnected)
+			{
+				print("StopHost");
+				StopHost();
+			}
+			else
+			{
+				print("StopClient");
+				StopClient();
+			}
 		}
 
 		public override GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn, GameObject roomPlayer)
