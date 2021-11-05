@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FMOD.Studio;
 using UnityEngine;
 using Player;
 
@@ -20,6 +21,12 @@ namespace Powerup.Projectiles
 		public float triggerDelay = 0.5f;
 		public bool shouldTakeSelfDamage = true;
 
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string deploySound;
+    
+		private FMOD.Studio.EventInstance deploySoundInstance;
+		
 		[SerializeField] ParticleSystem lightParticle;
 
 		[SyncVar(hook = nameof(TurnRed))] private bool isArmed;
@@ -27,12 +34,28 @@ namespace Powerup.Projectiles
 		private int spawnedByNetId;
 		private Rigidbody rb;
 
+		private void Awake()
+		{
+			deploySoundInstance = FMODUnity.RuntimeManager.CreateInstance(deploySound);
+		}
+
 		private void Start()
 		{
 			if (isServer)
 			{
 				Invoke(nameof(Arm), timeUntilArmed);
 			}
+		}
+
+		private void OnEnable()
+		{
+			deploySoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform, rb));
+			deploySoundInstance.start();
+		}
+
+		private void OnDisable()
+		{
+			deploySoundInstance.stop(STOP_MODE.ALLOWFADEOUT);
 		}
 
 		[Server]

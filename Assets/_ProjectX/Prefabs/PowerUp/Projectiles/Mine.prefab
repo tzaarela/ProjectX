@@ -70,6 +70,7 @@ MonoBehaviour:
   timeUntilArmed: 1.5
   triggerDelay: 0.1
   shouldTakeSelfDamage: 1
+  deploySound: event:/Weapons/DeployMine
   lightParticle: {fileID: 8329126616956852758}
 --- !u!54 &9146954614320961595
 Rigidbody:
