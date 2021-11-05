@@ -1953,6 +1953,10 @@ PrefabInstance:
       propertyPath: sceneId
       value: 4153852571
       objectReference: {fileID: 0}
+    - target: {fileID: 2681261741359888151, guid: 256b1a9e22d7c1647a6ca9aeebc85d39, type: 3}
+      propertyPath: scoreToWin
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 2681261741359888169, guid: 256b1a9e22d7c1647a6ca9aeebc85d39, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -6238,6 +6242,10 @@ PrefabInstance:
     - target: {fileID: 5813400065734753369, guid: 9bcd77757a260dd4286a26467afd11d8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290291368526158135, guid: 9bcd77757a260dd4286a26467afd11d8, type: 3}
+      propertyPath: timeLimit
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 6867720100021008336, guid: 9bcd77757a260dd4286a26467afd11d8, type: 3}
       propertyPath: m_AnchorMax.y
