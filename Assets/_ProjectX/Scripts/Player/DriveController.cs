@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Data.Enums;
 using Mirror;
 using System.Collections.Generic;
@@ -21,7 +22,6 @@ namespace Player
 		[SerializeField] private ParticleSystem driftParticleRight;
 
 		[SyncVar(hook = nameof(ToggleDriftingEffects))] private bool isDrifting;
-
 		
 
 		private InputManager inputs;
@@ -43,6 +43,11 @@ namespace Player
 		private float remainingBoost;
 		private Coroutine boostCounterRoutine;
 
+		private void Awake()
+		{
+			playerSound = GetComponent<PlayerSound>();
+		}
+
 		public override void OnStartClient()
 		{
 			if (!isLocalPlayer)
@@ -51,8 +56,6 @@ namespace Player
 			if (inputs == null)
 				inputs = GetComponent<InputManager>();
 
-			playerSound = GetComponent<PlayerSound>();
-			
 			inputs.playerControls.Player.Boost.performed += Boost_performed;
 			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
 			inputs.playerControls.Player.Handbrake.performed += Brake;
