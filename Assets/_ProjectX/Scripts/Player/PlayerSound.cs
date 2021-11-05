@@ -21,6 +21,7 @@ public class PlayerSound : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         
         driftSoundInstance = FMODUnity.RuntimeManager.CreateInstance(driftSound);
+        driftSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
     }
 
     private void Start()
