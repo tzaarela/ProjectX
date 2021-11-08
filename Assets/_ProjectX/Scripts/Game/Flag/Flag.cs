@@ -1,9 +1,5 @@
 ﻿using Mirror;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Player;
 using DG.Tweening;
@@ -19,6 +15,8 @@ namespace Game.Flag
 		public float dropUpwardsForce = 3;
 		public float flagDropOffset = 10f;
 
+		private bool allowedToPickup;
+
 		public Action onFlagPickedUp;
 		public Action onFlagDropped;
 
@@ -27,6 +25,11 @@ namespace Game.Flag
 		
 		private Rigidbody rb;
 		private Tweener rotationTween;
+
+		private void OnEnable()
+		{
+			allowedToPickup = true;
+		}
 
 		private void Start()
 		{
@@ -38,11 +41,16 @@ namespace Game.Flag
 			if (!isServer)
 				return;
 
+			if (!allowedToPickup)
+				return;
+
 			if (other.gameObject.CompareTag("Player"))
 			{
 				PlayerController player = other.gameObject.GetComponent<PlayerController>();
 				if (player.GetComponent<Health>().IsDead)
 					return;
+
+				allowedToPickup = false;
 				
 				PickUp(player);
 			}
@@ -91,17 +99,17 @@ namespace Game.Flag
 
 		[ClientRpc]
 		public void RpcDeactivateFlag() 
-		{ 
+		{
 			gameObject.SetActive(false);
 		}
 
 		[ClientRpc]
 		public void RpcActivateFlag()
 		{
+			allowedToPickup = true;
 			gameObject.SetActive(true);
 		}
-
-
+		
 		public void StartRotating()
 		{
 			rotationTween = transform.DOLocalRotate(new Vector3(0, 180, 0), 2f, RotateMode.Fast)
