@@ -23,7 +23,6 @@ namespace Player
 
 		[SyncVar(hook = nameof(ToggleDriftingEffects))] private bool isDrifting;
 		
-
 		private InputManager inputs;
 		private float travelL = 0;
 		private float travelR = 0;
@@ -81,17 +80,6 @@ namespace Player
 			
 			CreateFrictionCurves();
 			SetNormalFriction();
-		}
-
-		private void FixedUpdate()
-		{
-			if (!isLocalPlayer)
-				return;
-
-			if (inputs == null)
-				inputs = GetComponent<InputManager>();
-
-			Drive();
 		}
 
 		[Server]
@@ -154,10 +142,25 @@ namespace Player
 				axle.rightWheel.sidewaysFriction = sidewayFrictionCurveNormal;
 			}
 		}
+		
+		private void FixedUpdate()
+		{
+			if (!isLocalPlayer)
+				return;
+			
+			if (inputs == null)
+				inputs = GetComponent<InputManager>();
 
-		
-		
-		
+			Drive();
+		}
+
+		[Client]
+		private void Drive()
+		{
+			if (NetworkClient.ready)
+				CmdDrive(inputs.acceleration, inputs.steering);
+		}
+
 		[Client]
 		private void Brake(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 		{
@@ -205,6 +208,7 @@ namespace Player
 			return frictionCurve;
 		}
 
+
 		[Server]
 		private WheelFrictionCurve CreateForwardFrictionCurve(FrictionCurve friction)
 		{
@@ -215,13 +219,6 @@ namespace Player
 			frictionCurve.extremumValue = friction.forwardFriction.extremumValue;
 			frictionCurve.stiffness = friction.forwardFriction.stiffness;
 			return frictionCurve;
-		}
-
-		[Client]
-		private void Drive()
-		{
-			if (NetworkClient.ready)
-				CmdDrive(inputs.acceleration, inputs.steering);
 		}
 
 		//Hook
@@ -275,7 +272,26 @@ namespace Player
 		[Server]
 		private void ApplyTorque(float acceleration, float steer)
 		{
+			// WORK IN PROGRESS! Set CarSettings/DecelerationForce to higher value when testing (5000-6000?)
+			// if (acceleration != 0)
+			// {
+			// 	float localForwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
+			// 	
+			// 	float velocityRelativeMultiplier = acceleration > 0 ? Mathf.Clamp(acceleration * 30 / localForwardVelocity, 1, 3)
+			// 														: Mathf.Clamp(acceleration * 30 / -localForwardVelocity, 1, 3);
+			// 	
+			// 	print("VEL: " + localForwardVelocity);
+			// 	print("ACC: " + acceleration);
+			// 	print("REL.MULTI: " + velocityRelativeMultiplier);
+			//
+			// 	acceleration *= velocityRelativeMultiplier;
+			// 	
+			// 	print("MOTOR: " + maxMotorTorque * acceleration);
+			// 	print("-----------------------");
+			// }
+
 			float motor = maxMotorTorque * acceleration;
+			
 			float steering = carSettings.maxSteeringAngle * steer;
 
 			foreach (CarAxle axleInfo in axleInfos)
