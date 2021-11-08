@@ -273,12 +273,12 @@ namespace Player
 
 				Vector3 pushForce = Vector3.ClampMagnitude(other.impulse, 12000);
 				
-				CmdForcePush(pushForce);
+				ForcePush(pushForce);
 			}
 		}
 
-		[ClientRpc]
-		private void CmdForcePush(Vector3 force)
+		[Server]
+		private void ForcePush(Vector3 force)
 		{
 			Debug.Log("FORCE PUSH: " + force);
 			Debug.DrawRay(transform.position, force, Color.red, 0.1f);
