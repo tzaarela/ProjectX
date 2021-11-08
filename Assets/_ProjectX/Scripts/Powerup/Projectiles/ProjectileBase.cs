@@ -39,6 +39,7 @@ namespace PowerUp.Projectiles
 		protected virtual void OnDisable()
 		{
 			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
 			transform.eulerAngles = Vector3.zero;
 			allowCollision = false;
 			SetSpawnedBy(-1);
