@@ -13,21 +13,10 @@ public class LobbyManager : MonoBehaviour
 	
 	[SerializeField] private TMP_InputField textInput;
 	
-	private bool hasBeenProvided;
-
 	public void Awake()
 	{
-		if (!hasBeenProvided)
-		{
-			ServiceLocator.ProvideLobbyManager(this);
-			print("LobbyManager provided to ServiceLocator");
-			hasBeenProvided = true;
-			DontDestroyOnLoad(gameObject);
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
+		print("LobbyManager provided to ServiceLocator");
+		ServiceLocator.ProvideLobbyManager(this);
 	}
 
 	[Client]
@@ -70,6 +59,10 @@ public class LobbyManager : MonoBehaviour
 	{
 		var roomPlayer = NetworkClient.connection.identity.gameObject.GetComponent<NetworkRoomPlayerExt>();
 		roomPlayer.CmdRoomPlayerChangeReadyState(true);
-
+	}
+	
+	private void OnDestroy()
+	{
+		ServiceLocator.ProvideLobbyManager(null);
 	}
 }
