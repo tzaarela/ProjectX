@@ -13,18 +13,16 @@ namespace Managers
 {
 	public class StartupController : MonoBehaviour
 	{
-		[Header("Networking")]
-		[SerializeField] private NetworkRoomManagerExt roomManager;
-		[SerializeField] private FizzySteamworks fizzySteamworks;
-		[SerializeField] private KcpTransport kcpTransport;
-
 		[Header("UI References")]
 		[SerializeField] private TMPro.TMP_Dropdown dropdownConnection;
 		[SerializeField] private TMPro.TMP_InputField connectionInputField;
 		[SerializeField] private TMPro.TextMeshProUGUI connectionPlaceholderText;
 		[SerializeField] private TMPro.TextMeshProUGUI statusText;
-
-
+		
+		private NetworkRoomManagerExt roomManager;
+		private FizzySteamworks fizzySteamworks;
+		private KcpTransport kcpTransport;
+		
 		private ConnectionType connectionType = ConnectionType.IP;
 
 		private void Awake()
@@ -35,15 +33,12 @@ namespace Managers
 
 		private void Start()
 		{
-			if (roomManager == null)
-			{
-				Debug.LogError("RoomManager not found on Start");
-				GameObject roomManagerGO = GameObject.Find("NetworkRoomManagerExt");
-				roomManager = roomManagerGO.GetComponent<NetworkRoomManagerExt>();
-				fizzySteamworks = roomManagerGO.GetComponent<FizzySteamworks>();
-				kcpTransport = roomManagerGO.GetComponent<KcpTransport>();
-			}
-			
+			// Solves issue with losing serialized references when returning to MainMenu:
+			GameObject roomManagerGO = GameObject.Find("NetworkRoomManagerExt");
+			roomManager = roomManagerGO.GetComponent<NetworkRoomManagerExt>();
+			fizzySteamworks = roomManagerGO.GetComponent<FizzySteamworks>();
+			kcpTransport = roomManagerGO.GetComponent<KcpTransport>();
+
 			SetConnectionMode();
 		}
 

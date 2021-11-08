@@ -429,7 +429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4185182600987269392, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4185182600987269393, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
       propertyPath: m_RootOrder
@@ -1097,17 +1097,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &735993434 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -3898556398853668274, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
-  m_PrefabInstance: {fileID: 230148851}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea368fb6f27ec2f40a40e20977992b9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &735993435 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -4493664106564643682, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
@@ -1117,17 +1106,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &735993436 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3561817599053994394, guid: 02ab5e71a58fed046960ee5f1e4ef15a, type: 3}
-  m_PrefabInstance: {fileID: 230148851}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f730f292c5d5246adac7afc4b1cb09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &824299376
@@ -2909,9 +2887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cafb027302c7b304898eb7c952410d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomManager: {fileID: 735993436}
-  fizzySteamworks: {fileID: 735993434}
-  kcpTransport: {fileID: 735993435}
   dropdownConnection: {fileID: 603827782}
   connectionInputField: {fileID: 1944714401}
   connectionPlaceholderText: {fileID: 120789882}
