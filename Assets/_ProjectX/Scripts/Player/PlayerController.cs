@@ -271,7 +271,7 @@ namespace Player
 				
 				Debug.Log("FORCE MAG: " + other.impulse.magnitude);
 
-				Vector3 pushForce = Vector3.ClampMagnitude(other.impulse, 15000);
+				Vector3 pushForce = Vector3.ClampMagnitude(other.impulse, 12000);
 				
 				CmdForcePush(pushForce);
 			}
