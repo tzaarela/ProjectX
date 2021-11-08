@@ -253,5 +253,36 @@ namespace Player
 			rb.AddForce(direction * (distance * 100) + Vector3.up * 10000, ForceMode.Impulse);
 			health.ReceiveDamage(50, spawnedById);
 		}
+		
+		private void OnCollisionEnter(Collision other)
+		{
+			if (!isServer)
+				return;
+			
+			if (other.transform.CompareTag("Obstacle"))
+			{
+				// if (rb.velocity.magnitude > 0.1f)
+				// 	return;
+				
+				//Vector3.Dot(other.contacts[0].normal,other.relativeVelocity) * rb.mass
+
+				if (other.impulse.magnitude < 500f)
+					return;
+				
+				Debug.Log("FORCE MAG: " + other.impulse.magnitude);
+
+				Vector3 pushForce = Vector3.ClampMagnitude(other.impulse, 15000);
+				
+				CmdForcePush(pushForce);
+			}
+		}
+
+		[ClientRpc]
+		private void CmdForcePush(Vector3 force)
+		{
+			Debug.Log("FORCE PUSH: " + force);
+			Debug.DrawRay(transform.position, force, Color.red, 0.1f);
+			rb.AddForce(force, ForceMode.Impulse);
+		}
 	}
 }
