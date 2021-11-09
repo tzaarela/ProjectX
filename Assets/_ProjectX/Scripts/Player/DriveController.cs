@@ -180,8 +180,8 @@ namespace Player
 						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveHandbrake;
 						axel.leftWheel.forwardFriction = forwardFrictionCurveHandbrake;
 						axel.rightWheel.forwardFriction = forwardFrictionCurveHandbrake;
-						axel.leftWheel.brakeTorque = carSettings.brakeTorque;
-						axel.rightWheel.brakeTorque = carSettings.brakeTorque;
+						axel.leftWheel.brakeTorque = carSettings.handBrakeTorque;
+						axel.rightWheel.brakeTorque = carSettings.handBrakeTorque;
 					}
 					else
 					{
@@ -280,11 +280,12 @@ namespace Player
 			if (acceleration > 0 && localForwardVelocity < 0 || acceleration < 0 && localForwardVelocity > 0)
 			{
 				acceleration = 0;
-				brakeForce = 20f;
+				brakeForce = carSettings.regularBrakeMultiplier;
 			}
 			else
 			{
-				float velocityRelativeMultiplier = Mathf.Clamp(acceleration * 40 / localForwardVelocity, 1, 4);
+				float velocityRelativeMultiplier = Mathf.Clamp(acceleration * carSettings.maxRelativeAccelerationTimeFrame 
+																	/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
 				acceleration *= velocityRelativeMultiplier;
 			}
 			

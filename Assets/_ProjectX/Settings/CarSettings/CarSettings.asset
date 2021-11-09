@@ -54,11 +54,26 @@ MonoBehaviour:
   wheelSuspensionDamper: 4500
   wheelSuspensionTargetPosition: 0.5
   maxVelocity: 900
+  maxRelativeAccelerationMultiplier: 3
+  maxRelativeAccelerationTimeFrame: 30
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   maxVelocityBoost: 1200
   maxMotorTorque: 1100
   maxSteeringAngle: 35
-  brakeTorque: 12000
+  handBrakeTorque: 12000
   decelerationForce: 1500
+  regularBrakeMultiplier: 20
+  regularBrakeCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   boostMultiplier: 2
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
