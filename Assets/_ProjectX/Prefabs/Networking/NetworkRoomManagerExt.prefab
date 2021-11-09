@@ -68,7 +68,7 @@ MonoBehaviour:
   - {fileID: 8329126617015401616, guid: 423b2b4ba72eb064d8f314d15ce6d6f2, type: 3}
   - {fileID: 9004532032545913952, guid: 08d9c6683f8d8b940b4d688350e93cb0, type: 3}
   - {fileID: 9004532032545913952, guid: 815d27b3fe3d2ab42ba2fa945fd05655, type: 3}
-  showRoomGUI: 1
+  showRoomGUI: 0
   minPlayers: 1
   roomPlayerPrefab: {fileID: 2392863618073276917, guid: d032366a06426494f87b1b585e391f61, type: 3}
   RoomScene: Assets/_ProjectX/Scenes/Lobby.unity
