@@ -43,3 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3126d8f3e7984d4a918f2710aeb98e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundTime: 300
+  scoreRate: 0.5
+  scoreToAdd: 5
+  scoreToWin: 999
+  additionalScoringStartupThreshold: 100
+  additionalScoringMaxThreshold: 300
+  additionalScoreMaxMultiplier: 1

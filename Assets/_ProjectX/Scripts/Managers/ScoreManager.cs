@@ -13,14 +13,13 @@ namespace Managers
 	public class ScoreManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
 		// NetworkIdentity = ServerOnly
-
-		[Header("SETTINGS:")]
-		[SerializeField] private float scoreRate = 0.5f;
-		[SerializeField] private int scoreToAdd = 5;
-		[SerializeField] private int scoreToWin = 100;
-		[SerializeField] private int additionalScoringStartupThreshold = 100;
-		[SerializeField] private int additionalScoringMaxThreshold = 300;
-		[SerializeField] private float additionalScoreMaxMultiplier = 2;
+		
+		private float scoreRate;
+		private int scoreToAdd;
+		private int scoreToWin;
+		private int additionalScoringStartupThreshold;
+		private int additionalScoringMaxThreshold;
+		private float additionalScoreMaxMultiplier;
 
 		private Dictionary<string, int> playerScores;
 
@@ -45,6 +44,23 @@ namespace Managers
 			{
 				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
 				{
+					if (globalSignalData is GameObjectData data)
+					{
+						if (data.gameObject.TryGetComponent(out RoundManager roundManager))
+						{
+							scoreRate = roundManager.scoreRate;
+							scoreToAdd = roundManager.scoreToAdd;
+							scoreToWin = roundManager.scoreToWin;
+							additionalScoringStartupThreshold = roundManager.additionalScoringStartupThreshold;
+							additionalScoringMaxThreshold = roundManager.additionalScoringMaxThreshold;
+							additionalScoreMaxMultiplier =roundManager.additionalScoreMaxMultiplier;
+						}
+						else
+						{
+							Debug.Log("RoundManager was not received by ScoreManager on ALL_PLAYERS_CONNECTED_TO_GAME");
+						}
+					}
+					
 					List<string> playerNames = ServiceLocator.RoundManager.ConnectedPlayers;
 					playerScores = new Dictionary<string, int>();
 					foreach (string name in playerNames)

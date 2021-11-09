@@ -9,6 +9,15 @@ namespace Managers
 {
 	public class RoundManager : MonoBehaviour, ISendGlobalSignal
 	{
+		[Header("SETTINGS:")]
+		public int roundTime = 300;
+		public float scoreRate = 0.5f;
+		public int scoreToAdd = 5;
+		public int scoreToWin = 100;
+		public int additionalScoringStartupThreshold = 100;
+		public int additionalScoringMaxThreshold = 300;
+		public float additionalScoreMaxMultiplier = 2;
+		
 		private List<string> connectedPlayers = new List<string>();
 		
 		private static bool hasBeenProvided;
@@ -16,6 +25,7 @@ namespace Managers
 		public List<string> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
 		
+		[Server]
 		private void Awake()
 		{
 			if (!hasBeenProvided)
@@ -44,7 +54,7 @@ namespace Managers
 					print(name);
 				}
 				print("Mediator: All players connected to game!");
-				SendGlobal(GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME);
+				SendGlobal(GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME, new GameObjectData(gameObject));
 			}
 		}
 
@@ -52,8 +62,11 @@ namespace Managers
 		public void EndOfGame()
 		{
 			print("---- GAME HAS ENDED ----");
-			connectedPlayers.Clear();
+			// connectedPlayers.Clear();
 			SendGlobal(GlobalEvent.END_GAMESTATE);
+			ServiceLocator.ProvideRoundManager(this);
+			hasBeenProvided = false;
+			Destroy(gameObject);
 		}
 
 		[Server]

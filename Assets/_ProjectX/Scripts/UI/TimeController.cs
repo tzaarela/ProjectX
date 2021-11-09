@@ -13,7 +13,7 @@ namespace UI
 	{
 		// NetworkIdentity = !ServerOnly
 		
-		[SerializeField] private int timeLimit = 100;
+		private int roundTime;
 		
 		[SerializeField] private TMP_Text timeText;
 
@@ -31,7 +31,18 @@ namespace UI
 			switch (eventState)
 			{
 				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
-					uiTime = timeLimit;
+					if (globalSignalData is GameObjectData data)
+					{
+						if (data.gameObject.TryGetComponent(out RoundManager roundManager))
+						{
+							roundTime = roundManager.roundTime;
+						}
+						else
+						{
+							Debug.Log("RoundManager was not received by TimeController on ALL_PLAYERS_CONNECTED_TO_GAME");
+						}
+					}
+					uiTime = roundTime;
 					RpcSetTimeScale(1);
 					StartCoroutine(TimerRoutine());
 					break;
@@ -71,7 +82,9 @@ namespace UI
 		[ServerCallback]
 		private void OnDestroy()
 		{
-			// print("TimeController OnDestroy");
+			if (!isServer)
+				return;
+			
 			GlobalMediator.Instance.UnSubscribe(this);
 		}
 	}
