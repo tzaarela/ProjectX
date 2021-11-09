@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Data.Interfaces;
 using Managers;
 using Mirror;
+using PowerUp.Projectiles;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(NetworkIdentity))]
@@ -19,8 +20,7 @@ public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 	{
 		rb.isKinematic = true;
 		
-		if(!isServer)
-			DeactivateColliders();
+		DeactivateColliders();
 	}
 
 	private void DeactivateColliders()
@@ -49,12 +49,15 @@ public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 		rb.isKinematic = false;
 		rb.AddExplosionForce(100, transform.position, 3, 3f); //AddForce(impulse, ForceMode.Impulse);
 	}
-
+	
 	private void OnCollisionEnter(Collision other)
 	{
 		if(!rb.isKinematic)
 			return;
 
+		if (!isServer)
+			return;
+		
 		DestructionManager.Instance.DestructObject(gameObject, other.relativeVelocity);
 	}
 
@@ -63,11 +66,39 @@ public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 		if(!rb.isKinematic)
 			return;
 		
+		if (!isServer)
+			return;
+		
+		// if (other.CompareTag("Player"))
+		// {
+		// 	rb.isKinematic = false;
+		// 	
+		// 	DestructionManager.Instance.PlayerDestructObject(gameObject);
+		// }
+		
 		if (other.CompareTag("Player"))
 		{
 			rb.isKinematic = false;
 			
-			DestructionManager.Instance.PlayerDestructObject(gameObject);
+			DestructionManager.Instance.DestructObject(gameObject, other.attachedRigidbody.velocity);
+			
+			foreach (Collider coll in GetComponentsInChildren<Collider>())
+			{
+				coll.enabled = true;
+			}
+		}
+		else if (other.CompareTag("Projectile"))
+		{
+			rb.isKinematic = false;
+			
+			foreach (Collider coll in GetComponentsInChildren<Collider>())
+			{
+				coll.enabled = true;
+			}
+			
+			DestructionManager.Instance.DestructObject(gameObject, other.attachedRigidbody.velocity);
+
+			other.GetComponent<ProjectileBase>().OverrideCollision();
 		}
 	}
 

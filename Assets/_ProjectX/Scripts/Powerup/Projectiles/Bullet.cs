@@ -65,5 +65,13 @@ namespace PowerUp.Projectiles
 			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
 		}
+
+		public override void OverrideCollision()
+		{
+			base.OverrideCollision();
+			
+			allowCollision = false;
+			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
+		}
 	}
 }

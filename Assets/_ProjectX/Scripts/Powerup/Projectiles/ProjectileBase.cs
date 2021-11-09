@@ -73,5 +73,10 @@ namespace PowerUp.Projectiles
 			transform.rotation = Quaternion.identity;
 			ServiceLocator.ObjectPools.ReturnToPool(currentPoolType, gameObject);
 		}
+
+		public virtual void OverrideCollision()
+		{
+			
+		}
 	}
 }

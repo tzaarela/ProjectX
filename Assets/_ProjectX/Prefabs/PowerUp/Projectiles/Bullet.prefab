@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5622612303277816428}
   - component: {fileID: 5215735168201359799}
   - component: {fileID: 2527835905297967346}
+  - component: {fileID: 7078159407211859531}
   m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
@@ -251,6 +252,20 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!136 &7078159407211859531
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088292643631628778}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.15
+  m_Height: 0.58
+  m_Direction: 2
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &4514656467105672169
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +277,6 @@ GameObject:
   - component: {fileID: 5760797451840803870}
   - component: {fileID: 3427510978279165611}
   - component: {fileID: 7497625372342030646}
-  - component: {fileID: 8784091193162380391}
   m_Layer: 6
   m_Name: Body
   m_TagString: Projectile
@@ -333,17 +347,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8784091193162380391
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4514656467105672169}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
