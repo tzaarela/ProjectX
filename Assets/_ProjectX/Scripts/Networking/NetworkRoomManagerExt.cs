@@ -54,6 +54,20 @@ namespace Networking
 			gameHasStarted = true;
 		}
 		
+		public void ReturnToMainMenu()
+		{
+			if (NetworkServer.active && NetworkClient.isConnected)
+			{
+				print("StopHost");
+				StopHost();
+			}
+			else
+			{
+				print("StopClient");
+				StopClient();
+			}
+		}
+		
 		[Server]
 		public void ReloadGameScene()
 		{
@@ -82,7 +96,7 @@ namespace Networking
 			if (NetworkServer.active && NetworkClient.isConnected)
 			{
 				print("StopHost");
-				print("RoomSlotsCount at EndGame: " + roomSlots.Count);
+				// print("RoomSlotsCount at EndGame: " + roomSlots.Count);
 				gameHasStarted = false;
 				StopHost();
 			}
