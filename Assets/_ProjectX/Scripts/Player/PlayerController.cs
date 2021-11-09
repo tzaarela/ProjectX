@@ -193,6 +193,9 @@ namespace Player
 		public void CmdRespawnPlayer()
 		{
 			health.ResetCurrentHealth();
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
+			FlipCar();
 			RpcRespawnPlayer();
 		}
 		
@@ -202,19 +205,26 @@ namespace Player
 			deathSmoke.Stop();
 			colorChangingMesh.material.color = playerColor;
 			GetComponent<PlayerSound>().PlayEmitter();
-			FlipCar();
-			
+
 			if (!isLocalPlayer)
 				return;
 
 			inputManager.EnableInput();
 		}
 		
-		[Client]
+		[Server]
 		private void FlipCar()
 		{
 			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
 			transform.rotation = Quaternion.Euler(newRotation);
+			
+			rb.AddForce(Vector3.up * 5000, ForceMode.Impulse);
+
+			if (transform.position.y > 2f)
+			{
+				transform.position = new Vector3(transform.position.x,2f, transform.position.z);
+				rb.velocity = Vector3.zero;
+			}
 		}
 
 		// TEMP!
@@ -238,13 +248,8 @@ namespace Player
 		[Command]
 		private void CmdFlipCar()
 		{
-			RpcFlipCar();
-		}
-
-		// TEMP!
-		[ClientRpc]
-		private void RpcFlipCar()
-		{
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
 			FlipCar();
 		}
 
