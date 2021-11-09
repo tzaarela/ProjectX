@@ -25,7 +25,6 @@ namespace Managers
 		public List<string> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
 		
-		[Server]
 		private void Awake()
 		{
 			if (!hasBeenProvided)

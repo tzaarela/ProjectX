@@ -38,6 +38,8 @@ namespace Networking
 			if (newSceneName != GameplayScene)
 				return;
 			
+			print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
+			
 			int connectedClients = 0;
 			foreach (NetworkRoomPlayer player in roomSlots)
 			{
@@ -55,7 +57,7 @@ namespace Networking
 		[Server]
 		public void ReloadGameScene()
 		{
-			ServerChangeScene(GameplayScene);
+			ServerChangeScene(RoomScene);
 		}
 		
 		[Server]
@@ -63,20 +65,25 @@ namespace Networking
 		{
 			base.OnServerDisconnect(conn);
 		
-			if (!IsSceneActive(GameplayScene))
-				return;
-			
-			StopHost();
+			// if (!IsSceneActive(GameplayScene))
+			// 	return;
+			//
+			// if (roomSlots.Count > 1)
+			// 	return;
+			//
+			// print("RoomSlotsCount at EndGame: " + roomSlots.Count);
+			// gameHasStarted = false;
+			// StopHost();
 		}
 
 		[Client]
 		public void EndGame()
 		{
-			gameHasStarted = false;
-			
 			if (NetworkServer.active && NetworkClient.isConnected)
 			{
 				print("StopHost");
+				print("RoomSlotsCount at EndGame: " + roomSlots.Count);
+				gameHasStarted = false;
 				StopHost();
 			}
 			else
