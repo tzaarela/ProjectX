@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3391306}
   - component: {fileID: 2314642}
   - component: {fileID: 65183753706625858}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_Shop_Cover_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3332310}
   - component: {fileID: 2311166}
   - component: {fileID: 64851498745671372}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Sign_Hotel_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 64736785570462964}
   - component: {fileID: 64579999815175822}
   - component: {fileID: 64455827509188898}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_CityHall_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

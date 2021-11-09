@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 402396}
   - component: {fileID: 3331090}
   - component: {fileID: 2374326}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_OfficeRound_Base_01_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2355552}
   - component: {fileID: 64716588786034910}
   - component: {fileID: 64341226272795986}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_OfficeRound_Base_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

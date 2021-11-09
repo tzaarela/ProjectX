@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 64440718994942386}
   - component: {fileID: 64854102702400096}
   - component: {fileID: 64558586628501180}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Vents_Transition_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3347030}
   - component: {fileID: 2320100}
   - component: {fileID: 64694210213855784}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_ATM_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

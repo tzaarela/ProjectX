@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3355784}
   - component: {fileID: 2361446}
   - component: {fileID: 64660090400556856}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_OfficeOctagon_Floor_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

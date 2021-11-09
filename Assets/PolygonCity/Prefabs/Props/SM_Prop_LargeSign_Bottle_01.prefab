@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3369286}
   - component: {fileID: 2379806}
   - component: {fileID: 64205517211238588}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_LargeSign_Bottle_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

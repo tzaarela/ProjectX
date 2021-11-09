@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3396160}
   - component: {fileID: 2353828}
   - component: {fileID: 65346664540590534}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Billboard_Sign_06
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

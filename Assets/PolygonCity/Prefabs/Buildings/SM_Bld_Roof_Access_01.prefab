@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2343282}
   - component: {fileID: 64200068796743118}
   - component: {fileID: 64526230041215666}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_Roof_Access_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

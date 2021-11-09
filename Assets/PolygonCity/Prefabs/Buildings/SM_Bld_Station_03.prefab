@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 64005552069748600}
   - component: {fileID: 64521683290857282}
   - component: {fileID: 7654965610163681984}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_Station_03
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

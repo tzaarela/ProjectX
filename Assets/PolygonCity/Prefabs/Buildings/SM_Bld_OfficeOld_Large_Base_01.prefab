@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 64633964619069568}
   - component: {fileID: 64189287793486682}
   - component: {fileID: 4704066728713018405}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Bld_OfficeOld_Large_Base_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

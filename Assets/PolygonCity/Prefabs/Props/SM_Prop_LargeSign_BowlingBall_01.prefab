@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3335770}
   - component: {fileID: 2386190}
   - component: {fileID: 64422531387561294}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_LargeSign_BowlingBall_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

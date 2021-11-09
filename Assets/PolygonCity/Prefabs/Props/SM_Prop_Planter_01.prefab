@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3334866}
   - component: {fileID: 2323072}
   - component: {fileID: 64055706049322902}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Planter_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

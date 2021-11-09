@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3317208}
   - component: {fileID: 2382762}
   - component: {fileID: 64685992054565372}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Skylight_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 408636}
   - component: {fileID: 3382006}
   - component: {fileID: 2339040}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Skylight_01_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}

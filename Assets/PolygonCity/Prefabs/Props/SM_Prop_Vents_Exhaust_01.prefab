@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 64831139739737914}
   - component: {fileID: 64661154842631092}
   - component: {fileID: 64159984482060036}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Vents_Exhaust_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

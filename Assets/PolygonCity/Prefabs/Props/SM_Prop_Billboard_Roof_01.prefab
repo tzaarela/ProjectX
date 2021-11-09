@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3312818}
   - component: {fileID: 2349470}
   - component: {fileID: 64724887356665360}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SM_Prop_Billboard_Roof_01
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
