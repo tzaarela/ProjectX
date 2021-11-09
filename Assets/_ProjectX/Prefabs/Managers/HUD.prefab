@@ -164,11 +164,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1602298775}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 7}
+  m_AnchoredPosition: {x: 0, y: 14}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &640230867
@@ -201,15 +201,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Rematch
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
-  m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
+  m_sharedMaterial: {fileID: -7053677785113320218, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -298,11 +298,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1602298775}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -13}
+  m_AnchoredPosition: {x: 0, y: -3}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &723814841
@@ -337,15 +337,15 @@ MonoBehaviour:
 
     - Host Only -'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
-  m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
+  m_sharedMaterial: {fileID: -7053677785113320218, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -506,8 +506,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 640230865}
   - {fileID: 723814839}
+  - {fileID: 640230865}
   m_Father: {fileID: 9108806945197047533}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3057,15 +3057,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: MAIN MENU
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
-  m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
+  m_sharedMaterial: {fileID: -7053677785113320218, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3082,12 +3082,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
+  m_fontSize: 36
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42
+  m_fontSizeMax: 36
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4347,7 +4347,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  timeLimit: 300
   timeText: {fileID: 8007866307668988438}
 --- !u!114 &3814021661348307208
 MonoBehaviour:
