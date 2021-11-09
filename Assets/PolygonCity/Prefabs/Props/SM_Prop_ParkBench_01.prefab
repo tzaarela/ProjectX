@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8129556333664264818}
   - component: {fileID: 6479607838531609826}
   - component: {fileID: 6075064866894121414}
+  - component: {fileID: 7463776467638895276}
   m_Layer: 7
   m_Name: SM_Prop_ParkBench_01
   m_TagString: Untagged
@@ -189,3 +190,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e8e6474dcc49e438b03596b32c5365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!136 &7463776467638895276
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.8
+  m_Height: 3.5
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.5, z: -0.07}
