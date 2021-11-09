@@ -257,9 +257,9 @@ namespace Player
 		{
 			if (axleInfos.Any(x => x.leftWheel.isGrounded || x.rightWheel.isGrounded))
 			{
-				var velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+				Vector3 velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 				float driftValue = Vector3.Dot(velocity.normalized, transform.forward);
-			
+
 				if (velocity.sqrMagnitude > carSettings.slidingMinimumVelocity && Mathf.Abs(driftValue) < carSettings.slidingThreshold)
 				{
 					return true;
@@ -272,26 +272,24 @@ namespace Player
 		[Server]
 		private void ApplyTorque(float acceleration, float steer)
 		{
-			// WORK IN PROGRESS! Set CarSettings/DecelerationForce to higher value when testing (5000-6000?)
-			// if (acceleration != 0)
-			// {
-			// 	float localForwardVelocity = Mathf.Abs(Vector3.Dot(rb.velocity, transform.forward));
-			// 	
-			// 	float velocityRelativeMultiplier = acceleration > 0 ? Mathf.Clamp(acceleration * 30 / localForwardVelocity, 1, 3)
-			// 														: Mathf.Clamp(acceleration * 30 / -localForwardVelocity, 1, 3);
-			// 	
-			// 	print("VEL: " + localForwardVelocity);
-			// 	print("ACC: " + acceleration);
-			// 	print("REL.MULTI: " + velocityRelativeMultiplier);
-			//
-			// 	acceleration *= velocityRelativeMultiplier;
-			// 	
-			// 	print("MOTOR: " + maxMotorTorque * acceleration);
-			// 	print("-----------------------");
-			// }
+			// WORK IN PROGRESS 2.0!
+			float localForwardVelocity = Vector3.Dot(rb.velocity, transform.forward);
 
-			float motor = maxMotorTorque * acceleration;
+			float brakeForce = 1f;
 			
+			if (acceleration > 0 && localForwardVelocity < 0 || acceleration < 0 && localForwardVelocity > 0)
+			{
+				acceleration = 0;
+				brakeForce = 20f;
+			}
+			else
+			{
+				float velocityRelativeMultiplier = Mathf.Clamp(acceleration * 40 / localForwardVelocity, 1, 4);
+				acceleration *= velocityRelativeMultiplier;
+			}
+			
+			float motor = maxMotorTorque * acceleration;
+
 			float steering = carSettings.maxSteeringAngle * steer;
 
 			foreach (CarAxle axleInfo in axleInfos)
@@ -304,25 +302,24 @@ namespace Player
 
 				if (axleInfo.hasMotor)
 				{
-					var speed = rb.velocity.sqrMagnitude;
-					if (speed > maxVelocity)
+					if (motor == 0)
+					{
+						axleInfo.leftWheel.brakeTorque = carSettings.decelerationForce * brakeForce;
+						axleInfo.rightWheel.brakeTorque = carSettings.decelerationForce * brakeForce;
+					}
+					else if (rb.velocity.sqrMagnitude > maxVelocity)
 					{
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;
 						axleInfo.leftWheel.motorTorque = 0;
 						axleInfo.rightWheel.motorTorque = 0;
 					}
-					else if (motor != 0)
+					else
 					{
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;
 						axleInfo.leftWheel.motorTorque = motor;
 						axleInfo.rightWheel.motorTorque = motor;
-					}
-					else
-					{
-						axleInfo.leftWheel.brakeTorque = carSettings.decelerationForce;
-						axleInfo.rightWheel.brakeTorque = carSettings.decelerationForce;
 					}
 				}
 
