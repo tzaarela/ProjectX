@@ -59,7 +59,7 @@ namespace Managers
 			switch (eventState)
 			{
 				case GlobalEvent.END_GAMESTATE:
-					rematchButton.SetActive(true);
+					// rematchButton.SetActive(true);
 					break;
 			}
 		}
