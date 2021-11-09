@@ -125,11 +125,11 @@ MonoBehaviour:
   antiRoll: 12000
   slidingThreshold: 0.95
   slidingMinimumVelocity: 100
-  centerOfMassOffset: {x: 0, y: 0.32, z: 1}
+  centerOfMassOffset: {x: 0, y: 0.25, z: 1}
   mass: 1300
-  drag: 0
-  angularDrag: 0
+  drag: 0.1
+  angularDrag: 0.1
   useGravity: 1
   isKinematic: 0
   interpolateMode: 1
-  collisionDetectionMode: 0
+  collisionDetectionMode: 1
