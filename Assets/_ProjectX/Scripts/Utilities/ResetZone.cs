@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class ResetZone : NetworkBehaviour
@@ -12,9 +13,15 @@ public class ResetZone : NetworkBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			other.attachedRigidbody.velocity = Vector3.zero;
-			other.transform.rotation = Quaternion.identity;
-			other.transform.position = resetPoint.position;
+			var attachedRigidbody = other.attachedRigidbody;
+			attachedRigidbody.velocity = Vector3.zero;
+			attachedRigidbody.angularVelocity = Vector3.zero;
+			
+			var otherTransform = other.transform;
+			otherTransform.rotation = Quaternion.identity;
+			otherTransform.position = resetPoint.position;
+			
+			other.GetComponent<PowerupController>().Drop();
 		}
 	}
 }

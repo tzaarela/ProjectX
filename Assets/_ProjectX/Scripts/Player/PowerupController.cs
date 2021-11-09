@@ -97,7 +97,7 @@ namespace Player
 		}
 
 		[Server]
-		private void Drop()
+		public void Drop()
 		{
 			UpdateClientPickup(PowerupType.NONE);
 			currentPowerupType = PowerupType.NONE;

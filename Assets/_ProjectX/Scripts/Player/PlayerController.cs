@@ -196,6 +196,7 @@ namespace Player
 			rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
 			FlipCar();
+			GetComponent<PowerupController>().Drop();
 			RpcRespawnPlayer();
 		}
 		
