@@ -32,15 +32,15 @@ namespace _ProjectX.Scripts.Data.ScriptableObjects
 
 		[Header("Other")]
 		public float maxVelocity = 800f;
-		public float maxRelativeAccelerationMultiplier = 3f;
-		public float maxRelativeAccelerationTimeFrame = 30f;
+		public float relativeAccelerationMaxMultiplier = 3f;
+		public float relativeAccelerationTimeFrame = 30f;
 		public AnimationCurve accelerationCurve;
 		public float maxVelocityBoost = 1200f;
 		public float maxMotorTorque = 700f;
 		public float maxSteeringAngle = 32f;
 		public float handBrakeTorque = 6000f;
 		public float decelerationForce = 2000f;
-		public float regularBrakeMultiplier = 20f;
+		public float regularBrakeMaxMultiplier = 30f;
 		public AnimationCurve regularBrakeCurve;
 		public float boostMultiplier = 2.5f;
 		public float boostMaxTime = 2f;

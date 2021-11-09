@@ -52,8 +52,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
-			if (inputs == null)
-				inputs = GetComponent<InputManager>();
+	
+			inputs = GetComponent<InputManager>();
 
 			inputs.playerControls.Player.Boost.performed += Boost_performed;
 			inputs.playerControls.Player.Boost.canceled += Boost_canceled;
@@ -148,8 +148,8 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 			
-			if (inputs == null)
-				inputs = GetComponent<InputManager>();
+			// if (inputs == null)
+			// 	inputs = GetComponent<InputManager>();
 
 			Drive();
 		}
@@ -157,8 +157,9 @@ namespace Player
 		[Client]
 		private void Drive()
 		{
-			if (NetworkClient.ready)
-				CmdDrive(inputs.acceleration, inputs.steering);
+			// NECCESSARY??
+			// if (NetworkClient.ready)
+			CmdDrive(inputs.acceleration, inputs.steering);
 		}
 
 		[Client]
@@ -272,24 +273,39 @@ namespace Player
 		[Server]
 		private void ApplyTorque(float acceleration, float steer)
 		{
-			// WORK IN PROGRESS 2.0!
+			// WORK IN PROGRESS 3.0!
 			float localForwardVelocity = Vector3.Dot(rb.velocity, transform.forward);
+			float scaledVelocity = Mathf.Clamp(localForwardVelocity / carSettings.relativeAccelerationTimeFrame, -1, 1);
+			// print("Velocity: " + localForwardVelocity);
+			// print("ScaledVelocity: " + scaledVelocity);
 
 			float brakeForce = 1f;
 			
 			if (acceleration > 0 && localForwardVelocity < 0 || acceleration < 0 && localForwardVelocity > 0)
 			{
 				acceleration = 0;
-				brakeForce = carSettings.regularBrakeMultiplier;
+				
+				float velocityRelativeBrakeMultiplier = Mathf.Clamp(carSettings.regularBrakeMaxMultiplier * carSettings.regularBrakeCurve.Evaluate(Mathf.Abs(scaledVelocity)),
+														1, carSettings.regularBrakeMaxMultiplier);
+				brakeForce *= velocityRelativeBrakeMultiplier;
+				// print("BrakeForce: " + brakeForce);
+
+				// OLD FUNCTION - Not using AnimationCurve
+				// brakeForce = carSettings.regularBrakeMultiplier;
 			}
 			else
 			{
-				float velocityRelativeMultiplier = Mathf.Clamp(acceleration * carSettings.maxRelativeAccelerationTimeFrame 
-																	/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
-				acceleration *= velocityRelativeMultiplier;
+				// OLD FUNCTION - Not using AnimationCurve
+				// float velocityRelativeMultiplier = Mathf.Clamp(acceleration * carSettings.maxRelativeAccelerationTimeFrame 
+				// 													/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
+				
+				float velocityRelativeAccelerationMultiplier = Mathf.Clamp(Mathf.Abs(acceleration) / carSettings.accelerationCurve.Evaluate(Mathf.Abs(scaledVelocity)),
+																1, carSettings.relativeAccelerationMaxMultiplier);
+				acceleration *= velocityRelativeAccelerationMultiplier;
 			}
 			
 			float motor = maxMotorTorque * acceleration;
+			// print("Motor: " + motor);
 
 			float steering = carSettings.maxSteeringAngle * steer;
 
