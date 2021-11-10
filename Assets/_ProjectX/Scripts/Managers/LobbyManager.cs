@@ -1,6 +1,8 @@
+using System;
 using Managers;
 using Mirror;
 using System.Collections.Generic;
+using Data.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,21 +10,29 @@ using UnityEngine.UI;
 public class LobbyManager : MonoBehaviour
 {
 	public List<Transform> roomPlayerSpawnSlots;
-    public List<Color> indexColors;
-	public Transform lobbyUI;
 	public GameObject colorPalette;
 	public int nameCharacterLimit = 10;
 	public Image readyButtonImage;
 	public TextMeshProUGUI readyButtonText;
 
 	[SerializeField] private TMP_InputField textInput;
+	[SerializeField] private SO_CarMaterials carMaterials;
 
 	private bool playerIsReady;
-	
-	public void Awake()
+
+	private void Awake()
 	{
 		print("LobbyManager provided to ServiceLocator");
 		ServiceLocator.ProvideLobbyManager(this);
+	}
+
+	private void Start()
+	{
+		Image[] images = colorPalette.GetComponentsInChildren<Image>();
+		for (int i = 0; i < carMaterials.colors.Length; i++)
+		{
+			images[i].color = carMaterials.colors[i];
+		}
 	}
 
 	[Client]
