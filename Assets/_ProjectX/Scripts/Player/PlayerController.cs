@@ -275,7 +275,7 @@ namespace Player
 				if (other.impulse.magnitude < 500f)
 					return;
 				
-				Debug.Log("FORCE MAG: " + other.impulse.magnitude);
+				//Debug.Log("FORCE MAG: " + other.impulse.magnitude);
 
 				Vector3 pushForce = Vector3.ClampMagnitude(other.impulse, 12000);
 				
@@ -286,7 +286,7 @@ namespace Player
 		[Server]
 		private void ForcePush(Vector3 force)
 		{
-			Debug.Log("FORCE PUSH: " + force);
+			//Debug.Log("FORCE PUSH: " + force);
 			Debug.DrawRay(transform.position, force, Color.red, 0.1f);
 			rb.AddForce(force, ForceMode.Impulse);
 		}
