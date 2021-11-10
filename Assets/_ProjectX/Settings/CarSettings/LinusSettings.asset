@@ -93,8 +93,8 @@ MonoBehaviour:
   maxMotorTorque: 1100
   maxSteeringAngle: 35
   handBrakeTorque: 12000
-  decelerationForce: 4000
-  regularBrakeMaxMultiplier: 25
+  decelerationForce: 3000
+  regularBrakeMaxMultiplier: 30
   regularBrakeCurve:
     serializedVersion: 2
     m_Curve:
