@@ -30190,6 +30190,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2186759548089129571, guid: 1b65b47769efa0546ab7039999fcead5, type: 3}
+      propertyPath: xrayMask.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     - target: {fileID: 4680610535083694122, guid: 1b65b47769efa0546ab7039999fcead5, type: 3}
       propertyPath: m_CustomBlends
       value: 
