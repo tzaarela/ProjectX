@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1911176385274034240}
   - component: {fileID: 3694870676565375228}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: PlayerName_canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 3843313183095549569}
   - component: {fileID: 7169316652510401264}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PlayerName_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,8 +569,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
-  m_sharedMaterial: {fileID: -7211015739683558484, guid: 051f37d27deba3c4ea521ec817e32aa6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
+  m_sharedMaterial: {fileID: -7053677785113320218, guid: 78db279782e7d2c4b8b8a8145a020123, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -604,7 +604,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 6
+  m_characterSpacing: 8
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
