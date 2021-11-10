@@ -20,6 +20,9 @@ namespace Player
 		[SerializeField] private ParticleSystem boostParticle;
 		[SerializeField] private ParticleSystem driftParticleLeft;
 		[SerializeField] private ParticleSystem driftParticleRight;
+		[SerializeField] private ParticleSystem boostParticleLeft;
+		[SerializeField] private ParticleSystem boostParticleRight;
+		
 
 		[SyncVar(hook = nameof(ToggleDriftingEffects))] private bool isDrifting;
 		
@@ -419,7 +422,22 @@ namespace Player
 		private void RpcToggleParticle(bool turnOn)
 		{
 			ParticleSystem.EmissionModule em = boostParticle.emission;
-			em.enabled = turnOn;
+
+			if (em.enabled != turnOn)
+			{
+				em.enabled = turnOn;
+
+				if (turnOn)
+				{
+					boostParticleLeft.Play();
+					boostParticleRight.Play();
+				}
+				else
+				{
+					boostParticleLeft.Stop();
+					boostParticleRight.Stop();
+				}
+			}
 		}
 
 		private void OnDrawGizmos()
