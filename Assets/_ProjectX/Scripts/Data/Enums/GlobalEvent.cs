@@ -8,6 +8,7 @@ namespace Data.Enums
         
         // GAME EVENT
         SET_FOLLOW_TARGET,
+        CAMERA_SHAKE,
 
         // GAME STATE EVENT
         END_GAMESTATE,
