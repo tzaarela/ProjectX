@@ -403,7 +403,9 @@ MonoBehaviour:
   readyImage: {fileID: 3170813172766795276}
   readyText: {fileID: 7270673838508048886}
   colorChangingMesh: {fileID: 5915005022016305053}
+  carMaterials: {fileID: 11400000, guid: 55a131d97a3c28645a276ec29a2ade7f, type: 2}
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  playerMaterialIndex: 0
   playerReadyColor: {r: 0, g: 0, b: 0, a: 0}
   playerName: 
   playerReadyText: 

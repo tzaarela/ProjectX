@@ -624,21 +624,12 @@ MonoBehaviour:
   - {fileID: 1146595454}
   - {fileID: 1810089101}
   - {fileID: 2046066906}
-  indexColors:
-  - {r: 1, g: 1, b: 1, a: 1}
-  - {r: 1, g: 0.00000012715658, b: 0, a: 1}
-  - {r: 0, g: 0.03676009, b: 1, a: 1}
-  - {r: 0.12300229, g: 1, b: 0, a: 1}
-  - {r: 1, g: 0.8784348, b: 0, a: 1}
-  - {r: 0, g: 0.90932775, b: 1, a: 1}
-  - {r: 1, g: 0, b: 0.9190922, a: 1}
-  - {r: 1, g: 0.6041092, b: 0, a: 1}
-  lobbyUI: {fileID: 0}
   colorPalette: {fileID: 0}
   nameCharacterLimit: 10
   readyButtonImage: {fileID: 0}
   readyButtonText: {fileID: 0}
   textInput: {fileID: 0}
+  carMaterials: {fileID: 11400000, guid: 55a131d97a3c28645a276ec29a2ade7f, type: 2}
 --- !u!1 &3315196420090907133
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using Mirror;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
+using Data.ScriptableObjects;
 using Managers;
 using UnityEngine;
 using Game.Flag;
@@ -14,8 +15,9 @@ namespace Player
 	{
 		[Header("References")]
 		[SerializeField] private GameObject flagOnRoof;
-		[SerializeField] private MeshRenderer colorChangingMesh;
+		[SerializeField] private MeshRenderer meshRenderer;
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
+		[SerializeField] private SO_CarMaterials carMaterials;
 
 		[Header("DeathSettings")] 
 		[SerializeField] private ParticleSystem deathFX;
@@ -23,11 +25,20 @@ namespace Player
 		[SerializeField] private ParticleSystem deathSmoke;
 		
 		[Header("Debug")]
-		[SyncVar(hook = nameof(FlagStateChanged))] public bool hasFlag;
-		[SyncVar(hook = nameof(PlayerNameChanged))] public string playerName;
-		[SyncVar(hook = nameof(PlayerColorChanged))] public Color playerColor;
+		[SyncVar(hook = nameof(FlagStateChanged))]
+		public bool hasFlag;
+		
+		[SyncVar(hook = nameof(PlayerNameChanged))]
+		public string playerName;
 
-		[HideInInspector] public Rigidbody rb;
+		[SyncVar(hook = nameof(PlayerMaterialIndex))]
+		public int playerMaterialIndex;
+
+		public Color playerColor;
+
+		[HideInInspector]
+		public Rigidbody rb;
+		
 		private Flag flag;
 		private InputManager inputManager;
 		private Health health;
@@ -60,7 +71,6 @@ namespace Player
 			localPlayer = true;
 			playerNameText.gameObject.SetActive(false);
 			playerId = (int)GetComponent<NetworkIdentity>().netId;
-			print("OnStartClient(netId) " + playerId);
 			CmdUpdateActivePlayersList();
 			name += "-local";
 			SendGlobal(GlobalEvent.LOCAL_PLAYER_CONNECTED_TO_GAME, new GameObjectData(gameObject));
@@ -118,12 +128,13 @@ namespace Player
 			playerNameText.text = newValue;
 		}
 
-		//SyncVar Hook
-		[Client]
-		private void PlayerColorChanged(Color oldValue, Color newValue)
-		{
-			colorChangingMesh.material.color = newValue;
-		}
+		// SyncVar Hook
+		 [Client]
+		 private void PlayerMaterialIndex(int oldValue, int newValue)
+		 {
+			 meshRenderer.material = carMaterials.GetMaterial(newValue);
+		     playerColor = carMaterials.GetColor(newValue);
+		 }
 
 		[Command]
 		private void CmdUpdateActivePlayersList()
@@ -180,7 +191,7 @@ namespace Player
 			deathFX.Play();
 			deathFX2.Play();
 			deathSmoke.Play();
-			colorChangingMesh.material.color = Color.black;
+			meshRenderer.material.color = Color.black;
 			GetComponent<PlayerSound>().StopEmitter();
 			
 			if (!isLocalPlayer)
@@ -204,7 +215,7 @@ namespace Player
 		private void RpcRespawnPlayer()
 		{
 			deathSmoke.Stop();
-			colorChangingMesh.material.color = playerColor;
+			meshRenderer.material.color = Color.white;
 			GetComponent<PlayerSound>().PlayEmitter();
 
 			if (!isLocalPlayer)

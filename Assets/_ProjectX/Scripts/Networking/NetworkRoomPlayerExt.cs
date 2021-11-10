@@ -3,8 +3,7 @@ using Mirror;
 using System;
 using Managers;
 using TMPro;
-using System.Collections.Generic;
-using System.Linq;
+using Data.ScriptableObjects;
 using UnityEngine.UI;
 
 /*
@@ -24,20 +23,23 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	[SerializeField] private TextMeshProUGUI nameTag;
 	[SerializeField] private Image readyImage;
 	[SerializeField] private TextMeshProUGUI readyText;
-    
+
 	[Header("Mesh")]
 	[SerializeField] private MeshRenderer colorChangingMesh;
 
+	[Header("Materials")]
+	[SerializeField] private SO_CarMaterials carMaterials;
+
 	[Header("SyncVars")]
 	[HideInInspector]
-	[SyncVar(hook = nameof(PlayerColorChanged))]
-	public Color playerColor;
+	[SyncVar(hook = nameof(PlayerMaterialChanged))]
+	public int playerMaterialIndex;
 
 	[HideInInspector]
 	[SyncVar(hook = nameof(PlayerReadyColorChanged))]
 	public Color playerReadyColor;
 
-	// [HideInInspector]
+	[HideInInspector]
 	[SyncVar(hook = nameof(PlayerNameChanged))]
 	public string playerName;
 
@@ -48,33 +50,12 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	private static string[] playerNames = Array.Empty<string>();
 	private int playerNamesIndex;
 
-	/// <summary>
-	/// Called when the local player object has been set up.
-	/// <para>This happens after OnStartClient(), as it is triggered by an ownership message from the server. This is an appropriate place to activate components or functionality that should only be active for the local player, such as cameras and input.</para>
-	/// </summary>
-	public override void OnStartLocalPlayer() {
-
-		LobbyManager lobbyManager = ServiceLocator.LobbyManager;
-		List<Color> indexColors = lobbyManager.indexColors;
-		Image[] images = lobbyManager.colorPalette.GetComponentsInChildren<Image>();
-
-		for (int i = 0; i < indexColors.Count; i++)
-		{
-			images[i].color = indexColors[i];
-		}
-
-		lobbyManager.lobbyUI.gameObject.SetActive(true);
-
-		CmdMoveToNextSlot(gameObject);
-	}
-
+	[Server]
 	public override void OnStartServer()
 	{
-		playerName = "Player" + NetworkServer.connections.Count;
-		playerColor = ServiceLocator.LobbyManager.indexColors.ElementAt(NetworkServer.connections.Count - 1);
-
-		if (!isServer)
-			return;
+		int connectionIndex = NetworkServer.connections.Count;
+		playerName = "Player" + connectionIndex;
+		playerMaterialIndex = connectionIndex - 1;
 
 		playerNamesIndex = playerNames.Length;
 		string[] playerNamesUpdate = new string[playerNames.Length + 1];
@@ -84,6 +65,11 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 		}
 		playerNamesUpdate[playerNamesIndex] = playerName;
 		playerNames = playerNamesUpdate;
+	}
+	
+	public override void OnStartLocalPlayer()
+	{
+		CmdMoveToNextSlot(gameObject);
 	}
 
 	[Command]
@@ -102,7 +88,7 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	}
 
 	[Command]
-	public void CmdMoveToNextSlot(GameObject roomPlayer)
+	private void CmdMoveToNextSlot(GameObject roomPlayer)
 	{
 		LobbyManager lobbyManager = ServiceLocator.LobbyManager;
 		NetworkRoomPlayer networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
@@ -118,9 +104,9 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 
 	//hook
 	[Client]
-	public void PlayerColorChanged(Color oldValue, Color newValue)
+	private void PlayerMaterialChanged(int oldValue, int newValue)
 	{
-		colorChangingMesh.material.color = newValue;
+		colorChangingMesh.material = carMaterials.GetMaterial(newValue);
 	}
 
 	//hook
@@ -161,8 +147,8 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	}
    
 	[Command]
-	public void CmdChangeColor(int colorIndex)
+	public void CmdChangeColor(int index)
 	{
-		playerColor = ServiceLocator.LobbyManager.indexColors[colorIndex];
+		playerMaterialIndex = index;
 	}
 }
