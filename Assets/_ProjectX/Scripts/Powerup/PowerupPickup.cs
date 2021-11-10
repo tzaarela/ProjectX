@@ -50,7 +50,7 @@ public class PowerupPickup : NetworkBehaviour
 
             if (result)
             {
-                Debug.Log("CURRENT PICKUP: " + currentPowerupType);
+                //Debug.Log("CURRENT PICKUP: " + currentPowerupType);
                 disableTimestamp = Time.time;
                 RpcDisableObject();
             }
@@ -68,8 +68,9 @@ public class PowerupPickup : NetworkBehaviour
     private void RpcDisableObject()
     {
         coll.enabled = false;
-        rotator.doRotate = false;
+        //rotator.doRotate = false;
         //body.SetActive(false);
+        //rotator.SetSpeedSlow();
         currentPowerupType = PowerupType.NONE;
         meshRenderer.material = powerupTypeMaterials[powerupTypeMaterials.Count-1];
     }
@@ -79,6 +80,7 @@ public class PowerupPickup : NetworkBehaviour
     {
         coll.enabled = true;
         rotator.doRotate = true;
+        rotator.SetSpeedNormal();
         //body.SetActive(true);
         currentPowerupType = newType;
         meshRenderer.material = powerupTypeMaterials[(int)currentPowerupType];

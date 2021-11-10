@@ -4,16 +4,29 @@ namespace PowerUp
 {
     public class Rotator : MonoBehaviour
     {
-        [SerializeField] private Vector3 speed;
+        [SerializeField] private Vector3 normalSpeed;
+        [SerializeField] private Vector3 slowSpeed;
 
+        private Vector3 currentSpeed = Vector3.zero;
+        
         public bool doRotate;
         
         void Update ()
         {
-            if (speed == Vector3.zero || !doRotate)
+            if (normalSpeed == Vector3.zero || !doRotate)
                 return;
             
-            transform.Rotate(speed.x * Time.deltaTime, speed.y * Time.deltaTime, speed.z * Time.deltaTime, Space.Self);
+            transform.Rotate(currentSpeed.x * Time.deltaTime, currentSpeed.y * Time.deltaTime, currentSpeed.z * Time.deltaTime, Space.Self);
+        }
+
+        public void SetSpeedSlow()
+        {
+            currentSpeed = slowSpeed;
+        }
+
+        public void SetSpeedNormal()
+        {
+            currentSpeed = normalSpeed;
         }
     }
 }
