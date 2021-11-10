@@ -4,6 +4,7 @@ using System;
 using Managers;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
 
 /*
@@ -53,16 +54,16 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	/// </summary>
 	public override void OnStartLocalPlayer() {
 
-		var lobbyManager = ServiceLocator.LobbyManager;
-		var indexColors = lobbyManager.indexColors;
-		var images = lobbyManager.LobbyUI.gameObject.GetComponentsInChildren<Image>();
+		LobbyManager lobbyManager = ServiceLocator.LobbyManager;
+		List<Color> indexColors = lobbyManager.indexColors;
+		Image[] images = lobbyManager.colorPalette.GetComponentsInChildren<Image>();
 
 		for (int i = 0; i < indexColors.Count; i++)
 		{
 			images[i].color = indexColors[i];
 		}
 
-		lobbyManager.LobbyUI.gameObject.SetActive(true);
+		lobbyManager.lobbyUI.gameObject.SetActive(true);
 
 		CmdMoveToNextSlot(gameObject);
 	}
@@ -70,7 +71,7 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	public override void OnStartServer()
 	{
 		playerName = "Player" + NetworkServer.connections.Count;
-		playerColor = Color.white;
+		playerColor = ServiceLocator.LobbyManager.indexColors.ElementAt(NetworkServer.connections.Count - 1);
 
 		if (!isServer)
 			return;
@@ -90,9 +91,9 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	{
 		readyToBegin = readyState;
 
-		playerReadyColor = Color.green;
-		playerReadyText = "Ready";
-
+		playerReadyColor = readyState ? Color.green : Color.red;
+		playerReadyText = readyState ? "Ready" : "Not Ready";
+		
 		NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
 		if (room != null)
 		{
@@ -104,7 +105,7 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	public void CmdMoveToNextSlot(GameObject roomPlayer)
 	{
 		LobbyManager lobbyManager = ServiceLocator.LobbyManager;
-		var networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
+		NetworkRoomPlayer networkRoomPlayer = roomPlayer.GetComponent<NetworkRoomPlayer>();
 		networkRoomPlayer.gameObject.transform.position = lobbyManager.roomPlayerSpawnSlots[NetworkRoomManager.singleton.numPlayers - 1].position;
 	}
 
