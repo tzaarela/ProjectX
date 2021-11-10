@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Data.Enums;
 using Mirror;
 using UnityEngine;
+using Utilites;
 
 namespace Managers
 {
@@ -40,11 +42,16 @@ namespace Managers
                 {
                     if (Time.time > powerupPickup.disableTimestamp + respawnPowerupTime)
                     {
-                        powerupPickup.RpcEnableObject();
+                        powerupPickup.RpcEnableObject(PickPowerupType());
                         powerupPickup.disableTimestamp = -1;
                     }
                 }
             }
+        }
+        
+        private PowerupType PickPowerupType()
+        {
+            return EnumUtils.RandomEnumValue<PowerupType>(0);
         }
     }
 }

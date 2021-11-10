@@ -31,10 +31,10 @@ public class PowerupPickup : NetworkBehaviour
         rotator.doRotate = true;
 	}
 
-	private void OnEnable()
-    {
-        PickPowerupType();
-    }
+	// private void OnEnable()
+ //    {
+ //        PickPowerupType();
+ //    }
     
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
@@ -57,26 +57,30 @@ public class PowerupPickup : NetworkBehaviour
         }
     }
 
-    private void PickPowerupType()
-    {
-        currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
-        meshRenderer.material = powerupTypeMaterials[(int)currentPowerupType];
-    }
+    //TODO REMOVE IF EVERYTHING WORKS
+    // private void PickPowerupType()
+    // {
+    //     currentPowerupType = EnumUtils.RandomEnumValue<PowerupType>(0);
+    //     meshRenderer.material = powerupTypeMaterials[(int)currentPowerupType];
+    // }
     
     [ClientRpc]
     private void RpcDisableObject()
     {
         coll.enabled = false;
         rotator.doRotate = false;
-        body.SetActive(false);
+        //body.SetActive(false);
+        currentPowerupType = PowerupType.NONE;
+        meshRenderer.material = powerupTypeMaterials[powerupTypeMaterials.Count-1];
     }
     
     [ClientRpc]
-    public void RpcEnableObject()
+    public void RpcEnableObject(PowerupType newType)
     {
         coll.enabled = true;
         rotator.doRotate = true;
-        body.SetActive(true);
-        PickPowerupType();
+        //body.SetActive(true);
+        currentPowerupType = newType;
+        meshRenderer.material = powerupTypeMaterials[(int)currentPowerupType];
     }
 }
