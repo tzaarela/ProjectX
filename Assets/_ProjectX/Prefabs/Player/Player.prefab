@@ -997,9 +997,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2873669366857949127}
     m_Modifications:
+    - target: {fileID: 4381433035692250773, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4659984503627567182, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
       propertyPath: m_Name
       value: MineDeployer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659984503627567182, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4659984503627567182, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
       propertyPath: m_IsActive
@@ -1048,6 +1056,10 @@ PrefabInstance:
     - target: {fileID: 5125845686099393631, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8496863087199232287, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 923f98f2b1325eb4cb6ceb655571587f, type: 3}
@@ -1648,9 +1660,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7106003710723474923, guid: 82df7beffd3b5714c9af1ad204f81538, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9212688320044278089, guid: 82df7beffd3b5714c9af1ad204f81538, type: 3}
       propertyPath: m_Name
       value: ShieldGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212688320044278089, guid: 82df7beffd3b5714c9af1ad204f81538, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9212688320044278089, guid: 82df7beffd3b5714c9af1ad204f81538, type: 3}
       propertyPath: m_IsActive
@@ -2033,9 +2053,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2873669366857949127}
     m_Modifications:
+    - target: {fileID: 64180270826471052, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4603472496906355260, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5106279008770608361, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5304866942283922796, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
       propertyPath: m_Name
       value: OilEjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 5304866942283922796, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5304866942283922796, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
       propertyPath: m_IsActive
@@ -2085,6 +2121,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8311757064884788786, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd48e26c68bc0f240b0d560ef646d950, type: 3}
 --- !u!4 &842217104435124908 stripped
@@ -2110,9 +2150,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2873669366857949127}
     m_Modifications:
+    - target: {fileID: 3617226378888035200, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617226378888035204, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617226378888035206, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5023670040667755685, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5585852746923801414, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636900321246703106, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636900321246703108, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636900321246703110, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6459116806756631326, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_Name
       value: MachineGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459116806756631326, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6459116806756631326, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_IsActive
@@ -2293,13 +2369,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2224355364911901912, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
       propertyPath: m_Name
       value: RocketLauncher
       objectReference: {fileID: 0}
     - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5581167221359098649, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
