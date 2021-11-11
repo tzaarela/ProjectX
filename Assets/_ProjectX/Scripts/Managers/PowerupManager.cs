@@ -14,7 +14,7 @@ namespace Managers
         [SerializeField] float respawnCooldown;
         private float nextRespawn = 0;
 
-        private void Awake()
+        private void Start()
         {
             GameObject[] respawns;
             respawns = GameObject.FindGameObjectsWithTag("Powerup");
