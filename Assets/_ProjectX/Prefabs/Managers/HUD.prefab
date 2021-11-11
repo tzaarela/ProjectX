@@ -4019,6 +4019,10 @@ MonoBehaviour:
   rematchButton: {fileID: 1602298774}
   zoomInCamera: {fileID: 0}
   flagTargetCamera: {fileID: 0}
+  powerupScalePunchMultiplier: 0.5
+  powerupScalePunchDuration: 0.3
+  powerupScalePunchVibrato: 1
+  powerupScalePunchElasticity: 1
 --- !u!114 &1882160256
 MonoBehaviour:
   m_ObjectHideFlags: 0

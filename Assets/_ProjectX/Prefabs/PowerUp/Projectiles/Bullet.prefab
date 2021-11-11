@@ -53,7 +53,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   directDamage: 1
-  shootingStrength: 100
+  shootingStrength: 200
   aliveTime: 2
   debugSphere: {fileID: 3475899029366849771, guid: 5b3144e6b6af62a43bc8e65fcf38fa66, type: 3}
   trailRenderer: {fileID: 2527835905297967346}

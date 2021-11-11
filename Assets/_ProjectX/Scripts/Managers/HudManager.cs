@@ -9,6 +9,7 @@ using TMPro;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Managers
 {
@@ -33,9 +34,16 @@ namespace Managers
 		[Header("TEMP:")]
 		[SerializeField] private CinemachineVirtualCamera zoomInCamera;
 		[SerializeField] private CinemachineVirtualCamera flagTargetCamera;
+
+		[Header("Settings")]
+		[SerializeField] private float powerupScalePunchMultiplier = 1.1f;
+		[SerializeField] private float powerupScalePunchDuration = 0.5f;
+		[SerializeField] private int powerupScalePunchVibrato = 1;
+		[SerializeField] private float powerupScalePunchElasticity = 1;
 		
 		private IndicatorController indicatorController;
 		private ResultsController resultsController;
+		private Tweener powerupScalePunchTweener;
 
 		private void Awake()
 		{
@@ -131,6 +139,8 @@ namespace Managers
 			powerUpImage.gameObject.SetActive(true);
 			powerUpImage.texture = powerUpTextures[powerIndex];
 			ammoText.text = startingAmmo.ToString();
+
+			PowerupScalePunchTween();
 		}
 		
 		[Client]
@@ -143,6 +153,16 @@ namespace Managers
 		public void TargetUpdateAmmoUi(NetworkConnection conn, int currentAmmo)
 		{
 			ammoText.text = currentAmmo.ToString();
+			PowerupScalePunchTween();
+		}
+
+		private void PowerupScalePunchTween()
+		{
+			if (!powerupScalePunchTweener.IsActive())
+			{
+				powerupScalePunchTweener = powerUpImage.rectTransform.DOPunchScale(Vector3.one * powerupScalePunchMultiplier, powerupScalePunchDuration,
+					powerupScalePunchVibrato, powerupScalePunchElasticity);
+			}
 		}
 
 		[TargetRpc]
