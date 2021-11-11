@@ -50,7 +50,7 @@ MonoBehaviour:
   PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
   autoStartServerBuild: 1
-  serverTickRate: 120
+  serverTickRate: 60
   offlineScene: Assets/_ProjectX/Scenes/MainMenu.unity
   onlineScene: Assets/_ProjectX/Scenes/Lobby.unity
   transport: {fileID: -4493664106564643682}
