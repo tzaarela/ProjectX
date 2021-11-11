@@ -49,6 +49,9 @@ MonoBehaviour:
   heightSpawnOffset: 0
   ammo: 2
   fireCooldown: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &8496863087199232287
 GameObject:
   m_ObjectHideFlags: 0

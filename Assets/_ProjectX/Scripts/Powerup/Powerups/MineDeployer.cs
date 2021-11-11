@@ -8,6 +8,8 @@ namespace Powerup.Powerups
 {
 	public class MineDeployer : PowerupBase
 	{
+		[SerializeField] private LayerMask groundLayer;
+
 		private void OnEnable()
 		{
 			ammo = 2;
@@ -20,10 +22,14 @@ namespace Powerup.Powerups
 
 			foreach (Transform hardpoint in hardpoints)
 			{
+			  	RaycastHit raycastHit;
+				Physics.Raycast(hardpoint.position, Vector3.down, out raycastHit, 100f, groundLayer);
+
+				Vector3 spawnPosition = new Vector3(hardpoint.position.x, hardpoint.position.y - raycastHit.distance, hardpoint.position.z);
+
 				Mine mine = ServiceLocator.ObjectPools.
-					SpawnFromPoolWithNetId(ObjectPoolType.Mine, hardpoint.position, Quaternion.identity, netID).GetComponent<Mine>();
-				
-				mine.transform.position = hardpoint.position;
+					SpawnFromPoolWithNetId(ObjectPoolType.Mine, spawnPosition, Quaternion.identity, netID).GetComponent<Mine>();
+
 				ammo--;
 
 				ServiceLocator.HudManager.TargetUpdateAmmoUi(playerController.connectionToClient, ammo);
