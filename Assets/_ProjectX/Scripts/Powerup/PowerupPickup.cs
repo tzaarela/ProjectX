@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Data.Enums;
 using Player;
 using PowerUp;
-using Utilites;
 using UnityEngine;
 using Mirror;
 
@@ -76,7 +75,7 @@ public class PowerupPickup : NetworkBehaviour
     [ClientRpc]
     private void RpcDisableObject()
     {
-        pickupSoundInstance.start();   
+        pickupSoundInstance.start();
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(pickupSoundInstance, transform);
         
         coll.enabled = false;
