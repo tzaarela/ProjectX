@@ -18,12 +18,21 @@ public class PowerupPickup : NetworkBehaviour
     public MeshRenderer meshRenderer;
     public List<Material> powerupTypeMaterials;
 
+    [SerializeField]
+    [FMODUnity.EventRef]
+    private string pickupSound;
+
+    private FMOD.Studio.EventInstance pickupSoundInstance;
+    
     public float disableTimestamp;
     
     private void Awake()
     {
         coll = GetComponent<Collider>();
         rotator = GetComponent<Rotator>();
+        
+        pickupSoundInstance = FMODUnity.RuntimeManager.CreateInstance(pickupSound);
+        pickupSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
     }
 
 	private void Start()
@@ -67,6 +76,9 @@ public class PowerupPickup : NetworkBehaviour
     [ClientRpc]
     private void RpcDisableObject()
     {
+        pickupSoundInstance.start();   
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(pickupSoundInstance, transform);
+        
         coll.enabled = false;
         //rotator.doRotate = false;
         //body.SetActive(false);
