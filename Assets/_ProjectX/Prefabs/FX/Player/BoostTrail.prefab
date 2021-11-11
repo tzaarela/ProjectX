@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -249,7 +249,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
+      scalar: 2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -847,7 +847,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12
+      scalar: 4
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4687,7 +4687,7 @@ ParticleSystemRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193686}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4756,9 +4756,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoostTrailFire
       objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4802,7 +4818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800000, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 2.3510647e-38
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19800000, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
       propertyPath: playOnAwake
@@ -4811,6 +4827,14 @@ PrefabInstance:
     - target: {fileID: 19800002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 19900000, guid: f135e2038641bb247bc7dca2b63cbd7b, type: 3}
       propertyPath: m_Materials.Array.size

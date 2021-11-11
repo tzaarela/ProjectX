@@ -17,13 +17,11 @@ namespace Player
 		public List<CarAxle> axleInfos;
 
 		[Header("References")]
-		[SerializeField] private ParticleSystem boostParticle;
 		[SerializeField] private ParticleSystem driftParticleLeft;
 		[SerializeField] private ParticleSystem driftParticleRight;
 		[SerializeField] private ParticleSystem boostParticleLeft;
 		[SerializeField] private ParticleSystem boostParticleRight;
 		
-
 		[SyncVar(hook = nameof(ToggleDriftingEffects))] private bool isDrifting;
 		
 		private InputManager inputs;
@@ -421,22 +419,15 @@ namespace Player
 		[ClientRpc]
 		private void RpcToggleParticle(bool turnOn)
 		{
-			ParticleSystem.EmissionModule em = boostParticle.emission;
-
-			if (em.enabled != turnOn)
+			if (turnOn)
 			{
-				em.enabled = turnOn;
-
-				if (turnOn)
-				{
-					boostParticleLeft.Play();
-					boostParticleRight.Play();
-				}
-				else
-				{
-					boostParticleLeft.Stop();
-					boostParticleRight.Stop();
-				}
+				boostParticleLeft.Play();
+				boostParticleRight.Play();
+			}
+			else
+			{
+				boostParticleLeft.Stop();
+				boostParticleRight.Stop();
 			}
 		}
 
