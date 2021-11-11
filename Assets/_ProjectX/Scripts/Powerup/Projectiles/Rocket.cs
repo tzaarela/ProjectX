@@ -40,7 +40,7 @@ namespace PowerUp.Projectiles
 			{
 				if (other.gameObject.CompareTag("Player"))
 				{
-					if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
+					if (other.gameObject.GetComponent<PlayerController>().PlayerId == spawnedByNetId)
 						return;
 				}
 	
