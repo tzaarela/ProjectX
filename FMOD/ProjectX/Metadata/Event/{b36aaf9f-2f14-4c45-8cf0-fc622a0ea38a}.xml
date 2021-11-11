@@ -91,7 +91,11 @@ Note that the audio does not continue through the bus - it is sent through the o
 			<destination>{7e33a2b3-db05-4b7a-ba1e-e862f2bfde36}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{9e751806-0fc8-4bde-a83d-22445a3f3294}" />
+	<object class="EventAutomatableProperties" id="{9e751806-0fc8-4bde-a83d-22445a3f3294}">
+		<property name="isPersistent">
+			<value>true</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{349544cc-0a66-4f37-af57-a6fe7895f203}" />
 	<object class="GroupTrack" id="{82610bd3-5e0c-4b13-8136-847d81068378}">
 		<relationship name="modules">
