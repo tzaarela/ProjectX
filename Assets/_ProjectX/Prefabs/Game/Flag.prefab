@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  dropInvulnerableTime: 2
+  dropUninteractableTime: 2
   dropUpwardsForce: 3
   flagDropOffset: 10
   pickupCollider: {fileID: 4987875144967119377}
@@ -289,6 +289,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2219713681661849479, guid: 32df12d0694650b4bba72e0960808073, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2958276747978800056, guid: 32df12d0694650b4bba72e0960808073, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -406,6 +410,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 34dd4e0dc0f26114da99d5c4c2fcdaad, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 34dd4e0dc0f26114da99d5c4c2fcdaad, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34dd4e0dc0f26114da99d5c4c2fcdaad, type: 3}

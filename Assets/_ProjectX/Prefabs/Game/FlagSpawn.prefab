@@ -109,11 +109,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  timeUntilFlagResetStart: 10
+  resetTime: 3
   flag: {fileID: 0}
   flagSlot: {fileID: 7255384387723815750}
   flagPresentEffect: {fileID: 7255384386731151727}
   flagNotPresentEffect: {fileID: 5811405892254441684}
-  flagPresent: 1
 --- !u!1001 &5811405892254567982
 PrefabInstance:
   m_ObjectHideFlags: 0

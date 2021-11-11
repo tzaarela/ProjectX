@@ -5,6 +5,8 @@ using Player;
 using DG.Tweening;
 using System.Collections;
 using Managers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Game.Flag
 {
@@ -22,9 +24,11 @@ namespace Game.Flag
 
 		[SerializeField] private BoxCollider pickupCollider;
 		[SerializeField] private BoxCollider physicsCollider;
-		
+
+		private List<Renderer> renderers; 
 		private Rigidbody rb;
 		private Tweener rotationTween;
+		private float blinkTime;
 
 		private void OnEnable()
 		{
@@ -34,6 +38,7 @@ namespace Game.Flag
 		private void Start()
 		{
 			rb = GetComponent<Rigidbody>();
+			renderers = GetComponentsInChildren<Renderer>().ToList();
 		}
 
 		private void OnTriggerEnter(Collider other)
@@ -54,6 +59,28 @@ namespace Game.Flag
 				
 				PickUp(player);
 			}
+		}
+
+		[ClientRpc]
+		public void RpcStartResetBlinking(float resetTime)
+		{
+			blinkTime = 0;
+			StartCoroutine(CoResetBlinking(resetTime));
+		}
+
+		private IEnumerator CoResetBlinking(float resetTime)
+		{
+			while (resetTime > blinkTime)
+			{
+				yield return new WaitForSeconds(0.2f);
+				Debug.Log("Blink");
+				renderers.ForEach(x => x.enabled = !x.enabled);
+				blinkTime += Time.deltaTime;
+			}
+
+			renderers.ForEach(x => x.enabled = true);
+
+			yield return null;
 		}
 
 		public void TogglePhysics(bool turnOn) 
@@ -107,6 +134,7 @@ namespace Game.Flag
 		public void RpcActivateFlag()
 		{
 			allowedToPickup = true;
+			renderers.ForEach(x => x.enabled = true);
 			gameObject.SetActive(true);
 		}
 		

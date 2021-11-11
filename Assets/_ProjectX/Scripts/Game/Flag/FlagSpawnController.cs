@@ -9,7 +9,8 @@ namespace Game.Flag
 	public class FlagSpawnController : NetworkBehaviour
 	{
 
-		public float timeUntilFlagReset = 10f;
+		public float timeUntilFlagResetStart = 10f;
+		public float resetTime = 3f;
 
 		[SerializeField] private Flag flag;
 		[SerializeField] private Transform flagSlot;
@@ -30,6 +31,8 @@ namespace Game.Flag
 			flag.onFlagPickedUp += HandleOnFlagPickedUp;
 			flag.onFlagDropped += HandleOnFlagDropped;
 			flag.StartRotating();
+			
+			
 		}
 
 
@@ -65,12 +68,15 @@ namespace Game.Flag
 		private void HandleOnFlagDropped()
 		{
 			flagResetCouroutine = StartCoroutine(CoWaitForResetTimer());
+			flag.RpcActivateFlag();
 		}
 
 		private IEnumerator CoWaitForResetTimer()
 		{
-			yield return new WaitForSeconds(timeUntilFlagReset);
-			RespawnFlag();
+			yield return new WaitForSeconds(timeUntilFlagResetStart);
+				flag.RpcStartResetBlinking(resetTime);
+			yield return new WaitForSeconds(resetTime);
+				RespawnFlag();
 		}
 
 		[Server]
