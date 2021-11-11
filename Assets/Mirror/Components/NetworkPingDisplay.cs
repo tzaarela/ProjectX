@@ -21,9 +21,9 @@ namespace Mirror
             // only while client is active
             if (!NetworkClient.active) return;
 
-            // show rtt in bottom right corner, right aligned
+            // show rtt in top right corner, right aligned
             GUI.color = color;
-            Rect rect = new Rect(Screen.width - width - padding, Screen.height - height - padding, width, height);
+            Rect rect = new Rect(Screen.width - width - padding, 0, width, height);
             GUIStyle style = GUI.skin.GetStyle("Label");
             style.alignment = TextAnchor.MiddleRight;
             GUI.Label(rect, $"RTT: {Math.Round(NetworkTime.rtt * 1000)}ms", style);
