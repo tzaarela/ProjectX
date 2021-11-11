@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  timeUntilFlagResetStart: 10
+  timeUntilFlagResetStart: 7
   resetTime: 3
   flag: {fileID: 0}
   flagSlot: {fileID: 7255384387723815750}

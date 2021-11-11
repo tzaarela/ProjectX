@@ -13,6 +13,9 @@ public class ResetZone : NetworkBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
+			other.GetComponent<PowerupController>().Drop();
+			other.GetComponent<PlayerController>().DropFlag();
+
 			var attachedRigidbody = other.attachedRigidbody;
 			attachedRigidbody.velocity = Vector3.zero;
 			attachedRigidbody.angularVelocity = Vector3.zero;
@@ -21,7 +24,6 @@ public class ResetZone : NetworkBehaviour
 			otherTransform.rotation = Quaternion.identity;
 			otherTransform.position = resetPoint.position;
 			
-			other.GetComponent<PowerupController>().Drop();
 		}
 	}
 }
