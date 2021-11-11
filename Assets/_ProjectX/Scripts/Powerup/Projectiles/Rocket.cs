@@ -29,15 +29,8 @@ namespace PowerUp.Projectiles
 			trailerRenderer.Clear();
 			direction = transform.forward;
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
-
-			//FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/RocketRelease");
 		}
-
-		public override void SetupProjectile(Vector3 dir, int netID)
-		{
-			base.SetupProjectile(dir, netID);
-		}
-
+		
 		private void OnCollisionEnter(Collision other)
 		{
 			if (!allowCollision)
@@ -61,7 +54,7 @@ namespace PowerUp.Projectiles
 			{
 				if (other.gameObject.GetComponent<PlayerController>().PlayerId != spawnedByNetId)
 				{
-					Debug.Log("ROCKET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
+					//Debug.Log("ROCKET COLLIDED WITH: " + other.gameObject.name, other.gameObject);
 					ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.RocketExplosion, transform.position, Quaternion.identity, spawnedByNetId);
 				}
 				
