@@ -5,13 +5,15 @@ namespace Data.Containers
 {
     public class CameraShakeData : GlobalSignalBaseData
     {
+        public float intensity;
         public float duration;
-        public float magnitude;
+        public float distance;
 
-        public CameraShakeData(float duration, float magnitude)
+        public CameraShakeData(float intensity, float duration, float distance)
         {
+            this.intensity = intensity;
             this.duration = duration;
-            this.magnitude = magnitude;
+            this.distance = distance;
         }
     }
 }

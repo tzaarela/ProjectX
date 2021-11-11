@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 8585873794875931029}
   - component: {fileID: 5870251859927098626}
   - component: {fileID: 4793371393620218358}
+  - component: {fileID: 4082232577554138576}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -188,3 +189,15 @@ MonoBehaviour:
   velocityZoomMultiplier: 1
   maxZoomOutDistance: 60
   minZoomInDistance: 40
+--- !u!114 &4082232577554138576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674065279126991283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 265e8a5b6e07a8446b70f7e3c3c813b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

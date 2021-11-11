@@ -45,7 +45,7 @@ namespace Cameras
             {
                 if (globalSignalData is CameraShakeData data)
                 {
-                    StartCoroutine(ShakeCamera(data.duration, data.magnitude));
+                    StartCoroutine(ShakeCamera(data.duration, data.intensity));
                 }
             }
         }

@@ -9,13 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data.Containers;
+using Data.Containers.GlobalSignal;
 using FMOD.Studio;
 using UnityEngine;
 using Player;
 
 namespace Powerup.Projectiles
 {
-	public class Mine : NetworkBehaviour, ISpawnedByID
+	public class Mine : NetworkBehaviour, ISpawnedByID, ISendGlobalSignal
 	{
 		public float timeUntilArmed = 1.5f;
 		public float triggerDelay = 0.5f;
@@ -74,6 +76,14 @@ namespace Powerup.Projectiles
 		
 		private void OnTriggerEnter(Collider other)
 		{
+			if (other.CompareTag("Player") && isArmed && isClient)
+			{
+				GameObject player = NetworkClient.connection.identity.gameObject;
+				float distance = Vector3.Distance(transform.position, player.transform.position);
+				
+				SendGlobal(GlobalEvent.CAMERA_SHAKE, new CameraShakeData(2f, 0.3f, distance));
+			}
+
 			if (!isServer)
 				return;
 
@@ -101,6 +111,11 @@ namespace Powerup.Projectiles
 		public int GetSpawnedBy()
 		{
 			return spawnedByNetId;
+		}
+
+		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
 		}
 	}
 }
