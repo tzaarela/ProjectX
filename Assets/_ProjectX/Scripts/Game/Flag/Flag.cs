@@ -73,7 +73,6 @@ namespace Game.Flag
 			while (resetTime > blinkTime)
 			{
 				yield return new WaitForSeconds(0.2f);
-				Debug.Log("Blink");
 				renderers.ForEach(x => x.enabled = !x.enabled);
 				blinkTime += Time.deltaTime;
 			}
