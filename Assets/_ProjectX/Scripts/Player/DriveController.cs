@@ -21,9 +21,11 @@ namespace Player
 		[SerializeField] private ParticleSystem driftParticleRight;
 		[SerializeField] private ParticleSystem boostParticleLeft;
 		[SerializeField] private ParticleSystem boostParticleRight;
-		
+		 
+#pragma warning disable
 		[SyncVar(hook = nameof(ToggleDriftingEffects))] private bool isDrifting;
-		
+#pragma warning enable
+
 		private InputManager inputs;
 		private float travelL = 0;
 		private float travelR = 0;
