@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Data.Containers;
+using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Managers;
 using Player;
 using UnityEngine;
-using Utilites;
 
 namespace PowerUp.Projectiles
 {
-	public class Rocket : ProjectileBase
+	public class Rocket : ProjectileBase, ISendGlobalSignal
 	{
 		public TrailRenderer trailerRenderer;
 		
@@ -82,7 +81,15 @@ namespace PowerUp.Projectiles
 			
 			ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.RocketExplosion, transform.position, Quaternion.identity, spawnedByNetId);
 			allowCollision = false;
+			
+			SendGlobal(GlobalEvent.CAMERA_SHAKE, new CameraShakeData(1f, 10));
+			
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Rocket, gameObject);
+		}
+
+		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
+		{
+			GlobalMediator.Instance.ReceiveGlobal(eventState, globalSignalData);
 		}
 	}
 }
