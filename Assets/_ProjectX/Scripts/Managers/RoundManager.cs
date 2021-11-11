@@ -19,25 +19,34 @@ namespace Managers
 		public float additionalScoreMaxMultiplier = 2;
 		
 		private List<string> connectedPlayers = new List<string>();
-		
-		private static bool hasBeenProvided;
 
 		public List<string> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
 		
 		private void Awake()
 		{
-			if (!hasBeenProvided)
+			if (NetworkServer.active)
 			{
 				print("RoundManager provided to ServiceLocator");
 				ServiceLocator.ProvideRoundManager(this);
-				hasBeenProvided = true;
 				DontDestroyOnLoad(gameObject);
 			}
 			else
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		[Server]
+		public void SetRoundTime(int timeInSeconds)
+		{
+			roundTime = timeInSeconds;
+		}
+		
+		[Server]
+		public void SetScoreToWin(int score)
+		{
+			scoreToWin = score;
 		}
 
 		[Server]
@@ -61,10 +70,8 @@ namespace Managers
 		public void EndOfGame()
 		{
 			print("---- GAME HAS ENDED ----");
-			// connectedPlayers.Clear();
 			SendGlobal(GlobalEvent.END_GAMESTATE);
-			ServiceLocator.ProvideRoundManager(this);
-			hasBeenProvided = false;
+			ServiceLocator.ProvideRoundManager(null);
 			Destroy(gameObject);
 		}
 

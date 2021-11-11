@@ -195,7 +195,7 @@ namespace Managers
 		[ClientRpc]
 		public void RpcActivateEndScreenAndSetWinner(string winningPlayer)
 		{
-			indicatorController.OffScreenIndicator.SetActive(false);
+			indicatorController.enabled = false;
 			killedByText.gameObject.SetActive(false);
 			respawnText.gameObject.SetActive(false);
 			endScreen.SetActive(true);

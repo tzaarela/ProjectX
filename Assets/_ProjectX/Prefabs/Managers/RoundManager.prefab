@@ -46,7 +46,7 @@ MonoBehaviour:
   roundTime: 300
   scoreRate: 0.5
   scoreToAdd: 5
-  scoreToWin: 999
+  scoreToWin: 500
   additionalScoringStartupThreshold: 100
   additionalScoringMaxThreshold: 300
   additionalScoreMaxMultiplier: 1

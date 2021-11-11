@@ -17,6 +17,7 @@ public class LobbyManager : MonoBehaviour
 
 	[SerializeField] private TMP_InputField textInput;
 	[SerializeField] private SO_CarMaterials carMaterials;
+	[SerializeField] private GameObject gameSettings;
 
 	private bool playerIsReady;
 
@@ -32,6 +33,11 @@ public class LobbyManager : MonoBehaviour
 		for (int i = 0; i < carMaterials.colors.Length; i++)
 		{
 			images[i].color = carMaterials.colors[i];
+		}
+
+		if (NetworkServer.active)
+		{
+			gameSettings.SetActive(true);
 		}
 	}
 
