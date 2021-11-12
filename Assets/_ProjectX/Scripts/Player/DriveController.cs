@@ -275,6 +275,18 @@ namespace Player
 		[Server]
 		private void ApplyTorque(float acceleration, float steer)
 		{
+			Debug.Log("ACC " + acceleration);
+			Debug.Log("STEER " + steer);
+
+			Vector2 inputAxis = new Vector2(steer, acceleration).normalized;
+
+			if (steer != 0 && acceleration != 0)
+			{
+				acceleration += Mathf.Abs(inputAxis.x);
+			}
+			
+			Debug.Log("STEER NORMALIZED " + inputAxis.x);
+			
 			// WORK IN PROGRESS 3.0!
 			float localForwardVelocity = Vector3.Dot(rb.velocity, transform.forward);
 			float scaledVelocity = Mathf.Clamp(localForwardVelocity / carSettings.relativeAccelerationTimeFrame, -1, 1);
@@ -316,10 +328,10 @@ namespace Player
 				}
 			}
 
-			if (Mathf.Abs(steer) > 0.1f)
-			{
-				acceleration *= 4;
-			}
+			// if (Mathf.Abs(steer) > 0.1f)
+			// {
+			// 	acceleration *= Mathf.Abs(inputAxis.x);
+			// }
 			
 			float motor = maxMotorTorque * acceleration;
 			// print("Motor: " + motor);
