@@ -315,6 +315,11 @@ namespace Player
 					// 													/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
 				}
 			}
+
+			if (Mathf.Abs(steer) > 0.1f)
+			{
+				acceleration *= 4;
+			}
 			
 			float motor = maxMotorTorque * acceleration;
 			// print("Motor: " + motor);
