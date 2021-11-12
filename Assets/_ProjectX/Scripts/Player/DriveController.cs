@@ -285,10 +285,10 @@ namespace Player
 					acceleration += Mathf.Abs(inputAxis.x);
 				}
 
-				if (acceleration < 0)
-				{
-					acceleration += Mathf.Abs(inputAxis.x) * -1;
-				}
+				// if (acceleration < 0)
+				// {
+				// 	acceleration += Mathf.Abs(inputAxis.x) * -1;
+				// }
 			}
 			
 			Debug.Log("STEER NORMALIZED " + inputAxis.x);
