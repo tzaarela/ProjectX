@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Player;
+using UnityEditor;
 using UnityEngine;
 
 namespace _ProjectX.Scripts.Data.ScriptableObjects

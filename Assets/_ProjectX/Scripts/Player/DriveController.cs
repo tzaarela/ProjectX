@@ -67,8 +67,15 @@ namespace Player
 		{
 			if (!isServer)
 				return;
-
+			
 			carSettings = GetComponent<CarSetup>().settings;
+			rb = GetComponent<Rigidbody>();
+
+			SetupCarSettings();
+		}
+
+		public void SetupCarSettings()
+		{
 			remainingBoost = carSettings.boostMaxTime;
 
 			SetWheelColliders();
@@ -77,7 +84,6 @@ namespace Player
 			maxMotorTorque = carSettings.maxMotorTorque;
 			maxVelocity = carSettings.maxVelocity;
 
-			rb = GetComponent<Rigidbody>();
 			rb.centerOfMass = carSettings.centerOfMassOffset;
 			
 			CreateFrictionCurves();
@@ -291,9 +297,9 @@ namespace Player
 				// }
 			}
 			
-			Debug.Log("STEER NORMALIZED " + inputAxis.x);
-			Debug.Log("ACC " + acceleration);
-			Debug.Log("STEER " + steer);
+			// Debug.Log("STEER NORMALIZED " + inputAxis.x);
+			// Debug.Log("ACC " + acceleration);
+			// Debug.Log("STEER " + steer);
 			
 			// WORK IN PROGRESS 3.0!
 			float localForwardVelocity = Vector3.Dot(rb.velocity, transform.forward);
