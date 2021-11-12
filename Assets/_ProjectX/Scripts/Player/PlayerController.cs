@@ -8,6 +8,7 @@ using Managers;
 using UnityEngine;
 using Game.Flag;
 using UnityEngine.InputSystem;
+using Random = System.Random;
 
 namespace Player
 {
@@ -231,6 +232,7 @@ namespace Player
 			transform.rotation = Quaternion.Euler(newRotation);
 			
 			rb.AddForce(Vector3.up * 5000, ForceMode.Impulse);
+			rb.AddForce(new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)) * 5000, ForceMode.Impulse);
 
 			if (transform.position.y > 2f)
 			{
@@ -260,7 +262,7 @@ namespace Player
 		[Command]
 		private void CmdFlipCar()
 		{
-			rb.velocity = Vector3.zero;
+			//rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
 			FlipCar();
 		}
