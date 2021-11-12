@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using _ProjectX.Scripts.Data.ScriptableObjects;
 using Managers;
-using UnityEditor;
 using UnityEngine;
 
 namespace Player
@@ -284,27 +283,38 @@ namespace Player
 
 			float brakeForce = 1f;
 			
-			if (acceleration > 0 && localForwardVelocity < 0 || acceleration < 0 && localForwardVelocity > 0)
+			if (acceleration == 0)
 			{
-				acceleration = 0;
-				
-				float velocityRelativeBrakeMultiplier = Mathf.Clamp(carSettings.regularBrakeMaxMultiplier * carSettings.regularBrakeCurve.Evaluate(Mathf.Abs(scaledVelocity)),
-														1, carSettings.regularBrakeMaxMultiplier);
-				brakeForce *= velocityRelativeBrakeMultiplier;
-				// print("BrakeForce: " + brakeForce);
-
-				// OLD FUNCTION - Not using AnimationCurve
-				// brakeForce = carSettings.regularBrakeMultiplier;
+				print(rb.velocity.magnitude);
+				if (Mathf.Abs(rb.velocity.magnitude) < 0.15f)
+				{
+					rb.velocity = Vector3.zero;
+					return;
+				}
 			}
 			else
 			{
-				// OLD FUNCTION - Not using AnimationCurve
-				// float velocityRelativeMultiplier = Mathf.Clamp(acceleration * carSettings.maxRelativeAccelerationTimeFrame 
-				// 													/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
+				if (acceleration > 0 && localForwardVelocity < -0.1f || acceleration < 0 && localForwardVelocity > 0.1f)
+				{
+					acceleration = 0;
 				
-				float velocityRelativeAccelerationMultiplier = Mathf.Clamp(Mathf.Abs(acceleration) / carSettings.accelerationCurve.Evaluate(Mathf.Abs(scaledVelocity)),
-																1, carSettings.relativeAccelerationMaxMultiplier);
-				acceleration *= velocityRelativeAccelerationMultiplier;
+					float velocityRelativeBrakeMultiplier = Mathf.Clamp(carSettings.regularBrakeMaxMultiplier * carSettings.regularBrakeCurve.Evaluate(Mathf.Abs(scaledVelocity)),
+																		1, carSettings.regularBrakeMaxMultiplier);
+					brakeForce *= velocityRelativeBrakeMultiplier;
+
+					// OLD FUNCTION - Not using AnimationCurve
+					// brakeForce = carSettings.regularBrakeMaxMultiplier;
+				}
+				else
+				{
+					float velocityRelativeAccelerationMultiplier = Mathf.Clamp(Mathf.Abs(acceleration) / carSettings.accelerationCurve.Evaluate(Mathf.Abs(scaledVelocity)),
+																			   1, carSettings.relativeAccelerationMaxMultiplier);
+					acceleration *= velocityRelativeAccelerationMultiplier;
+					
+					// OLD FUNCTION - Not using AnimationCurve
+					// float velocityRelativeMultiplier = Mathf.Clamp(acceleration * carSettings.maxRelativeAccelerationTimeFrame 
+					// 													/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
+				}
 			}
 			
 			float motor = maxMotorTorque * acceleration;
@@ -326,6 +336,8 @@ namespace Player
 					{
 						axleInfo.leftWheel.brakeTorque = carSettings.decelerationForce * brakeForce;
 						axleInfo.rightWheel.brakeTorque = carSettings.decelerationForce * brakeForce;
+						axleInfo.leftWheel.motorTorque = 0;
+						axleInfo.rightWheel.motorTorque = 0;
 					}
 					else if (rb.velocity.sqrMagnitude > maxVelocity)
 					{
