@@ -371,7 +371,7 @@ namespace Player
 						axleInfo.leftWheel.motorTorque = 0;
 						axleInfo.rightWheel.motorTorque = 0;
 					}
-					else if (motor < 0 && rb.velocity.sqrMagnitude > maxVelocity * 0.6)
+					else if (motor < 0 && rb.velocity.sqrMagnitude > maxVelocity * carSettings.maxVelocityReverseMultiplier)
 					{
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;

@@ -33,6 +33,7 @@ namespace _ProjectX.Scripts.Data.ScriptableObjects
 
 		[Header("Other")]
 		public float maxVelocity = 800f;
+		public float maxVelocityReverseMultiplier = 0.6f;
 		public float relativeAccelerationMaxMultiplier = 3f;
 		public float relativeAccelerationTimeFrame = 30f;
 		public AnimationCurve accelerationCurve;
