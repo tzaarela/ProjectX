@@ -4222,7 +4222,7 @@ GameObject:
   - component: {fileID: 8007866307668988433}
   - component: {fileID: 8007866307668988438}
   m_Layer: 0
-  m_Name: Timer
+  m_Name: Timer_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4314,7 +4314,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 4
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -50
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

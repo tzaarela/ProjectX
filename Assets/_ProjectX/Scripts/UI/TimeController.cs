@@ -42,9 +42,17 @@ namespace UI
 							Debug.Log("RoundManager was not received by TimeController on ALL_PLAYERS_CONNECTED_TO_GAME");
 						}
 					}
-					uiTime = roundTime;
 					RpcSetTimeScale(1);
-					StartCoroutine(TimerRoutine());
+					if (roundTime == 0)
+					{
+						timeText.text = "Infinite\n" +
+						                "Time";
+					}
+					else
+					{
+						uiTime = roundTime;
+						StartCoroutine(TimerRoutine());
+					}
 					break;
 				
 				case GlobalEvent.END_GAMESTATE:
