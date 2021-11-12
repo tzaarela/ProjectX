@@ -1,4 +1,6 @@
 ﻿using Mirror;
+using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 
 namespace UI
@@ -14,15 +16,14 @@ namespace UI
 		[SerializeField] private RectTransform arrowTransform;
 		[SerializeField] private RectTransform canvasRect;
 
-		[Header("DEBUG:")]
+		[Header("DEBUG:")] 
 		public Camera mainCamera;
 		public GameObject mapFlag;
 		public GameObject target;
-		
+
 		public bool localPlayerHasFlag;
 
 		public GameObject Target => target;
-		public GameObject OffScreenIndicator => offScreenIndicator;
 
 		private void Start()
 		{
@@ -44,9 +45,15 @@ namespace UI
 		private void SetIndicatorPosition()
 	    {
 		    //Get the position of the target in relation to the screenSpace 
-	        Vector3 indicatorPosition = mainCamera.WorldToScreenPoint(target.transform.position);
+		    Vector3 indicatorPosition = mainCamera.WorldToScreenPoint(target.transform.position);
 
-	        //In case the target is both in front of the camera and within the bounds of its frustrum
+		    if (indicatorPosition.z < 0)
+		    {
+			    indicatorPosition.x *= -1;
+			    indicatorPosition.y *= -1;
+		    }
+
+		    //In case the target is both in front of the camera and within the bounds of its frustrum
 	        if (indicatorPosition.z >= 0f & indicatorPosition.x <= canvasRect.rect.width * canvasRect.localScale.x
 	         & indicatorPosition.y <= canvasRect.rect.height * canvasRect.localScale.x & indicatorPosition.x >= 0f & indicatorPosition.y >= 0f)
 	        {
