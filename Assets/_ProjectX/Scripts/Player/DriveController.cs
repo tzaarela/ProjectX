@@ -248,9 +248,9 @@ namespace Player
 		}
 
 		[Command]
-		private void CmdDrive(float forwardInputAxis, float SteeringInputAxis)
+		private void CmdDrive(float acceleration, float steer)
 		{
-			ApplyTorque(forwardInputAxis, SteeringInputAxis);
+			ApplyTorque(acceleration, steer);
 			
 			if (AreWeDrifting())
 			{
@@ -279,16 +279,16 @@ namespace Player
 		}
 
 		[Server]
-		private void ApplyTorque(float forwardInputAxis, float steeringInputAxis)
+		private void ApplyTorque(float acceleration, float steer)
 		{
 
-			Vector2 inputAxis = new Vector2(steeringInputAxis, forwardInputAxis).normalized;
+			Vector2 inputAxis = new Vector2(steer, acceleration).normalized;
 
-			if (steeringInputAxis != 0 && forwardInputAxis != 0)
+			if (steer != 0 && acceleration != 0)
 			{
-				if (forwardInputAxis < 0)
+				if (acceleration > 0)
 				{
-					forwardInputAxis += Mathf.Abs(inputAxis.x);
+					acceleration += Mathf.Abs(inputAxis.x);
 				}
 
 				// if (acceleration < 0)
@@ -296,11 +296,11 @@ namespace Player
 				// 	acceleration += Mathf.Abs(inputAxis.x) * -1;
 				// }
 			}
-
+			
 			// Debug.Log("STEER NORMALIZED " + inputAxis.x);
-			// Debug.Log("ACC " + forwardInputAxis);
-			// Debug.Log("STEER " + steeringInputAxis);
-
+			// Debug.Log("ACC " + acceleration);
+			// Debug.Log("STEER " + steer);
+			
 			// WORK IN PROGRESS 3.0!
 			float localForwardVelocity = Vector3.Dot(rb.velocity, transform.forward);
 			float scaledVelocity = Mathf.Clamp(localForwardVelocity / carSettings.relativeAccelerationTimeFrame, -1, 1);
@@ -309,7 +309,7 @@ namespace Player
 
 			float brakeForce = 1f;
 			
-			if (forwardInputAxis == 0)
+			if (acceleration == 0)
 			{
 				if (Mathf.Abs(rb.velocity.sqrMagnitude) < 0.015f)
 				{
@@ -319,9 +319,9 @@ namespace Player
 			}
 			else
 			{
-				if (forwardInputAxis > 0 && localForwardVelocity < -0.1f || forwardInputAxis < 0 && localForwardVelocity > 0.1f)
+				if (acceleration > 0 && localForwardVelocity < -0.1f || acceleration < 0 && localForwardVelocity > 0.1f)
 				{
-					forwardInputAxis = 0;
+					acceleration = 0;
 				
 					float velocityRelativeBrakeMultiplier = Mathf.Clamp(carSettings.regularBrakeMaxMultiplier * carSettings.regularBrakeCurve.Evaluate(Mathf.Abs(scaledVelocity)),
 																		1, carSettings.regularBrakeMaxMultiplier);
@@ -332,9 +332,9 @@ namespace Player
 				}
 				else
 				{
-					float velocityRelativeAccelerationMultiplier = Mathf.Clamp(Mathf.Abs(forwardInputAxis) / carSettings.accelerationCurve.Evaluate(Mathf.Abs(scaledVelocity)),
+					float velocityRelativeAccelerationMultiplier = Mathf.Clamp(Mathf.Abs(acceleration) / carSettings.accelerationCurve.Evaluate(Mathf.Abs(scaledVelocity)),
 																			   1, carSettings.relativeAccelerationMaxMultiplier);
-					forwardInputAxis *= velocityRelativeAccelerationMultiplier;
+					acceleration *= velocityRelativeAccelerationMultiplier;
 					
 					// OLD FUNCTION - Not using AnimationCurve
 					// float velocityRelativeMultiplier = Mathf.Clamp(acceleration * carSettings.maxRelativeAccelerationTimeFrame 
@@ -342,10 +342,10 @@ namespace Player
 				}
 			}
 			
-			float motor = maxMotorTorque * forwardInputAxis;
+			float motor = maxMotorTorque * acceleration;
 			// print("Motor: " + motor);
 
-			float steering = carSettings.maxSteeringAngle * steeringInputAxis;
+			float steering = carSettings.maxSteeringAngle * steer;
 
 			foreach (CarAxle axleInfo in axleInfos)
 			{

@@ -15,7 +15,6 @@ public class ResetZone : NetworkBehaviour
 		{
 			other.GetComponent<PowerupController>().Drop();
 			other.GetComponent<PlayerController>().DropFlag();
-			other.GetComponent<Health>().ResetCurrentHealth();
 
 			var attachedRigidbody = other.attachedRigidbody;
 			attachedRigidbody.velocity = Vector3.zero;
