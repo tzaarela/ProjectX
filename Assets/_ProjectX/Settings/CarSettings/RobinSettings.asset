@@ -122,7 +122,7 @@ MonoBehaviour:
   boostMultiplier: 2
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
-  antiRoll: 12000
+  antiRoll: 13000
   slidingThreshold: 0.95
   slidingMinimumVelocity: 100
   centerOfMassOffset: {x: 0, y: 0.25, z: 1}
