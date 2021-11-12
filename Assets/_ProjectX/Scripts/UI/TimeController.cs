@@ -45,8 +45,7 @@ namespace UI
 					RpcSetTimeScale(1);
 					if (roundTime == 0)
 					{
-						timeText.text = "Infinite\n" +
-						                "Time";
+						timeText.text = "";
 					}
 					else
 					{
