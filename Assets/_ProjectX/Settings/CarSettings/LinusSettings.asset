@@ -22,15 +22,15 @@ MonoBehaviour:
   - key: 0
     sidewayFriction:
       extremumSlip: 0.1
-      extremumValue: 10
+      extremumValue: 15
       asymptoteSlip: 0.5
-      asymptoteValue: 8
+      asymptoteValue: 10
       stiffness: 0.5
     forwardFriction:
       extremumSlip: 0.1
-      extremumValue: 10
+      extremumValue: 15
       asymptoteSlip: 0.5
-      asymptoteValue: 8
+      asymptoteValue: 10
       stiffness: 0.4
   - key: 1
     sidewayFriction:
