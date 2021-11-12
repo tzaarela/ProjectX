@@ -40,6 +40,8 @@ public class CarSettingsEditor : Editor
 			}
     
 			GUILayout.EndHorizontal();
+			
+			EditorGUILayout.Space(20);
     
 			EditorGUI.EndDisabledGroup();
 		}
