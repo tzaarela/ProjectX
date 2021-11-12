@@ -285,7 +285,6 @@ namespace Player
 			
 			if (acceleration == 0)
 			{
-				print(rb.velocity.magnitude);
 				if (Mathf.Abs(rb.velocity.magnitude) < 0.15f)
 				{
 					rb.velocity = Vector3.zero;
