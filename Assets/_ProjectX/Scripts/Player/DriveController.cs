@@ -311,7 +311,7 @@ namespace Player
 			
 			if (acceleration == 0)
 			{
-				if (Mathf.Abs(rb.velocity.magnitude) < 0.15f)
+				if (Mathf.Abs(rb.velocity.sqrMagnitude) < 0.015f)
 				{
 					rb.velocity = Vector3.zero;
 					return;
@@ -341,11 +341,6 @@ namespace Player
 					// 													/ localForwardVelocity, 1, carSettings.maxRelativeAccelerationMultiplier);
 				}
 			}
-
-			// if (Mathf.Abs(steer) > 0.1f)
-			// {
-			// 	acceleration *= Mathf.Abs(inputAxis.x);
-			// }
 			
 			float motor = maxMotorTorque * acceleration;
 			// print("Motor: " + motor);
@@ -369,7 +364,14 @@ namespace Player
 						axleInfo.leftWheel.motorTorque = 0;
 						axleInfo.rightWheel.motorTorque = 0;
 					}
-					else if (rb.velocity.sqrMagnitude > maxVelocity)
+					else if (motor > 0 && rb.velocity.sqrMagnitude > maxVelocity)
+					{
+						axleInfo.leftWheel.brakeTorque = 0;
+						axleInfo.rightWheel.brakeTorque = 0;
+						axleInfo.leftWheel.motorTorque = 0;
+						axleInfo.rightWheel.motorTorque = 0;
+					}
+					else if (motor < 0 && rb.velocity.sqrMagnitude > maxVelocity * 0.6)
 					{
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;
