@@ -53,7 +53,7 @@ MonoBehaviour:
   wheelSuspensionSpring: 35000
   wheelSuspensionDamper: 4500
   wheelSuspensionTargetPosition: 0.5
-  maxVelocity: 1000
+  maxVelocity: 1200
   relativeAccelerationMaxMultiplier: 3
   relativeAccelerationTimeFrame: 30
   accelerationCurve:
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxVelocityBoost: 1200
+  maxVelocityBoost: 1300
   maxMotorTorque: 1100
   maxSteeringAngle: 38
   handBrakeTorque: 12000
