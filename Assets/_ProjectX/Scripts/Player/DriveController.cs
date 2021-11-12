@@ -275,8 +275,6 @@ namespace Player
 		[Server]
 		private void ApplyTorque(float acceleration, float steer)
 		{
-			Debug.Log("ACC " + acceleration);
-			Debug.Log("STEER " + steer);
 
 			Vector2 inputAxis = new Vector2(steer, acceleration).normalized;
 
@@ -286,6 +284,8 @@ namespace Player
 			}
 			
 			Debug.Log("STEER NORMALIZED " + inputAxis.x);
+			Debug.Log("ACC " + acceleration);
+			Debug.Log("STEER " + steer);
 			
 			// WORK IN PROGRESS 3.0!
 			float localForwardVelocity = Vector3.Dot(rb.velocity, transform.forward);
