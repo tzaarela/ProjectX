@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Data.Containers;
 using Data.Interfaces;
 using Managers;
 using Mirror;
@@ -102,8 +103,8 @@ public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 		}
 	}
 
-	public void ReceiveDamageAOE(Vector3 direction, float distance, int damage, int spawnedById)
+	public void ReceiveDamageAOE(AoeData aoeData)
 	{
-		DestructionManager.Instance.DestructObject(gameObject, direction * (distance * 10));
+		DestructionManager.Instance.DestructObject(gameObject, aoeData.direction * (aoeData.distance * 10));
 	}
 }

@@ -9,6 +9,7 @@ using UnityEngine;
 using Game.Flag;
 using UnityEngine.InputSystem;
 using Random = System.Random;
+using Data.Containers;
 
 namespace Player
 {
@@ -267,12 +268,16 @@ namespace Player
 			FlipCar();
 		}
 
-		public void ReceiveDamageAOE(Vector3 direction, float distance, int damage, int spawnedById)
+		public void ReceiveDamageAOE(AoeData aoeData)
 		{
-			rb.AddForce(direction * (distance * 100) + Vector3.up * 10000, ForceMode.Impulse);
-			health.ReceiveDamage(50, spawnedById);
+			rb.AddForce(aoeData.direction * aoeData.distance + Vector3.up * aoeData.upwardEffect, ForceMode.Impulse);
+			
+			if (aoeData.shouldRotate)
+				rb.AddRelativeTorque(aoeData.direction * aoeData.distance * aoeData.rotationEffect, ForceMode.Impulse);
+			
+			health.ReceiveDamage(50, aoeData.spawnedById);
 		}
-		
+
 		private void OnCollisionEnter(Collision other)
 		{
 			if (!isServer)

@@ -48,6 +48,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   aoeRadius: 5
+  rotationEffect: 500
+  upwardEffect: 10000
   aoeLayerMask:
     serializedVersion: 2
     m_Bits: 384

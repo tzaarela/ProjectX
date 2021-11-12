@@ -16,7 +16,7 @@ namespace Game.Explosions
 			base.OnEnable();
 			
 			if (isServer)
-				ProcessAOE();
+				ProcessAOE(true);
 		}
 	}
 }
