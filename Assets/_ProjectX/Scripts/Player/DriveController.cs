@@ -286,10 +286,10 @@ namespace Player
 
 			if (steeringInputAxis != 0 && forwardInputAxis != 0)
 			{
-				if (forwardInputAxis < 0)
-				{
-					forwardInputAxis += Mathf.Abs(inputAxis.x);
-				}
+				//if (forwardInputAxis > 0)
+				//{
+				//	forwardInputAxis += Mathf.Abs(inputAxis.x);
+				//}
 
 				// if (acceleration < 0)
 				// {
