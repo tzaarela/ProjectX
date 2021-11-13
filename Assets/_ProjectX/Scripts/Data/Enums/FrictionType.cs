@@ -10,6 +10,7 @@ namespace Data.Enums
 	public enum FrictionType
 	{
 		normal,
-		handbrake
+		handbrake,
+		drifting
 	}
 }

@@ -32,10 +32,18 @@ namespace Player
 		private float maxMotorTorque;
 		private float maxVelocity;
 
-		private WheelFrictionCurve sidewayFrictionCurveNormal;
-		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
-		private WheelFrictionCurve forwardFrictionCurveHandbrake;
+		//Caching the friction curves on setup
+		//Normal
 		private WheelFrictionCurve forwardFrictionCurveNormal;
+		private WheelFrictionCurve sidewayFrictionCurveNormal;
+
+		//Drifting
+		private WheelFrictionCurve forwardFrictionCurveDrifting;
+		private WheelFrictionCurve sidewayFrictionCurveDrifting;
+		
+		//Handbrake
+		private WheelFrictionCurve forwardFrictionCurveHandbrake;
+		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
 
 		private SO_CarSettings carSettings;
 		private Rigidbody rb;
@@ -121,6 +129,7 @@ namespace Player
 		{
 			CreateNormalFriction();
 			CreateHandbrakeFriction();
+			CreateDriftingFriction();
 		}
 
 		[Server]
@@ -137,6 +146,13 @@ namespace Player
 			FrictionCurve frictionValueNormal = carSettings.frictionCurves.FirstOrDefault(x => x.key == FrictionType.normal);
 			sidewayFrictionCurveNormal = CreateSidewayFrictionCurve(frictionValueNormal);
 			forwardFrictionCurveNormal = CreateForwardFrictionCurve(frictionValueNormal);
+		}
+
+		private void CreateDriftingFriction()
+		{
+			FrictionCurve frictionValueDrifting = carSettings.frictionCurves.FirstOrDefault(x => x.key == FrictionType.drifting);
+			sidewayFrictionCurveDrifting = CreateSidewayFrictionCurve(frictionValueDrifting);
+			forwardFrictionCurveDrifting = CreateForwardFrictionCurve(frictionValueDrifting);
 		}
 
 		[Server]
@@ -251,13 +267,34 @@ namespace Player
 		private void CmdDrive(float forwardInputAxis, float SteeringInputAxis)
 		{
 			ApplyTorque(forwardInputAxis, SteeringInputAxis);
-			
+
 			if (AreWeDrifting())
 			{
+				if (!isDrifting)
+				{
+					foreach (CarAxle axel in axleInfos)
+					{
+						axel.leftWheel.sidewaysFriction = sidewayFrictionCurveDrifting;
+						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveDrifting;
+						axel.leftWheel.forwardFriction = forwardFrictionCurveDrifting;
+						axel.rightWheel.forwardFriction = forwardFrictionCurveDrifting;
+					}
+				}
+
 				isDrifting = true;
 			}
 			else if (driftParticleLeft.isPlaying || driftParticleRight.isPlaying)
 			{
+				if (isDrifting)
+				{
+					foreach (CarAxle axel in axleInfos)
+					{
+						axel.leftWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+						axel.leftWheel.forwardFriction = forwardFrictionCurveNormal;
+						axel.rightWheel.forwardFriction = forwardFrictionCurveNormal;
+					}
+				}
 				isDrifting = false;
 			}
 		}
