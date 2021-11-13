@@ -48,7 +48,8 @@ namespace _ProjectX.Scripts.Data.ScriptableObjects
 		public float boostMaxTime = 2f;
 		public float boostRecoveryRatePerSecond = 1f;
 		public float antiRoll = 16000f;
-		
+		public float turnSpeedMultiplier = 0.8f;
+
 		[Range(0, 1)]
 		[Tooltip("This value determines if we are to be considered sliding, when our sliding value goes below this")]
 		public float slidingThreshold = 0.85f;
