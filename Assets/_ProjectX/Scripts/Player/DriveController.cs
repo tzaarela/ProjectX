@@ -266,6 +266,18 @@ namespace Player
 		[Command]
 		private void CmdDrive(float forwardInputAxis, float SteeringInputAxis)
 		{
+			int wheelsGroundedCount = GetWheelsGroundedCount();
+			if (wheelsGroundedCount < 2)
+			{
+				foreach (CarAxle axel in axleInfos)
+				{
+					axel.leftWheel.motorTorque = 0;
+					axel.rightWheel.motorTorque = 0;
+				}
+
+				return;
+			}
+
 			ApplyTorque(forwardInputAxis, SteeringInputAxis);
 
 			if (AreWeDrifting())
@@ -298,7 +310,21 @@ namespace Player
 				isDrifting = false;
 			}
 		}
-		
+
+		private int GetWheelsGroundedCount()
+		{
+			int groundedCount = 0;
+			foreach (CarAxle axle in axleInfos)
+			{
+				if (axle.leftWheel.isGrounded)
+					groundedCount++;
+				if (axle.rightWheel.isGrounded)
+					groundedCount++;
+			}
+
+			return groundedCount;
+		}
+
 		private bool AreWeDrifting()
 		{
 			if (axleInfos.Any(x => x.leftWheel.isGrounded || x.rightWheel.isGrounded))
