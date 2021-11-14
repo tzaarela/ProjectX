@@ -22,6 +22,7 @@ public class LobbyManager : MonoBehaviour
 	[SerializeField] private GameObject gameSettings;
 	[SerializeField] private TMP_Dropdown levelSelectDropdown;
 
+	//These have to be in the same order as the dropdown
 	private string[] levels = new string[]
 	{
 		"City",
