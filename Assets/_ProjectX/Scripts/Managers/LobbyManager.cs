@@ -6,6 +6,8 @@ using Data.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Networking;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -18,8 +20,16 @@ public class LobbyManager : MonoBehaviour
 	[SerializeField] private TMP_InputField textInput;
 	[SerializeField] private SO_CarMaterials carMaterials;
 	[SerializeField] private GameObject gameSettings;
+	[SerializeField] private TMP_Dropdown levelSelectDropdown;
+
+	private string[] levels = new string[]
+	{
+		"City",
+		"BlockFort"
+	};
 
 	private bool playerIsReady;
+	
 
 	private void Awake()
 	{
@@ -39,6 +49,12 @@ public class LobbyManager : MonoBehaviour
 		{
 			gameSettings.SetActive(true);
 		}
+	}
+
+	[Server]
+	public void SelectLevelIndex()
+	{
+		NetworkRoomManagerExt.singleton.gameObject.GetComponent<NetworkRoomManagerExt>().GameplayScene = levels[levelSelectDropdown.value];
 	}
 
 	[Client]
