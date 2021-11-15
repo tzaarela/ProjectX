@@ -21,6 +21,7 @@ namespace Managers
 		[SerializeField] private TMP_Text[] playerTexts;
 		[SerializeField] private TMP_Text[] scoreTexts;
 		[SerializeField] private GameObject newLeaderText;
+		[SerializeField] private TMP_Text gameUpdateText;
 		[SerializeField] private TMP_Text killedByText;
 		[SerializeField] private TMP_Text respawnText;
 		[SerializeField] private Texture[] powerUpTextures;
@@ -169,6 +170,13 @@ namespace Managers
 		public void TargetUpdateBoostBar(NetworkConnection conn, float percent)
 		{
 			boostBar.fillAmount = percent;
+		}
+		
+		[TargetRpc]
+		public void TargetActivateUpdateText(NetworkConnection conn, string playerName)
+		{
+			gameUpdateText.gameObject.SetActive(true);
+			gameUpdateText.text = $"You killed {playerName}!";
 		}
 
 		[TargetRpc]

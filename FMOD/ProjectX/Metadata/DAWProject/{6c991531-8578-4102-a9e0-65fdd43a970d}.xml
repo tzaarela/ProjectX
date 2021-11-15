@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="DAWProject" id="{6c991531-8578-4102-a9e0-65fdd43a970d}">
+		<property name="assetPath">
+			<value>BoostLoop.rpp.link/</value>
+		</property>
+		<property name="dawProjectPath">
+			<value>C:/Users/sloop/Documents/GitHub/PROJECT X DEV FILES/Sounds/Car/Boost/BoostLoop.rpp</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c43130b-9186-4fb6-9d65-a9acdac70927}</destination>
+		</relationship>
+	</object>
+</objects>

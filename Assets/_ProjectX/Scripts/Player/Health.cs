@@ -42,17 +42,17 @@ namespace Player
 		{
 			if (isDead)
 				return;
-
-			string attacker = NetworkServer.spawned[(uint)attackerId].gameObject.GetComponent<PlayerController>().playerName;
-			
-			// print($"{playerController.playerName} was damaged by Player_{attacker}! (Damage = {damage})");
 			
 			currentHealth -= damage;
 
 			if (currentHealth <= 0)
 			{
 				playerController.DropFlag();
-				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attacker);
+				GameObject attacker = NetworkServer.spawned[(uint)attackerId].gameObject;
+				string attackerName = attacker.GetComponent<PlayerController>().playerName;
+				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerName);
+				NetworkConnectionToClient attackerConn = attacker.GetComponent<NetworkIdentity>().connectionToClient;
+				ServiceLocator.HudManager.TargetActivateUpdateText(attackerConn, playerController.playerName);
 			}
 		}
 

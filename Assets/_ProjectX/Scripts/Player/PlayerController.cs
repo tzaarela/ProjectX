@@ -10,6 +10,7 @@ using Game.Flag;
 using UnityEngine.InputSystem;
 using Random = System.Random;
 using Data.Containers;
+using FMOD.Studio;
 
 namespace Player
 {
@@ -20,6 +21,7 @@ namespace Player
 		[SerializeField] private MeshRenderer meshRenderer;
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
 		[SerializeField] private SO_CarMaterials carMaterials;
+		[SerializeField] private PlayerSound playerSound;
 
 		[Header("DeathSettings")] 
 		[SerializeField] private ParticleSystem deathFX;
@@ -49,11 +51,19 @@ namespace Player
 		public int PlayerId => playerId;
 
 		public bool localPlayer;
+		
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string crashSound;
+		private FMOD.Studio.EventInstance crashSoundInstance;
 
 		private void Awake()
 		{
 			inputManager = GetComponent<InputManager>();
 			health = GetComponent<Health>();
+			
+			crashSoundInstance = FMODUnity.RuntimeManager.CreateInstance(crashSound);
+			crashSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
 		}
 
 		[Server]
@@ -208,7 +218,9 @@ namespace Player
 			health.ResetCurrentHealth();
 			rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
-			FlipCar();
+			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+			transform.rotation = Quaternion.Euler(newRotation);
+			rb.AddForce(Vector3.up * 5000, ForceMode.Impulse);
 			GetComponent<PowerupController>().Drop();
 			RpcRespawnPlayer();
 		}
@@ -307,6 +319,15 @@ namespace Player
 			//Debug.Log("FORCE PUSH: " + force);
 			Debug.DrawRay(transform.position, force, Color.red, 0.1f);
 			rb.AddForce(force, ForceMode.Impulse);
+			RpcPlayCrashSound();
+		}
+		
+		[ClientRpc]
+		private void RpcPlayCrashSound()
+		{
+			crashSoundInstance.stop(STOP_MODE.IMMEDIATE);
+			crashSoundInstance.start();
+			FMODUnity.RuntimeManager.AttachInstanceToGameObject(crashSoundInstance, transform);
 		}
 	}
 }

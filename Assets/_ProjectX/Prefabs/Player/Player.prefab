@@ -221,6 +221,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 6294658863401658270}
   playerNameText: {fileID: 3843313183095549569}
   carMaterials: {fileID: 11400000, guid: 55a131d97a3c28645a276ec29a2ade7f, type: 2}
+  playerSound: {fileID: 0}
   deathFX: {fileID: 8390639925807054758}
   deathFX2: {fileID: 3618549201056822380}
   deathSmoke: {fileID: 3277401762760358716}
@@ -230,6 +231,7 @@ MonoBehaviour:
   playerColor: {r: 0, g: 0, b: 0, a: 0}
   rb: {fileID: 0}
   localPlayer: 0
+  crashSound: event:/SFX/Crash
 --- !u!114 &5035307015958726276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +282,7 @@ MonoBehaviour:
   - {fileID: 3908992884767502466}
   - {fileID: 2795772024395906163}
   - {fileID: 7058477879792305930}
+  dropSound: event:/SFX/Drop
 --- !u!114 &145973192295524686
 MonoBehaviour:
   m_ObjectHideFlags: 0
