@@ -280,6 +280,7 @@ MonoBehaviour:
   - {fileID: 3908992884767502466}
   - {fileID: 2795772024395906163}
   - {fileID: 7058477879792305930}
+  dropSound: event:/SFX/Drop
 --- !u!114 &145973192295524686
 MonoBehaviour:
   m_ObjectHideFlags: 0

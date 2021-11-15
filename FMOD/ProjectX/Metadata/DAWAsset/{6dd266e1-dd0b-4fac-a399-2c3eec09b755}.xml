@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="DAWAsset" id="{6dd266e1-dd0b-4fac-a399-2c3eec09b755}">
+		<property name="assetPath">
+			<value>BoostLoop.rpp.link/BoostLoop.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.93609977324263038</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4c43130b-9186-4fb6-9d65-a9acdac70927}</destination>
+		</relationship>
+		<relationship name="project">
+			<destination>{6c991531-8578-4102-a9e0-65fdd43a970d}</destination>
+		</relationship>
+	</object>
+</objects>

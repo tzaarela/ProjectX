@@ -1,5 +1,7 @@
-﻿using Data.Enums;
+﻿using System;
+using Data.Enums;
 using System.Collections.Generic;
+using FMOD.Studio;
 using Managers;
 using Mirror;
 using Powerup.Powerups;
@@ -11,12 +13,26 @@ namespace Player
 	{
 		private InputManager inputs;
 		private NetworkIdentity networkIdentity;
-
+		private Rigidbody rb;
+		
 		[SerializeField] private PowerupType currentPowerupType;
 
 		// Important that added items follows same pattern as PowerupType
 		public List<PowerupBase> powerups = new List<PowerupBase>();
 		
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string dropSound;
+		private FMOD.Studio.EventInstance dropSoundInstance;
+
+		private void Start()
+		{
+			rb = GetComponent<Rigidbody>();
+			
+			dropSoundInstance = FMODUnity.RuntimeManager.CreateInstance(dropSound);
+			dropSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
+		}
+
 		public override void OnStartLocalPlayer()
 		{
 			inputs = GetComponent<InputManager>();
@@ -32,7 +48,17 @@ namespace Player
 				CmdUse((int)networkIdentity.netId);
 
 			if (inputs.isDroppingPowerup)
+			{
+				// First of these checks are for local check before playing sound
+				if (currentPowerupType == PowerupType.NONE)
+					return;
+
+				dropSoundInstance.stop(STOP_MODE.IMMEDIATE);
+				dropSoundInstance.start();
+				FMODUnity.RuntimeManager.AttachInstanceToGameObject(dropSoundInstance, transform);
+				
 				CmdDrop();
+			}
 		}
 
 		[Command]
