@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Player.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Player
 		public bool hasMotor;
 		public bool hasSteering;
 		public bool hasHandbrake;
+		public AxleType axleType;
 	}
 }

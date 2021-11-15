@@ -39,6 +39,8 @@ namespace _ProjectX.Scripts.Data.ScriptableObjects
 		public AnimationCurve accelerationCurve;
 		public float maxVelocityBoost = 1200f;
 		public float maxMotorTorque = 700f;
+		public float backAxleTorqueMultiplier = 1f;
+		public float frontAxleTorqueMultiplier = 1f;
 		public float maxSteeringAngle = 32f;
 		public float handBrakeTorque = 6000f;
 		public float decelerationForce = 2000f;

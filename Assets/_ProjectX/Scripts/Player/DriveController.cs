@@ -443,10 +443,22 @@ namespace Player
 					}
 					else
 					{
+						float motorTorque = 0;
+
+						switch (axleInfo.axleType)
+						{
+							case Models.AxleType.Forward:
+								motorTorque = motor * carSettings.frontAxleTorqueMultiplier;
+								break;
+							case Models.AxleType.Back:
+								motorTorque = motor * carSettings.backAxleTorqueMultiplier;
+								break;
+						}
+
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;
-						axleInfo.leftWheel.motorTorque = motor;
-						axleInfo.rightWheel.motorTorque = motor;
+						axleInfo.leftWheel.motorTorque = motorTorque;
+						axleInfo.rightWheel.motorTorque = motorTorque;
 					}
 				}
 
