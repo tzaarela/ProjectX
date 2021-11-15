@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityZoomMultiplier: 1
-  maxZoomOutDistance: 60
-  minZoomInDistance: 40
+  maxZoomOutDistance: 80
+  minZoomInDistance: 50
 --- !u!114 &4082232577554138576
 MonoBehaviour:
   m_ObjectHideFlags: 0
