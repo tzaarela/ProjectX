@@ -218,7 +218,9 @@ namespace Player
 			health.ResetCurrentHealth();
 			rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
-			FlipCar();
+			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+			transform.rotation = Quaternion.Euler(newRotation);
+			rb.AddForce(Vector3.up * 5000, ForceMode.Impulse);
 			GetComponent<PowerupController>().Drop();
 			RpcRespawnPlayer();
 		}
