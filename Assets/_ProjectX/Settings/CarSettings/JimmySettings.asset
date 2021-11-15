@@ -67,7 +67,7 @@ MonoBehaviour:
   wheelSuspensionDamper: 4500
   wheelSuspensionTargetPosition: 0.5
   maxVelocity: 1350
-  maxVelocityReverseMultiplier: 1
+  maxVelocityReverseMultiplier: 100
   relativeAccelerationMaxMultiplier: 3
   relativeAccelerationTimeFrame: 30
   accelerationCurve:
