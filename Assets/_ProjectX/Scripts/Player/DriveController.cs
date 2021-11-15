@@ -275,6 +275,9 @@ namespace Player
 					axel.rightWheel.motorTorque = 0;
 				}
 
+				if(isDrifting)
+					isDrifting = false;
+
 				return;
 			}
 
