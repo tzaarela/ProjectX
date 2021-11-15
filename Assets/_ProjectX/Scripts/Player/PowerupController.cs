@@ -49,14 +49,6 @@ namespace Player
 
 			if (inputs.isDroppingPowerup)
 			{
-				// First of these checks are for local check before playing sound
-				if (currentPowerupType == PowerupType.NONE)
-					return;
-
-				dropSoundInstance.stop(STOP_MODE.IMMEDIATE);
-				dropSoundInstance.start();
-				FMODUnity.RuntimeManager.AttachInstanceToGameObject(dropSoundInstance, transform);
-				
 				CmdDrop();
 			}
 		}
@@ -132,8 +124,21 @@ namespace Player
 		[Command]
 		private void CmdDrop()
 		{
+			if (currentPowerupType == PowerupType.NONE)
+				return;
+
+			TargetPlayDropAudio();
 			UpdateClientPickup(PowerupType.NONE);
 			currentPowerupType = PowerupType.NONE;
+
+		}
+
+		[TargetRpc]
+		private void TargetPlayDropAudio()
+		{
+			dropSoundInstance.stop(STOP_MODE.IMMEDIATE);
+			dropSoundInstance.start();
+			FMODUnity.RuntimeManager.AttachInstanceToGameObject(dropSoundInstance, transform);
 		}
 	}
 }
