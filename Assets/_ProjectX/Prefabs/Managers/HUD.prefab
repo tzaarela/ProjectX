@@ -5837,22 +5837,6 @@ PrefabInstance:
       propertyPath: m_enableAutoSizing
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7261240942140505215, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7261240942140505215, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7261240942140505215, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7261240942140505215, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8369006606420556437, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
       propertyPath: m_Name
       value: MainMenu_button

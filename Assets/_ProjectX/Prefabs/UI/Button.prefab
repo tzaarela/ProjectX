@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -99,9 +99,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
-    m_HighlightedColor: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
-    m_PressedColor: {r: 0.08627451, g: 0.7725491, b: 0.5411765, a: 1}
-    m_SelectedColor: {r: 0.08627451, g: 0.7725491, b: 0.5411765, a: 1}
+    m_HighlightedColor: {r: 0.0627451, g: 0.46274513, b: 0.32941177, a: 1}
+    m_PressedColor: {r: 0.11974903, g: 0.6509434, b: 0.47185495, a: 1}
+    m_SelectedColor: {r: 0.06323426, g: 0.46226418, b: 0.32773405, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
