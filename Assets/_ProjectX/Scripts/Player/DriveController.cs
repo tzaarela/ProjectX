@@ -32,10 +32,18 @@ namespace Player
 		private float maxMotorTorque;
 		private float maxVelocity;
 
-		private WheelFrictionCurve sidewayFrictionCurveNormal;
-		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
-		private WheelFrictionCurve forwardFrictionCurveHandbrake;
+		//Caching the friction curves on setup
+		//Normal
 		private WheelFrictionCurve forwardFrictionCurveNormal;
+		private WheelFrictionCurve sidewayFrictionCurveNormal;
+
+		//Drifting
+		private WheelFrictionCurve forwardFrictionCurveDrifting;
+		private WheelFrictionCurve sidewayFrictionCurveDrifting;
+		
+		//Handbrake
+		private WheelFrictionCurve forwardFrictionCurveHandbrake;
+		private WheelFrictionCurve sidewayFrictionCurveHandbrake;
 
 		private SO_CarSettings carSettings;
 		private Rigidbody rb;
@@ -121,6 +129,7 @@ namespace Player
 		{
 			CreateNormalFriction();
 			CreateHandbrakeFriction();
+			CreateDriftingFriction();
 		}
 
 		[Server]
@@ -137,6 +146,13 @@ namespace Player
 			FrictionCurve frictionValueNormal = carSettings.frictionCurves.FirstOrDefault(x => x.key == FrictionType.normal);
 			sidewayFrictionCurveNormal = CreateSidewayFrictionCurve(frictionValueNormal);
 			forwardFrictionCurveNormal = CreateForwardFrictionCurve(frictionValueNormal);
+		}
+
+		private void CreateDriftingFriction()
+		{
+			FrictionCurve frictionValueDrifting = carSettings.frictionCurves.FirstOrDefault(x => x.key == FrictionType.drifting);
+			sidewayFrictionCurveDrifting = CreateSidewayFrictionCurve(frictionValueDrifting);
+			forwardFrictionCurveDrifting = CreateForwardFrictionCurve(frictionValueDrifting);
 		}
 
 		[Server]
@@ -250,18 +266,68 @@ namespace Player
 		[Command]
 		private void CmdDrive(float forwardInputAxis, float SteeringInputAxis)
 		{
+			int wheelsGroundedCount = GetWheelsGroundedCount();
+			if (wheelsGroundedCount < 2)
+			{
+				foreach (CarAxle axel in axleInfos)
+				{
+					axel.leftWheel.motorTorque = 0;
+					axel.rightWheel.motorTorque = 0;
+				}
+
+				if(isDrifting)
+					isDrifting = false;
+
+				return;
+			}
+
 			ApplyTorque(forwardInputAxis, SteeringInputAxis);
-			
+
 			if (AreWeDrifting())
 			{
+				if (!isDrifting)
+				{
+					foreach (CarAxle axel in axleInfos)
+					{
+						axel.leftWheel.sidewaysFriction = sidewayFrictionCurveDrifting;
+						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveDrifting;
+						axel.leftWheel.forwardFriction = forwardFrictionCurveDrifting;
+						axel.rightWheel.forwardFriction = forwardFrictionCurveDrifting;
+					}
+				}
+
 				isDrifting = true;
 			}
 			else if (driftParticleLeft.isPlaying || driftParticleRight.isPlaying)
 			{
+				if (isDrifting)
+				{
+					foreach (CarAxle axel in axleInfos)
+					{
+						axel.leftWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+						axel.rightWheel.sidewaysFriction = sidewayFrictionCurveNormal;
+						axel.leftWheel.forwardFriction = forwardFrictionCurveNormal;
+						axel.rightWheel.forwardFriction = forwardFrictionCurveNormal;
+					}
+				}
 				isDrifting = false;
 			}
 		}
-		
+
+		private int GetWheelsGroundedCount()
+		{
+			int groundedCount = 0;
+			foreach (CarAxle axle in axleInfos)
+			{
+				if (axle.leftWheel.isGrounded)
+					groundedCount++;
+				if (axle.rightWheel.isGrounded)
+					groundedCount++;
+			}
+
+			return groundedCount;
+		}
+
 		private bool AreWeDrifting()
 		{
 			if (axleInfos.Any(x => x.leftWheel.isGrounded || x.rightWheel.isGrounded))
@@ -380,10 +446,22 @@ namespace Player
 					}
 					else
 					{
+						float motorTorque = 0;
+
+						switch (axleInfo.axleType)
+						{
+							case Models.AxleType.Forward:
+								motorTorque = motor * carSettings.frontAxleTorqueMultiplier;
+								break;
+							case Models.AxleType.Back:
+								motorTorque = motor * carSettings.backAxleTorqueMultiplier;
+								break;
+						}
+
 						axleInfo.leftWheel.brakeTorque = 0;
 						axleInfo.rightWheel.brakeTorque = 0;
-						axleInfo.leftWheel.motorTorque = motor;
-						axleInfo.rightWheel.motorTorque = motor;
+						axleInfo.leftWheel.motorTorque = motorTorque;
+						axleInfo.rightWheel.motorTorque = motorTorque;
 					}
 				}
 

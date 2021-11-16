@@ -31,7 +31,7 @@ namespace Powerup.Projectiles
 		
 		[SerializeField] ParticleSystem lightParticle;
 
-		[SyncVar(hook = nameof(TurnRed))] private bool isArmed;
+		[SyncVar(hook = nameof(ToggleLight))] private bool isArmed;
 
 		private int spawnedByNetId;
 		private Rigidbody rb;
@@ -57,7 +57,11 @@ namespace Powerup.Projectiles
 
 		private void OnDisable()
 		{
+			if (isServer)
+				isArmed = false;
+			
 			deploySoundInstance.stop(STOP_MODE.ALLOWFADEOUT);
+
 		}
 
 		[Server]
@@ -68,10 +72,14 @@ namespace Powerup.Projectiles
 
 		//Hook
 		[Client]
-		private void TurnRed(bool oldValue, bool newValue)
+		private void ToggleLight(bool turnOff, bool turnOn)
 		{
 			var lightParticleMain = lightParticle.main;
-			lightParticleMain.startColor = Color.red;
+			if (turnOn)
+				lightParticleMain.startColor = Color.red;
+			else if (turnOff)
+				lightParticleMain.startColor = Color.green;
+
 		}
 		
 		private void OnTriggerEnter(Collider other)
@@ -100,7 +108,7 @@ namespace Powerup.Projectiles
 		{
 			yield return new WaitForSeconds(triggerDelay);
 			ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.MineExplosion, transform.position, Quaternion.identity, spawnedByNetId);
-			NetworkServer.Destroy(gameObject);
+			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Mine, gameObject);
 		}
 
 		public void SetSpawnedBy(int netID)
