@@ -52,7 +52,7 @@ namespace Player
 				string attackerName = attacker.GetComponent<PlayerController>().playerName;
 				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerName);
 				NetworkConnectionToClient attackerConn = attacker.GetComponent<NetworkIdentity>().connectionToClient;
-				ServiceLocator.HudManager.TargetActivateUpdateText(attackerConn, playerController.playerName);
+				ServiceLocator.HudManager.TargetActivateKillText(attackerConn, playerController.playerName);
 			}
 		}
 
@@ -128,6 +128,13 @@ namespace Player
 		public void ResetCurrentHealth()
 		{
 			currentHealth = startingHealth;
+		}
+		
+		// TEMP
+		[Server]
+		public void SetHealthToZero()
+		{
+			currentHealth = 0;
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
@@ -10,27 +11,38 @@ namespace Cameras
 {
     public class CameraController : MonoBehaviour, IReceiveGlobalSignal
     {
+        [Header("SETTINGS:")]
         [SerializeField] private float velocityZoomMultiplier = 1;
         [SerializeField] private float maxZoomOutDistance = 60f;
         [SerializeField] private float minZoomInDistance = 40f;
-
-        private CinemachineVirtualCamera virtualCamera;
+        
+        [Header("EXT. REFERENCES:")]
+        [SerializeField] private CinemachineVirtualCamera zoomInCamera;
+        [SerializeField] private CinemachineVirtualCamera flagTargetCamera;
+        [SerializeField] private GameObject mapFlag;
+        
+        private CinemachineVirtualCamera gameCamera;
         private PlayerController playerController;
 
 		private void Awake()
         {
             GlobalMediator.Instance.Subscribe(this);
-            virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            gameCamera = GetComponent<CinemachineVirtualCamera>();
         }
 
-		private void Update()
+        private void Start()
+        {
+            flagTargetCamera.Follow = mapFlag.transform;
+        }
+
+        private void Update()
 		{
 			if (playerController != null)
 			{
                 float localForwardVelocity = Vector3.Dot(playerController.rb.velocity, playerController.transform.forward);
 
                 float zoom = Mathf.Clamp(localForwardVelocity * velocityZoomMultiplier, minZoomInDistance, maxZoomOutDistance);
-                virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = zoom;
+                gameCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = zoom;
             }
 		}
         
@@ -43,19 +55,23 @@ namespace Cameras
 
                     if (globalSignalData is GameObjectData localPlayer)
                     {
-                        virtualCamera.Follow = localPlayer.gameObject.transform;
+                        gameCamera.Follow = localPlayer.gameObject.transform;
+                        zoomInCamera.Follow = localPlayer.gameObject.transform;
                         playerController = localPlayer.gameObject.GetComponent<PlayerController>();
                     }
-                
                     break;
                 
-                case GlobalEvent.SET_FOLLOW_TARGET:
+                case GlobalEvent.FLAG_TAKEN:
 
-                    if (globalSignalData is GameObjectData data)
+                    if (globalSignalData is GameObjectData playerWithFlag)
                     {
-                        virtualCamera.Follow = data.gameObject.transform;
+                        flagTargetCamera.Follow = playerWithFlag.gameObject.transform;
                     }
+                    break;
                 
+                case GlobalEvent.FLAG_DROPPED:
+                    
+                    flagTargetCamera.Follow = mapFlag.transform;
                     break;
             }
         }

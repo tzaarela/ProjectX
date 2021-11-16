@@ -112,6 +112,7 @@ namespace Player
 			this.flag = flag;
 			hasFlag = true;
 			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
+			SendGlobal(GlobalEvent.FLAG_TAKEN, new GameObjectData(gameObject));
 		}
 
 		[ContextMenu("Drop Flag")]
@@ -124,6 +125,7 @@ namespace Player
 			hasFlag = false;
 			flag.Drop(transform.position, rb.velocity);
 			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
+			SendGlobal(GlobalEvent.FLAG_DROPPED, new GameObjectData(gameObject));
 		}
 
 		//SyncVar Hook
@@ -258,17 +260,9 @@ namespace Player
 		[Command]
 		private void CmdDeath()
 		{
-			RpcDeath();
 			DropFlag();
+			health.SetHealthToZero();
 			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, "Mr.Debug");
-		}
-
-		// TEMP!
-		[ClientRpc]
-		private void RpcDeath()
-		{
-			health.IsDead = true;
-			Death();
 		}
 
 		// TEMP!

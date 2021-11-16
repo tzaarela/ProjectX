@@ -7,6 +7,8 @@ namespace Data.Enums
         ALL_PLAYERS_CONNECTED_TO_GAME,
         
         // GAME EVENT
+        FLAG_TAKEN,
+        FLAG_DROPPED,
         SET_FOLLOW_TARGET,
         CAMERA_SHAKE,
 
