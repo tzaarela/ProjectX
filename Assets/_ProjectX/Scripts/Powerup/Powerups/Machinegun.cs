@@ -12,10 +12,16 @@ namespace Powerup.Powerups
 	{
 		[SerializeField] private float maxSpreadOffset = 3.5f;
 		
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string shootSound;
+
+		private FMOD.Studio.EventInstance shootSoundInstance;
+
+
 		protected override void Start()
 		{
 			base.Start();
-
 			forwardSpawnOffset = 0.0f;
 			heightSpawnOffset = -0.5f;
 			fireCooldown = 0.13f;
@@ -30,7 +36,10 @@ namespace Powerup.Powerups
 		protected override void Execute(int netID)
 		{
 			base.Execute(netID);
-			
+
+			if (!shootSoundInstance.hasHandle())
+				shootSoundInstance = FMODUnity.RuntimeManager.CreateInstance(shootSound);
+
 			if (ammo > 0)
 			{
 				foreach (Transform hardpoint in hardpoints)
@@ -51,12 +60,18 @@ namespace Powerup.Powerups
 					bullet.transform.position = hardpoint.position + direction * forwardSpawnOffset;
 					bullet.transform.rotation = hardpoint.rotation;
 					bullet.SetupProjectile(direction, netID);
-
+					PlayShootSound();
 					ammo--;
 					
 					ServiceLocator.HudManager.TargetUpdateAmmoUi(playerController.connectionToClient, ammo);
 				}
 			}
+		}
+
+		private void PlayShootSound()
+		{
+			shootSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform));
+			shootSoundInstance.start();
 		}
 	}
 }
