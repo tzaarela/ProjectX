@@ -111,7 +111,6 @@ namespace Player
 		{
 			this.flag = flag;
 			hasFlag = true;
-			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: true, gameObject);
 			SendGlobal(GlobalEvent.FLAG_TAKEN, new GameObjectData(gameObject));
 		}
 
@@ -124,7 +123,6 @@ namespace Player
 
 			hasFlag = false;
 			flag.Drop(transform.position, rb.velocity);
-			ServiceLocator.HudManager.UpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
 			SendGlobal(GlobalEvent.FLAG_DROPPED, new GameObjectData(gameObject));
 		}
 

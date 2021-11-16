@@ -76,6 +76,7 @@ namespace Managers
 						string playerName = playerTakingFlag.gameObject.GetComponent<PlayerController>().playerName;
 						string newStatusText = $"{playerName} has the flag";
 						RpcUpdateFlagStatusText(newStatusText);
+						RpcUpdateFlagIndicatorTarget(true, playerTakingFlag.gameObject);
 					}
 					break;
                 
@@ -86,6 +87,7 @@ namespace Managers
 						string playerName = playerDroppingFlag.gameObject.GetComponent<PlayerController>().playerName;
 						string newStatusText = $"{playerName} dropped the flag";
 						RpcUpdateFlagStatusText(newStatusText);
+						RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
 					}
 					break;
 				
@@ -94,20 +96,15 @@ namespace Managers
 					break;
 			}
 		}
-
-		[Server]
-		public void UpdateFlagIndicatorTarget(bool flagHasBeenTaken, GameObject player)
-		{
-			if (flagHasBeenTaken)
-			{
-				RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: true, player);
-			}
-			else
-			{
-				RpcUpdateFlagIndicatorTarget(flagHasBeenTaken: false, null);
-			}
-		}
 		
+		[ClientRpc]
+		private void RpcUpdateFlagStatusText(string statusText)
+		{
+			flagText.text = statusText;
+			flagText.gameObject.SetActive(false);
+			flagText.gameObject.SetActive(true);
+		}
+
 		[ClientRpc]
 		private void RpcUpdateFlagIndicatorTarget(bool flagHasBeenTaken, GameObject player)
 		{
@@ -127,7 +124,7 @@ namespace Managers
 			playerTexts[index].text = player;
 			scoreTexts[index].text = score.ToString();
 		}
-		
+
 		[ClientRpc]
 		public void RpcUpdateScoringPlayerScore(int index, string player, int score, int previousScore, float scoreRate)
 		{
@@ -149,21 +146,12 @@ namespace Managers
 				yield return new WaitForSeconds(scoreRate / scoreDifference);
 			}
 		}
-
+		
 		[ClientRpc]
 		public void RpcActivateNewLeaderText()
 		{
 			newLeaderText.SetActive(true);
 		}
-
-		[ClientRpc]
-		private void RpcUpdateFlagStatusText(string statusText)
-		{
-			flagText.text = statusText;
-			flagText.gameObject.SetActive(false);
-			flagText.gameObject.SetActive(true);
-		}
-		
 
 		[Client]
 		public void ActivatePowerupUi(int powerIndex, int startingAmmo)
@@ -188,6 +176,7 @@ namespace Managers
 			PowerupScalePunchTween();
 		}
 
+		[Client]
 		private void PowerupScalePunchTween()
 		{
 			if (!powerupScalePunchTweener.IsActive())
@@ -222,7 +211,6 @@ namespace Managers
 		private IEnumerator DeathTextsRoutine(GameObject target, string attacker)
 		{
 			zoomInCamera.gameObject.SetActive(true);
-			// zoomInCamera.Follow = target.transform;
 			yield return new WaitForSeconds(0.5f);
 			killText.text = $"Killed by {attacker}";
 			killText.gameObject.SetActive(false);
@@ -230,8 +218,6 @@ namespace Managers
 			yield return new WaitForSeconds(2f);
 			zoomInCamera.gameObject.SetActive(false);
 			flagTargetCamera.gameObject.SetActive(true);
-			// flagTargetCamera.Follow = indicatorController.Target.transform;
-			// SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(indicatorController.Target));
 			yield return new WaitForSeconds(0.5f);
 			respawnText.gameObject.SetActive(true);
 			respawnText.text = "Respawning in... 3";
@@ -242,7 +228,6 @@ namespace Managers
 			yield return new WaitForSeconds(0.5f);
 			respawnText.gameObject.SetActive(false);
 			flagTargetCamera.gameObject.SetActive(false);
-			// SendGlobal(GlobalEvent.SET_FOLLOW_TARGET, new GameObjectData(target));
 			yield return new WaitForSeconds(0.5f);
 			target.GetComponent<PlayerController>().CmdRespawnPlayer();
 			// respawnText.gameObject.SetActive(true);
