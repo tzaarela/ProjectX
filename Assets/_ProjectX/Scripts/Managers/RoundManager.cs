@@ -11,8 +11,10 @@ namespace Managers
 	{
 		[Header("SETTINGS:")]
 		public int roundTime = 300;
-		public float scoreRate = 0.5f;
-		public int scoreToAdd = 5;
+		public int flagScoreEachTick = 5;
+		public float flagScoreTickRate = 0.5f;
+		public int killScore = 25;
+		public int killWithFlagAdditionalScore = 10;
 		public int scoreToWin = 100;
 		public int additionalScoringStartupThreshold = 100;
 		public int additionalScoringMaxThreshold = 300;

@@ -53,6 +53,7 @@ namespace Player
 				ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, attackerName);
 				NetworkConnectionToClient attackerConn = attacker.GetComponent<NetworkIdentity>().connectionToClient;
 				ServiceLocator.HudManager.TargetActivateKillText(attackerConn, playerController.playerName);
+				ServiceLocator.ScoreManager.AddKillScore(attackerName, attacker.GetComponent<PlayerController>().hasFlag);
 			}
 		}
 
