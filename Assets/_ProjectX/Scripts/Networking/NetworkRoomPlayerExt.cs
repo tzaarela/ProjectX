@@ -151,4 +151,12 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	{
 		playerMaterialIndex = index;
 	}
+
+	private void OnDestroy()
+	{
+		if (!isServer)
+			return;
+		
+		playerNames = Array.Empty<string>();
+	}
 }

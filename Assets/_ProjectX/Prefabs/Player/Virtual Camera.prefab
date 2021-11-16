@@ -114,8 +114,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8585873794875931029}
-  - component: {fileID: 5870251859927098626}
   - component: {fileID: 4793371393620218358}
+  - component: {fileID: 5870251859927098626}
   - component: {fileID: 4082232577554138576}
   m_Layer: 0
   m_Name: Virtual Camera
@@ -139,6 +139,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 32.007, y: -137.063, z: 0}
+--- !u!114 &4793371393620218358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674065279126991283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82361e1f28eeee4b8cd9cd233407e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityZoomMultiplier: 1
+  maxZoomOutDistance: 60
+  minZoomInDistance: 40
+  zoomInCamera: {fileID: 0}
+  flagTargetCamera: {fileID: 0}
 --- !u!114 &5870251859927098626
 MonoBehaviour:
   m_ObjectHideFlags: 0

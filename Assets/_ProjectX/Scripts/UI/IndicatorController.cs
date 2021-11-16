@@ -1,6 +1,4 @@
 ﻿using Mirror;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 
 namespace UI
@@ -22,8 +20,6 @@ namespace UI
 		public GameObject target;
 
 		public bool localPlayerHasFlag;
-
-		public GameObject Target => target;
 
 		private void Start()
 		{

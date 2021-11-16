@@ -13,9 +13,11 @@ namespace Managers
 	public class ScoreManager : NetworkBehaviour, IReceiveGlobalSignal
 	{
 		// NetworkIdentity = ServerOnly
-		
-		private float scoreRate;
-		private int scoreToAdd;
+
+		private int flagScoreEachTick;
+		private float flagScoreTickRate;
+		private int killScore;
+		private int killWithFlagAdditionalScore;
 		private int scoreToWin;
 		private int additionalScoringStartupThreshold;
 		private int additionalScoringMaxThreshold;
@@ -48,8 +50,10 @@ namespace Managers
 					{
 						if (data.gameObject.TryGetComponent(out RoundManager roundManager))
 						{
-							scoreRate = roundManager.scoreRate;
-							scoreToAdd = roundManager.scoreToAdd;
+							flagScoreEachTick = roundManager.flagScoreEachTick;
+							flagScoreTickRate = roundManager.flagScoreTickRate;
+							killScore = roundManager.killScore;
+							killWithFlagAdditionalScore = roundManager.killWithFlagAdditionalScore;
 							scoreToWin = roundManager.scoreToWin;
 							additionalScoringStartupThreshold = roundManager.additionalScoringStartupThreshold;
 							additionalScoringMaxThreshold = roundManager.additionalScoringMaxThreshold;
@@ -108,7 +112,7 @@ namespace Managers
 		{
 			UpdateScores(player);
 			
-			yield return new WaitForSeconds(scoreRate);
+			yield return new WaitForSeconds(flagScoreTickRate);
 			
 			scoreCounterRoutine = StartCoroutine(ScoringRoutine(player));
 		}
@@ -118,15 +122,8 @@ namespace Managers
 		{
 			int previousScore = playerScores[player];
 			int additionalScore = CheckAdditionalScore(playerScores[player]);
-			playerScores[player] += scoreToAdd + additionalScore;
+			playerScores[player] += flagScoreEachTick + additionalScore;
 			// print("ScoreAdded: " + (scoreToAdd + additionalScore));
-
-			if (playerScores[player] >= scoreToWin)
-			{
-				playerScores[player] = scoreToWin;
-				ServiceLocator.RoundManager.EndOfGame();
-				return;
-			}
 			
 			UpdateScores(player, previousScore);
 		}
@@ -143,8 +140,8 @@ namespace Managers
 			else if (scoreDifference > additionalScoringStartupThreshold)
 			{
 				int additionalScore = Mathf.Clamp((scoreDifference - additionalScoringStartupThreshold) /
-				                                  ((additionalScoringMaxThreshold - additionalScoringStartupThreshold) / scoreToAdd)
-													,1, (int)(scoreToAdd * additionalScoreMaxMultiplier));
+				                                  ((additionalScoringMaxThreshold - additionalScoringStartupThreshold) / flagScoreEachTick)
+													,1, (int)(flagScoreEachTick * additionalScoreMaxMultiplier));
 				return additionalScore;
 			}
 
@@ -154,6 +151,13 @@ namespace Managers
 		[Server]
 		private void UpdateScores(string scoringPlayer, int previousScore)
 		{
+			if (playerScores[scoringPlayer] >= scoreToWin)
+			{
+				playerScores[scoringPlayer] = scoreToWin;
+				ServiceLocator.RoundManager.EndOfGame();
+				return;
+			}
+			
 			playerScores = SortedByDescendingValue(playerScores);
 			
 			int index = 0;
@@ -168,7 +172,7 @@ namespace Managers
 				
 				if (string.Equals(kvp.Key, scoringPlayer, StringComparison.OrdinalIgnoreCase))
 				{
-					ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, kvp.Value, previousScore, scoreRate);		
+					ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, kvp.Value, previousScore, flagScoreTickRate);		
 				}
 				else
 				{
@@ -179,6 +183,17 @@ namespace Managers
 			}
 		}
 
+		[Server]
+		public void AddKillScore(string player, bool hasFlag)
+		{
+			int previousScore = playerScores[player];
+
+			playerScores[player] += !hasFlag ? killScore : killScore + killWithFlagAdditionalScore;
+			// print("KillScore Added: " + (playerScores[player] - previousScore));
+
+			UpdateScores(player, previousScore);
+		}
+		
 		[Server]
 		private void InitScores()
 		{
