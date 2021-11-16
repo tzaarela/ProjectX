@@ -41,16 +41,13 @@ namespace Powerup.Projectiles
 			deploySoundInstance = FMODUnity.RuntimeManager.CreateInstance(deploySound);
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			if (isServer)
 			{
 				Invoke(nameof(Arm), timeUntilArmed);
 			}
-		}
 
-		private void OnEnable()
-		{
 			deploySoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform, rb));
 			deploySoundInstance.start();
 		}

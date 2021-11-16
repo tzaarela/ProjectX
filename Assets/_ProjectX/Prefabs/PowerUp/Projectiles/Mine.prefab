@@ -67,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  timeUntilArmed: 1.5
+  timeUntilArmed: 0.75
   triggerDelay: 0.1
   shouldTakeSelfDamage: 1
   deploySound: event:/Weapons/DeployMine
