@@ -25,13 +25,13 @@ MonoBehaviour:
       extremumValue: 11
       asymptoteSlip: 0.5
       asymptoteValue: 10
-      stiffness: 0.5
+      stiffness: 0.42
     forwardFriction:
       extremumSlip: 0.1
       extremumValue: 11
       asymptoteSlip: 0.8
       asymptoteValue: 11
-      stiffness: 0.4
+      stiffness: 0.5
   - key: 1
     sidewayFriction:
       extremumSlip: 0.1
@@ -45,6 +45,19 @@ MonoBehaviour:
       asymptoteSlip: 0.5
       asymptoteValue: 8
       stiffness: 0.2
+  - key: 2
+    sidewayFriction:
+      extremumSlip: 0.1
+      extremumValue: 11
+      asymptoteSlip: 0.5
+      asymptoteValue: 10
+      stiffness: 0.5
+    forwardFriction:
+      extremumSlip: 0.1
+      extremumValue: 11
+      asymptoteSlip: 0.8
+      asymptoteValue: 11
+      stiffness: 0.4
   wheelMass: 80
   wheelRadius: 0.37
   wheelDampingRate: 0.0001
@@ -54,6 +67,7 @@ MonoBehaviour:
   wheelSuspensionDamper: 4500
   wheelSuspensionTargetPosition: 0.5
   maxVelocity: 1200
+  maxVelocityReverseMultiplier: 0.6
   relativeAccelerationMaxMultiplier: 3
   relativeAccelerationTimeFrame: 30
   accelerationCurve:
@@ -91,6 +105,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   maxVelocityBoost: 1300
   maxMotorTorque: 1100
+  backAxleTorqueMultiplier: 1
+  frontAxleTorqueMultiplier: 1
   maxSteeringAngle: 38
   handBrakeTorque: 12000
   decelerationForce: 3000
@@ -123,6 +139,7 @@ MonoBehaviour:
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
   antiRoll: 13000
+  turnSpeedMultiplier: 1
   slidingThreshold: 0.95
   slidingMinimumVelocity: 100
   centerOfMassOffset: {x: 0, y: 0.25, z: 1}
