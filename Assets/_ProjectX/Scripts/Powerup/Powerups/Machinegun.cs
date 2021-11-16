@@ -2,24 +2,28 @@
 using Managers;
 using Mirror;
 using PowerUp.Projectiles;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Powerup.Powerups
 {
 	public class Machinegun : PowerupBase
 	{
+		[SerializeField] private float maxSpreadOffset = 3.5f;
+		
 		protected override void Start()
 		{
 			base.Start();
 
 			forwardSpawnOffset = 0.0f;
 			heightSpawnOffset = -0.5f;
-			fireCooldown = 0.2f;
+			fireCooldown = 0.13f;
 		}
 
 		private void OnEnable()
 		{
-			ammo = 40;
+			ammo = 60;
 		}
 
 		[Server]
@@ -32,8 +36,14 @@ namespace Powerup.Powerups
 				foreach (Transform hardpoint in hardpoints)
 				{
 					Vector3 direction = hardpoint.forward;
+					
+					Vector3 eulerAngles = hardpoint.transform.eulerAngles;
+					float spread = Random.Range(-maxSpreadOffset, maxSpreadOffset);
+					Random.InitState(Random.Range(0, 500));
+					float angle = eulerAngles.y;
+					Quaternion bulletSpreadRotation = Quaternion.Euler(new Vector3(eulerAngles.x,angle + spread,eulerAngles.z));
 
-					Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.Bullet, hardpoint.position + direction, hardpoint.rotation, netID).GetComponent<Bullet>();
+					Bullet bullet = ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.Bullet, hardpoint.position + direction, bulletSpreadRotation, netID).GetComponent<Bullet>();
 
 					if(bullet == null)
 						continue;

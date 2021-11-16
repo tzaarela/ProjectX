@@ -2289,6 +2289,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 5224179718487090944, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: fireCooldown
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224179718487090944, guid: 475e50419440a264ba85a8009ee29211, type: 3}
+      propertyPath: maxSpreadOffset
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5585852746923801414, guid: 475e50419440a264ba85a8009ee29211, type: 3}
       propertyPath: m_Layer
       value: 12
