@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityZoomMultiplier: 1.5
-  maxZoomOutDistance: 60
-  minZoomInDistance: 40
+  maxZoomOutDistance: 80
+  minZoomInDistance: 50
   zoomInCamera: {fileID: 0}
   flagTargetCamera: {fileID: 0}
   mapFlag: {fileID: 0}
