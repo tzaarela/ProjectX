@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Managers
@@ -117,6 +118,11 @@ namespace Managers
 			}
 			roomManager.StartClient();
 
+		}
+
+		public void QuitGame()
+		{
+			Application.Quit();
 		}
 
 		private IEnumerator WaitForTimeout()
