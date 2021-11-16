@@ -30,6 +30,11 @@ namespace Powerup.Powerups
 				}
 			}
 		}
+
+		public virtual void LocalUse()
+		{
+			
+		}
 		
 		[Server]
 		public void Use(int netID)

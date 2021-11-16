@@ -12,7 +12,7 @@ namespace PowerUp.Projectiles
 	public class Rocket : ProjectileBase, ISendGlobalSignal
 	{
 		public TrailRenderer trailerRenderer;
-
+		
 		protected override void Start()
 		{
 			base.Start();

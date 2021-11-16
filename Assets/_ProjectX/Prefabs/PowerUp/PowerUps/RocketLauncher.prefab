@@ -126,7 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48c408ddb8242d5be7d226bb4735f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forwardSpawnOffset: 0
+  heightSpawnOffset: 0
+  ammo: 0
   fireCooldown: 1
+  reloadSound: event:/Weapons/RocketReload
 --- !u!1 &5581167221359098649
 GameObject:
   m_ObjectHideFlags: 0
