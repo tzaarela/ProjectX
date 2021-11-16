@@ -7,6 +7,6 @@
 		Mine,
 		RocketExplosion,
 		MineExplosion,
-
+		BulletHitEffect,
 	}
 }

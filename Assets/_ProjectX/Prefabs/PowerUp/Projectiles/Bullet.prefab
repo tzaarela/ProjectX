@@ -56,6 +56,9 @@ MonoBehaviour:
   aliveTime: 2
   debugSphere: {fileID: 3475899029366849771, guid: 5b3144e6b6af62a43bc8e65fcf38fa66, type: 3}
   trailRenderer: {fileID: 2527835905297967346}
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 640
 --- !u!114 &2122374991998106323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,8 +212,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 56861
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -218,7 +221,7 @@ TrailRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0

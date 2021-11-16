@@ -13,6 +13,9 @@ namespace PowerUp.Projectiles
 		public GameObject debugSphere;
 		public TrailRenderer trailRenderer;
 
+		private Vector3 startPosition;
+		[SerializeField] private LayerMask raycastLayerMask;
+		
 		protected override void Start()
 		{
 			base.Start();
@@ -23,6 +26,8 @@ namespace PowerUp.Projectiles
 		protected override void OnEnable()
 		{
 			base.OnEnable();
+
+			startPosition = transform.position;
 			
 			trailRenderer.Clear();
 			direction = transform.forward;
@@ -48,6 +53,13 @@ namespace PowerUp.Projectiles
 					FMODUnity.RuntimeManager.PlayOneShot("event:/Weapons/HitReg", Camera.main.transform.position);
 				}
 			}
+			// else
+			// {
+			// 	foreach (var contact in other.contacts)
+			// 	{
+			// 		Instantiate(debugSphere, other.GetContact(0).point - transform.forward * 0.8f, Quaternion.identity);
+			// 	}
+			// }
 			
 			if(!isServer)
 				return;
@@ -61,6 +73,10 @@ namespace PowerUp.Projectiles
 				
 				other.gameObject.GetComponent<Health>().ReceiveDamage(10, spawnedByNetId);
 			}
+			
+			//TODO Find better way to get point of impact
+			Vector3 contactOffset = other.GetContact(0).point - transform.forward * 1.1f;
+			ServiceLocator.ObjectPools.SpawnFromPoolWithNetId(ObjectPoolType.BulletHitEffect, contactOffset, Quaternion.identity, spawnedByNetId);
 
 			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);

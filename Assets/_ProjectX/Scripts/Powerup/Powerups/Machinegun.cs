@@ -10,7 +10,7 @@ namespace Powerup.Powerups
 {
 	public class Machinegun : PowerupBase
 	{
-		[SerializeField] private float maxSpreadOffset = 3.5f;
+		private float maxSpreadOffset = 4.5f;
 		
 		[SerializeField]
 		[FMODUnity.EventRef]
@@ -48,7 +48,6 @@ namespace Powerup.Powerups
 					
 					Vector3 eulerAngles = hardpoint.transform.eulerAngles;
 					float spread = Random.Range(-maxSpreadOffset, maxSpreadOffset);
-					Random.InitState(Random.Range(0, 500));
 					float angle = eulerAngles.y;
 					Quaternion bulletSpreadRotation = Quaternion.Euler(new Vector3(eulerAngles.x,angle + spread,eulerAngles.z));
 
@@ -56,9 +55,10 @@ namespace Powerup.Powerups
 
 					if(bullet == null)
 						continue;
-					
-					bullet.transform.position = hardpoint.position + direction * forwardSpawnOffset;
-					bullet.transform.rotation = hardpoint.rotation;
+
+					Transform bulletTransform = bullet.transform;
+					bulletTransform.position = hardpoint.position + direction * forwardSpawnOffset;
+					bulletTransform.rotation = bulletSpreadRotation;
 					bullet.SetupProjectile(direction, netID);
 					PlayShootSound();
 					ammo--;
