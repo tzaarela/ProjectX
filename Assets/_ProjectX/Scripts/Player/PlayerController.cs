@@ -56,6 +56,11 @@ namespace Player
 		[FMODUnity.EventRef]
 		private string crashSound;
 		private FMOD.Studio.EventInstance crashSoundInstance;
+		
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string hornSound;
+		private FMOD.Studio.EventInstance hornSoundInstance;
 
 		private void Awake()
 		{
@@ -64,6 +69,9 @@ namespace Player
 			
 			crashSoundInstance = FMODUnity.RuntimeManager.CreateInstance(crashSound);
 			crashSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
+			
+			hornSoundInstance = FMODUnity.RuntimeManager.CreateInstance(hornSound);
+			hornSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
 		}
 
 		[Server]
@@ -103,6 +111,11 @@ namespace Player
 			if (Keyboard.current.iKey.wasPressedThisFrame)
 			{
 				CmdDeath();
+			}
+
+			if (Keyboard.current.rKey.wasPressedThisFrame)
+			{
+				CmdPlayHornSound();
 			}
 		}
 
@@ -320,6 +333,14 @@ namespace Player
 			crashSoundInstance.stop(STOP_MODE.IMMEDIATE);
 			crashSoundInstance.start();
 			FMODUnity.RuntimeManager.AttachInstanceToGameObject(crashSoundInstance, transform);
+		}
+		
+		[Command]
+		private void CmdPlayHornSound()
+		{
+			hornSoundInstance.stop(STOP_MODE.ALLOWFADEOUT);
+			hornSoundInstance.start();
+			FMODUnity.RuntimeManager.AttachInstanceToGameObject(hornSoundInstance, transform);
 		}
 	}
 }

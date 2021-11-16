@@ -130,6 +130,9 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		<property name="voiceStealing">
 			<value>3</value>
 		</property>
+		<property name="volume">
+			<value>9.5</value>
+		</property>
 		<relationship name="modulators">
 			<destination>{369aed91-f694-47c4-9c49-fb56744cc6d7}</destination>
 			<destination>{d819520d-08f1-4f6d-a36d-1be114d4d526}</destination>

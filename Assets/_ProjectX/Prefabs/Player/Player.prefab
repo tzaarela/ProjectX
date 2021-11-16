@@ -233,6 +233,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   localPlayer: 0
   crashSound: event:/SFX/Crash
+  hornSound: event:/Vehicles/Horn
 --- !u!114 &5035307015958726276
 MonoBehaviour:
   m_ObjectHideFlags: 0
