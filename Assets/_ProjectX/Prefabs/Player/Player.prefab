@@ -2504,6 +2504,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 2262327098227385605, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
+      propertyPath: fireCooldown
+      value: 2.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3898695755926017013, guid: bfd00505927cbde4b9ee5a41355d8b12, type: 3}
       propertyPath: m_Name
       value: RocketLauncher

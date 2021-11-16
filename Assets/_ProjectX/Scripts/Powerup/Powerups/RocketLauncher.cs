@@ -13,7 +13,7 @@ namespace Powerup.Powerups
 			base.Start();
 
 			forwardSpawnOffset = 1f;
-			fireCooldown = 1.2f;
+			fireCooldown = 2.2f;
 		}
 
 		private void OnEnable()

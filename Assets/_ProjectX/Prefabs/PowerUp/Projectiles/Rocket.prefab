@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  directDamage: 1
+  directDamage: 25
   shootingStrength: 60
   aliveTime: 5
   trailerRenderer: {fileID: 7963119037639892381}

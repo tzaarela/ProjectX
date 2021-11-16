@@ -17,7 +17,7 @@ namespace PowerUp.Projectiles
 		{
 			base.Start();
 
-			directDamage = 50;
+			directDamage = 25;
 
 			currentPoolType = ObjectPoolType.Rocket;
 		}
