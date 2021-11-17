@@ -73,12 +73,16 @@ namespace Managers
 					}
 				
 					//TEMP:
-					// playerScores.Add("PlayerTemp_1", 0);
-					// playerScores.Add("PlayerTemp_2", 150);
-					// playerScores.Add("PlayerTemp_3", 50);
-					// currentLeader = "PlayerTemp_2";
-					// currentLeaderScore = 150;
-					//
+					playerScores.Add("PlayerTemp_1", 0);
+					playerScores.Add("PlayerTemp_2", 150);
+					playerScores.Add("PlayerTemp_3", 50);
+					playerScores.Add("PlayerTemp_4", 30);
+					playerScores.Add("PlayerTemp_5", 70);
+					// playerScores.Add("PlayerTemp_6", 10);
+					// playerScores.Add("PlayerTemp_7", 120);
+					currentLeader = "PlayerTemp_2";
+					currentLeaderScore = 150;
+					
 					
 					InitScores();
 					break;
