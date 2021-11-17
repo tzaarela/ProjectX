@@ -24,8 +24,8 @@ namespace Managers
 		[SerializeField] private float powerupScalePunchElasticity = 1;
 
 		[Header("REFERENCES:")]
-		[SerializeField] private TMP_Text[] playerTexts;
-		[SerializeField] private TMP_Text[] scoreTexts;
+		[SerializeField] private PlayerScore[] playerScores;
+		// [SerializeField] private TMP_Text[] scoreTexts;
 		[SerializeField] private GameObject newLeaderText;
 		[SerializeField] private TMP_Text flagText;
 		[SerializeField] private TMP_Text killText;
@@ -117,18 +117,24 @@ namespace Managers
 				indicatorController.SetTarget(targetIsAPlayer: false);
 			}
 		}
+		
+		[ClientRpc]
+		public void RpcInitScore(int index, string player, int score)
+		{
+			playerScores[index].gameObject.SetActive(true);
+			playerScores[index].UpdatePlayerScore(player, score);
+		}
 
 		[ClientRpc]
 		public void RpcUpdateScore(int index, string player, int score)
 		{
-			playerTexts[index].text = player;
-			scoreTexts[index].text = score.ToString();
+			playerScores[index].UpdatePlayerScore(player, score);
 		}
 
 		[ClientRpc]
 		public void RpcUpdateScoringPlayerScore(int index, string player, int score, int previousScore, float scoreRate)
 		{
-			playerTexts[index].text = player;
+			playerScores[index].UpdatePlayerScore(player);
 			// scoreTexts[index].text = score.ToString();
 			StartCoroutine(ScoreCounterRoutine(index, previousScore, score, scoreRate));
 		}
@@ -142,7 +148,7 @@ namespace Managers
 			while (scoreToDisplay < newScore)
 			{
 				scoreToDisplay++;
-				scoreTexts[index].text = scoreToDisplay.ToString();
+				playerScores[index].UpdatePlayerScore(scoreToDisplay);
 				yield return new WaitForSeconds(scoreRate / scoreDifference);
 			}
 		}
