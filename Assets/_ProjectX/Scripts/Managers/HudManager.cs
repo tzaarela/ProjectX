@@ -119,22 +119,22 @@ namespace Managers
 		}
 		
 		[ClientRpc]
-		public void RpcInitScore(int index, string player, int score)
+		public void RpcInitScore(int index, string player, int score, int matIndex)
 		{
 			playerScores[index].gameObject.SetActive(true);
-			playerScores[index].UpdatePlayerScore(player, score);
+			playerScores[index].UpdatePlayerScore(player, score, matIndex);
 		}
 
 		[ClientRpc]
-		public void RpcUpdateScore(int index, string player, int score)
+		public void RpcUpdateScore(int index, string player, int score, int matIndex)
 		{
-			playerScores[index].UpdatePlayerScore(player, score);
+			playerScores[index].UpdatePlayerScore(player, score, matIndex);
 		}
 
 		[ClientRpc]
-		public void RpcUpdateScoringPlayerScore(int index, string player, int score, int previousScore, float scoreRate)
+		public void RpcUpdateScoringPlayerScore(int index, string player, int matIndex, int score, int previousScore, float scoreRate)
 		{
-			playerScores[index].UpdatePlayerScore(player);
+			playerScores[index].UpdatePlayerScore(player, matIndex);
 			// scoreTexts[index].text = score.ToString();
 			StartCoroutine(ScoreCounterRoutine(index, previousScore, score, scoreRate));
 		}

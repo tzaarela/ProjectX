@@ -35,8 +35,6 @@ namespace Player
 
 		[SyncVar(hook = nameof(PlayerMaterialIndex))]
 		public int playerMaterialIndex;
-		
-		public Color playerColor;
 
 		[HideInInspector]
 		public Rigidbody rb;
@@ -156,13 +154,12 @@ namespace Player
 		 private void PlayerMaterialIndex(int oldValue, int newValue)
 		 {
 			 meshRenderer.material = carMaterials.GetMaterial(newValue);
-		     playerColor = carMaterials.GetColor(newValue);
 		 }
 
 		[Command]
 		private void CmdUpdateActivePlayersList()
 		{
-			ServiceLocator.RoundManager.AddActivePlayer(playerName);
+			ServiceLocator.RoundManager.AddActivePlayer(this);
 		}
 
 		public void SendGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)

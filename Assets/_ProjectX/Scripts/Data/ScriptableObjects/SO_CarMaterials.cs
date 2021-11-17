@@ -9,6 +9,8 @@ namespace Data.ScriptableObjects
 
 		public Color[] colors;
 
+		public Color[] secondaryColors;
+
 		public Material GetMaterial(int index)
 		{
 			return materials[index];
@@ -17,6 +19,11 @@ namespace Data.ScriptableObjects
 		public Color GetColor(int index)
 		{
 			return colors[index];
+		}
+		
+		public Color GetSecondaryColor(int index)
+		{
+			return secondaryColors[index];
 		}
 	}
 }

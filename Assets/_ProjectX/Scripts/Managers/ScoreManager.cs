@@ -6,6 +6,7 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
+using Player;
 using UnityEngine;
 
 namespace Managers
@@ -24,6 +25,7 @@ namespace Managers
 		private float additionalScoreMaxMultiplier;
 
 		private Dictionary<string, int> playerScores;
+		private Dictionary<string, int> playerMaterialIndexes;
 
 		private Coroutine scoreCounterRoutine;
 		
@@ -65,18 +67,23 @@ namespace Managers
 						}
 					}
 					
-					List<string> playerNames = ServiceLocator.RoundManager.ConnectedPlayers;
+					List<PlayerController> players = ServiceLocator.RoundManager.ConnectedPlayers;
 					playerScores = new Dictionary<string, int>();
-					foreach (string name in playerNames)
+					playerMaterialIndexes = new Dictionary<string, int>();
+					foreach (PlayerController player in players)
 					{
-						playerScores.Add(name, 0);
+						playerScores.Add(player.playerName, 0);
+						playerMaterialIndexes.Add(player.playerName, player.playerMaterialIndex);
 					}
-				
+					
 					//TEMP:
 					playerScores.Add("PlayerTemp", 0);
 					playerScores.Add("PlayerTemp2", 150);
 					playerScores.Add("PlayerTemp3", 50);
-					playerScores.Add("PlayerTemp4", 30);
+					playerMaterialIndexes.Add("PlayerTemp", 5);
+					playerMaterialIndexes.Add("PlayerTemp2", 6);
+					playerMaterialIndexes.Add("PlayerTemp3", 7);
+					// playerScores.Add("PlayerTemp4", 30);
 					// playerScores.Add("PlayerTemp5", 70);
 					// playerScores.Add("PlayerTemp6", 10);
 					// playerScores.Add("PlayerTemp7", 120);
@@ -175,11 +182,11 @@ namespace Managers
 				
 				if (string.Equals(kvp.Key, scoringPlayer, StringComparison.OrdinalIgnoreCase))
 				{
-					ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, kvp.Value, previousScore, flagScoreTickRate);		
+					ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, playerMaterialIndexes[kvp.Key], kvp.Value, previousScore, flagScoreTickRate);		
 				}
 				else
 				{
-					ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value);					
+					ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value, playerMaterialIndexes[kvp.Key]);					
 				}
 				
 				index++;
@@ -209,7 +216,7 @@ namespace Managers
 			int index = 0;
 			foreach (KeyValuePair<string, int> kvp in playerScores)
 			{
-				ServiceLocator.HudManager.RpcInitScore(index, kvp.Key, kvp.Value);
+				ServiceLocator.HudManager.RpcInitScore(index, kvp.Key, kvp.Value, playerMaterialIndexes[kvp.Key]);
 				index++;
 			}
 		}

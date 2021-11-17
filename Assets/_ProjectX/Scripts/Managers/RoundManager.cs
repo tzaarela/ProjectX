@@ -3,6 +3,7 @@ using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
 using Mirror;
+using Player;
 using UnityEngine;
 
 namespace Managers
@@ -20,9 +21,9 @@ namespace Managers
 		public int additionalScoringMaxThreshold = 300;
 		public float additionalScoreMaxMultiplier = 2;
 		
-		private List<string> connectedPlayers = new List<string>();
+		private List<PlayerController> connectedPlayers = new List<PlayerController>();
 
-		public List<string> ConnectedPlayers => connectedPlayers;
+		public List<PlayerController> ConnectedPlayers => connectedPlayers;
 		public int NumberOfConnectedClients { get; set; }
 		
 		private void Awake()
@@ -52,9 +53,9 @@ namespace Managers
 		}
 
 		[Server]
-		public void AddActivePlayer(string playerName)
+		public void AddActivePlayer(PlayerController player)
 		{
-			connectedPlayers.Add(playerName);
+			connectedPlayers.Add(player);
 			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
 			if (connectedPlayers.Count == NumberOfConnectedClients)
 			{
