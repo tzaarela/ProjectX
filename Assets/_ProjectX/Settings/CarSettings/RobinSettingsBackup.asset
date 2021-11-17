@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b342128b4c7e4bba83ef12c6297a47ac, type: 3}
-  m_Name: RobinSettings
+  m_Name: RobinSettingsBackup
   m_EditorClassIdentifier: 
   f_HasMotor: 1
   f_HasSteering: 1
@@ -31,7 +31,7 @@ MonoBehaviour:
       extremumValue: 11
       asymptoteSlip: 0.8
       asymptoteValue: 11
-      stiffness: 0.52
+      stiffness: 0.5
   - key: 1
     sidewayFriction:
       extremumSlip: 0.1
@@ -51,7 +51,7 @@ MonoBehaviour:
       extremumValue: 11
       asymptoteSlip: 0.5
       asymptoteValue: 10
-      stiffness: 0.52
+      stiffness: 0.5
     forwardFriction:
       extremumSlip: 0.1
       extremumValue: 11
