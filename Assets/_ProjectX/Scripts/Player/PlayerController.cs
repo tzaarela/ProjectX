@@ -115,11 +115,6 @@ namespace Player
 			{
 				CmdDeath();
 			}
-
-			if (Keyboard.current.rKey.wasPressedThisFrame)
-			{
-				CmdPlayHornSound();
-			}
 		}
 
 		[Server]
