@@ -1483,6 +1483,10 @@ PrefabInstance:
       propertyPath: m_fontSizeMax
       value: 48
       objectReference: {fileID: 0}
+    - target: {fileID: 6691095625812175193, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
+      propertyPath: m_Name
+      value: HostGame
+      objectReference: {fileID: 0}
     - target: {fileID: 7261240942140505215, guid: e422db0f2deb58443b39ff730b0b5eb6, type: 3}
       propertyPath: m_Color.a
       value: 1
