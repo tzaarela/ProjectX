@@ -19,32 +19,33 @@ namespace Player
 		[SerializeField] private MeshRenderer meshRenderer;
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
 		[SerializeField] private SO_CarMaterials carMaterials;
-		[SerializeField] private PlayerSound playerSound;
-		private InputManager inputs;
 
 		[Header("DeathSettings")] 
 		[SerializeField] private ParticleSystem deathFX;
+
 		[SerializeField] private ParticleSystem deathFX2;
 		[SerializeField] private ParticleSystem deathSmoke;
-		
+
 		[Header("Debug")]
 		[SyncVar(hook = nameof(FlagStateChanged))]
 		public bool hasFlag;
-		
+
 		[SyncVar(hook = nameof(PlayerNameChanged))]
 		public string playerName;
 
 		[SyncVar(hook = nameof(PlayerMaterialIndex))]
 		public int playerMaterialIndex;
-
+		
 		public Color playerColor;
 
 		[HideInInspector]
 		public Rigidbody rb;
 		
 		private Flag flag;
+		
 		private InputManager inputManager;
 		private Health health;
+		private PlayerSound playerSound;
 
 		private int playerId;
 		public int PlayerId => playerId;
@@ -65,6 +66,7 @@ namespace Player
 		{
 			inputManager = GetComponent<InputManager>();
 			health = GetComponent<Health>();
+			playerSound = GetComponent<PlayerSound>();
 
 			crashSoundInstance = FMODUnity.RuntimeManager.CreateInstance(crashSound);
 			crashSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
@@ -86,8 +88,7 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 			
-			inputs = GetComponent<InputManager>();
-			inputs.playerControls.Player.HonkHorn.performed += InputPlayHornSound;
+			inputManager.playerControls.Player.HonkHorn.performed += InputPlayHornSound;
 			
 			rb = GetComponent<Rigidbody>();
 			localPlayer = true;
