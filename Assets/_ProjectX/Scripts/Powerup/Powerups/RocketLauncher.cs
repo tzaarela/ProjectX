@@ -40,12 +40,11 @@ namespace Powerup.Powerups
 		{
 			base.LocalUse();
 
-			if (localUseLocked)
-				return;
-
-			localUseLocked = true;
-			
-			StartCoroutine(CoCountReloadTime());
+			if (!localUseLocked)
+			{
+				localUseLocked = true;
+				StartCoroutine(CoCountReloadTime());
+			}
 		}
 
 		[Server]
