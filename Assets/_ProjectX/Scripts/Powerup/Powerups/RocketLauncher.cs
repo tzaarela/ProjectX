@@ -5,6 +5,7 @@ using Mirror;
 using PowerUp.Projectiles;
 using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
 
 namespace Powerup.Powerups
 {
@@ -14,8 +15,8 @@ namespace Powerup.Powerups
 		[FMODUnity.EventRef]
 		private string reloadSound;
 		private FMOD.Studio.EventInstance reloadSoundInstance;
-
-		private bool localUseLocked;
+		
+		private Coroutine CoReload;
 		
 		protected override void Start()
 		{
@@ -40,10 +41,10 @@ namespace Powerup.Powerups
 		{
 			base.LocalUse();
 
-			if (!localUseLocked)
+			if (CoReload == null)
 			{
-				localUseLocked = true;
-				StartCoroutine(CoCountReloadTime());
+				Debug.Log("RELOADING.....");
+				CoReload = StartCoroutine(CoCountReloadTime());
 			}
 		}
 
@@ -76,8 +77,8 @@ namespace Powerup.Powerups
 		
 		private IEnumerator CoCountReloadTime()
 		{
-			yield return new WaitForSeconds(fireCooldown);
-			localUseLocked = false;
+			reloadSoundInstance.stop(STOP_MODE.IMMEDIATE);
+			yield return new WaitForSeconds(fireCooldown - 0.65f);
 			reloadSoundInstance.start();
 			FMODUnity.RuntimeManager.AttachInstanceToGameObject(reloadSoundInstance, transform);
 		}
