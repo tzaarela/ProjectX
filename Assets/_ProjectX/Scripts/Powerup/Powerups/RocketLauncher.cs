@@ -92,7 +92,7 @@ namespace Powerup.Powerups
 		
 		private IEnumerator CoCountReloadTime()
 		{
-			yield return new WaitForSeconds(fireCooldown - 0.062f);
+			yield return new WaitForSeconds(fireCooldown - 0.065f);
 			PlayReloadSound();
 			CoReload = null;
 		}
