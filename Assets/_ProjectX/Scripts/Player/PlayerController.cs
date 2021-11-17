@@ -1,4 +1,3 @@
-using System;
 using Mirror;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
@@ -8,7 +7,6 @@ using Managers;
 using UnityEngine;
 using Game.Flag;
 using UnityEngine.InputSystem;
-using Random = System.Random;
 using Data.Containers;
 using FMOD.Studio;
 
@@ -22,6 +20,7 @@ namespace Player
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
 		[SerializeField] private SO_CarMaterials carMaterials;
 		[SerializeField] private PlayerSound playerSound;
+		private InputManager inputs;
 
 		[Header("DeathSettings")] 
 		[SerializeField] private ParticleSystem deathFX;
@@ -87,6 +86,9 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
+			inputs = GetComponent<InputManager>();
+			inputs.playerControls.Player.HonkHorn.performed += InputPlayHornSound;
+			
 			rb = GetComponent<Rigidbody>();
 			localPlayer = true;
 			playerNameText.gameObject.SetActive(false);
@@ -102,7 +104,7 @@ namespace Player
 				return;
 
 			// DEBUG: F-Key resets car-rotation (when turned over)
-			if (Keyboard.current.fKey.wasPressedThisFrame)
+			if (Keyboard.current.rKey.wasPressedThisFrame)
 			{
 				CmdFlipCar();
 			}
@@ -334,9 +336,20 @@ namespace Player
 			crashSoundInstance.start();
 			FMODUnity.RuntimeManager.AttachInstanceToGameObject(crashSoundInstance, transform);
 		}
+
+		private void InputPlayHornSound(InputAction.CallbackContext obj)
+		{
+			CmdPlayHornSound();
+		}
 		
 		[Command]
 		private void CmdPlayHornSound()
+		{
+			RpcPlayHornSound();
+		}
+		
+		[ClientRpc]
+		private void RpcPlayHornSound()
 		{
 			hornSoundInstance.stop(STOP_MODE.ALLOWFADEOUT);
 			hornSoundInstance.start();

@@ -65,6 +65,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""HonkHorn"",
+                    ""type"": ""Button"",
+                    ""id"": ""f375ce87-c40b-4ea0-a645-75a17101ed21"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -375,6 +383,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""332d1844-648f-47bc-ae81-d93ee9246664"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""HonkHorn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27cd46a6-489e-4a4b-8a26-d171174e386c"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""HonkHorn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -978,6 +1008,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_Handbrake = m_Player.FindAction("Handbrake", throwIfNotFound: true);
+        m_Player_HonkHorn = m_Player.FindAction("HonkHorn", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1045,6 +1076,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_Handbrake;
+    private readonly InputAction m_Player_HonkHorn;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1055,6 +1087,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @Handbrake => m_Wrapper.m_Player_Handbrake;
+        public InputAction @HonkHorn => m_Wrapper.m_Player_HonkHorn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1082,6 +1115,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Handbrake.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHandbrake;
                 @Handbrake.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHandbrake;
                 @Handbrake.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHandbrake;
+                @HonkHorn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHonkHorn;
+                @HonkHorn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHonkHorn;
+                @HonkHorn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHonkHorn;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1104,6 +1140,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Handbrake.started += instance.OnHandbrake;
                 @Handbrake.performed += instance.OnHandbrake;
                 @Handbrake.canceled += instance.OnHandbrake;
+                @HonkHorn.started += instance.OnHonkHorn;
+                @HonkHorn.performed += instance.OnHonkHorn;
+                @HonkHorn.canceled += instance.OnHonkHorn;
             }
         }
     }
@@ -1266,6 +1305,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDrop(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnHandbrake(InputAction.CallbackContext context);
+        void OnHonkHorn(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -48,10 +48,7 @@ namespace Player
 			{
 				CmdUse((int)networkIdentity.netId);
 				
-				if (currentPowerupType == PowerupType.ROCKETLAUNCHER)
-				{
-					powerups[(int)currentPowerupType].LocalUse();
-				}
+				powerups[(int)currentPowerupType]?.LocalUse();
 			}
 
 			if (inputs.isDroppingPowerup)
