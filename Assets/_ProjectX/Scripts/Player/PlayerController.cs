@@ -65,7 +65,7 @@ namespace Player
 		{
 			inputManager = GetComponent<InputManager>();
 			health = GetComponent<Health>();
-			
+
 			crashSoundInstance = FMODUnity.RuntimeManager.CreateInstance(crashSound);
 			crashSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject, rb));
 			
@@ -85,7 +85,7 @@ namespace Player
 		{
 			if (!isLocalPlayer)
 				return;
-
+			
 			inputs = GetComponent<InputManager>();
 			inputs.playerControls.Player.HonkHorn.performed += InputPlayHornSound;
 			
@@ -203,7 +203,7 @@ namespace Player
 		{
 			inputManager.DisableInput();
 			GetComponent<DriveController>().enabled = false;
-			GetComponent<PlayerSound>().StopEmitter();
+			playerSound.StopEmitter();
 
 			if (!isServer)
 				return;
@@ -219,7 +219,8 @@ namespace Player
 			deathFX2.Play();
 			deathSmoke.Play();
 			meshRenderer.material.color = Color.black;
-			GetComponent<PlayerSound>().StopEmitter();
+			playerSound.StopEmitter();
+			playerSound.StopDriftSound();
 			
 			if (!isLocalPlayer)
 				return;
@@ -245,7 +246,7 @@ namespace Player
 		{
 			deathSmoke.Stop();
 			meshRenderer.material.color = Color.white;
-			GetComponent<PlayerSound>().PlayEmitter();
+			playerSound.PlayEmitter();
 
 			if (!isLocalPlayer)
 				return;
