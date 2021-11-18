@@ -31,6 +31,7 @@ namespace Player
 			
 			if (useSettingsPool)
 			{
+				Random.InitState(DateTime.Now.Millisecond);
 				randomIndex = Random.Range(0, settingsPool.Length);
 				settings = settingsPool[randomIndex];
 			}
