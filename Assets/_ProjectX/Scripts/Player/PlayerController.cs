@@ -110,7 +110,6 @@ namespace Player
 			//is the roof touching the city-ground?
 			if (!health.IsDead && Physics.Raycast(transform.position + transform.up, transform.up, 1, 1 << 9) && rb.velocity.sqrMagnitude < upsideDownMinimumVelocityBeforeDeath)
 			{
-				Debug.Log("Wer are upside down!");
 				upsideDownTimeStep += Time.deltaTime;
 				if (upsideDownTimeStep > upsideDownTimerBeforeDeath)
 					CmdSucicide();
