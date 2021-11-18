@@ -10,7 +10,19 @@ namespace Managers
 		private static ScoreManager scoreManager;
 		private static ObjectPoolsManager objectPoolsManager;
 		private static LobbyManager lobbyManager;
+		private static RespawnManager respawnManager;
 
+		public static RespawnManager RespawnManager
+		{
+			get
+			{
+				if (respawnManager == null)
+				{
+					Debug.LogError("RespawnManager is null!");
+				}
+				return respawnManager;
+			}
+		}
 		public static RoundManager RoundManager
 		{
 			get
@@ -106,6 +118,10 @@ namespace Managers
 		public static void ProvideLobbyManager(LobbyManager lobby)
 		{
 			lobbyManager = lobby;
+		}
+		public static void ProvideRespawnManager(RespawnManager respawn)
+		{
+			respawnManager = respawn;
 		}
 
 	}

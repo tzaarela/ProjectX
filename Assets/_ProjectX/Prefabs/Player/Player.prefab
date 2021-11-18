@@ -222,14 +222,14 @@ MonoBehaviour:
   meshRenderer: {fileID: 6294658863401658270}
   playerNameText: {fileID: 3843313183095549569}
   carMaterials: {fileID: 11400000, guid: 55a131d97a3c28645a276ec29a2ade7f, type: 2}
-  playerSound: {fileID: 0}
   deathFX: {fileID: 8390639925807054758}
   deathFX2: {fileID: 3618549201056822380}
   deathSmoke: {fileID: 3277401762760358716}
+  upsideDownTimerBeforeDeath: 3
+  upsideDownMinimumVelocityBeforeDeath: 20
   hasFlag: 0
   playerName: 
   playerMaterialIndex: 0
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
   rb: {fileID: 0}
   localPlayer: 0
   crashSound: event:/SFX/Crash
@@ -301,8 +301,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 0
   steering: 0
-  isBoosting: 0
-  isBraking: 0
   isUsingPowerup: 0
   isDroppingPowerup: 0
 --- !u!114 &1195004310043866069

@@ -20,11 +20,13 @@ namespace Player
 		[SerializeField] private TMPro.TextMeshProUGUI playerNameText;
 		[SerializeField] private SO_CarMaterials carMaterials;
 
-		[Header("DeathSettings")] 
+		[Header("DeathSettings")]
 		[SerializeField] private ParticleSystem deathFX;
-
 		[SerializeField] private ParticleSystem deathFX2;
 		[SerializeField] private ParticleSystem deathSmoke;
+		public float upsideDownTimerBeforeDeath = 3f;
+		public float upsideDownMinimumVelocityBeforeDeath = 10f;
+
 
 		[Header("Debug")]
 		[SyncVar(hook = nameof(FlagStateChanged))]
@@ -36,6 +38,7 @@ namespace Player
 		[SyncVar(hook = nameof(PlayerMaterialIndex))]
 		public int playerMaterialIndex;
 
+
 		[HideInInspector]
 		public Rigidbody rb;
 		
@@ -44,6 +47,7 @@ namespace Player
 		private InputManager inputManager;
 		private Health health;
 		private PlayerSound playerSound;
+		private float upsideDownTimeStep = 0;
 
 		private int playerId;
 		public int PlayerId => playerId;
@@ -102,6 +106,20 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
+
+			//is the roof touching the city-ground?
+			if (!health.IsDead && Physics.Raycast(transform.position + transform.up, transform.up, 1, 1 << 9) && rb.velocity.sqrMagnitude < upsideDownMinimumVelocityBeforeDeath)
+			{
+				Debug.Log("Wer are upside down!");
+				upsideDownTimeStep += Time.deltaTime;
+				if (upsideDownTimeStep > upsideDownTimerBeforeDeath)
+					CmdSucicide();
+			}
+			else
+			{
+				upsideDownTimeStep = 0;
+			}
+
 			// DEBUG: F-Key resets car-rotation (when turned over)
 			if (Keyboard.current.rKey.wasPressedThisFrame)
 			{
@@ -111,7 +129,7 @@ namespace Player
 			// DEBUG: I-Key = InstantDeath
 			if (Keyboard.current.iKey.wasPressedThisFrame)
 			{
-				CmdDeath();
+				CmdSucicide();
 			}
 		}
 
@@ -227,10 +245,10 @@ namespace Player
 			health.ResetCurrentHealth();
 			rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
-			Vector3 newRotation = new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-			transform.rotation = Quaternion.Euler(newRotation);
-			rb.AddForce(Vector3.up * 5000, ForceMode.Impulse);
+			
+			//rb.AddForce(Vector3.up * 5000, ForceMode.Impulse);
 			GetComponent<PowerupController>().Drop();
+			ServiceLocator.RespawnManager.RespawnPlayer(transform);
 			RpcRespawnPlayer();
 		}
 		
@@ -265,11 +283,11 @@ namespace Player
 
 		// TEMP!
 		[Command]
-		private void CmdDeath()
+		private void CmdSucicide()
 		{
 			DropFlag();
 			health.SetHealthToZero();
-			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, "Mr.Debug");
+			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, "suicide");
 		}
 
 		// TEMP!

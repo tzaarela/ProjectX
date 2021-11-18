@@ -233,8 +233,8 @@ namespace Managers
 			respawnText.text = "Respawning in... 1";
 			yield return new WaitForSeconds(0.5f);
 			respawnText.gameObject.SetActive(false);
-			flagTargetCamera.gameObject.SetActive(false);
 			yield return new WaitForSeconds(0.5f);
+			flagTargetCamera.gameObject.SetActive(false);
 			target.GetComponent<PlayerController>().CmdRespawnPlayer();
 			// respawnText.gameObject.SetActive(true);
 			// respawnText.text = "V E N G E A N C E ! ! !";
