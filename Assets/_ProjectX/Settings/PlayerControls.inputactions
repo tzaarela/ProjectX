@@ -60,6 +60,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "RandomCarSetting",
+                    "type": "Button",
+                    "id": "24bd307e-2dd9-4897-8fff-083c2e24308a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ShowCarSettingIndex",
+                    "type": "Button",
+                    "id": "ea43ce96-1657-4dca-b1b1-cb0c11a39d9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -390,6 +406,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "HonkHorn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e55f570a-bc29-4146-8c2d-ce5f0b82a93f",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RandomCarSetting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58d8f0c5-8fdb-43f7-8d7d-9764cb608af9",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ShowCarSettingIndex",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

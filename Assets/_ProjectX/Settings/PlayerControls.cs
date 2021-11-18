@@ -73,6 +73,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""RandomCarSetting"",
+                    ""type"": ""Button"",
+                    ""id"": ""24bd307e-2dd9-4897-8fff-083c2e24308a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ShowCarSettingIndex"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea43ce96-1657-4dca-b1b1-cb0c11a39d9a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -403,6 +419,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""HonkHorn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e55f570a-bc29-4146-8c2d-ce5f0b82a93f"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""RandomCarSetting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58d8f0c5-8fdb-43f7-8d7d-9764cb608af9"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ShowCarSettingIndex"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1009,6 +1047,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Boost = m_Player.FindAction("Boost", throwIfNotFound: true);
         m_Player_Handbrake = m_Player.FindAction("Handbrake", throwIfNotFound: true);
         m_Player_HonkHorn = m_Player.FindAction("HonkHorn", throwIfNotFound: true);
+        m_Player_RandomCarSetting = m_Player.FindAction("RandomCarSetting", throwIfNotFound: true);
+        m_Player_ShowCarSettingIndex = m_Player.FindAction("ShowCarSettingIndex", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1077,6 +1117,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Boost;
     private readonly InputAction m_Player_Handbrake;
     private readonly InputAction m_Player_HonkHorn;
+    private readonly InputAction m_Player_RandomCarSetting;
+    private readonly InputAction m_Player_ShowCarSettingIndex;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1088,6 +1130,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Boost => m_Wrapper.m_Player_Boost;
         public InputAction @Handbrake => m_Wrapper.m_Player_Handbrake;
         public InputAction @HonkHorn => m_Wrapper.m_Player_HonkHorn;
+        public InputAction @RandomCarSetting => m_Wrapper.m_Player_RandomCarSetting;
+        public InputAction @ShowCarSettingIndex => m_Wrapper.m_Player_ShowCarSettingIndex;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1118,6 +1162,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @HonkHorn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHonkHorn;
                 @HonkHorn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHonkHorn;
                 @HonkHorn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHonkHorn;
+                @RandomCarSetting.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRandomCarSetting;
+                @RandomCarSetting.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRandomCarSetting;
+                @RandomCarSetting.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRandomCarSetting;
+                @ShowCarSettingIndex.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowCarSettingIndex;
+                @ShowCarSettingIndex.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowCarSettingIndex;
+                @ShowCarSettingIndex.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShowCarSettingIndex;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1143,6 +1193,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @HonkHorn.started += instance.OnHonkHorn;
                 @HonkHorn.performed += instance.OnHonkHorn;
                 @HonkHorn.canceled += instance.OnHonkHorn;
+                @RandomCarSetting.started += instance.OnRandomCarSetting;
+                @RandomCarSetting.performed += instance.OnRandomCarSetting;
+                @RandomCarSetting.canceled += instance.OnRandomCarSetting;
+                @ShowCarSettingIndex.started += instance.OnShowCarSettingIndex;
+                @ShowCarSettingIndex.performed += instance.OnShowCarSettingIndex;
+                @ShowCarSettingIndex.canceled += instance.OnShowCarSettingIndex;
             }
         }
     }
@@ -1306,6 +1362,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnBoost(InputAction.CallbackContext context);
         void OnHandbrake(InputAction.CallbackContext context);
         void OnHonkHorn(InputAction.CallbackContext context);
+        void OnRandomCarSetting(InputAction.CallbackContext context);
+        void OnShowCarSettingIndex(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
