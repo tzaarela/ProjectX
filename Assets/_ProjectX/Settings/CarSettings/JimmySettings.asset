@@ -23,13 +23,13 @@ MonoBehaviour:
     sidewayFriction:
       extremumSlip: 0.18
       extremumValue: 13
-      asymptoteSlip: 0.5
-      asymptoteValue: 10
+      asymptoteSlip: 1
+      asymptoteValue: 11
       stiffness: 0.5
     forwardFriction:
       extremumSlip: 0.18
       extremumValue: 13
-      asymptoteSlip: 0.8
+      asymptoteSlip: 1
       asymptoteValue: 11
       stiffness: 0.4
   - key: 1
@@ -49,13 +49,13 @@ MonoBehaviour:
     sidewayFriction:
       extremumSlip: 0.02
       extremumValue: 13
-      asymptoteSlip: 0.5
-      asymptoteValue: 10
+      asymptoteSlip: 1
+      asymptoteValue: 11
       stiffness: 0.5
     forwardFriction:
       extremumSlip: 0.02
       extremumValue: 11
-      asymptoteSlip: 0.5
+      asymptoteSlip: 1
       asymptoteValue: 11
       stiffness: 0.5
   wheelMass: 80
@@ -104,7 +104,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxVelocityBoost: 1500
-  maxMotorTorque: 1300
+  maxMotorTorque: 1700
   backAxleTorqueMultiplier: 1.34
   frontAxleTorqueMultiplier: 0.66
   maxSteeringAngle: 38
@@ -143,7 +143,7 @@ MonoBehaviour:
   slidingThreshold: 0.95
   slidingMinimumVelocity: 1
   centerOfMassOffset: {x: 0, y: 0.25, z: 1}
-  mass: 1650
+  mass: 1900
   drag: 0.1
   angularDrag: 0.1
   useGravity: 1
