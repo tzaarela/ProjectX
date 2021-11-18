@@ -70,10 +70,17 @@ namespace Managers
 						break;
 					}
 			}
+
+			if (NetworkRoomManagerExt.serverAdress != "localhost")
+			{
+				connectionInputField.text = NetworkRoomManagerExt.serverAdress;
+				roomManager.networkAddress = NetworkRoomManagerExt.serverAdress;
+			}
 		}
 
 		public void SetConnectionString()
 		{
+			NetworkRoomManagerExt.serverAdress = connectionInputField.text;
 			roomManager.networkAddress = connectionInputField.text;
 		}
 		

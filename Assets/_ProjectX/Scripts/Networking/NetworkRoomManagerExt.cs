@@ -7,7 +7,8 @@ namespace Networking
 {
 	public class NetworkRoomManagerExt : NetworkRoomManager
 	{
-		private static bool gameHasStarted;
+		public static string serverAdress = "localhost";
+		public static bool gameHasStarted;
 
 		public override void OnServerChangeScene(string newSceneName)
 		{
