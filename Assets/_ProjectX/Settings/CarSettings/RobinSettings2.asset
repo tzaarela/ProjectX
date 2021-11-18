@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b342128b4c7e4bba83ef12c6297a47ac, type: 3}
+  m_Name: RobinSettings2
+  m_EditorClassIdentifier: 
+  f_HasMotor: 1
+  f_HasSteering: 1
+  f_HasHandbrake: 0
+  r_HasMotor: 1
+  r_HasSteering: 0
+  r_HasHandbrake: 1
+  frictionCurves:
+  - key: 0
+    sidewayFriction:
+      extremumSlip: 0.18
+      extremumValue: 13
+      asymptoteSlip: 0.5
+      asymptoteValue: 10
+      stiffness: 0.5
+    forwardFriction:
+      extremumSlip: 0.18
+      extremumValue: 13
+      asymptoteSlip: 0.8
+      asymptoteValue: 11
+      stiffness: 0.4
+  - key: 1
+    sidewayFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.2
+    forwardFriction:
+      extremumSlip: 0.1
+      extremumValue: 10
+      asymptoteSlip: 0.5
+      asymptoteValue: 8
+      stiffness: 0.2
+  - key: 2
+    sidewayFriction:
+      extremumSlip: 0.02
+      extremumValue: 13
+      asymptoteSlip: 0.5
+      asymptoteValue: 10
+      stiffness: 0.5
+    forwardFriction:
+      extremumSlip: 0.02
+      extremumValue: 11
+      asymptoteSlip: 0.5
+      asymptoteValue: 11
+      stiffness: 0.5
+  wheelMass: 80
+  wheelRadius: 0.37
+  wheelDampingRate: 0.0001
+  wheelSuspensionDistance: 0.3
+  wheelForceAppPointDistance: 0.18
+  wheelSuspensionSpring: 35000
+  wheelSuspensionDamper: 4500
+  wheelSuspensionTargetPosition: 0.5
+  maxVelocity: 1350
+  maxVelocityReverseMultiplier: 0.6
+  relativeAccelerationMaxMultiplier: 3
+  relativeAccelerationTimeFrame: 30
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.01
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.542592
+      value: 0.5684527
+      inSlope: 2.861607
+      outSlope: 2.861607
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09315146
+      outWeight: 0.082263134
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxVelocityBoost: 1500
+  maxMotorTorque: 1300
+  backAxleTorqueMultiplier: 1.34
+  frontAxleTorqueMultiplier: 0.66
+  maxSteeringAngle: 38
+  handBrakeTorque: 12000
+  decelerationForce: 3000
+  regularBrakeMaxMultiplier: 30
+  regularBrakeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.01
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  boostMultiplier: 3
+  boostMaxTime: 2
+  boostRecoveryRatePerSecond: 0.5
+  antiRoll: 13000
+  turnSpeedMultiplier: 1
+  slidingThreshold: 0.95
+  slidingMinimumVelocity: 100
+  centerOfMassOffset: {x: 0, y: 0.25, z: 1}
+  mass: 1650
+  drag: 0.1
+  angularDrag: 0.1
+  useGravity: 1
+  isKinematic: 0
+  interpolateMode: 1
+  collisionDetectionMode: 1
