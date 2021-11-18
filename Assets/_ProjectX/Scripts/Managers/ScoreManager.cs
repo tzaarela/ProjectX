@@ -77,18 +77,18 @@ namespace Managers
 					}
 					
 					//TEMP:
-					playerScores.Add("PlayerTemp", 0);
-					playerScores.Add("PlayerTemp2", 150);
-					playerScores.Add("PlayerTemp3", 50);
-					playerMaterialIndexes.Add("PlayerTemp", 5);
-					playerMaterialIndexes.Add("PlayerTemp2", 6);
-					playerMaterialIndexes.Add("PlayerTemp3", 7);
+					//playerScores.Add("PlayerTemp", 0);
+					//playerScores.Add("PlayerTemp2", 150);
+					//playerScores.Add("PlayerTemp3", 50);
+					//playerMaterialIndexes.Add("PlayerTemp", 5);
+					//playerMaterialIndexes.Add("PlayerTemp2", 6);
+					//playerMaterialIndexes.Add("PlayerTemp3", 7);
 					// playerScores.Add("PlayerTemp4", 30);
 					// playerScores.Add("PlayerTemp5", 70);
 					// playerScores.Add("PlayerTemp6", 10);
 					// playerScores.Add("PlayerTemp7", 120);
-					currentLeader = "PlayerTemp2";
-					currentLeaderScore = 150;
+					//currentLeader = "PlayerTemp2";
+					//currentLeaderScore = 150;
 					
 					InitScores();
 					break;
