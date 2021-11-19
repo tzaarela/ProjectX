@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3561817599053994394}
   - component: {fileID: -4493664106564643682}
   - component: {fileID: -3898556398853668274}
-  - component: {fileID: 1081340437}
   m_Layer: 0
   m_Name: NetworkRoomManagerExt
   m_TagString: Untagged
@@ -121,17 +120,3 @@ MonoBehaviour:
   AllowSteamRelay: 1
   UseNextGenSteamNetworking: 1
   SteamUserID: 0
---- !u!114 &1081340437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4185182600987269392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc654f29862fc2643b948f772ebb9e68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.07667947, a: 1}
-  padding: 94

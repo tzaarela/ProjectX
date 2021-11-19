@@ -19,6 +19,9 @@ namespace Managers
 		[SerializeField] private TMPro.TMP_InputField connectionInputField;
 		[SerializeField] private TMPro.TextMeshProUGUI connectionPlaceholderText;
 		[SerializeField] private TMPro.TextMeshProUGUI statusText;
+
+		[Header("Settings")]
+		public int frameRate = 300;
 		
 		private NetworkRoomManagerExt roomManager;
 		private FizzySteamworks fizzySteamworks;
@@ -28,8 +31,15 @@ namespace Managers
 
 		private void Awake()
 		{
+
+			string[] arguments = Environment.GetCommandLineArgs();
+			if (arguments.Length == 2)
+			{
+				frameRate = Convert.ToInt32(arguments[1]);
+			}
+
 			QualitySettings.vSyncCount = 0;
-			Application.targetFrameRate = 300;
+			Application.targetFrameRate = frameRate;
 		}
 
 		private void Start()
