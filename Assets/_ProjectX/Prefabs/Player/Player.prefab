@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2633d455c2c04bc68e23bafe2a78dca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 3fe63e71e19f6144c956359c61cf87ae, type: 2}
+  settings: {fileID: 11400000, guid: 46e12185959a6944488455a90e4a2d6c, type: 2}
 --- !u!114 &-8485507364243033689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +425,7 @@ MonoBehaviour:
   interpolateRotation: 1
   interpolateScale: 0
   bufferTimeMultiplier: 3
-  bufferSizeLimit: 128
+  bufferSizeLimit: 256
   catchupThreshold: 6
   catchupMultiplier: 0.1
   showGizmos: 0

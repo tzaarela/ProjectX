@@ -138,7 +138,7 @@ MonoBehaviour:
   boostMultiplier: 3
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
-  antiRoll: 13000
+  antiRoll: 20000
   turnSpeedMultiplier: 1
   slidingThreshold: 0.95
   slidingMinimumVelocity: 1
