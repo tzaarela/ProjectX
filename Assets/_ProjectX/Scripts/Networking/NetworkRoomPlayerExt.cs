@@ -21,7 +21,6 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 {
 	[Header("UI References")]
 	[SerializeField] private TextMeshProUGUI nameTag;
-	[SerializeField] private Image readyImage;
 	[SerializeField] private TextMeshProUGUI readyText;
 
 	[Header("Mesh")]
@@ -120,7 +119,7 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	[Client]
 	private void PlayerReadyColorChanged(Color oldValue, Color newValue)
 	{
-		readyImage.color = newValue;
+		readyText.color = newValue;
 	}
 
 	[Client]
