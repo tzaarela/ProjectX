@@ -233,6 +233,9 @@ Weapon sounds courtesy of Frank Bry at The Recordist.</value>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{4c86714a-3e62-409b-8cd0-b82a95fd2b9c}">
+		<property name="volume">
+			<value>-10.5</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
