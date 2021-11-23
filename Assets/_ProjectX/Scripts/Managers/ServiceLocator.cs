@@ -5,7 +5,6 @@ namespace Managers
 	public static class ServiceLocator
 	{
 		private static RoundManager roundManager;
-		private static AudioManager audioManager;
 		private static HudManager hudManager;
 		private static ScoreManager scoreManager;
 		private static ObjectPoolsManager objectPoolsManager;
@@ -23,6 +22,7 @@ namespace Managers
 				return respawnManager;
 			}
 		}
+		
 		public static RoundManager RoundManager
 		{
 			get
@@ -34,17 +34,7 @@ namespace Managers
 				return roundManager;
 			}
 		}
-		public static AudioManager AudioManager
-		{
-			get
-			{
-				if( audioManager == null )
-				{
-					Debug.LogError("AudioManager is null!");
-				}
-				return audioManager;
-			}
-		}
+
 		public static HudManager HudManager
 		{
 			get
@@ -56,6 +46,7 @@ namespace Managers
 				return hudManager;
 			}
 		}
+		
 		public static ScoreManager ScoreManager
 		{
 			get
@@ -67,6 +58,7 @@ namespace Managers
 				return scoreManager;
 			}
 		}
+		
 		public static ObjectPoolsManager ObjectPools
 		{
 			get
@@ -95,12 +87,7 @@ namespace Managers
 		{
 			roundManager = round;
 		}
-		
-		public static void ProvideAudioManager(AudioManager audio)
-		{
-			audioManager = audio;
-		}
-		
+
 		public static void ProvideHudManager(HudManager hud)
 		{
 			hudManager = hud;
@@ -115,14 +102,15 @@ namespace Managers
 		{
 			objectPoolsManager = objectPool;
 		}
+		
 		public static void ProvideLobbyManager(LobbyManager lobby)
 		{
 			lobbyManager = lobby;
 		}
+		
 		public static void ProvideRespawnManager(RespawnManager respawn)
 		{
 			respawnManager = respawn;
 		}
-
 	}
 }
