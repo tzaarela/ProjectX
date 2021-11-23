@@ -61,7 +61,7 @@ namespace Networking
 		[Server]
 		public override void OnRoomServerPlayersNotReady()
 		{
-			if (roomSlots.Count == 0)
+			if (!IsSceneActive(RoomScene))
 				return;
 			
 			ServiceLocator.LobbyManager.StartGameButton.SetActive(false);
@@ -73,18 +73,26 @@ namespace Networking
 			ServerChangeScene(GameplayScene);
 		}
 
-		public void DestroyMainMenuMusic()
+		[Client]
+		public override void OnClientSceneChanged(NetworkConnection conn)
 		{
-			GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
-			if (musicPlayer != null)
+			if (!IsSceneActive(GameplayScene))
+				return;
+			
+			if (NetworkClient.isConnected)
 			{
+				GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
+					
+				if (musicPlayer == null)
+					return;
+					
 				if (musicPlayer.TryGetComponent(out MenuMusicController controller))
 				{
 					controller.Destroy();
 				}
 			}
 		}
-		
+
 		public void ReturnToMainMenu()
 		{
 			if (NetworkServer.active && NetworkClient.isConnected)
