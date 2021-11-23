@@ -14,6 +14,8 @@ public class DestructionObject : NetworkBehaviour, IReceiveDamageAOE
 
 	private void Awake()
 	{
+		gameObject.tag = "DestructionObject";
+		
 		rb = GetComponent<Rigidbody>();
 	}
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
@@ -18,10 +19,13 @@ namespace Managers
 
         private bool allPlayersConnected;
 
-        private void Start()
+        private void Awake()
         {
             GlobalMediator.Instance.Subscribe(this);
-            
+        }
+
+        private void Start()
+        {
             GameObject[] respawns;
             respawns = GameObject.FindGameObjectsWithTag("Powerup");
 

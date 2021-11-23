@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using UnityEngine;
 
 namespace Managers
@@ -37,6 +38,18 @@ namespace Managers
 		private void RpcPlayerDestructObject(GameObject destructionObject)
 		{
 			destructionObject.GetComponent<DestructionObject>().Explode();
+		}
+
+		private void OnTriggerEnter(Collider other)
+		{
+			if (!isServer)
+				return;
+			
+			if (other.CompareTag("DestructionObject"))
+			{
+				NetworkServer.Destroy(other.gameObject);
+				Destroy(other.gameObject);
+			}
 		}
 	}
 }
