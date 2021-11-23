@@ -25,7 +25,6 @@ namespace Managers
 
 		[Header("REFERENCES:")]
 		[SerializeField] private PlayerScore[] playerScores;
-		// [SerializeField] private TMP_Text[] scoreTexts;
 		[SerializeField] private GameObject newLeaderText;
 		[SerializeField] private TMP_Text flagText;
 		[SerializeField] private TMP_Text killText;

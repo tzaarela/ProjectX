@@ -210,7 +210,7 @@ namespace Managers
 			playerScores = SortedByAscendingKey(playerScores);
 			
 			// TEMP:
-			playerScores = SortedByDescendingValue(playerScores);
+			// playerScores = SortedByDescendingValue(playerScores);
 			//
 			
 			int index = 0;
