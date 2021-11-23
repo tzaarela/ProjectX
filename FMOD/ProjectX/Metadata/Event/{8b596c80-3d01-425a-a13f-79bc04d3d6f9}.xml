@@ -109,7 +109,7 @@ Recordings by David at Track Time Audio.</value>
 	</object>
 	<object class="EventMixerGroup" id="{aabffbe2-2475-4695-b3af-3c6da7dfa125}">
 		<property name="volume">
-			<value>-7</value>
+			<value>-11.5</value>
 		</property>
 		<property name="name">
 			<value>Cancel</value>
