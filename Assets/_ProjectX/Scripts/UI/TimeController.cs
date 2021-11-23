@@ -55,7 +55,7 @@ namespace UI
 					RpcSetTimeScale(1);
 					if (roundTime == 0)
 					{
-						timeText.text = "";
+						RpcRemoveTimer();
 					}
 					else
 					{
@@ -68,6 +68,12 @@ namespace UI
 					RpcSetTimeScale(0);
 					break;
 			}
+		}
+
+		[ClientRpc]
+		private void RpcRemoveTimer()
+		{
+			timeText.text = "";
 		}
 
 		[Server]
