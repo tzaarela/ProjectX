@@ -8,14 +8,36 @@ namespace Networking
 	public class NetworkRoomManagerExt : NetworkRoomManager
 	{
 		public static string serverAdress = "localhost";
-		public static bool gameHasStarted;
+		// public static bool gameHasStarted;
 
-		public override void OnServerChangeScene(string newSceneName)
+		// public override void OnServerChangeScene(string newSceneName)
+		// {
+		// 	if (gameHasStarted)
+		// 		return;
+		// 	
+		// 	if (newSceneName != GameplayScene)
+		// 		return;
+		// 	
+		// 	print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
+		// 	
+		// 	int connectedClients = 0;
+		// 	foreach (NetworkRoomPlayer player in roomSlots)
+		// 	{
+		// 		if (player.readyToBegin)
+		// 		{
+		// 			print("name: " + player.name + "Id: " + player.netId);
+		// 			connectedClients++;
+		// 		}
+		// 	}
+		// 	print("Connected clients when starting game: " + connectedClients);
+		// 	ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
+		// 	gameHasStarted = true;
+		// }
+
+		[Server]
+		public override void OnRoomServerPlayersReady()
 		{
-			if (gameHasStarted)
-				return;
-			
-			if (newSceneName != GameplayScene)
+			if (roomSlots.Count == 0)
 				return;
 			
 			print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
@@ -31,7 +53,23 @@ namespace Networking
 			}
 			print("Connected clients when starting game: " + connectedClients);
 			ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
-			gameHasStarted = true;
+			
+			ServiceLocator.LobbyManager.StartGameButton.SetActive(true);
+		}
+		
+		[Server]
+		public override void OnRoomServerPlayersNotReady()
+		{
+			if (roomSlots.Count == 0)
+				return;
+			
+			ServiceLocator.LobbyManager.StartGameButton.SetActive(false);
+		}
+
+		[Server]
+		public void StartGame()
+		{
+			ServerChangeScene(GameplayScene);
 		}
 		
 		public void ReturnToMainMenu()
@@ -47,7 +85,7 @@ namespace Networking
 				StopClient();
 			}
 		}
-		
+
 		[Server]
 		public void ReloadGameScene()
 		{
@@ -60,8 +98,7 @@ namespace Networking
 			if (NetworkServer.active && NetworkClient.isConnected)
 			{
 				print("StopHost");
-				// print("RoomSlotsCount at EndGame: " + roomSlots.Count);
-				gameHasStarted = false;
+				// gameHasStarted = false;
 				StopHost();
 			}
 			else

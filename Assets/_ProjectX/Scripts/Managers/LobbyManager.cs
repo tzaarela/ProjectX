@@ -16,6 +16,7 @@ public class LobbyManager : MonoBehaviour
 	public int nameCharacterLimit = 10;
 	public Image readyButtonImage;
 	public TextMeshProUGUI readyButtonText;
+	public GameObject StartGameButton;
 
 	[SerializeField] private TMP_InputField textInput;
 	[SerializeField] private SO_CarMaterials carMaterials;
@@ -31,7 +32,6 @@ public class LobbyManager : MonoBehaviour
 
 	private bool playerIsReady;
 	
-
 	private void Awake()
 	{
 		print("LobbyManager provided to ServiceLocator");
