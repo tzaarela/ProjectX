@@ -63,7 +63,7 @@ namespace Networking
 		{
 			if (!IsSceneActive(RoomScene))
 				return;
-			
+
 			ServiceLocator.LobbyManager.StartGameButton.SetActive(false);
 		}
 
@@ -74,24 +74,41 @@ namespace Networking
 		}
 
 		[Client]
-		public override void OnClientSceneChanged(NetworkConnection conn)
+		public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
 		{
-			if (!IsSceneActive(GameplayScene))
+			if (newSceneName != GameplayScene)
 				return;
-			
-			if (NetworkClient.isConnected)
+
+			GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
+				
+			if (musicPlayer == null)
+				return;
+				
+			if (musicPlayer.TryGetComponent(out MenuMusicController menuMusicController))
 			{
-				GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
-					
-				if (musicPlayer == null)
-					return;
-					
-				if (musicPlayer.TryGetComponent(out MenuMusicController controller))
-				{
-					controller.Destroy();
-				}
+				menuMusicController.Destroy();
 			}
 		}
+
+		// [Client]
+		// public override void OnClientSceneChanged(NetworkConnection conn)
+		// {
+			// if (!IsSceneActive(GameplayScene))
+			// 	return;
+			//
+			// if (NetworkClient.isConnected)
+			// {
+			// 	GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
+			// 		
+			// 	if (musicPlayer == null)
+			// 		return;
+			// 		
+			// 	if (musicPlayer.TryGetComponent(out MenuMusicController controller))
+			// 	{
+			// 		controller.Destroy();
+			// 	}
+			// }
+		// }
 
 		public void ReturnToMainMenu()
 		{
