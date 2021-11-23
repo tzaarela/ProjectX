@@ -178,6 +178,7 @@ namespace Managers
 				{
 					currentLeader = kvp.Key;
 					ServiceLocator.HudManager.RpcActivateNewLeaderText();
+					FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Fanfare", Camera.main.transform.position);
 				}
 				
 				if (string.Equals(kvp.Key, scoringPlayer, StringComparison.OrdinalIgnoreCase))

@@ -79,11 +79,13 @@ namespace Networking
 			if (newSceneName != GameplayScene)
 				return;
 
+			FMODUnity.RuntimeManager.PlayOneShot("event:/UI/StartGame", Camera.main.transform.position);
+			
 			GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
-				
+
 			if (musicPlayer == null)
 				return;
-				
+
 			if (musicPlayer.TryGetComponent(out MenuMusicController menuMusicController))
 			{
 				menuMusicController.Destroy();
