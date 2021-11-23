@@ -2,6 +2,7 @@
 using Data.Containers.GlobalSignal;
 using Data.Enums;
 using Data.Interfaces;
+using DG.Tweening;
 using Managers;
 using Mirror;
 using TMPro;
@@ -13,11 +14,20 @@ namespace UI
 	{
 		// NetworkIdentity = !ServerOnly
 		
-		private int roundTime;
-		
-		[SerializeField] private TMP_Text timeText;
+		[Header("TWEEN SETTINGS:")]
+		[SerializeField] private float powerupScalePunchMultiplier = 0.4f;
+		[SerializeField] private float powerupScalePunchDuration = 0.2f;
+		[SerializeField] private int powerupScalePunchVibrato = 1;
+		[SerializeField] private float powerupScalePunchElasticity = 1;
 
-		[SyncVar(hook = nameof(UpdateUiTime))] private int uiTime;
+		[Header("REFERENCES:")]
+		[SerializeField] private TMP_Text timeText;
+		
+		private int roundTime;
+		private Tweener powerupScalePunchTweener;
+
+		[SyncVar(hook = nameof(UpdateUiTime))]
+		private int uiTime;
 
 		[Server]
 		public override void OnStartServer()
@@ -65,7 +75,10 @@ namespace UI
 		{
 			while (uiTime > 0)
 			{
-				yield return new WaitForSeconds(1f);
+				// yield return new WaitForSeconds(0.95f);
+				// PowerupScalePunchTween();
+				// yield return new WaitForSeconds(0.05f);
+				yield return new WaitForSeconds(1);
 				uiTime--;
 				yield return null;
 			}
@@ -77,7 +90,18 @@ namespace UI
 		[Client]
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
+			PowerupScalePunchTween();
 			timeText.text =  newTime.ToString();
+		}
+		
+		[Client]
+		private void PowerupScalePunchTween()
+		{
+			if (!powerupScalePunchTweener.IsActive())
+			{
+				powerupScalePunchTweener = timeText.rectTransform.DOPunchScale(Vector3.one * powerupScalePunchMultiplier, powerupScalePunchDuration,
+					powerupScalePunchVibrato, powerupScalePunchElasticity);
+			}
 		}
 		
 		[ClientRpc]

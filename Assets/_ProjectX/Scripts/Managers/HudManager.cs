@@ -17,7 +17,7 @@ namespace Managers
 	{
 		// NetworkIdentity = !ServerOnly
 
-		[Header("SETTINGS")]
+		[Header("SETTINGS:")]
 		[SerializeField] private float powerupScalePunchMultiplier = 1.1f;
 		[SerializeField] private float powerupScalePunchDuration = 0.5f;
 		[SerializeField] private int powerupScalePunchVibrato = 1;
