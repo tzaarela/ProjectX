@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
@@ -213,6 +212,7 @@ namespace Managers
 		[ClientRpc]
 		public void RpcActivateNewLeaderText()
 		{
+			FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Fanfare", Camera.main.transform.position);
 			newLeaderText.SetActive(true);
 		}
 
