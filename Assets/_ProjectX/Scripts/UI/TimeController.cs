@@ -15,16 +15,16 @@ namespace UI
 		// NetworkIdentity = !ServerOnly
 		
 		[Header("TWEEN SETTINGS:")]
-		[SerializeField] private float powerupScalePunchMultiplier = 0.4f;
-		[SerializeField] private float powerupScalePunchDuration = 0.2f;
-		[SerializeField] private int powerupScalePunchVibrato = 1;
-		[SerializeField] private float powerupScalePunchElasticity = 1;
+		[SerializeField] private float timeScalePunchMultiplier = 0.1f;
+		[SerializeField] private float timeScalePunchDuration = 0.2f;
+		[SerializeField] private int timeScalePunchVibrato = 1;
+		[SerializeField] private float timeScalePunchElasticity = 1;
 
 		[Header("REFERENCES:")]
 		[SerializeField] private TMP_Text timeText;
 		
 		private int roundTime;
-		private Tweener powerupScalePunchTweener;
+		private Tweener timeScalePunchTweener;
 
 		[SyncVar(hook = nameof(UpdateUiTime))]
 		private int uiTime;
@@ -52,12 +52,12 @@ namespace UI
 							Debug.Log("RoundManager was not received by TimeController on ALL_PLAYERS_CONNECTED_TO_GAME");
 						}
 					}
-					RpcSetTimeScale(1);
-					if (roundTime == 0)
-					{
-						RpcRemoveTimer();
-					}
-					else
+					// RpcSetTimeScale(1f);
+					RpcRemoveTimer();
+					break;
+				
+				case GlobalEvent.END_OF_COUNTDOWN:
+					if (roundTime != 0)
 					{
 						uiTime = roundTime;
 						StartCoroutine(TimerRoutine());
@@ -81,9 +81,6 @@ namespace UI
 		{
 			while (uiTime > 0)
 			{
-				// yield return new WaitForSeconds(0.95f);
-				// PowerupScalePunchTween();
-				// yield return new WaitForSeconds(0.05f);
 				yield return new WaitForSeconds(1);
 				uiTime--;
 				yield return null;
@@ -96,17 +93,17 @@ namespace UI
 		[Client]
 		private void UpdateUiTime(int oldValue, int newTime)
 		{
-			PowerupScalePunchTween();
+			timeScalePunchTween();
 			timeText.text =  newTime.ToString();
 		}
 		
 		[Client]
-		private void PowerupScalePunchTween()
+		private void timeScalePunchTween()
 		{
-			if (!powerupScalePunchTweener.IsActive())
+			if (!timeScalePunchTweener.IsActive())
 			{
-				powerupScalePunchTweener = timeText.rectTransform.DOPunchScale(Vector3.one * powerupScalePunchMultiplier, powerupScalePunchDuration,
-					powerupScalePunchVibrato, powerupScalePunchElasticity);
+				timeScalePunchTweener = timeText.rectTransform.DOPunchScale(Vector3.one * timeScalePunchMultiplier, timeScalePunchDuration,
+					timeScalePunchVibrato, timeScalePunchElasticity);
 			}
 		}
 		

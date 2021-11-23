@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using Data.Containers.GlobalSignal;
 using Data.Enums;
@@ -18,6 +19,10 @@ namespace Managers
 		// NetworkIdentity = !ServerOnly
 
 		[Header("SETTINGS:")]
+		[SerializeField] private float countdownScalePunchMultiplier = 0.5f;
+		[SerializeField] private float countdownScalePunchDuration = 0.25f;
+		[SerializeField] private int countdownScalePunchVibrato = 4;
+		
 		[SerializeField] private float powerupScalePunchMultiplier = 1.1f;
 		[SerializeField] private float powerupScalePunchDuration = 0.5f;
 		[SerializeField] private int powerupScalePunchVibrato = 1;
@@ -26,6 +31,7 @@ namespace Managers
 		[Header("REFERENCES:")]
 		[SerializeField] private PlayerScore[] playerScores;
 		[SerializeField] private GameObject newLeaderText;
+		[SerializeField] private TMP_Text countdownText;
 		[SerializeField] private TMP_Text flagText;
 		[SerializeField] private TMP_Text killText;
 		[SerializeField] private TMP_Text respawnText;
@@ -40,10 +46,12 @@ namespace Managers
 		[Header("EXT. REFERENCES:")]
 		[SerializeField] private CinemachineVirtualCamera zoomInCamera;
 		[SerializeField] private CinemachineVirtualCamera flagTargetCamera;
+		[SerializeField] private CinemachineVirtualCamera flagIntroCamera;
 
 		private IndicatorController indicatorController;
 		private ResultsController resultsController;
 		private Tweener powerupScalePunchTweener;
+		private Tweener countdownScalePunchTweener;
 
 		private void Awake()
 		{
@@ -67,7 +75,12 @@ namespace Managers
 		public void ReceiveGlobal(GlobalEvent eventState, GlobalSignalBaseData globalSignalData = null)
 		{
 			switch (eventState)
-			{
+			{ 
+				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+
+					RpcStartCountDown();
+					break;
+					
 				case GlobalEvent.FLAG_TAKEN:
 
 					if (globalSignalData is GameObjectData playerTakingFlag)
@@ -90,9 +103,55 @@ namespace Managers
 					}
 					break;
 				
-				case GlobalEvent.END_GAMESTATE:
-					// rematchButton.SetActive(true);
-					break;
+				// case GlobalEvent.END_GAMESTATE:
+				// 	rematchButton.SetActive(true);
+				// 	break;
+			}
+		}
+
+		[ClientRpc]
+		private void RpcStartCountDown()
+		{
+			StartCoroutine(CountDownRoutine());
+		}
+
+		[Client]
+		private IEnumerator CountDownRoutine()
+		{
+			yield return new WaitForSeconds(0.6f);
+			flagIntroCamera.gameObject.SetActive(false);
+			flagTargetCamera.gameObject.SetActive(true);
+			yield return new WaitForSeconds(0.55f);
+			FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Countdown", Camera.main.transform.position);
+			yield return new WaitForSeconds(0.05f);
+			countdownText.gameObject.SetActive(true);
+			CountDownScalePunchTween();
+			countdownText.text = "3";
+			yield return new WaitForSeconds(0.5f);
+			countdownText.text = "";
+			yield return new WaitForSeconds(0.5f);
+			CountDownScalePunchTween();
+			countdownText.text = "2";
+			yield return new WaitForSeconds(0.5f);
+			countdownText.text = "";
+			yield return new WaitForSeconds(0.5f);
+			CountDownScalePunchTween();
+			countdownText.text = "1";
+			yield return new WaitForSeconds(0.5f);
+			countdownText.text = "";
+			yield return new WaitForSeconds(0.2f);
+			flagTargetCamera.gameObject.SetActive(false);
+			yield return new WaitForSeconds(0.3f);
+			SendGlobal(GlobalEvent.END_OF_COUNTDOWN);
+		}
+		
+		[Client]
+		private void CountDownScalePunchTween()
+		{
+			if (!countdownScalePunchTweener.IsActive())
+			{
+				countdownScalePunchTweener = countdownText.rectTransform.DOPunchScale(Vector3.one * countdownScalePunchMultiplier,
+																						countdownScalePunchDuration, countdownScalePunchVibrato, 1f);
 			}
 		}
 		

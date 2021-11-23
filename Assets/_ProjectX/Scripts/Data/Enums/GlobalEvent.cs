@@ -7,6 +7,7 @@ namespace Data.Enums
         ALL_PLAYERS_CONNECTED_TO_GAME,
         
         // GAME EVENT
+        END_OF_COUNTDOWN,
         FLAG_TAKEN,
         FLAG_DROPPED,
         SET_FOLLOW_TARGET,

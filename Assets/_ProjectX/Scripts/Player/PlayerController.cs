@@ -189,7 +189,7 @@ namespace Player
 		{
 			switch (eventState)
 			{
-				case GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME:
+				case GlobalEvent.END_OF_COUNTDOWN:
 					RpcEnableAllPlayersInput();
 					break;
 				

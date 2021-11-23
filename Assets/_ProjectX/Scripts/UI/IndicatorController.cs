@@ -14,10 +14,9 @@ namespace UI
 		[SerializeField] private RectTransform arrowTransform;
 		[SerializeField] private RectTransform canvasRect;
 
-		[Header("DEBUG:")] 
-		public Camera mainCamera;
-		public GameObject mapFlag;
-		public GameObject target;
+		private Camera mainCamera;
+		private GameObject mapFlag;
+		private GameObject target;
 
 		public bool localPlayerHasFlag;
 
