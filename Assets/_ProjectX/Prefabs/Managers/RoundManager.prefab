@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundTime: 300
-  flagScoreEachTick: 3
+  flagScoreEachTick: 4
   flagScoreTickRate: 0.5
   killScore: 25
   killWithFlagAdditionalScore: 10
-  scoreToWin: 500
+  scoreToWin: 1000
   additionalScoringStartupThreshold: 100
   additionalScoringMaxThreshold: 300
   additionalScoreMaxMultiplier: 1
