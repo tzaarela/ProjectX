@@ -76,9 +76,9 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	{
 		readyToBegin = readyState;
 
-		playerReadyColor = readyState ? Color.green : Color.red;
-		playerReadyText = readyState ? "Ready" : "Not Ready";
-		
+		playerReadyColor = readyToBegin ? Color.green : Color.red;
+		playerReadyText = readyToBegin ? "Ready" : "Not Ready";
+
 		NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
 		if (room != null)
 		{
@@ -113,6 +113,11 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 	private void PlayerReadyTextChanged(string oldValue, string newValue)
 	{
 		readyText.text = newValue;
+		
+		if (newValue == "Ready")
+		{
+			FMODUnity.RuntimeManager.PlayOneShot("event:/UI/PlayerReady", Camera.main.transform.position);
+		}
 	}
 
 	//hook
