@@ -1,3 +1,4 @@
+using Audio;
 using Mirror;
 using Managers;
 using UnityEngine;
@@ -70,6 +71,18 @@ namespace Networking
 		public void StartGame()
 		{
 			ServerChangeScene(GameplayScene);
+		}
+
+		public void DestroyMainMenuMusic()
+		{
+			GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
+			if (musicPlayer != null)
+			{
+				if (musicPlayer.TryGetComponent(out MenuMusicController controller))
+				{
+					controller.Destroy();
+				}
+			}
 		}
 		
 		public void ReturnToMainMenu()
