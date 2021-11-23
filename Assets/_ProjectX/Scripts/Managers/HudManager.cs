@@ -135,7 +135,6 @@ namespace Managers
 		public void RpcUpdateScoringPlayerScore(int index, string player, int matIndex, int score, int previousScore, float scoreRate)
 		{
 			playerScores[index].UpdatePlayerScore(player, matIndex);
-			// scoreTexts[index].text = score.ToString();
 			StartCoroutine(ScoreCounterRoutine(index, previousScore, score, scoreRate));
 		}
 
@@ -187,7 +186,7 @@ namespace Managers
 		{
 			if (!powerupScalePunchTweener.IsActive())
 			{
-				powerupScalePunchTweener = powerUpImage.rectTransform.DOPunchScale(Vector3.one * powerupScalePunchMultiplier, powerupScalePunchDuration,
+				powerupScalePunchTweener = ammoText.rectTransform.DOPunchScale(Vector3.one * powerupScalePunchMultiplier, powerupScalePunchDuration,
 					powerupScalePunchVibrato, powerupScalePunchElasticity);
 			}
 		}
