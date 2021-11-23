@@ -225,7 +225,7 @@ MonoBehaviour:
   deathFX: {fileID: 8390639925807054758}
   deathFX2: {fileID: 3618549201056822380}
   deathSmoke: {fileID: 3277401762760358716}
-  upsideDownTimerBeforeDeath: 3
+  upsideDownTimerBeforeDeath: 2
   upsideDownMinimumVelocityBeforeDeath: 20
   hasFlag: 0
   playerName: 
@@ -802,6 +802,10 @@ PrefabInstance:
       propertyPath: moveWithTransform
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2668893039664751393, guid: b11056e98854e8342b913c8c75b84bdb, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2668893039678916681, guid: b11056e98854e8342b913c8c75b84bdb, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1330,6 +1334,14 @@ PrefabInstance:
       propertyPath: moveWithTransform
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: -0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
 --- !u!1 &6175831134981043233 stripped
@@ -1571,6 +1583,14 @@ PrefabInstance:
     - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
       propertyPath: moveWithTransform
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: -0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
@@ -2651,6 +2671,14 @@ PrefabInstance:
     - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
       propertyPath: moveWithTransform
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 9158968516903966079, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: -0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25886d69bdce43b4690ed1ad676dbb50, type: 3}
