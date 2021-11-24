@@ -59,6 +59,7 @@ MonoBehaviour:
   raycastLayerMask:
     serializedVersion: 2
     m_Bits: 640
+  shootSound: event:/Weapons/Machine Gun
 --- !u!114 &2122374991998106323
 MonoBehaviour:
   m_ObjectHideFlags: 0

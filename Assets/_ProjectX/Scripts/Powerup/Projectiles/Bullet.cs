@@ -16,6 +16,12 @@ namespace PowerUp.Projectiles
 		private Vector3 startPosition;
 		[SerializeField] private LayerMask raycastLayerMask;
 		
+		[SerializeField]
+		[FMODUnity.EventRef]
+		private string shootSound;
+
+		private FMOD.Studio.EventInstance shootSoundInstance;
+		
 		protected override void Start()
 		{
 			base.Start();
@@ -32,6 +38,11 @@ namespace PowerUp.Projectiles
 			trailRenderer.Clear();
 			direction = transform.forward;
 			rb.AddForce(direction * shootingStrength, ForceMode.Impulse);
+			
+			if (!shootSoundInstance.hasHandle())
+				shootSoundInstance = FMODUnity.RuntimeManager.CreateInstance(shootSound);
+			
+			PlayShootSound();
 		}
 
 		public override void SetupProjectile(Vector3 dir, int netID)
@@ -88,6 +99,12 @@ namespace PowerUp.Projectiles
 			
 			allowCollision = false;
 			ServiceLocator.ObjectPools.ReturnToPool(ObjectPoolType.Bullet, gameObject);
+		}
+		
+		private void PlayShootSound()
+		{
+			shootSoundInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(transform));
+			shootSoundInstance.start();
 		}
 	}
 }
