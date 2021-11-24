@@ -9,31 +9,6 @@ namespace Networking
 	public class NetworkRoomManagerExt : NetworkRoomManager
 	{
 		public static string serverAdress = "localhost";
-		// public static bool gameHasStarted;
-
-		// public override void OnServerChangeScene(string newSceneName)
-		// {
-		// 	if (gameHasStarted)
-		// 		return;
-		// 	
-		// 	if (newSceneName != GameplayScene)
-		// 		return;
-		// 	
-		// 	print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
-		// 	
-		// 	int connectedClients = 0;
-		// 	foreach (NetworkRoomPlayer player in roomSlots)
-		// 	{
-		// 		if (player.readyToBegin)
-		// 		{
-		// 			print("name: " + player.name + "Id: " + player.netId);
-		// 			connectedClients++;
-		// 		}
-		// 	}
-		// 	print("Connected clients when starting game: " + connectedClients);
-		// 	ServiceLocator.RoundManager.NumberOfConnectedClients = connectedClients;
-		// 	gameHasStarted = true;
-		// }
 
 		[Server]
 		public override void OnRoomServerPlayersReady()
@@ -41,14 +16,14 @@ namespace Networking
 			if (roomSlots.Count == 0)
 				return;
 			
-			print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
+			// print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
 			
 			int connectedClients = 0;
 			foreach (NetworkRoomPlayer player in roomSlots)
 			{
 				if (player.readyToBegin)
 				{
-					print("name: " + player.name + "Id: " + player.netId);
+					// print("name: " + player.name + "Id: " + player.netId);
 					connectedClients++;
 				}
 			}
@@ -91,26 +66,6 @@ namespace Networking
 				menuMusicController.Destroy();
 			}
 		}
-
-		// [Client]
-		// public override void OnClientSceneChanged(NetworkConnection conn)
-		// {
-			// if (!IsSceneActive(GameplayScene))
-			// 	return;
-			//
-			// if (NetworkClient.isConnected)
-			// {
-			// 	GameObject musicPlayer = GameObject.Find("MenuMusicPlayer");
-			// 		
-			// 	if (musicPlayer == null)
-			// 		return;
-			// 		
-			// 	if (musicPlayer.TryGetComponent(out MenuMusicController controller))
-			// 	{
-			// 		controller.Destroy();
-			// 	}
-			// }
-		// }
 
 		public void ReturnToMainMenu()
 		{

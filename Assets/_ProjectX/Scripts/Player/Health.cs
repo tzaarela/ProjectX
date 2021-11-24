@@ -10,7 +10,10 @@ namespace Player
 		[Header("Settings")]
 		[SerializeField] private int startingHealth = 100;
 
+		[Header("References")]
+		[SerializeField] private MeshRenderer decalRenderer;
 		[SerializeField] private GameObject[] smokeFX;
+		[SerializeField] private Material[] scratchesMaterials;
 
 		public HealthState currentState = HealthState.Great;
 
@@ -72,23 +75,27 @@ namespace Player
 				case HealthState.Great:
 					isDead = false;
 					currentState = HealthState.Great;
+					decalRenderer.material = scratchesMaterials[0];
 					smokeFX[0].SetActive(false);
 					smokeFX[1].SetActive(false);
 					smokeFX[2].SetActive(false);
 					break;
 				case HealthState.Good:
 					currentState = HealthState.Good;
+					decalRenderer.material = scratchesMaterials[1];
 					smokeFX[0].SetActive(true);
 					//Minor damage
 					break;
 				case HealthState.Ok:
 					currentState = HealthState.Ok;
+					decalRenderer.material = scratchesMaterials[2];
 					smokeFX[0].SetActive(true);
 					smokeFX[1].SetActive(true);
 					//Medium damage
 					break;
 				case HealthState.Bad:
 					currentState = HealthState.Bad;
+					decalRenderer.material = scratchesMaterials[3];
 					smokeFX[0].SetActive(true);
 					smokeFX[1].SetActive(true);
 					smokeFX[2].SetActive(true);
@@ -131,11 +138,19 @@ namespace Player
 			currentHealth = startingHealth;
 		}
 		
-		// TEMP
 		[Server]
 		public void SetHealthToZero()
 		{
 			currentHealth = 0;
+		}
+		
+		[Server]
+		public void LowerHealthByTwentyFive()
+		{
+			if (currentHealth <= 0)
+				return;
+			
+			currentHealth -= 25;
 		}
 	}
 }

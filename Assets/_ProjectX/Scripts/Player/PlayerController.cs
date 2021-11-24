@@ -112,7 +112,7 @@ namespace Player
 			{
 				upsideDownTimeStep += Time.deltaTime;
 				if (upsideDownTimeStep > upsideDownTimerBeforeDeath)
-					CmdSucicide();
+					CmdAccident();
 			}
 			else
 			{
@@ -128,7 +128,13 @@ namespace Player
 			// DEBUG: I-Key = InstantDeath
 			if (Keyboard.current.iKey.wasPressedThisFrame)
 			{
-				CmdSucicide();
+				CmdAccident();
+			}
+			
+			// DEBUG: L-Key = Lower Health by 25
+			if (Keyboard.current.lKey.wasPressedThisFrame)
+			{
+				CmdLowerHealthByTwentyFive();
 			}
 		}
 
@@ -280,13 +286,12 @@ namespace Player
 			}
 		}
 
-		// TEMP!
 		[Command]
-		private void CmdSucicide()
+		private void CmdAccident()
 		{
 			DropFlag();
 			health.SetHealthToZero();
-			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, "suicide");
+			ServiceLocator.HudManager.TargetActivateDeathTexts(connectionToClient, "accident");
 		}
 
 		// TEMP!
@@ -298,6 +303,13 @@ namespace Player
 			FlipCar();
 		}
 
+		// TEMP
+		[Command]
+		private void CmdLowerHealthByTwentyFive()
+		{
+			health.LowerHealthByTwentyFive();
+		}
+		
 		public void ReceiveDamageAOE(AoeData aoeData)
 		{
 			rb.AddForce(aoeData.direction * aoeData.distance + Vector3.up * aoeData.upwardEffect, ForceMode.Impulse);
