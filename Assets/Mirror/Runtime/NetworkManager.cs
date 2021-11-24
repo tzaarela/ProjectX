@@ -195,7 +195,7 @@ namespace Mirror
             // Don't allow collision-destroyed second instance to continue.
             if (!InitializeSingleton()) return;
 
-            Debug.Log("Mirror | mirror-networking.com | discord.gg/N9QVxbM");
+            // Debug.Log("Mirror | mirror-networking.com | discord.gg/N9QVxbM");
 
             // Set the networkSceneName to prevent a scene reload
             // if client connection to server fails.
@@ -922,7 +922,7 @@ namespace Mirror
             // NOTE: this cannot use NetworkClient.allClients[0] - that client may be for a completely different purpose.
 
             // process queued messages that we received while loading the scene
-            Debug.Log("FinishLoadScene: resuming handlers after scene was loading.");
+            // Debug.Log("FinishLoadScene: resuming handlers after scene was loading.");
             NetworkServer.isLoadingScene = false;
             NetworkClient.isLoadingScene = false;
 
@@ -952,7 +952,7 @@ namespace Mirror
         {
             // debug message is very important. if we ever break anything then
             // it's very obvious to notice.
-            Debug.Log("Finished loading scene in host mode.");
+            // Debug.Log("Finished loading scene in host mode.");
 
             if (clientReadyConnection != null)
             {

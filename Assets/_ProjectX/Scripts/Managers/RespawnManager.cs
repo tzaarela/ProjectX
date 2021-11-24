@@ -1,6 +1,5 @@
 using Managers;
 using Mirror;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +10,6 @@ public class RespawnManager : NetworkBehaviour
 	[Server]
 	public override void OnStartServer()
 	{
-		print("RespawnManager provided to ServiceLocator");
 		ServiceLocator.ProvideRespawnManager(this);
 
 		if (respawnPositions.Count == 0)

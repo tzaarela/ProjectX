@@ -32,7 +32,6 @@ namespace Managers
 			
 			GlobalMediator.Instance.Subscribe(this);
 			
-			print("ObjectPoolsManager provided to ServiceLocator");
 			ServiceLocator.ProvideObjectPoolsManager(this);
 		}
 		

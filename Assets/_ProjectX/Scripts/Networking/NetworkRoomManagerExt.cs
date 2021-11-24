@@ -15,9 +15,7 @@ namespace Networking
 		{
 			if (roomSlots.Count == 0)
 				return;
-			
-			// print("RoomSlotsCount at GameStartUp: " + roomSlots.Count);
-			
+
 			int connectedClients = 0;
 			foreach (NetworkRoomPlayer player in roomSlots)
 			{

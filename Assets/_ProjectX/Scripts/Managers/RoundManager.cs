@@ -30,7 +30,6 @@ namespace Managers
 		{
 			if (NetworkServer.active)
 			{
-				print("RoundManager provided to ServiceLocator");
 				ServiceLocator.ProvideRoundManager(this);
 				DontDestroyOnLoad(gameObject);
 			}
@@ -56,15 +55,15 @@ namespace Managers
 		public void AddActivePlayer(PlayerController player)
 		{
 			connectedPlayers.Add(player);
-			print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
+			// print("NumberOfSpawnedPlayers = " + connectedPlayers.Count);
 			if (connectedPlayers.Count == NumberOfConnectedClients)
 			{
 				print("Spawned Players:");
-				foreach (var name in connectedPlayers)
+				foreach (var connPlayer in connectedPlayers)
 				{
-					print(name);
+					print(connPlayer.playerName);
 				}
-				print("Mediator: All players connected to game!");
+				// print("Mediator: All players connected to game!");
 				SendGlobal(GlobalEvent.ALL_PLAYERS_CONNECTED_TO_GAME, new GameObjectData(gameObject));
 			}
 		}

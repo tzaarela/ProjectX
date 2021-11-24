@@ -59,8 +59,7 @@ namespace Managers
 			boostBar.fillAmount = 1f;
 			flagText.text = "";
 			killText.text = "";
-
-			print("HudManager provided to ServiceLocator");
+			
 			ServiceLocator.ProvideHudManager(this);
 		}
 

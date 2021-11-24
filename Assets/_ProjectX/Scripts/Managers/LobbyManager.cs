@@ -34,7 +34,6 @@ public class LobbyManager : MonoBehaviour
 	
 	private void Awake()
 	{
-		print("LobbyManager provided to ServiceLocator");
 		ServiceLocator.ProvideLobbyManager(this);
 	}
 

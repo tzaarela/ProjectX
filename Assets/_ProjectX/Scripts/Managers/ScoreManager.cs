@@ -35,7 +35,6 @@ namespace Managers
 		[Server]
 		public override void OnStartServer()
 		{
-			print("ScoreManager provided to ServiceLocator");
 			ServiceLocator.ProvideScoreManager(this);
 			
 			GlobalMediator.Instance.Subscribe(this);
