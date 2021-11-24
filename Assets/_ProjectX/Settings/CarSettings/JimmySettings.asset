@@ -107,7 +107,7 @@ MonoBehaviour:
   maxMotorTorque: 1700
   backAxleTorqueMultiplier: 1
   frontAxleTorqueMultiplier: 1
-  maxSteeringAngle: 38
+  maxSteeringAngle: 36
   handBrakeTorque: 12000
   decelerationForce: 3000
   regularBrakeMaxMultiplier: 30
