@@ -117,10 +117,11 @@ namespace Managers
 		[Client]
 		private IEnumerator CountDownRoutine()
 		{
-			yield return new WaitForSeconds(0.6f);
+			FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/FlagFlapping", Camera.main.transform.position);
+			yield return new WaitForSeconds(1.5f);
 			flagIntroCamera.gameObject.SetActive(false);
 			flagTargetCamera.gameObject.SetActive(true);
-			yield return new WaitForSeconds(0.55f);
+			yield return new WaitForSeconds(0.75f);
 			FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Countdown", Camera.main.transform.position);
 			yield return new WaitForSeconds(0.05f);
 			countdownText.gameObject.SetActive(true);

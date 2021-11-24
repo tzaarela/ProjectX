@@ -211,6 +211,7 @@ namespace Player
 			if (!isLocalPlayer)
 				return;
 
+			playerSound.PlayEmitter();
 			inputManager.EnableInput();
 		}
 
