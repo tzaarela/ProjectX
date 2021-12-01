@@ -135,7 +135,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  boostMultiplier: 3
+  boostMultiplier: 2
   boostMaxTime: 2
   boostRecoveryRatePerSecond: 0.5
   antiRoll: 20000

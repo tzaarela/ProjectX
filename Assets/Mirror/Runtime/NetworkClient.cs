@@ -145,6 +145,7 @@ namespace Mirror
                 RegisterHandler<EntityStateMessage>(OnEntityStateMessage);
             }
             RegisterHandler<RpcMessage>(OnRPCMessage);
+            RegisterHandler<ScoreMessage>(msg => {});
         }
 
         // connect /////////////////////////////////////////////////////////////

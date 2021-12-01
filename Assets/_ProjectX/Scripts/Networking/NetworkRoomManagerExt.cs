@@ -118,6 +118,9 @@ namespace Networking
 			playerController.playerName = networkedRoomPlayer.playerName;
 			playerController.playerMaterialIndex = networkedRoomPlayer.playerMaterialIndex;
 
+			//Turn off network transform so we dont sync this when in match, reduces bandwith load.
+			networkedRoomPlayer.GetComponent<NetworkTransform>().enabled = false;
+
 			return true;
 		}
 	}

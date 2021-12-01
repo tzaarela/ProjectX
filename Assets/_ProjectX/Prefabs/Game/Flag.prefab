@@ -130,7 +130,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  sendInterval: 0.02
+  sendInterval: 0.01
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   interpolateRotation: 1
   interpolateScale: 1
   bufferTimeMultiplier: 3
-  bufferSizeLimit: 64
+  bufferSizeLimit: 128
   catchupThreshold: 6
   catchupMultiplier: 0.1
   showGizmos: 0
@@ -162,10 +162,10 @@ MonoBehaviour:
   clientAuthority: 0
   syncVelocity: 1
   clearVelocity: 0
-  velocitySensitivity: 0.1
+  velocitySensitivity: 0.02
   syncAngularVelocity: 1
   clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.1
+  angularVelocitySensitivity: 0.02
 --- !u!135 &9186690522973652387
 SphereCollider:
   m_ObjectHideFlags: 0

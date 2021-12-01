@@ -69,12 +69,12 @@ namespace Powerup.Projectiles
 
 		//Hook
 		[Client]
-		private void ToggleLight(bool turnOff, bool turnOn)
+		private void ToggleLight(bool oldValue, bool turnOn)
 		{
 			var lightParticleMain = lightParticle.main;
 			if (turnOn)
 				lightParticleMain.startColor = Color.red;
-			else if (turnOff)
+			else
 				lightParticleMain.startColor = Color.green;
 
 		}

@@ -369,6 +369,7 @@ namespace Mirror
                     {
                         // re-add the room object
                         roomPlayer.GetComponent<NetworkRoomPlayer>().readyToBegin = false;
+                        roomPlayer.GetComponent<NetworkTransform>().enabled = true;
                         NetworkServer.ReplacePlayerForConnection(identity.connectionToClient, roomPlayer.gameObject);
                     }
                 }

@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.02
+  syncInterval: 0.01
   flagOnRoof: {fileID: 6743417112348194063}
   meshRenderer: {fileID: 6294658863401658270}
   playerNameText: {fileID: 3843313183095549569}
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.02
+  syncInterval: 0.01
   axleInfos:
   - leftWheel: {fileID: 2552032396053333394}
     rightWheel: {fileID: 7769311783409024620}
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.01
   startingHealth: 100
   decalRenderer: {fileID: 7327895531962034548}
   smokeFX:
@@ -400,15 +400,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.02
+  syncInterval: 0.002
   target: {fileID: 4581631504117252368}
   clientAuthority: 0
   syncVelocity: 1
   clearVelocity: 0
-  velocitySensitivity: 0.02
+  velocitySensitivity: 0.002
   syncAngularVelocity: 1
   clearAngularVelocity: 0
-  angularVelocitySensitivity: 0.02
+  angularVelocitySensitivity: 0.002
 --- !u!114 &2873669366857949125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,16 +424,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  sendInterval: 0.001
+  sendInterval: 0.0001
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
   interpolatePosition: 1
   interpolateRotation: 1
   interpolateScale: 0
-  bufferTimeMultiplier: 3
-  bufferSizeLimit: 256
-  catchupThreshold: 6
+  bufferTimeMultiplier: 2
+  bufferSizeLimit: 128
+  catchupThreshold: 8
   catchupMultiplier: 0.1
   showGizmos: 0
   showOverlay: 0

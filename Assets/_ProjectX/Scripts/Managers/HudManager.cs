@@ -10,6 +10,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 namespace Managers
 {
@@ -54,12 +55,6 @@ namespace Managers
 
 		private void Awake()
 		{
-			indicatorController = GetComponent<IndicatorController>();
-			resultsController = GetComponent<ResultsController>();
-			boostBar.fillAmount = 1f;
-			flagText.text = "";
-			killText.text = "";
-			
 			ServiceLocator.ProvideHudManager(this);
 		}
 
@@ -67,6 +62,42 @@ namespace Managers
 		public override void OnStartServer()
 		{
 			GlobalMediator.Instance.Subscribe(this);
+		}
+
+		public override void OnStartClient()
+		{
+			indicatorController = GetComponent<IndicatorController>();
+			resultsController = GetComponent<ResultsController>();
+			boostBar.fillAmount = 1f;
+			flagText.text = "";
+			killText.text = "";
+
+			NetworkClient.ReplaceHandler<ScoreMessage>(UpdateScore);
+
+			base.OnStartClient();
+		}
+
+
+
+		[Client]
+		private void UpdateScore(ScoreMessage scoreMessage)
+		{
+			switch (scoreMessage.scoreType)
+			{
+				case ScoreType.Init:
+					playerScores[scoreMessage.index].gameObject.SetActive(true);
+					playerScores[scoreMessage.index].UpdatePlayerScore(scoreMessage.player, scoreMessage.score, scoreMessage.matIndex);
+					break;
+				case ScoreType.UpdateScore:
+					playerScores[scoreMessage.index].UpdatePlayerScore(scoreMessage.player, scoreMessage.score, scoreMessage.matIndex);
+					break;
+				case ScoreType.UpdatePlayerScore:
+					playerScores[scoreMessage.index].UpdatePlayerScore(scoreMessage.player, scoreMessage.matIndex);
+					StartCoroutine(ScoreCounterRoutine(scoreMessage.index, scoreMessage.previousScore, scoreMessage.score, scoreMessage.scoreRate));
+					break;
+			}
+
+
 		}
 
 		[Server]
@@ -173,26 +204,6 @@ namespace Managers
 			{
 				indicatorController.SetTarget(targetIsAPlayer: false);
 			}
-		}
-		
-		[ClientRpc]
-		public void RpcInitScore(int index, string player, int score, int matIndex)
-		{
-			playerScores[index].gameObject.SetActive(true);
-			playerScores[index].UpdatePlayerScore(player, score, matIndex);
-		}
-
-		[ClientRpc]
-		public void RpcUpdateScore(int index, string player, int score, int matIndex)
-		{
-			playerScores[index].UpdatePlayerScore(player, score, matIndex);
-		}
-
-		[ClientRpc]
-		public void RpcUpdateScoringPlayerScore(int index, string player, int matIndex, int score, int previousScore, float scoreRate)
-		{
-			playerScores[index].UpdatePlayerScore(player, matIndex);
-			StartCoroutine(ScoreCounterRoutine(index, previousScore, score, scoreRate));
 		}
 
 		[Client]

@@ -98,6 +98,7 @@ namespace Game.Flag
 			ServiceLocator.ScoreManager.InitializeScoring(playerPickingUp.playerName);
 			playerPickingUp.TakeFlag(this);
 			onFlagPickedUp();
+			GetComponent<NetworkTransform>().enabled = false;
 			RpcDeactivateFlag();
 		}
 		
@@ -112,6 +113,7 @@ namespace Game.Flag
 			gameObject.SetActive(true);
 			rb.velocity = relativeVelocity;
 			rb.AddForce(Vector3.up * dropUpwardsForce);
+			GetComponent<NetworkTransform>().enabled = true;
 			RpcActivateFlag();
 			onFlagDropped();
 			StartCoroutine(CoWaitForInteractable());

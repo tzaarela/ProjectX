@@ -32,6 +32,24 @@ namespace Mirror
         UnloadAdditive
     }
 
+    public enum ScoreType : byte
+	{
+        Init,
+        UpdateScore,
+        UpdatePlayerScore
+	}
+
+    public struct ScoreMessage : NetworkMessage
+    {
+        public ScoreType scoreType;
+        public byte index;
+        public string player;
+        public ushort score;
+        public byte matIndex;
+        public ushort previousScore;
+        public float scoreRate;
+    }
+    
     public struct CommandMessage : NetworkMessage
     {
         public uint netId;

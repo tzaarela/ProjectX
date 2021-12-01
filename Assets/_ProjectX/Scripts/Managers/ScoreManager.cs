@@ -181,11 +181,32 @@ namespace Managers
 				
 				if (string.Equals(kvp.Key, scoringPlayer, StringComparison.OrdinalIgnoreCase))
 				{
-					ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, playerMaterialIndexes[kvp.Key], kvp.Value, previousScore, flagScoreTickRate);		
+					ScoreMessage scoreMessage = new ScoreMessage
+					{
+						scoreType = ScoreType.UpdatePlayerScore,
+						index = (byte)index,
+						player = kvp.Key,
+						score = (ushort)kvp.Value,
+						matIndex = (byte)playerMaterialIndexes[kvp.Key],
+						previousScore = (ushort)previousScore,
+						scoreRate = flagScoreTickRate
+						
+					};
+					NetworkServer.SendToAll<ScoreMessage>(scoreMessage);
+					//ServiceLocator.HudManager.RpcUpdateScoringPlayerScore(index, kvp.Key, playerMaterialIndexes[kvp.Key], kvp.Value, previousScore, flagScoreTickRate);		
 				}
 				else
 				{
-					ServiceLocator.HudManager.RpcUpdateScore(index, kvp.Key, kvp.Value, playerMaterialIndexes[kvp.Key]);					
+					ScoreMessage scoreMessage = new ScoreMessage
+					{
+						scoreType = ScoreType.UpdateScore,
+						index = (byte)index,
+						player = kvp.Key,
+						score = (ushort)kvp.Value,
+						matIndex = (byte)playerMaterialIndexes[kvp.Key]
+					};
+
+					NetworkServer.SendToAll<ScoreMessage>(scoreMessage);
 				}
 				
 				index++;
@@ -215,7 +236,18 @@ namespace Managers
 			int index = 0;
 			foreach (KeyValuePair<string, int> kvp in playerScores)
 			{
-				ServiceLocator.HudManager.RpcInitScore(index, kvp.Key, kvp.Value, playerMaterialIndexes[kvp.Key]);
+				//ServiceLocator.HudManager.RpcInitScore(index, kvp.Key, kvp.Value, playerMaterialIndexes[kvp.Key]);
+
+				ScoreMessage scoreMessage = new ScoreMessage
+				{
+					scoreType = ScoreType.Init,
+					index = (byte)index,
+					player = kvp.Key,
+					score = (ushort)kvp.Value,
+					matIndex = (byte)playerMaterialIndexes[kvp.Key]
+				};
+
+				NetworkServer.SendToAll<ScoreMessage>(scoreMessage);
 				index++;
 			}
 		}
