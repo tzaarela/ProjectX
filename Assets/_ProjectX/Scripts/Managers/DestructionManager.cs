@@ -31,12 +31,23 @@ namespace Managers
 		[ClientRpc]
 		private void RpcDestructObject(GameObject destructionObject, Vector3 impulse)
 		{
+			if (destructionObject == null)
+			{
+				Debug.LogWarning("destructionObject equals null on client");
+				return;
+			}
+
 			destructionObject.GetComponent<DestructionObject>().Destruct(impulse);
 		}
 		
 		[ClientRpc]
 		private void RpcPlayerDestructObject(GameObject destructionObject)
 		{
+			if (destructionObject == null)
+			{
+				Debug.LogWarning("destructionObject equals null on client");
+				return;
+			}
 			destructionObject.GetComponent<DestructionObject>().Explode();
 		}
 

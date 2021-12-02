@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4493664106564643682}
   - component: {fileID: -3898556398853668274}
   - component: {fileID: 2096212229916601041}
+  - component: {fileID: 650193972}
   m_Layer: 0
   m_Name: NetworkRoomManagerExt
   m_TagString: Untagged
@@ -135,3 +136,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0, b: 0.8302622, a: 1}
   padding: 30
+--- !u!114 &650193972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4185182600987269392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39adc6e09d5544ed955a50ce8600355a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visRange: 200
+  rebuildInterval: 0.25
+  checkMethod: 0
+  showSlider: 0

@@ -121,18 +121,36 @@ namespace Managers
 		[ClientRpc]
 		private void RpcDeactivateObject(GameObject obj)
 		{
+			if (obj == null)
+			{
+				Debug.LogWarning("obj equals null on client");
+				return;
+			}
+
 			obj.SetActive(false);
 		}
 
 		[ClientRpc]
 		private void RpcActivateObject(GameObject obj)
 		{
+			if (obj == null)
+			{
+				Debug.LogWarning("obj equals null on client");
+				return;
+			}
+
 			obj.SetActive(true);
 		}
 		
 		[ClientRpc]
 		private void RpcActivateNetIdObject(GameObject obj, Vector3 position, Vector3 eulerAngles, int spawnedByID)
 		{
+			if (obj == null)
+			{
+				Debug.LogWarning("obj equals null on client");
+				return;
+			}
+
 			obj.GetComponent<ISpawnedByID>().SetSpawnedBy(spawnedByID);
 			obj.transform.position = position;
 			obj.transform.eulerAngles = eulerAngles;

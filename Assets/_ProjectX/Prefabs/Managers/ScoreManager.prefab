@@ -46,12 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  scoreRate: 0.5
-  scoreToAdd: 5
-  scoreToWin: 800
-  additionalScoringStartupThreshold: 100
-  additionalScoringMaxThreshold: 300
-  additionalScoreMaxMultiplier: 1
 --- !u!114 &2681261741359888150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +60,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 1
-  visible: 0
+  visible: 2
   m_AssetId: 256b1a9e22d7c1647a6ca9aeebc85d39
   hasSpawned: 0
